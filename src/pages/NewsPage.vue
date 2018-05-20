@@ -39,8 +39,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../scss/variable.scss';
-@import '../scss/media-queries.scss';
 .news{
   &__wrapper{
     display: flex;

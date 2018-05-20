@@ -66,8 +66,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../scss/variable.scss';
-@import '../scss/media-queries.scss';
 #logo{
   @include tablet-min{
     display: none;

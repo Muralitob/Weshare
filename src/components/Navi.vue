@@ -12,8 +12,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../scss/variable.scss';
-@import '../scss/media-queries.scss';
 .navi{
   padding: 20px 0;
   span{

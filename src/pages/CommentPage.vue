@@ -57,8 +57,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../scss/variable.scss';
-@import '../scss/media-queries.scss';
   .shortcut{
     width: 100%;
     height: 3.75rem;
