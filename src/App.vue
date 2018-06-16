@@ -70,6 +70,11 @@ a{
     width: $min-width;
   }
 }
+.borline{
+  border-bottom: 1px dotted #BFBFBF;
+  overflow: hidden;
+  zoom: 1;
+}
 main{
   flex: 1 0 auto;
   @include tablet-min{

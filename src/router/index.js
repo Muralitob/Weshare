@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HomePage from '@pages/HomePage'
-import NewsPage from '@pages/NewsPage'
+import NewsPage from '@pages/News/NewsPage'
+import NewsHome from '@pages/News/NewsHome'
+import NewsList from '@pages/News/NewsList'
 import MarketPage from '@pages/MarketPage'
 import CommentPage from '@pages/CommentPage'
 Vue.use(Router)
@@ -16,8 +18,21 @@ export default new Router({
     },
     {
       path: '/news',
+      component: NewsHome,
       name: '新闻资讯',
-      component: NewsPage
+      redirect: {name:'新闻资讯'},
+      children:[
+        {
+          path: '/news/',
+          name: '新闻资讯',
+          component: NewsPage,
+        },
+        {
+          path: '/news/:id',
+          name: '新闻首页',
+          component: NewsList
+        },
+      ]
     },
     {
       path: '/market',

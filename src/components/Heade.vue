@@ -22,7 +22,7 @@
         tag="li" 
         :to="item.path"
         activeClass="link_active"
-        exact
+        
         >
           <span class="top__item-title">{{item.name}}</span>
         </router-link>
