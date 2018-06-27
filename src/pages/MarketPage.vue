@@ -1,6 +1,6 @@
 <template>
   <div class="market">
-    跳蚤市场
+    跳蚤市场ss
   </div>
 </template>
 
