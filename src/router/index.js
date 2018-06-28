@@ -5,7 +5,9 @@ import NewsPage from '@pages/News/NewsPage'
 import NewsHome from '@pages/News/NewsHome'
 import NewsList from '@pages/News/NewsList'
 import MarketPage from '@pages/MarketPage'
-import CommentPage from '@pages/CommentPage'
+import CommentPage from '@pages/Comment/CommentPage'
+import SettingPage from '@pages/SettingPage'
+
 Vue.use(Router)
 
 export default new Router({
@@ -33,6 +35,14 @@ export default new Router({
           component: NewsList
         },
       ]
+    },
+    {
+      path: '/setting/:userId',
+      name: 'Setting',
+      component: SettingPage,
+      meta: { 
+        notShow: false
+      }
     },
     {
       path: '/market',

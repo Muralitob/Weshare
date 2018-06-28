@@ -22,7 +22,6 @@
         tag="li" 
         :to="item.path"
         activeClass="link_active"
-        
         >
           <span class="top__item-title">{{item.name}}</span>
         </router-link>
@@ -33,6 +32,7 @@
 
 <script>
 import routes from '../router'
+import routeMap from '../constants/routeMapName.js';
 export default {
   data () {
     return {
@@ -59,7 +59,7 @@ export default {
   mounted() {
     /***设置滚动监听事件 */
     // window.addEventListener('scroll', this.handleScroll)
-
+    console.log(this.routeList)
     
   },
 }
