@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import Header from '@components/Heade.vue'
-import Footer from '@components/Footer.vue'
+import Header from './components/Heade';
+import Footer from './components/Footer';
 export default {
   name: 'App',
   components: { Header, Footer }
@@ -69,6 +69,11 @@ a{
   @include secondMedia {
     width: $min-width;
   }
+}
+.borline{
+  border-bottom: 1px dotted #BFBFBF;
+  overflow: hidden;
+  zoom: 1;
 }
 main{
   flex: 1 0 auto;

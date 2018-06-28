@@ -1,6 +1,6 @@
 # weshare
 
-> A Vue.js project
+> 学校科研项目Weshare vue
 
 ## Build Setup
 

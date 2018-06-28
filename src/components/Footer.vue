@@ -12,8 +12,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../scss/variable.scss';
-@import '../scss/media-queries.scss';
   .foot{
     width: 100%;
     height: 6.5rem;

@@ -43,8 +43,6 @@ export default {
 </script>
 
 <style lang="scss" scoped >
-@import '../scss/variable.scss';
-@import '../scss/media-queries.scss';
 .arlist{
   margin-top: 1.5rem;
   display: flex;

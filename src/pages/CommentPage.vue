@@ -3,9 +3,9 @@
     <navi-bar></navi-bar>
     <div class="commetion__wrapper">
       <div class="commetion__list">
-
       </div>
       <div class="commetion__me">
+        <h4 class="commetion__me-region">我的信息</h4>
         <div id="user-info">
           <router-link to="/myinfo/01">
             <img src="../assets/avator.jpeg" class="head_img">
@@ -23,15 +23,9 @@
           </div>
         </div>
         <div class="user__cutarea">
-          <div class="user__Write shortcut ">
-            <router-link to="/commit/write">写文章</router-link>
-          </div>
-          <div class="user__History shortcut">
-            <router-link to="/commit/history">浏览历史</router-link>
-          </div>
-          <div class="user__Collection shortcut">
-            <router-link to="/commit/collection">我的收藏</router-link>
-          </div>
+          <router-link to="/commit/write" class="user__Write shortcut">写文章</router-link>
+          <router-link to="/commit/history" class="user__History shortcut">浏览历史</router-link>
+          <router-link to="/commit/collection" class="user__Collection shortcut">我的收藏</router-link>
         </div>
       </div>
     </div>
@@ -57,15 +51,15 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../scss/variable.scss';
-@import '../scss/media-queries.scss';
   .shortcut{
-    width: 100%;
+    flex: 0 0 50%;
     height: 3.75rem;
     text-align: center;
     line-height: 3.75rem;
-    a{
-      
+    box-sizing: border-box;
+    &:nth-child(1),&:nth-child(2),&:nth-child(3){
+      border-bottom: 1px solid rgba($c-gray, .5);
+      border-right: 1px solid rgba($c-gray, .5);
     }
   }
   .exp{
@@ -90,6 +84,18 @@ export default {
       }
       &__cutarea{
         margin-top: 1.25rem;
+        display: flex;
+        flex-flow: row wrap;
+        border: 1px solid rgba($c-gray, .5);
+        border-right: none;
+        border-bottom: none;
+        border-radius: 3px;
+        a{
+          color: rgba($c-dark,.8);
+          &:hover{
+            background-color: rgba($c-gray,.3);
+          }
+        }
       }
     }
   }
@@ -126,6 +132,12 @@ export default {
         height: 30rem;
         background-color: $c-white;
         padding: 10px 10px;
+        &-region{
+          margin-bottom: 20px;
+          font-size: 15px;
+          font-weight: 700;
+          font-family: "microsoft yahei",simhei,sans-serif;
+        }
       }
       &--info{
 

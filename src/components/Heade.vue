@@ -22,7 +22,7 @@
         tag="li" 
         :to="item.path"
         activeClass="link_active"
-        exact
+        
         >
           <span class="top__item-title">{{item.name}}</span>
         </router-link>
@@ -66,8 +66,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../scss/variable.scss';
-@import '../scss/media-queries.scss';
 #logo{
   @include tablet-min{
     display: none;

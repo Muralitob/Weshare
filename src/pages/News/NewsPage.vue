@@ -1,37 +1,34 @@
 <template>
-  <div class="news">
+  <div class="newsp">
     <navi-bar></navi-bar>
-    <div class="news__wrapper">
-      <div class="news__list">
-        <ul class="news__list-box">
-          <li class="news__list-item" 
-          v-for=" (item, index) in articleList" 
-          :key="index">
-            <p>
-              <a href="">[{{item.type}}]</a>
-              <a href="">{{item.summary}}</a>
-            </p>
-            <span>{{item.time}}</span>
-          </li>
-        </ul>
-        <div class="news__list-page">
-          <button>上一页</button>
-          <button>下一页</button>
-        </div>
+    <div class="newsp__list">
+      <ul class="newsp__list-box">
+        <li class="newsp__list-item" 
+        v-for=" (item, index) in articleList" 
+        :key="index">
+          <p>
+            <router-link :to="{path: `/news/${item._id}`}">[{{item.type}}]</router-link>
+            <router-link :to="{path: `/news/${item._id}`}">{{item.summary}}</router-link>
+          </p>
+          <span>{{item.created_at}}</span>
+        </li>
+      </ul>
+      <div class="newsp__list-page">
+        <button>上一页</button>
+        <button>下一页</button>
       </div>
-      <div class="news__subside">广告或者其他</div>
     </div>
   </div>
 </template>
 
 <script>
-import NaviBar from '../components/Navi'
+import NaviBar from '../../components/Navi'
 export default {
   components: { NaviBar },
   data () {
     return {
       articleList: [
-        { type: '公告', summary: '微分享重磅登场......', time: '2018-04-12' },
+        { type: '公告', summary: '微分享重磅登场......', created_at: '2018-04-12', _id: '123113213' },
       ]
     }
   }
@@ -39,13 +36,9 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../scss/variable.scss';
-@import '../scss/media-queries.scss';
-.news{
-  &__wrapper{
-    display: flex;
-    justify-content: space-between;
-  }
+.newsp{
+  display: flex;
+  flex-direction: column;
   &__list{
     @include tablet-min{
       background-color: $c-white;
@@ -57,6 +50,7 @@ export default {
       box-shadow: 0 0 2px rgba(0,0,0,.2);
       width: 56.25rem;
       min-width: 40rem;
+      min-height: 50rem;
     }
     &-box{
       @include tablet-min{
@@ -112,14 +106,6 @@ export default {
         }
       }
     }
-  }
-  &__subside{
-    @include mobile-only{
-      display: none;
-    }
-    width: 280px;
-    height: 500px;
-    background-color: $c-green;
   }
 }
 </style>
