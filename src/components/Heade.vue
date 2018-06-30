@@ -21,6 +21,7 @@
         class="top__item" 
         tag="li" 
         :to="item.path"
+        v-if="item.meta.ifShow" 
         activeClass="link_active"
         >
           <span class="top__item-title">{{item.name}}</span>

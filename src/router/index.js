@@ -16,12 +16,18 @@ export default new Router({
     {
       path: '/',
       name: '首页',
-      component: HomePage
+      component: HomePage,
+      meta: { 
+        ifShow: true
+      }
     },
     {
       path: '/news',
       component: NewsHome,
       name: '新闻资讯',
+      meta: { 
+        ifShow: true
+      },
       redirect: {name:'新闻资讯'},
       children:[
         {
@@ -41,23 +47,32 @@ export default new Router({
       name: 'Setting',
       component: SettingPage,
       meta: { 
-        notShow: false
+        ifShow: false
       }
     },
     {
       path: '/market',
       name: '跳蚤市场',
-      component: MarketPage
+      component: MarketPage,
+      meta: { 
+        ifShow: true
+      }
     },
     {
       path: '/commit',
       name: '交流平台',
-      component: CommentPage
+      component: CommentPage,
+      meta: { 
+        ifShow: true
+      }
     },
     {
       path: '/shop',
       name: '创业板块',
-      component: HomePage
+      component: HomePage,
+      meta: { 
+        ifShow: true
+      }
     }
   ]
 })
