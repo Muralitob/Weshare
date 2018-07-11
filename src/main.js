@@ -4,8 +4,9 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 Vue.config.productionTip = false
-import './scss/variable.scss';
-import './scss/media-queries.scss';
+import 'iview/dist/styles/iview.css'
+import './scss/variable.scss'
+import './scss/media-queries.scss'
 
 new Vue({
   el: '#app',
