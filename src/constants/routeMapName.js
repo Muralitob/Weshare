@@ -1,6 +1,10 @@
-//路由name对应列表
-const routeMap = {
-  Setting: '设置',
-  
+let storage = {
+  routeMapName: [
+    {'News': '新闻资讯'},
+    {'Setting': '设置'},
+    {'FleMarket': '跳蚤市场'},
+    {'Commit': '交流平台'},
+    {'Entrepreneur': '创业板块'}
+  ]
 }
-export default routeMap
+export default storage
