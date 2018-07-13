@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <Header></Header>
+    <vue-ins-progress-bar></vue-ins-progress-bar>
     <main class="wrapper">
       <router-view/>
     </main>
@@ -13,7 +14,19 @@ import Header from './components/Heade';
 import Footer from './components/Footer';
 export default {
   name: 'App',
-  components: { Header, Footer }
+  components: { Header, Footer },
+  created() {
+    this.$insProgress.start()
+
+    this.$router.beforeEach((to, from, next) => {
+      this.$insProgress.start()
+      next()
+    })
+
+    this.$router.afterEach((to, from) => {
+      this.$insProgress.finish()
+    })
+  }
 }
 </script>
 
