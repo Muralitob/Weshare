@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import HomePage from '@pages/HomePage'
 import NewsPage from '@pages/News/NewsPage'
 import NewsHome from '@pages/News/NewsHome'
-import NewsList from '@pages/News/NewsList'
+import NewsArticle from '@pages/News/NewsArticle'
 import MarketPage from '@pages/MarketPage'
 import CommentPage from '@pages/Comment/CommentPage'
 import SettingPage from '@pages/SettingPage'
@@ -15,24 +15,24 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: '首页',
+      name: 'Home',
       component: HomePage
     },
     {
       path: '/news',
       component: NewsHome,
-      name: '新闻资讯',
-      redirect: {name:'新闻资讯'},
+      name: 'News',
+      redirect: {name:'NewList'},
       children:[
         {
           path: '/news/',
-          name: '新闻资讯',
+          name: 'NewsList',
           component: NewsPage,
         },
         {
           path: '/news/:id',
-          name: '新闻首页',
-          component: NewsList
+          name: 'NewsArticle',
+          component: NewsArticle
         },
       ]
     },
@@ -46,17 +46,17 @@ export default new Router({
     },
     {
       path: '/market',
-      name: '跳蚤市场',
+      name: 'Market',
       component: MarketPage
     },
     {
       path: '/commit',
-      name: '交流平台',
+      name: 'Commit',
       component: CommentPage
     },
     {
       path: '/shop',
-      name: '创业板块',
+      name: 'Shop',
       component: HomePage
     }
   ]

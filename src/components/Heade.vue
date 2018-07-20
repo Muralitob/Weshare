@@ -31,12 +31,12 @@
 </template>
 
 <script>
-import routes from '../router'
-import routeMap from '../constants/routeMapName.js';
+import Routes from '../router';
+import { translate } from '../general/js/translate.js';
 export default {
   data () {
     return {
-      routeList: routes.options.routes,
+      routeList: []
     }
   },
   methods: {
@@ -59,8 +59,17 @@ export default {
   mounted() {
     /***设置滚动监听事件 */
     // window.addEventListener('scroll', this.handleScroll)
-    console.log(this.routeList)
-    
+    // Routes.options.routes.forEach(currentItem => {
+      //   this.routeList.path = translate(currentItem.path)
+      // console.log(translate('Setting'))
+    // })
+    // console.log(this.routeList);
+    const routes_Array = Routes.options.routes
+    this.routeList = Object.keys(routes_Array).map(e => ({
+      name: translate(routes_Array[e].name),
+      key: e,
+      path: routes_Array[e].path
+    }))
   },
 }
 </script>
