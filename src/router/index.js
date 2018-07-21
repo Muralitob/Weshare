@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import HomePage from '@pages/HomePage'
 import NewsPage from '@pages/News/NewsPage'
 import NewsHome from '@pages/News/NewsHome'
-import NewsList from '@pages/News/NewsList'
+import NewsArticle from '@pages/News/NewsArticle'
 import MarketPage from '@pages/MarketPage'
 import CommentPage from '@pages/Comment/CommentPage'
 import SettingPage from '@pages/SettingPage'
@@ -15,30 +15,40 @@ export default new Router({
   routes: [
     {
       path: '/',
+<<<<<<< HEAD
       name: '首页',
       component: HomePage,
       meta: { 
         ifShow: true
       }
+=======
+      name: 'Home',
+      component: HomePage
+>>>>>>> 7b99a86b791b7e0c77db611d8fce4e45116e0bda
     },
     {
       path: '/news',
       component: NewsHome,
+<<<<<<< HEAD
       name: '新闻资讯',
       meta: { 
         ifShow: true
       },
       redirect: {name:'新闻资讯'},
+=======
+      name: 'News',
+      redirect: {name:'NewList'},
+>>>>>>> 7b99a86b791b7e0c77db611d8fce4e45116e0bda
       children:[
         {
           path: '/news/',
-          name: '新闻资讯',
+          name: 'NewsList',
           component: NewsPage,
         },
         {
           path: '/news/:id',
-          name: '新闻首页',
-          component: NewsList
+          name: 'NewsArticle',
+          component: NewsArticle
         },
       ]
     },
@@ -52,6 +62,7 @@ export default new Router({
     },
     {
       path: '/market',
+<<<<<<< HEAD
       name: '跳蚤市场',
       component: MarketPage,
       meta: { 
@@ -73,6 +84,20 @@ export default new Router({
       meta: { 
         ifShow: true
       }
+=======
+      name: 'Market',
+      component: MarketPage
+    },
+    {
+      path: '/commit',
+      name: 'Commit',
+      component: CommentPage
+    },
+    {
+      path: '/shop',
+      name: 'Shop',
+      component: HomePage
+>>>>>>> 7b99a86b791b7e0c77db611d8fce4e45116e0bda
     }
   ]
 })
