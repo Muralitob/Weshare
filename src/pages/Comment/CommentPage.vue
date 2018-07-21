@@ -1,6 +1,5 @@
 <template>
   <div class="commetion">
-    <navi-bar></navi-bar>
     <div class="commetion__wrapper">
       <div class="commetion__list">
       </div>

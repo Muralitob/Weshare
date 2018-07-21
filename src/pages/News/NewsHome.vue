@@ -22,7 +22,6 @@ export default {
       width: 280px;
       height: 500px;
       background-color: $c-green;
-      margin-top: 62px;
     }
   }
 </style>

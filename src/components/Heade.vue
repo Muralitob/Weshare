@@ -21,7 +21,7 @@
         class="top__item" 
         tag="li" 
         :to="item.path"
-        v-if="item.meta.ifShow" 
+        exact
         activeClass="link_active"
         >
           <span class="top__item-title">{{item.name}}</span>
@@ -253,12 +253,12 @@ header{
         line-height: 3.5rem;
         text-align: center;
         cursor: pointer;
-        &:nth-child(1){
-          text-align: left;
-          width: 2rem;
-          margin-right: 1rem;
-          border-bottom: none;
-        }
+        // &:nth-child(1){
+        //   text-align: left;
+        //   width: 2rem;
+        //   margin-right: 1rem;
+        //   border-bottom: none;
+        // }
       }
     }
 }

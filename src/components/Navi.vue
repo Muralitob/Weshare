@@ -1,18 +1,19 @@
 // 导航
 <template>
   <div class="navi">
-    <router-link to= "/" exact>首页</router-link>
-    <router-link to= "/news" class="navi-fu" v-if="title" exact>{{this.$route.name}}</router-link>
-    <span class="navi-fu" v-if="!title">{{this.$route.name}}</span>
+    <!-- <router-link to= "/" exact>首页</router-link> -->
+    <router-link to= "/news" class="navi-fu" v-if="title" exact>{{preRouteName}}</router-link>
+    <!-- <span class="navi-fu" v-if="!title">{{currentRouteName}}</span> -->
     <span v-if="title" class="navi-title">{{title}}</span>
   </div>
 </template>
 
 <script>
+import { translate } from '../general/js/translate.js';
 export default {
   data() {
     return {
-
+      preRouteName : translate(this.$route.name)
     }
   },
   props: [ 'title' ],

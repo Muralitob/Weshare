@@ -1,6 +1,6 @@
 <template>
   <div class="newsp">
-    <navi-bar></navi-bar>
+    <!-- <navi-bar ></navi-bar> -->
     <div class="newsp__list">
       <ul class="newsp__list-box">
         <li class="newsp__list-item" 
@@ -22,9 +22,8 @@
 </template>
 
 <script>
-import NaviBar from '../../components/Navi'
 export default {
-  components: { NaviBar },
+  components: {  },
   data () {
     return {
       articleList: [

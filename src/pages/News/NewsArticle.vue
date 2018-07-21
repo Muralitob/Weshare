@@ -1,21 +1,24 @@
 <template>
   <div class="news__article">
-    <navi-bar :title="news__content.title"></navi-bar>
-      <div class="news__content">
-        <h2 class="news__title">{{news__content.title}}</h2>
-        <p class="news__artinfo borline">
-          <span class="news__author">{{news__content.author}}</span>
-          {{news__content.created_at}}
-        </p>
-        <section class="news__main" v-html="news__content.content"></section>
+    <div class="news__content">
+      <div class="wrap">
+        <div class="news__title">{{news__content.title}}</div>
+        <div class="reback" @click="returnLast">
+          <Icon type="arrow-return-left" size=35 color="#01d277"></Icon>
+        </div>
       </div>
+      <p class="news__artinfo borline">
+        <span class="news__author">{{news__content.author}}</span>
+        {{news__content.created_at}}
+      </p>
+      <section class="news__main" v-html="news__content.content"></section>
+    </div>
   </div>  
 </template>
 
 <script>
-import NaviBar from '../../components/Navi'
 export default {
-  components: { NaviBar },
+  components: {  },
   data(){
     return {
       news__content: {
@@ -25,6 +28,14 @@ export default {
         content: `终于OK了`
       }
     }
+  },
+  methods: {
+    returnLast() {
+      this.$router.go(-1)
+    }
+  },
+  mounted () {
+    console.log(this.$route)
   }
 }
 </script>
@@ -43,6 +54,22 @@ export default {
         width: 56.25rem;
         min-width: 40rem;
         padding: 1.5625rem;
+      }
+      .wrap{
+        display: flex;
+        justify-content: space-between;
+        .reback {
+          display: flex;
+          align-items: center;
+          margin-right: 1.5rem;
+          transition: all .1s linear;
+          &:hover{
+            transform: scale(1.05);
+          }
+          i{
+            cursor: pointer;
+          }
+        }
       }
     }
     &__main{
