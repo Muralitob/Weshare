@@ -22,8 +22,8 @@ export default new Router({
       path: '/news',
       component: NewsHome,
       name: 'News',
-      redirect: {name:'NewList'},
-      children:[
+      redirect: {name: 'NewList'},
+      children: [
         {
           path: '/news/',
           name: 'NewsList',
@@ -40,7 +40,7 @@ export default new Router({
       path: '/setting/:userId',
       name: 'Setting',
       component: SettingPage,
-      meta: { 
+      meta: {
         ifShow: false
       }
     },
