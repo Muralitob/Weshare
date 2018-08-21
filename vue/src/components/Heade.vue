@@ -4,11 +4,11 @@
       <ul class="top__list">
         <div class="wrapper" @click="toggleNav">
           <router-link  v-for="(item, idx) in routeList" 
+          v-if="item.meta.ifShow"
           :key="idx" 
           class="top__item" 
           tag="li" 
           :to="item.path"
-          exact
           activeClass="link_active"
           >
             <span class="top__item-title">{{item.name}}</span>
@@ -41,11 +41,12 @@ export default {
     }
   },
   methods: {
-    toggleNav() {  //切换
-      document.querySelector(".top__hamburger")
-      .classList.toggle("top__hamburger--active")
-      document.querySelector(".top__list")
-      .classList.toggle("top__list--active")
+    //移动端下的切换
+    toggleNav() {  
+      // document.querySelector(".top__hamburger")
+      // .classList.toggle("top__hamburger--active")
+      // document.querySelector(".top__list")
+      // .classList.toggle("top__list--active")
     },
     handleScroll() {  //菜单栏吸附
        var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
@@ -69,7 +70,8 @@ export default {
     this.routeList = Object.keys(routes_Array).map(e => ({
       name: translate(routes_Array[e].name),
       key: e,
-      path: routes_Array[e].path
+      path: routes_Array[e].path,
+      meta: Object.assign({},routes_Array[e].meta),
     }))
   },
 }

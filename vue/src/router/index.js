@@ -7,18 +7,18 @@ import NewsArticle from '@pages/News/NewsArticle'
 import MarketPage from '@pages/MarketPage'
 import CommentPage from '@pages/Comment/CommentPage'
 import SettingPage from '@pages/SettingPage'
-
+import NotFound from '@components/NotFound'
 Vue.use(Router)
 
 const router = new Router({
   mode: 'history',
   routes: [
     {
-      path: '/',
+      path: '/timeline',
       name: 'Home',
       component: CommentPage,
       meta: { 
-        ifShow: false
+        ifShow: true
       }
     },
     {
@@ -26,6 +26,9 @@ const router = new Router({
       component: NewsHome,
       name: 'News',
       redirect: {name: 'NewList'},
+      meta: {
+        ifShow: true
+      },
       children: [
         {
           path: '/news/',
@@ -43,7 +46,7 @@ const router = new Router({
       path: '/commit',
       name: 'Commit',
       meta: { 
-        ifShow: false
+        ifShow: true
       },
       children: [
         {
@@ -84,11 +87,17 @@ const router = new Router({
         ifShow: true
       }
     },
+    {
+      path: '*',
+      component: NotFound
+    }
   ]
 })
 
 router.beforeEach((to,from,next)=>{
-  
+  if(to.path==='/') {
+    next('/timeline')
+  }
   next()
 })
 
