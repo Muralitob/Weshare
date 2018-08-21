@@ -10,13 +10,16 @@ import SettingPage from '@pages/SettingPage'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   routes: [
     {
       path: '/',
       name: 'Home',
       component: CommentPage,
+      meta: { 
+        ifShow: false
+      }
     },
     {
       path: '/news',
@@ -37,6 +40,27 @@ export default new Router({
       ]
     },
     {
+      path: '/commit',
+      name: 'Commit',
+      meta: { 
+        ifShow: false
+      },
+      children: [
+        {
+          path: '/commit/write',
+          name: 'writeArticle',
+        },
+        {
+          path: '/commit/history',
+          name: 'historyArticle',
+        },
+        {
+          path: '/commit/history',
+          name: 'collectionArticle',
+        },
+      ]
+    },
+    {
       path: '/setting/:userId',
       name: 'Setting',
       component: SettingPage,
@@ -47,12 +71,26 @@ export default new Router({
     {
       path: '/market',
       name: 'Market',
-      component: MarketPage
+      component: MarketPage,
+      meta: { 
+        ifShow: true
+      }
     },
     {
       path: '/shop',
       name: 'Shop',
-      component: HomePage
-    }
+      component: HomePage,
+      meta: { 
+        ifShow: true
+      }
+    },
   ]
 })
+
+router.beforeEach((to,from,next)=>{
+  
+  next()
+})
+
+
+export default router

@@ -1,17 +1,17 @@
 <template>
   <div class="news__article">
-    <div class="news__content">
+    <div class="news__content" v-for="item in news_content" :key="item.id" >
       <div class="wrap">
-        <div class="news__title">{{news__content.title}}</div>
+        <div class="news__title">{{item.title}}</div>
         <div class="reback" @click="returnLast">
           <Icon type="arrow-return-left" size=35 color="#01d277"></Icon>
         </div>
       </div>
       <p class="news__artinfo borline">
-        <span class="news__author">{{news__content.author}}</span>
-        {{news__content.created_at}}
+        <span class="news__author">{{item.author}}</span>
+        {{item.created_at}}
       </p>
-      <section class="news__main" v-html="news__content.content"></section>
+      <section class="news__main" v-html="item.content"></section>
     </div>
   </div>  
 </template>
@@ -21,12 +21,15 @@ export default {
   components: {  },
   data(){
     return {
-      news__content: {
+      news_content: [
+        {
+        id: '01',
         title: '微分享重磅登场......',
         author: 'weshare运营团队',
         created_at: '2018-04-12 10:10:19',
         content: `终于OK了`
-      }
+        },
+      ]
     }
   },
   methods: {
