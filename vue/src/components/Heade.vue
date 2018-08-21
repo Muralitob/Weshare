@@ -1,33 +1,33 @@
 <template>
   <header>
     <div class="top">
+      <ul class="top__list">
+        <div class="wrapper" @click="toggleNav">
+          <router-link  v-for="(item, idx) in routeList" 
+          :key="idx" 
+          class="top__item" 
+          tag="li" 
+          :to="item.path"
+          exact
+          activeClass="link_active"
+          >
+            <span class="top__item-title">{{item.name}}</span>
+          </router-link>
+        </div>
+      </ul>
       <ul class="top__user">
         <li><router-link to="/login">登录</router-link></li>
         <li><router-link to="/regist">注册</router-link></li>
       </ul>
-      <div class="top__hamburger" @click="toggleNav">
+      <!-- <div class="top__hamburger" @click="toggleNav">
         <div class="bar"></div>
         <div class="bar"></div>
         <div class="bar"></div>
-      </div>
+      </div> -->
       <router-link to="/" id="logo">Weshare</router-link>
     </div>
     <!--banner-->
-    <div class="banner"></div>
-    <ul class="top__list">
-      <div class="wrapper" @click="toggleNav">
-        <router-link  v-for="(item, idx) in routeList" 
-        :key="idx" 
-        class="top__item" 
-        tag="li" 
-        :to="item.path"
-        exact
-        activeClass="link_active"
-        >
-          <span class="top__item-title">{{item.name}}</span>
-        </router-link>
-      </div>
-    </ul>
+    <!-- <div class="banner"></div> -->
   </header>
 </template>
 
@@ -86,10 +86,8 @@ header{
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 10;
-  background-color: $c-green;
   @include tablet-min{
-    position: static;
+    // position: static;
     width: 100%;
     min-width: $min-width;
   }
@@ -98,44 +96,26 @@ header{
   // background-color:  $c-deepgreen;
   border-bottom: 4px solid $c-green;
 }
-.banner{
-  @include tablet-min{
-    background: url('../assets/titan.jpg') no-repeat;
-    background-size: 100%;
-    width: 100%;
-    min-width: $min-width;
-    height: 15.5rem;
-  }
-}
 .top{
-  background-color: $c-green;
-  width: 100%;
-  height: 3.5rem;
+  // justify-content: flex-end;
+  min-width: $min-width;
+  position: absolute;
+  background-color: $c-dark;
   display: flex;
   justify-content: center;
-  @include tablet-min{
-    justify-content: flex-end;
-    min-width: $min-width;
-    position: absolute;
-    z-index: 10;
-    background-color: rgba($c-dark, 0.8);
-  }
+  width: 100%;
   a{
     text-align: center;
     line-height: 3.5rem;
   }
   &__user{
-    position: fixed;
-    top: 0;
+    position: absolute;
     right: 0;
+    bottom: 0;
     display: flex;
     margin-right: 17px;
     height: 3.5rem;
     line-height: 3.5rem;
-    @include tablet-min{
-      color: $c-white;
-      position: static;
-    }
     li{
       font-size: 14px;
       font-weight: 350;
@@ -208,12 +188,9 @@ header{
     }
   }
   &__list{
-      position: fixed;
-      top: 3.5rem;
-      left: 0;
-      background: rgba($c-white, 0.98);
-      width: 100%;
+      // background: rgba($c-white, 0.98);
       box-sizing: border-box;
+      z-index: 11;
       @include mobile-only{
         border-top: 1px solid $c-light;
         opacity: 0;
@@ -226,10 +203,10 @@ header{
         }
       }
       @include tablet-min{
-        position: static;
-        background-color: $menu-color;
+        // background-color: $menu-color;
+        color: $c-white;
         height: 3.5rem;
-        box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
+        // box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
         .wrapper{
           display: flex;
         }

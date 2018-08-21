@@ -91,8 +91,8 @@ a{
 main{
   flex: 1 0 auto;
   @include tablet-min{
-    position: static;
-    padding-top: 2rem;
+  //  margin-top: 4.5rem;
+    padding-top: 6.5rem;
   }
 }
 #app{
