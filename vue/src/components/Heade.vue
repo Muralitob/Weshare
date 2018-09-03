@@ -1,5 +1,50 @@
 <template>
   <header>
+    <Modal class="useraction" scrollable footer-hide  v-model="LoginShow" width="360">
+      <h1>登录</h1>
+      <Form ref="LoginForm" :model="loginForm" :rules="LoginRule">
+        <FormItem label="用户名/学号/邮箱:" prop="account">
+            <Input type="text"  placeholder="Username" v-model="loginForm.account">
+            </Input>
+        </FormItem>
+        <FormItem label="密码:" prop="password">
+            <Input type="password" placeholder="Password" v-model="loginForm.password">
+            </Input>
+        </FormItem>
+        <FormItem>
+            <Button type="primary" @click="handleSubmit('LoginForm')">登录</Button>
+        </FormItem>
+        <div class="prompt-box">
+          <span>没有账号?</span> 
+          <span @click="changeAction('regist')">立即注册</span>
+          <span>忘记密码?</span>
+        </div>
+    </Form>
+    </Modal>
+    <Modal class="useraction" scrollable footer-hide v-model="RegistShow" width="360">
+      <h1>注册</h1>
+      <Form ref="RegistForm" :model="registForm" :rules="RegistRule">
+        <FormItem label="用户名/学号/邮箱:" prop="account">
+            <Input type="text"  placeholder="Username" v-model="registForm.account">
+            </Input>
+        </FormItem>
+        <FormItem label="密码:" prop="password">
+            <Input type="password" placeholder="Password" v-model="registForm.password">
+            </Input>
+        </FormItem>
+        <FormItem label="重复密码:" prop="passwdCheck">
+            <Input type="password" placeholder="请填写相同的密码" v-model="registForm.passwdCheck">
+            </Input>
+        </FormItem>
+        <FormItem>
+            <Button type="primary" @click="handleSubmit('RegistForm')">注册</Button>
+        </FormItem>
+        <div class="prompt-box">
+          <span>已有账号?</span> 
+          <span @click="changeAction('login')">立即登录</span>
+        </div>
+    </Form>
+    </Modal>
     <div class="top">
       <ul class="top__list">
         <div class="wrapper" @click="toggleNav">
@@ -16,8 +61,8 @@
         </div>
       </ul>
       <ul class="top__user">
-        <li><router-link to="/login">登录</router-link></li>
-        <li><router-link to="/regist">注册</router-link></li>
+        <li @click="Login"><span>登录</span></li>
+        <li @click="Regist"><span>注册</span></li>
       </ul>
       <!-- <div class="top__hamburger" @click="toggleNav">
         <div class="bar"></div>
@@ -36,8 +81,49 @@ import Routes from '../router';
 import { translate } from '../general/js/translate.js';
 export default {
   data () {
+    const validatePassCheck = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再输入一遍密码'));
+      } else if (value !== this.registForm.password) {
+        callback(new Error('输入两个密码匹配,请重新输入'));
+      } else {
+        callback();
+      }
+    };
     return {
-      routeList: []
+      routeList: [],
+      LoginShow: false,
+      RegistShow: false,
+      LoginRule: {
+          account: [
+              { required: true, message: '请填写用户名/学号/邮箱', trigger: 'blur' }
+          ],
+          password: [
+              { required: true, message: '请填写密码', trigger: 'blur' },
+              { type: 'string', min: 6, message: '密码至少是6位', trigger: 'blur' }
+          ]
+      },
+      RegistRule: {
+          account: [
+            { required: true, message: '请填写用户名/学号/邮箱', trigger: 'blur' }
+          ],
+          password: [
+            { required: true, message: '请填写密码', trigger: 'blur' },
+            { type: 'string', min: 6, message: '密码至少是6位', trigger: 'blur' }
+          ],
+          passwdCheck: [
+            { validator: validatePassCheck, trigger: 'blur' }
+          ],
+      },
+      loginForm: {
+        account: '',
+        password: '',
+      },
+      registForm: {
+        account: '',
+        password: '',
+        passwdCheck: ''
+      }
     }
   },
   methods: {
@@ -57,6 +143,43 @@ export default {
          document.querySelector('.top__list').style.position = "static" 
        }
     },
+    Login() {
+      this.LoginShow = true
+    },
+    Regist() {
+      this.RegistShow = true
+    },
+    changeAction(action) {
+      if(action === 'regist') {
+        this.LoginShow = false
+        this.RegistShow = true
+      }else if(action === 'login') {
+        this.RegistShow = false
+        this.LoginShow = true
+      }
+    },
+    handleSubmit(name) {
+      this.$refs[name].validate((valid) => {
+        if (valid) {
+          // this.$Message.success('登录成功!');
+          this.$store.dispatch('UserLogin', this.loginForm)
+          //关闭Modal
+          this.LoginShow = false
+          //清空表单数据
+          // this.loginForm = {
+          //   account: '',
+          //   password: '',
+          // }
+          // this.registForm = {
+          //   account: '',
+          //   password: '',
+          //   passwdCheck: ''
+          // }
+        }else {
+          return
+        }
+      })
+    }
   },
   mounted() {
     /***设置滚动监听事件 */
@@ -102,7 +225,7 @@ header{
   // justify-content: flex-end;
   min-width: $min-width;
   position: absolute;
-  background-color: $c-dark;
+  background-color: $menu_color;
   display: flex;
   justify-content: center;
   width: 100%;
@@ -121,6 +244,7 @@ header{
     li{
       font-size: 14px;
       font-weight: 350;
+      cursor: pointer;
       &:nth-child(1){
         &::after{
           content: "\B7";
@@ -215,6 +339,9 @@ header{
       }
     }
     &__item{
+      &-title {
+        font-size: 16px;
+      }
       @include mobile-only {
         display: inline-block;
         text-align: center;
@@ -240,5 +367,25 @@ header{
         // }
       }
     }
+}
+.useraction {
+  h1 {
+    padding-top: 1rem;
+  }
+  button {
+    width: 100%;
+  }
+  .prompt-box {
+    margin-bottom: .5rem;
+    span{
+      &:nth-child(2),&:nth-child(3) {
+        color: $c-green;
+        cursor: pointer;
+      }
+      &:nth-child(3) {
+        float: right;
+      }
+    }
+  }
 }
 </style>
