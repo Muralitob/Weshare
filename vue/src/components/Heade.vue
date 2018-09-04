@@ -161,7 +161,6 @@ export default {
     handleSubmit(name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
-          // this.$Message.success('登录成功!');
           this.$store.dispatch('UserLogin', this.loginForm)
           //关闭Modal
           this.LoginShow = false
