@@ -6,7 +6,7 @@ import NewsHome from '@pages/News/NewsHome'
 import NewsArticle from '@pages/News/NewsArticle'
 import MarketPage from '@pages/MarketPage'
 import CommentPage from '@pages/Comment/CommentPage'
-import SettingPage from '@pages/SettingPage'
+import SpacePage from '@pages/SpacePage'
 import NotFound from '@components/NotFound'
 Vue.use(Router)
 
@@ -66,7 +66,7 @@ const router = new Router({
     {
       path: '/setting/:userId',
       name: 'Setting',
-      component: SettingPage,
+      component: SpacePage,
       meta: {
         ifShow: false
       }

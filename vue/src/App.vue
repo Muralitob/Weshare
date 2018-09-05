@@ -44,7 +44,11 @@ body,html{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-size: 16px;
   // transition: all .3s ease;
+}
+span {
+  font-size: 12px;
 }
 ul,li{
   list-style: none;

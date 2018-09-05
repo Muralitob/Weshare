@@ -4,12 +4,11 @@
       <h1>登录</h1>
       <Form ref="LoginForm" :model="loginForm" :rules="LoginRule">
         <FormItem label="用户名/学号/邮箱:" prop="account">
-            <Input type="text"  placeholder="Username" v-model="loginForm.account">
-            </Input>
+            <Input type="text"  placeholder="Username" v-model="loginForm.account" />
+         
         </FormItem>
         <FormItem label="密码:" prop="password">
-            <Input type="password" placeholder="Password" v-model="loginForm.password">
-            </Input>
+            <Input type="password" placeholder="Password" v-model="loginForm.password" />
         </FormItem>
         <FormItem>
             <Button type="primary" @click="handleSubmit('LoginForm')">登录</Button>
@@ -25,16 +24,13 @@
       <h1>注册</h1>
       <Form ref="RegistForm" :model="registForm" :rules="RegistRule">
         <FormItem label="用户名/学号/邮箱:" prop="account">
-            <Input type="text"  placeholder="Username" v-model="registForm.account">
-            </Input>
+            <Input type="text"  placeholder="Username" v-model="registForm.account" />
         </FormItem>
         <FormItem label="密码:" prop="password">
-            <Input type="password" placeholder="Password" v-model="registForm.password">
-            </Input>
+            <Input type="password" placeholder="Password" v-model="registForm.password" />
         </FormItem>
         <FormItem label="重复密码:" prop="passwdCheck">
-            <Input type="password" placeholder="请填写相同的密码" v-model="registForm.passwdCheck">
-            </Input>
+            <Input type="password" placeholder="请填写相同的密码" v-model="registForm.passwdCheck" />
         </FormItem>
         <FormItem>
             <Button type="primary" @click="handleSubmit('RegistForm')">注册</Button>
@@ -368,6 +364,10 @@ header{
     }
 }
 .useraction {
+  font-size: 12px;
+  div {
+    font-size: 12px;
+  }
   h1 {
     padding-top: 1rem;
   }
