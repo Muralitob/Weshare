@@ -18,21 +18,53 @@
         </div>
       </div>
     </div>
-    <router-view></router-view>
+    <div class="b">
+      <router-view></router-view>
+      <div>
+        <Card class="b-profile-info row" style="width:240px" dis-hover="true" shadow="true">
+          <Row>
+            <Col span="12" class="col wrap" style="text-align:center">
+              <span>我的关注</span>
+              <span>0</span>
+            </Col>
+            <Col span="12" class="col wrap" style="text-align:center">
+              <span>粉丝人数</span>
+              <span>0</span>
+            </Col>
+          </Row>
+        </Card>
+        <Menu theme="light" class="b-menubar" @on-select="routeTo" active-name="index">
+          <MenuItem name="index">我的主页</MenuItem>
+          <MenuItem name="collection">我的收藏</MenuItem>
+          <MenuItem name="history">浏览记录</MenuItem>
+        </Menu>
+      </div>
+    </div>
   </div>  
 </template>
 
 <script>
-export default {};
+export default {
+  data () {
+    return {
+      
+    }
+  },
+  methods: {
+    //menu跳转
+    routeTo(name) {
+      this.$router.push({path: `/space/${this.$route.params.userId}/${name}`});
+    }
+  }
+};
 </script>
 
 <style lang="scss">
 .space {
-  color: $c-light;
   .h {
-    top: 3.5rem;
+    top: -3rem;
+    position: relative;
     height: 12.5rem;
-    position: absolute;
     @include firstMedia {
       width: $main-width;
     }
@@ -48,6 +80,7 @@ export default {};
     &-user {
       position: relative;
       z-index: 1;
+      color: $c-light;
     }
     &-basic {
       margin: 10px 0 0 20px;
@@ -77,6 +110,19 @@ export default {};
         height: 4rem;
         border-radius: 50%;
       }
+    }
+  }
+  .b {
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    &-menubar {
+      border: 1px solid #eee;
+      margin-top: 1rem;
+    }
+    &-profile-info {
+      width: 100%;
     }
   }
 }

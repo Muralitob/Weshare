@@ -10,7 +10,6 @@ export default {
         commit(types.USER_LOGIN, result.data.token); //改变状态仓库
         router.replace({ path: "/admin" });
       } else {
-        MsgAlert(result.data.message);
       }
     });
   },

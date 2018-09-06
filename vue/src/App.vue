@@ -76,6 +76,9 @@ a{
     padding-right: 30px;
   }
 }
+.wrap {
+  margin: 0 auto;
+}
 .wrapper{
   width: 100%;
   margin: 0 auto;
@@ -90,6 +93,10 @@ a{
   border-bottom: 1px dotted #BFBFBF;
   overflow: hidden;
   zoom: 1;
+}
+.col {
+  display: flex;
+  flex-direction: column;
 }
 main{
   flex: 1 0 auto;

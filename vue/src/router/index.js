@@ -7,6 +7,7 @@ import NewsArticle from '@pages/News/NewsArticle'
 import MarketPage from '@pages/MarketPage'
 import CommentPage from '@pages/Comment/CommentPage'
 import SpacePage from '@pages/SpacePage'
+import SpaceIndex from '@pages/SpacePage/SpaceIndex'
 import NotFound from '@components/NotFound'
 Vue.use(Router)
 
@@ -64,12 +65,30 @@ const router = new Router({
       ]
     },
     {
-      path: '/setting/:userId',
-      name: 'Setting',
+      path: '/space/:userId',
+      name: 'Space',
       component: SpacePage,
+      redirect: {
+        name: 'index'
+      },
       meta: {
         ifShow: false
-      }
+      },
+      children: [
+        {
+          path: '/space/:userId/index',
+          name: 'index',
+          component: SpaceIndex,
+        },
+        {
+          path: '/space/:userId/collection',
+          name: '我的收藏',
+        },
+        {
+          path: '/space/:userId/history',
+          name: '浏览记录',
+        },
+      ]
     },
     {
       path: '/market',

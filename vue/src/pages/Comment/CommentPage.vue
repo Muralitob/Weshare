@@ -6,12 +6,12 @@
       <div class="commetion__me">
         <h4 class="commetion__me-region">我的信息</h4>
         <div id="user-info">
-          <router-link :to="{ name: 'Setting', params: { userId: user_info.userID }, query:{ currentPage: 'commit' }}">
+          <router-link :to="{ name: 'Space', params: { userId: user_info.userID }}">
             <img :src="user_info.avator_URL" class="head_img">
           </router-link>
           <div class="user-wrapper">
             <div class="user-name">
-              <router-link :to="{ name: 'Setting', params: { userId: user_info.userID }, query:{ currentPage: 'commit' }}">{{user_info.name}}</router-link>
+              <router-link :to="{ name: 'Space', params: { userId: user_info.userID }}">{{user_info.name}}</router-link>
             </div>
             <span class="user-like">获得喜欢：{{user_info.beLiked}}次</span>
             <span class="user-watch">文章被阅读：{{user_info.beWatched}}次</span>
