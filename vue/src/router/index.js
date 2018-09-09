@@ -47,7 +47,7 @@ const router = new Router({
       path: '/commit',
       name: 'Commit',
       meta: { 
-        ifShow: true
+        ifShow: false
       },
       children: [
         {

@@ -23,7 +23,7 @@
     <Modal class="useraction" scrollable footer-hide v-model="RegistShow" width="360">
       <h1>注册</h1>
       <Form ref="RegistForm" :model="registForm" :rules="RegistRule">
-        <FormItem label="用户名/学号/邮箱:" prop="account">
+        <FormItem label="用户名:" prop="account">
             <Input type="text"  placeholder="Username" v-model="registForm.account" />
         </FormItem>
         <FormItem label="密码:" prop="password">
