@@ -40,3 +40,7 @@ def getNamedReturn(name):
 
 def getActiveInterface(name):
     return config.get('ACTIVE_INTERFACE', name)
+
+
+# if __name__ == '__main__':
+#     print getMongoHost()
