@@ -116,4 +116,8 @@ footer{
 header{
   flex: 0 0 auto;
 }
+.between {
+  display: flex;
+  justify-content: space-between;
+}
 </style>

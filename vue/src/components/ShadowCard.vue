@@ -1,5 +1,5 @@
 <template>
-  <Card class="b-profile-info row" shadow style="width: 860px">
+  <Card class="b-profile-info row" shadow style="width: 960px">
     <p class="section-title"  slot="title" >{{title}}</p>
     <slot></slot>
   </Card>

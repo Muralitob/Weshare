@@ -22,10 +22,27 @@
           </section>
         </Row>
       </div>
-      <div class="more" > <a href="">查看更多</a> </div>
+      <div class="more" @click="routeTo('collection')"> 查看更多 </div>
     </shadow-card>
     <shadow-card class="card" title="我的浏览记录">
-      d
+      <div class="steam">
+        <Row v-for="(item, index) in collection_Array" :key="index"  class="steam-list">
+          <section>
+            <Col class="between">
+              <router-link class="title" to="/">
+                {{item.article_title}}
+              </router-link>
+              <div>
+                <router-link to="/" class="author">
+                  {{item.author}}
+                </router-link>
+                <span>{{item.date}}</span>
+              </div>
+            </Col>
+          </section>
+        </Row>
+      </div>
+      <div class="more" @click="routeTo('history')" >查看更多 </div>
     </shadow-card>
   </div>  
 </template>
@@ -54,6 +71,12 @@ export default {
         }
       ]
     };
+  },
+  methods: {
+    routeTo(name) {
+      this.$router.push({path: `/space/${this.$route.params.userId}/${name}`});
+      this.$store.commit('Menu_SELECT', name)
+    }
   }
 };
 </script>

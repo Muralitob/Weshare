@@ -5,7 +5,7 @@
         <div class="h-gradient"></div>
         <div class="h-user">
           <div class="h-info">
-            <Avatar class="avatar" />
+            <Avatar class="avatar" @click="" />
             <div class="h-basic">
               <div class="h-name">
                 木拉M
@@ -21,7 +21,7 @@
     <div class="b">
       <router-view></router-view>
       <div>
-        <Card class="b-profile-info row" style="width:240px" dis-hover="true" shadow="true">
+        <Card class="b-profile-info row" style="width:240px" dis-hover shadow>
           <Row>
             <Col span="12" class="col wrap" style="text-align:center">
               <span>我的关注</span>
@@ -33,7 +33,7 @@
             </Col>
           </Row>
         </Card>
-        <Menu theme="light" class="b-menubar" @on-select="routeTo" active-name="index">
+        <Menu theme="light" class="b-menubar" @on-select="routeTo" :active-name="activeName">
           <MenuItem name="index">我的主页</MenuItem>
           <MenuItem name="collection">我的收藏</MenuItem>
           <MenuItem name="history">浏览记录</MenuItem>
@@ -54,6 +54,13 @@ export default {
     //menu跳转
     routeTo(name) {
       this.$router.push({path: `/space/${this.$route.params.userId}/${name}`});
+      this.$store.commit('Menu_SELECT', name)
+    }
+  },
+  computed: {
+    activeName () {
+      console.log(this.$store.state.Menu.activeName)
+      return this.$store.state.Menu.activeName
     }
   }
 };
