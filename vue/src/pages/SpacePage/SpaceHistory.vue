@@ -3,20 +3,16 @@
     <div class="steam">
       <Row v-for="(item, index) in collection_Array" :key="index"  class="steam-list">
         <section>
-          <div class="favs bookmark-rank">
-            1
-            <Icon type="heart"></Icon>
-          </div>
-          <Col>
-            <router-link to="/" class="author">
-              {{item.author}}
-            </router-link>
-            <span>{{item.date}}</span>
-          </Col>
-          <Col>
+          <Col class="between">
             <router-link class="title" to="/">
               {{item.article_title}}
             </router-link>
+            <div>
+              <router-link to="/" class="author">
+                {{item.author}}
+              </router-link>
+              <span>{{item.date}}</span>
+            </div>
           </Col>
         </section>
       </Row>

@@ -1,12 +1,36 @@
 <template>
   <div>
+    <shadow-card class="card" title="我的文章">
+      <div class="steam">
+        <Row v-for="(item, index) in collection_Array" :key="index"  class="steam-list">
+          <section>
+            <div class="favs bookmark-rank">
+              1
+              <Icon type="heart"></Icon>
+            </div>
+            <Col>
+              <router-link to="/" class="author">
+                {{item.author}}
+              </router-link>
+              <span>{{item.date}}</span>
+            </Col>
+            <Col>
+              <router-link class="title" to="/">
+                {{item.article_title}}
+              </router-link>
+            </Col>
+          </section>
+        </Row>
+      </div>
+      <div class="more" @click="routeTo('collection')"> 查看更多 </div>
+    </shadow-card>
     <shadow-card class="card" title="我的收藏">
       <div class="steam">
         <Row v-for="(item, index) in collection_Array" :key="index"  class="steam-list">
           <section>
             <div class="favs bookmark-rank">
               1
-              <small>收藏</small>
+              <Icon type="heart"></Icon>
             </div>
             <Col>
               <router-link to="/" class="author">

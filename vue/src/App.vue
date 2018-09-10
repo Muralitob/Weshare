@@ -5,6 +5,9 @@
     <main class="wrapper">
       <router-view/>
     </main>
+    <BackTop >
+        <!-- <div class="totop">返回顶端</div> -->
+    </BackTop>
     <Footer></Footer>
   </div>
 </template>
@@ -119,5 +122,12 @@ header{
 .between {
   display: flex;
   justify-content: space-between;
+}
+.ivu-back-top-inner:hover {
+  padding: 5px;
+  background: $c-green;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
 }
 </style>

@@ -34,9 +34,10 @@
           </Row>
         </Card>
         <Menu theme="light" class="b-menubar" @on-select="routeTo" :active-name="activeName">
-          <MenuItem name="index">我的主页</MenuItem>
-          <MenuItem name="collection">我的收藏</MenuItem>
-          <MenuItem name="history">浏览记录</MenuItem>
+          <MenuItem name="index"> <Icon type="md-home" />我的主页</MenuItem>
+          <MenuItem name="article"><Icon type="md-create" />我的文章</MenuItem>
+          <MenuItem name="collection"><Icon type="md-heart" /><Icon type="star"></Icon>我的收藏</MenuItem>
+          <MenuItem name="history"><Icon type="md-paw" />浏览记录</MenuItem>
         </Menu>
       </div>
     </div>
@@ -45,22 +46,21 @@
 
 <script>
 export default {
-  data () {
-    return {
-      
-    }
+  data() {
+    return {};
   },
   methods: {
     //menu跳转
     routeTo(name) {
-      this.$router.push({path: `/space/${this.$route.params.userId}/${name}`});
-      this.$store.commit('Menu_SELECT', name)
+      this.$router.push({
+        path: `/space/${this.$route.params.userId}/${name}`
+      });
+      this.$store.commit("Menu_SELECT", name);
     }
   },
   computed: {
-    activeName () {
-      console.log(this.$store.state.Menu.activeName)
-      return this.$store.state.Menu.activeName
+    activeName() {
+      return this.$store.state.Menu.activeName;
     }
   }
 };

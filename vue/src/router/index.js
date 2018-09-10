@@ -8,7 +8,9 @@ import MarketPage from '@pages/MarketPage'
 import CommentPage from '@pages/Comment/CommentPage'
 import SpacePage from '@pages/SpacePage'
 import SpaceIndex from '@pages/SpacePage/SpaceIndex'
+import SpaceArticle from '@pages/SpacePage/SpaceArticle'
 import SpaceCollection from '@pages/SpacePage/SpaceCollection'
+import SpaceHistory from '@pages/SpacePage/SpaceHistory'
 import NotFound from '@components/NotFound'
 Vue.use(Router)
 
@@ -89,6 +91,12 @@ const router = new Router({
         {
           path: '/space/:userId/history',
           name: '浏览记录',
+          component: SpaceHistory
+        },
+        {
+          path: '/space/:userId/article',
+          name: '我的文章',
+          component: SpaceArticle
         },
       ]
     },

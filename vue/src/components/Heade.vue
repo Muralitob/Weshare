@@ -52,7 +52,7 @@
           :to="item.path"
           activeClass="link_active"
           >
-            <span class="top__item-title">{{item.name}}</span>
+            <span class="top__item-title"><Icon type="md-heart" />{{item.name}}</span>
           </router-link>
         </div>
       </ul>
