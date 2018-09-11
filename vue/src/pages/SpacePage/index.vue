@@ -5,7 +5,7 @@
         <div class="h-gradient"></div>
         <div class="h-user">
           <div class="h-info">
-            <Avatar class="avatar" @click="" />
+            <Avatar class="avatar" />
             <div class="h-basic">
               <div class="h-name">
                 木拉M
@@ -24,18 +24,22 @@
         <Card class="b-profile-info row" style="width:240px" dis-hover shadow>
           <Row>
             <Col span="12" class="col wrap" style="text-align:center">
-              <div>
-                <Icon type="md-eye" size="20" color="#23c9ed" />
-                <span>我的关注</span>
-              </div>
-              <span>0</span>
+              <router-link exact-active-class="active" :to="fourl" @click.native="reset"  >
+                <div>
+                  <Icon type="md-eye" size="20" color="#23c9ed"  />
+                  <span>我的关注</span>
+                </div>
+                <span>0</span>
+              </router-link>
             </Col>
             <Col span="12" class="col wrap" style="text-align:center">
-              <div>
-                <Icon type="md-heart" size="20" color="#ff5d47" />
-                <span>粉丝人数</span>
-              </div>
-              <span>0</span>
+              <router-link exact-active-class="active" :to="faurl" @click.native="reset" >
+                <div>
+                  <Icon type="md-heart" size="20" color="#ff5d47" />
+                  <span>粉丝人数</span>
+                </div>
+                <span>0</span>
+              </router-link >
             </Col>
           </Row>
         </Card>
@@ -53,15 +57,28 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      fourl: `/space/${this.$route.params.userId}/index/fan/follow`,
+      faurl: `/space/${this.$route.params.userId}/index/fan/fans`,
+    };
   },
   methods: {
     //menu跳转
     routeTo(name) {
-      this.$router.push({
-        path: `/space/${this.$route.params.userId}/${name}`
-      });
-      this.$store.commit("Menu_SELECT", name);
+      if( name ==='follow' || name === 'fans' ){
+        this.$router.push({
+          path: `/space/${this.$route.params.userId}/index/fan/${name}`
+        });
+        this.$store.commit('Menu_SELECT', 'index')
+      }else{
+        this.$router.push({
+          path: `/space/${this.$route.params.userId}/${name}`
+        });
+        this.$store.commit("Menu_SELECT", name);
+      }
+    },
+    reset() {
+      this.$store.commit('Menu_SELECT', 'index')
     }
   },
   computed: {
@@ -74,6 +91,9 @@ export default {
 
 <style lang="scss">
 .space {
+  .active {
+    color: $c-green;
+  }
   .h {
     top: -3rem;
     position: relative;
