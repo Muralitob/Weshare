@@ -24,20 +24,26 @@
         <Card class="b-profile-info row" style="width:240px" dis-hover shadow>
           <Row>
             <Col span="12" class="col wrap" style="text-align:center">
-              <span>我的关注</span>
+              <div>
+                <Icon type="md-eye" size="20" color="#23c9ed" />
+                <span>我的关注</span>
+              </div>
               <span>0</span>
             </Col>
             <Col span="12" class="col wrap" style="text-align:center">
-              <span>粉丝人数</span>
+              <div>
+                <Icon type="md-heart" size="20" color="#ff5d47" />
+                <span>粉丝人数</span>
+              </div>
               <span>0</span>
             </Col>
           </Row>
         </Card>
         <Menu theme="light" class="b-menubar" @on-select="routeTo" :active-name="activeName">
-          <MenuItem name="index"> <Icon type="md-home" />我的主页</MenuItem>
-          <MenuItem name="article"><Icon type="md-create" />我的文章</MenuItem>
-          <MenuItem name="collection"><Icon type="md-heart" /><Icon type="star"></Icon>我的收藏</MenuItem>
-          <MenuItem name="history"><Icon type="md-paw" />浏览记录</MenuItem>
+          <MenuItem name="index"> <Icon type="md-home" color="#00c091" size="20" />我的主页</MenuItem>
+          <MenuItem name="article"><Icon type="md-create" color="#02b5da" size="20" />我的文章</MenuItem>
+          <MenuItem name="collection"><Icon type="md-star" size="20" color="#f3a034" /></Icon>我的收藏</MenuItem>
+          <MenuItem name="history"><Icon type="md-paw" size="20" color="#23c9ed" />浏览记录</MenuItem>
         </Menu>
       </div>
     </div>

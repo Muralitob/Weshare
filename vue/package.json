@@ -13,7 +13,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "iview": "^2.14.3",
+    "iview": "^3.1.0",
     "npm": "^6.1.0",
     "vue": "^2.5.2",
     "vue-infinite-loading": "^2.3.3",
@@ -47,7 +47,7 @@
     "html-webpack-plugin": "^2.30.1",
     "jest": "^22.0.4",
     "jest-serializer-vue": "^0.3.0",
-    "less": "^3.7.1",
+    "less": "^2.7.2",
     "less-loader": "^4.1.0",
     "nightwatch": "^0.9.12",
     "node-notifier": "^5.1.2",

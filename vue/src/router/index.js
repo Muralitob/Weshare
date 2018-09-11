@@ -11,6 +11,9 @@ import SpaceIndex from '@pages/SpacePage/SpaceIndex'
 import SpaceArticle from '@pages/SpacePage/SpaceArticle'
 import SpaceCollection from '@pages/SpacePage/SpaceCollection'
 import SpaceHistory from '@pages/SpacePage/SpaceHistory'
+import SpaceFan from '@pages/SpacePage/SpaceFan'
+import SpaceFollow from '@pages/SpacePage/SpaceFollow'
+import SpaceFans from '@pages/SpacePage/SpaceFans'
 import NotFound from '@components/NotFound'
 Vue.use(Router)
 
@@ -82,6 +85,23 @@ const router = new Router({
           path: '/space/:userId/index',
           name: 'index',
           component: SpaceIndex,
+        },
+        {
+          path: '/space/:userId/index/fan',
+          name: 'fan',
+          component: SpaceFan,
+          children: [
+            {
+              path: '/space/:userId/index/fan/follow',
+              name: 'follow',
+              component: SpaceFollow
+            },
+            {
+              path: '/space/:userId/index/fan/fans',
+              name: 'fans',
+              component: SpaceFans
+            }
+          ]
         },
         {
           path: '/space/:userId/collection',
