@@ -92,15 +92,9 @@ const router = new Router({
           component: SpaceFan,
           children: [
             {
-              path: '/space/:userId/index/fan/follow',
-              name: 'follow',
-              component: SpaceFollow
+              path: '/space/:userId/index/fan/:tagID',
+              name: 'follow_type',
             },
-            {
-              path: '/space/:userId/index/fan/fans',
-              name: 'fans',
-              component: SpaceFans
-            }
           ]
         },
         {
@@ -113,7 +107,7 @@ const router = new Router({
           name: '浏览记录',
           component: SpaceHistory
         },
-        {
+        { 
           path: '/space/:userId/article',
           name: '我的文章',
           component: SpaceArticle

@@ -5,13 +5,20 @@
         <div class="h-gradient"></div>
         <div class="h-user">
           <div class="h-info">
-            <Avatar class="avatar" />
+            <router-link to="/">
+              <Avatar class="avatar" />
+            </router-link>
             <div class="h-basic">
               <div class="h-name">
                 木拉M
               </div>
               <div class="h-basic-spacing">
-                我爱吃柚子
+                <span>
+                  我爱吃柚子
+                </span>
+                <span>
+                  我就是我~~~
+                </span>
               </div>
             </div>
           </div>
@@ -58,24 +65,17 @@
 export default {
   data() {
     return {
-      fourl: `/space/${this.$route.params.userId}/index/fan/follow`,
-      faurl: `/space/${this.$route.params.userId}/index/fan/fans`,
+      fourl: `/space/${this.$route.params.userId}/index/fan/00`,
+      faurl: `/space/${this.$route.params.userId}/index/fan/-1`,
     };
   },
   methods: {
     //menu跳转
     routeTo(name) {
-      if( name ==='follow' || name === 'fans' ){
-        this.$router.push({
-          path: `/space/${this.$route.params.userId}/index/fan/${name}`
-        });
-        this.$store.commit('Menu_SELECT', 'index')
-      }else{
-        this.$router.push({
-          path: `/space/${this.$route.params.userId}/${name}`
-        });
-        this.$store.commit("Menu_SELECT", name);
-      }
+      this.$router.push({
+        path: `/space/${this.$route.params.userId}/${name}`
+      });
+      this.$store.commit("Menu_SELECT", name);
     },
     reset() {
       this.$store.commit('Menu_SELECT', 'index')
@@ -85,7 +85,11 @@ export default {
     activeName() {
       return this.$store.state.Menu.activeName;
     }
-  }
+  },
+  mounted() {
+    //判断this.$route.params.userId是否与本地储存的uid是否相同
+    //相同则展示目前的样子，如果不相同 则为他人空间，最好每个组件都传uid判断一下
+  },
 };
 </script>
 
@@ -123,6 +127,7 @@ export default {
     }
     &-basic-spacing {
       font-size: 12px;
+      color: #d6dee4;
     }
     &-gradient {
       position: absolute;

@@ -1,4 +1,5 @@
 // 各种Store
 export default {
-  activeName: 'index'
+  activeName: 'index',
+  fanType: 'all',
 };
