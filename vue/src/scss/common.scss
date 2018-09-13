@@ -1,0 +1,56 @@
+.card {
+  margin-bottom: 2rem;
+  &:nth-last-child() {
+    border: none;
+  }
+}
+
+.author {
+  font-size: 13px;
+  color: #999;
+  &::after {
+    content: "";
+    margin: 0 0.4rem;
+  }
+}
+
+.favs {
+  display: inline-block;
+  padding-top: 3px;
+  width: 45px;
+  height: 40px;
+  border-radius: 1px;
+  background: #f0f5f3;
+  color: #34b49b;
+  display: flex;
+  flex-direction: column;
+}
+
+.bookmark-rank {
+  float: left;
+  margin-right: 10px;
+  font-size: 16px;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.title {
+  font-weight: 400;
+}
+
+.steam {
+  .steam-list {
+    padding: 1rem 0;
+    border-bottom: 1px solid #eee;
+    &:nth-last-child(1) {
+      border: none;
+    }
+  }
+}
+
+.more {
+  display: flex;
+  justify-content: center;
+  margin: .5rem 0;
+  cursor: pointer;
+}

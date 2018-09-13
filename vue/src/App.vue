@@ -5,6 +5,9 @@
     <main class="wrapper">
       <router-view/>
     </main>
+    <BackTop >
+        <!-- <div class="totop">返回顶端</div> -->
+    </BackTop>
     <Footer></Footer>
   </div>
 </template>
@@ -76,6 +79,9 @@ a{
     padding-right: 30px;
   }
 }
+.wrap {
+  margin: 0 auto;
+}
 .wrapper{
   width: 100%;
   margin: 0 auto;
@@ -90,6 +96,10 @@ a{
   border-bottom: 1px dotted #BFBFBF;
   overflow: hidden;
   zoom: 1;
+}
+.col {
+  display: flex;
+  flex-direction: column;
 }
 main{
   flex: 1 0 auto;
@@ -108,5 +118,16 @@ footer{
 }
 header{
   flex: 0 0 auto;
+}
+.between {
+  display: flex;
+  justify-content: space-between;
+}
+.ivu-back-top-inner:hover {
+  padding: 5px;
+  background: $c-green;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
 }
 </style>

@@ -7,6 +7,13 @@ import NewsArticle from '@pages/News/NewsArticle'
 import MarketPage from '@pages/MarketPage'
 import CommentPage from '@pages/Comment/CommentPage'
 import SpacePage from '@pages/SpacePage'
+import SpaceIndex from '@pages/SpacePage/SpaceIndex'
+import SpaceArticle from '@pages/SpacePage/SpaceArticle'
+import SpaceCollection from '@pages/SpacePage/SpaceCollection'
+import SpaceHistory from '@pages/SpacePage/SpaceHistory'
+import SpaceFan from '@pages/SpacePage/SpaceFan'
+import SpaceFollow from '@pages/SpacePage/SpaceFollow'
+import SpaceFans from '@pages/SpacePage/SpaceFans'
 import NotFound from '@components/NotFound'
 Vue.use(Router)
 
@@ -46,7 +53,7 @@ const router = new Router({
       path: '/commit',
       name: 'Commit',
       meta: { 
-        ifShow: true
+        ifShow: false
       },
       children: [
         {
@@ -64,12 +71,54 @@ const router = new Router({
       ]
     },
     {
-      path: '/setting/:userId',
-      name: 'Setting',
+      path: '/space/:userId',
+      name: 'Space',
       component: SpacePage,
+      redirect: {
+        name: 'index'
+      },
       meta: {
         ifShow: false
-      }
+      },
+      children: [
+        {
+          path: '/space/:userId/index',
+          name: 'index',
+          component: SpaceIndex,
+        },
+        {
+          path: '/space/:userId/index/fan',
+          name: 'fan',
+          component: SpaceFan,
+          children: [
+            {
+              path: '/space/:userId/index/fan/follow',
+              name: 'follow',
+              component: SpaceFollow
+            },
+            {
+              path: '/space/:userId/index/fan/fans',
+              name: 'fans',
+              component: SpaceFans
+            }
+          ]
+        },
+        {
+          path: '/space/:userId/collection',
+          name: '我的收藏',
+          component: SpaceCollection,
+        },
+        {
+          path: '/space/:userId/history',
+          name: '浏览记录',
+          component: SpaceHistory
+        },
+        {
+          path: '/space/:userId/article',
+          name: '我的文章',
+          component: SpaceArticle
+        },
+      ]
     },
     {
       path: '/market',
