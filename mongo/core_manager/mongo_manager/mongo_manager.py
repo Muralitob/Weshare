@@ -10,10 +10,6 @@ client = MongoClient(config.getMongoHost())
 db = client[config.getMongoDB()]
 db.authenticate(config.getMongoUser(), config.getMongoPass())
 
-socket_url = config.getActiveInterface("SOCKET_INTERFACE")
-sms_interface = config.getActiveInterface("URL_FOR_SMS_INTERFACE")
-active_interface = config.getActiveInterface("URL_FOR_C_INTERFACE")
-
 
 def find(collection_str, json_str):
     collection = db[collection_str]
@@ -96,8 +92,6 @@ def update_many(collection_str, find_json_str, update_json_str):
 
 def create_one(collection_str, json_str):
     collection = db[collection_str]
-    # force the server to add the _id instead of the client by
-    # setting the (enigmatically-named) manipulate option to False
     return collection.save(json_str, manipulate=False)
 
 
@@ -151,3 +145,7 @@ def find_projection(collection_str, json_str, projection_str):
 def remove_many(collection_str, json_str):
     collection = db[collection_str]
     return collection.delete_many(json_str)
+
+
+if __name__ == '__main__':
+    create_one('users', {'username': '何文达', 'passwrod': 'zhaokeyue1998'})
