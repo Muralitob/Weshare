@@ -5,7 +5,7 @@
         <div class="h-gradient"></div>
         <div class="h-user">
           <div class="h-info">
-            <router-link to="/">
+            <router-link :to="{name: 'setting' }">
               <Avatar class="avatar" />
             </router-link>
             <div class="h-basic">
@@ -15,9 +15,6 @@
               <div class="h-basic-spacing">
                 <span>
                   我爱吃柚子
-                </span>
-                <span>
-                  我就是我~~~
                 </span>
               </div>
             </div>

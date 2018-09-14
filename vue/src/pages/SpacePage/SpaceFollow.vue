@@ -2,9 +2,7 @@
   <div class="follow">
     <ul class="relation-list">
       <li class="list-item" v-for="(item, idx) in result" :key="idx">
-        <router-link to="/">
-          <Avatar class="avatar" />
-        </router-link>
+          <Avatar class="avatar" @click.native="routeTo(item.uid)" />
         <div class="content" >
           <div class="fan-name" @click="routeTo(item.uid)">
             {{item.user_name}}
@@ -84,6 +82,7 @@ export default {
     width: 52px !important;
     height: 52px !important;
     border-radius: 50%;
+    cursor: pointer;
   }
   .list-item {
     border-bottom: 1px solid #eee;

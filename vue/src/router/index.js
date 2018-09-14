@@ -12,8 +12,8 @@ import SpaceArticle from '@pages/SpacePage/SpaceArticle'
 import SpaceCollection from '@pages/SpacePage/SpaceCollection'
 import SpaceHistory from '@pages/SpacePage/SpaceHistory'
 import SpaceFan from '@pages/SpacePage/SpaceFan'
-import SpaceFollow from '@pages/SpacePage/SpaceFollow'
-import SpaceFans from '@pages/SpacePage/SpaceFans'
+import SettingPage from '@pages/Setting'
+import SettingInfo from '@pages/Setting/SettingInfo'
 import NotFound from '@components/NotFound'
 Vue.use(Router)
 
@@ -67,6 +67,34 @@ const router = new Router({
         {
           path: '/commit/history',
           name: 'collectionArticle',
+        },
+      ]
+    },
+    {
+      path: '/setting/:userId',
+      name: 'setting',
+      component: SettingPage,
+      redirect: { name: 'info' },
+      children: [
+        {
+          path: '/setting/:userId/info',
+          name: 'info',
+          component: SettingInfo
+        },
+        {
+          path: '/setting/:userId/avator',
+          name: 'info',
+          component: SettingInfo
+        },
+        {
+          path: '/setting/:userId/account',
+          name: 'info',
+          component: SettingInfo
+        },
+        {
+          path: '/setting/:userId/space',
+          name: 'info',
+          component: SettingInfo
         },
       ]
     },
