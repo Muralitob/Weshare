@@ -14,13 +14,31 @@ user = Blueprint("user", __name__, url_prefix='/user')
 def register():
     """
     注册用户
+    :parameter
+    account
+    password
     :return:
     """
-    username = request.args.get('username')
-    password = request.args.get('password')
-    result = user_db.register(username, password)
+    data = request.get_json()
+    result = user_db.register(data)
     if result:
-        return jsonify({"message": 'success'}), 200
+        return jsonify({"message": 'register success', "code": 200}), 200
     else:
-        return jsonify({"message": 'fail'}), 404
+        return jsonify({"message": 'register fail', "code": 404}), 404
 
+
+@user.route('/login', methods=['POST'])
+def login():
+    """
+    登录(支持用户名、学号、邮箱登录)
+    :parameter
+    account
+    password
+    :return:
+    """
+    data = request.get_json()
+    result = user_db.login(data)
+    if result:
+        return jsonify({"message": 'login success', "code": 200}), 200
+    else:
+        return jsonify({"message": 'login fail', "code": 404}), 404
