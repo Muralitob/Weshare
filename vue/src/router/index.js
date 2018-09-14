@@ -14,6 +14,7 @@ import SpaceHistory from '@pages/SpacePage/SpaceHistory'
 import SpaceFan from '@pages/SpacePage/SpaceFan'
 import SettingPage from '@pages/Setting'
 import SettingInfo from '@pages/Setting/SettingInfo'
+import SettingAvator from '@pages/Setting/SettingAvator'
 import NotFound from '@components/NotFound'
 Vue.use(Router)
 
@@ -83,8 +84,8 @@ const router = new Router({
         },
         {
           path: '/setting/:userId/avator',
-          name: 'info',
-          component: SettingInfo
+          name: 'avator',
+          component: SettingAvator
         },
         {
           path: '/setting/:userId/account',
