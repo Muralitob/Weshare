@@ -5,13 +5,17 @@
         <div class="h-gradient"></div>
         <div class="h-user">
           <div class="h-info">
-            <Avatar class="avatar" @click="" />
+            <router-link :to="{name: 'setting' }">
+              <Avatar class="avatar" />
+            </router-link>
             <div class="h-basic">
               <div class="h-name">
                 木拉M
               </div>
               <div class="h-basic-spacing">
-                我爱吃柚子
+                <span>
+                  我爱吃柚子
+                </span>
               </div>
             </div>
           </div>
@@ -24,18 +28,22 @@
         <Card class="b-profile-info row" style="width:240px" dis-hover shadow>
           <Row>
             <Col span="12" class="col wrap" style="text-align:center">
-              <div>
-                <Icon type="md-eye" size="20" color="#23c9ed" />
-                <span>我的关注</span>
-              </div>
-              <span>0</span>
+              <router-link exact-active-class="active" :to="fourl" @click.native="reset"  >
+                <div>
+                  <Icon type="md-eye" size="20" color="#23c9ed"  />
+                  <span>我的关注</span>
+                </div>
+                <span>0</span>
+              </router-link>
             </Col>
             <Col span="12" class="col wrap" style="text-align:center">
-              <div>
-                <Icon type="md-heart" size="20" color="#ff5d47" />
-                <span>粉丝人数</span>
-              </div>
-              <span>0</span>
+              <router-link exact-active-class="active" :to="faurl" @click.native="reset" >
+                <div>
+                  <Icon type="md-heart" size="20" color="#ff5d47" />
+                  <span>粉丝人数</span>
+                </div>
+                <span>0</span>
+              </router-link >
             </Col>
           </Row>
         </Card>
@@ -53,7 +61,10 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      fourl: `/space/${this.$route.params.userId}/index/fan/00`,
+      faurl: `/space/${this.$route.params.userId}/index/fan/-1`,
+    };
   },
   methods: {
     //menu跳转
@@ -62,18 +73,28 @@ export default {
         path: `/space/${this.$route.params.userId}/${name}`
       });
       this.$store.commit("Menu_SELECT", name);
+    },
+    reset() {
+      this.$store.commit('Menu_SELECT', 'index')
     }
   },
   computed: {
     activeName() {
       return this.$store.state.Menu.activeName;
     }
-  }
+  },
+  mounted() {
+    //判断this.$route.params.userId是否与本地储存的uid是否相同
+    //相同则展示目前的样子，如果不相同 则为他人空间，最好每个组件都传uid判断一下
+  },
 };
 </script>
 
 <style lang="scss">
 .space {
+  .active {
+    color: $c-green;
+  }
   .h {
     top: -3rem;
     position: relative;
@@ -103,6 +124,7 @@ export default {
     }
     &-basic-spacing {
       font-size: 12px;
+      color: #d6dee4;
     }
     &-gradient {
       position: absolute;

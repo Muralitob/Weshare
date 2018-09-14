@@ -5,7 +5,7 @@
         <section>
           <div class="favs bookmark-rank">
             1
-            <Icon type="heart"></Icon>
+            <span>收藏</span>
           </div>
           <Col>
             <router-link to="/" class="author">

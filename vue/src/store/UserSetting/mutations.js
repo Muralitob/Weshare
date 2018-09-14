@@ -7,5 +7,5 @@ export default{
     [types.USER_LOGOUT](state){
         localStorage.removeItem('jwt');
         state.token = null;
-    }
+    },
 }

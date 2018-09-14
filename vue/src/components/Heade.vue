@@ -157,19 +157,24 @@ export default {
     handleSubmit(name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
-          this.$store.dispatch('UserLogin', this.loginForm)
-          //关闭Modal
-          this.LoginShow = false
-          //清空表单数据
-          // this.loginForm = {
-          //   account: '',
-          //   password: '',
-          // }
-          // this.registForm = {
-          //   account: '',
-          //   password: '',
-          //   passwdCheck: ''
-          // }
+          if(name === 'LoginForm') {
+            this.$store.dispatch('UserLogin', this.loginForm)
+            //关闭Modal
+            this.LoginShow = false
+            //清空表单数据
+            // this.loginForm = {
+            //   account: '',
+            //   password: '',
+            // }
+            // this.registForm = {
+            //   account: '',
+            //   password: '',
+            //   passwdCheck: ''
+            // }
+          }else if( name === 'RegistForm') {
+            this.$store.dispatch('UserRegist', this.registForm)
+            this.RegistShow = false
+          }
         }else {
           return
         }
