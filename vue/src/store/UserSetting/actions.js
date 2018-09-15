@@ -11,7 +11,7 @@ export default {
       pwd: setMd5(data.password)
     }
     console.log(formDataMD5);
-    api.userLogin(data).then(result => {
+    api.userLogin(formDataMD5).then(result => {
       if (result.data.code === 200) {
         commit(types.USER_LOGIN, result.data.token); //改变状态仓库
         router.replace({ path: "/" }); //跳到首页
@@ -30,9 +30,11 @@ export default {
       account: data.account,
       pwd: setMd5(data.password)
     }
-    api.userRegist(data).then(result => {
+    console.log(formDataMD5)
+    api.userRegist(formDataMD5).then(result => {
       if (result.data.code === 200) {
-        commit(types.USER_LOGIN, result.data.token); //改变状态仓库
+        // commit(types.USER_LOGIN, result.data.token); //改变状态仓库
+        console.log('成功');
       } else {
       }
     });
