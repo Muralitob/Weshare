@@ -7,7 +7,7 @@ from flask import jsonify, make_response, request, json
 
 from database import user_db
 
-user = Blueprint("user", __name__, url_prefix='/user')
+user = Blueprint("user", __name__, url_prefix='/api/user')
 
 
 @user.route('/register', methods=['POST'])
