@@ -21,7 +21,7 @@ def register(data):
 
 def login(data):
     user = mongo_manager.find_one(users_collection, {'account': data['account']})
-    if user and user['password'] == data['password']:
+    if user and user['pwd'] == data['pwd']:
         mongo_manager.update_one(users_collection, {'account': data['account']},
                                  {"$set": {'login_time': datetime.utcnow()}})
         return True
