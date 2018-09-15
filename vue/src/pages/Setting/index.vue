@@ -65,6 +65,7 @@ export default {
   }
   &_main {
     width: calc(100% - 180px);
+    min-height: 40rem;
     padding: 20px 20px;
   }
 }

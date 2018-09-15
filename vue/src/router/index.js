@@ -15,6 +15,7 @@ import SpaceFan from '@pages/SpacePage/SpaceFan'
 import SettingPage from '@pages/Setting'
 import SettingInfo from '@pages/Setting/SettingInfo'
 import SettingAvator from '@pages/Setting/SettingAvator'
+import SettingAccount from '@pages/Setting/SettingAccount'
 import NotFound from '@components/NotFound'
 Vue.use(Router)
 
@@ -90,7 +91,7 @@ const router = new Router({
         {
           path: '/setting/:userId/account',
           name: 'info',
-          component: SettingInfo
+          component: SettingAccount
         },
         {
           path: '/setting/:userId/space',
