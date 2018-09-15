@@ -1,5 +1,5 @@
 <template>
-  <shadow-card class="card" title="我的收藏">
+  <shadow-card class="card" title="我的记录">
     <div class="steam">
       <Row v-for="(item, index) in collection_Array" :key="index"  class="steam-list">
         <section>

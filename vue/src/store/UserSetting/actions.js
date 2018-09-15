@@ -10,12 +10,13 @@ export default {
       account: data.account,
       pwd: setMd5(data.password)
     }
-    console.log(formDataMD5);
     api.userLogin(formDataMD5).then(result => {
       if (result.data.code === 200) {
-        commit(types.USER_LOGIN, result.data.token); //改变状态仓库
-        router.replace({ path: "/" }); //跳到首页
+        // commit(types.USER_LOGIN, result.data.token); //改变状态仓库
+        console.log('登录成功');
+        this.$Message.info('欢迎回来!');
       } else {
+        this.$Message.info('账号或密码错误!');
       }
     });
   },
