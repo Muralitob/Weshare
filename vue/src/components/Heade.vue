@@ -162,17 +162,17 @@ export default {
             //关闭Modal
             this.LoginShow = false
             //清空表单数据
-            // this.loginForm = {
-            //   account: '',
-            //   password: '',
-            // }
-            // this.registForm = {
-            //   account: '',
-            //   password: '',
-            //   passwdCheck: ''
-            // }
+            this.loginForm = {
+              account: '',
+              password: '',
+            }
           }else if( name === 'RegistForm') {
             this.$store.dispatch('UserRegist', this.registForm)
+            this.registForm = {
+              account: '',
+              password: '',
+              passwdCheck: ''
+            }
             this.RegistShow = false
           }
         }else {
