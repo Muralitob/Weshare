@@ -13,6 +13,13 @@
         <FormItem>
             <Button type="primary" @click="handleSubmit('LoginForm')">登录</Button>
         </FormItem>
+        <!-- <FormItem>
+          <CheckboxGroup>
+            <Checkbox label="remember">
+              <span>记住我</span>
+            </Checkbox>
+          </CheckboxGroup>
+        </FormItem> -->
         <div class="prompt-box">
           <span>没有账号?</span> 
           <span @click="changeAction('regist')">立即注册</span>
@@ -182,13 +189,6 @@ export default {
     }
   },
   mounted() {
-    /***设置滚动监听事件 */
-    // window.addEventListener('scroll', this.handleScroll)
-    // Routes.options.routes.forEach(currentItem => {
-      //   this.routeList.path = translate(currentItem.path)
-      // console.log(translate('Setting'))
-    // })
-    // console.log(this.routeList);
     const routes_Array = Routes.options.routes
     this.routeList = Object.keys(routes_Array).map(e => ({
       name: translate(routes_Array[e].name),

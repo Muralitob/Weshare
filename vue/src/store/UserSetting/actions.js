@@ -15,8 +15,10 @@ export default {
         // commit(types.USER_LOGIN, result.data.token); //改变状态仓库
         console.log('登录成功');
         this.$Message.info('欢迎回来!');
-      } else {
+      } else if(result.data.code === 502) {
         this.$Message.info('账号或密码错误!');
+      } else if(result.data.code === 404) {
+        this.$Message.info('出问题了!');
       }
     });
   },

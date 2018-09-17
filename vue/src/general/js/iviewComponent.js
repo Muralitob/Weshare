@@ -1,7 +1,24 @@
 //统一管理iview组件
 import Vue from 'vue';
-import { Button, BackTop, Message, Dropdown, DropdownMenu, DropdownItem, Icon, Row, Col, Input, Avatar, Menu, MenuItem, Card, MenuGroup } from 'iview';
-
+import { Button, 
+         BackTop, 
+         Dropdown, 
+         DropdownMenu, 
+         DropdownItem, 
+         Icon, 
+         Row, 
+         Col, 
+         Input, 
+         Avatar, 
+         Menu, 
+         MenuItem, 
+         Card, 
+         MenuGroup,
+         Message,
+         Checkbox,
+         CheckboxGroup,
+         } from 'iview';
+Vue.prototype.$Message = Message
 Vue.component('Button', Button);
 Vue.component('Icon', Icon);
 Vue.component('Row', Row);
@@ -16,5 +33,4 @@ Vue.component('MenuGroup', MenuGroup);
 Vue.component('Dropdown', Dropdown);
 Vue.component('DropdownItem', DropdownItem);
 Vue.component('DropdownMenu', DropdownMenu);
-Vue.component('Message', Message);
 
