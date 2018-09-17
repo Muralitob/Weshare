@@ -2,17 +2,21 @@
   <header>
     <Modal class="useraction" scrollable footer-hide  v-model="LoginShow" width="360">
       <h1>登录</h1>
-      <Form ref="LoginForm" :model="loginForm" :rules="LoginRule">
+      <Form ref="LoginForm" :model="loginForm" :rules="LoginRule" :error="2333">
         <FormItem label="用户名/学号/邮箱:" prop="account">
-            <Input type="text"  placeholder="Username" v-model="loginForm.account" />
+            <Input type="text" v-model="loginForm.account" />
          
         </FormItem>
         <FormItem label="密码:" prop="password">
-            <Input type="password" placeholder="Password" v-model="loginForm.password" />
+            <Input type="password" v-model="loginForm.password" />
         </FormItem>
-        <FormItem>
-            <Button type="primary" @click="handleSubmit('LoginForm')">登录</Button>
+        <FormItem class="remember"> 
+            <Checkbox @on-change="Remember" label="remember">
+              <span >记住我</span>
+            </Checkbox>
+            <small style="color: '#bbb'">不是自己的电脑上不要勾选此项</small>
         </FormItem>
+        <Button style="margin-bottom: 10px" type="primary" @click="handleSubmit('LoginForm')">登录</Button>
         <div class="prompt-box">
           <span>没有账号?</span> 
           <span @click="changeAction('regist')">立即注册</span>
@@ -119,7 +123,8 @@ export default {
         account: '',
         password: '',
         passwdCheck: ''
-      }
+      },
+      rememeber: false
     }
   },
   methods: {
@@ -158,7 +163,7 @@ export default {
       this.$refs[name].validate((valid) => {
         if (valid) {
           if(name === 'LoginForm') {
-            this.$store.dispatch('UserLogin', this.loginForm)
+            this.$store.dispatch('UserLogin', this.loginForm, this.rememeber)
             //关闭Modal
             this.LoginShow = false
             //清空表单数据
@@ -179,16 +184,13 @@ export default {
           return
         }
       })
+    },
+    Remember() {
+      this.rememeber = !this.rememeber
+      console.log(this.rememeber)
     }
   },
   mounted() {
-    /***设置滚动监听事件 */
-    // window.addEventListener('scroll', this.handleScroll)
-    // Routes.options.routes.forEach(currentItem => {
-      //   this.routeList.path = translate(currentItem.path)
-      // console.log(translate('Setting'))
-    // })
-    // console.log(this.routeList);
     const routes_Array = Routes.options.routes
     this.routeList = Object.keys(routes_Array).map(e => ({
       name: translate(routes_Array[e].name),
@@ -221,6 +223,12 @@ header{
 .link_active{
   // background-color:  $c-deepgreen;
   border-bottom: 4px solid $c-green;
+}
+.remember {
+  margin-bottom: 10px;
+}
+.remember small {
+  color: #bbb;
 }
 .top{
   // justify-content: flex-end;
