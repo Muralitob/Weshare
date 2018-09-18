@@ -17,6 +17,7 @@ import { Button,
          Message,
          Checkbox,
          CheckboxGroup,
+         Spin, 
          } from 'iview';
 Vue.prototype.$Message = Message
 Vue.component('Button', Button);
@@ -33,4 +34,5 @@ Vue.component('MenuGroup', MenuGroup);
 Vue.component('Dropdown', Dropdown);
 Vue.component('DropdownItem', DropdownItem);
 Vue.component('DropdownMenu', DropdownMenu);
+Vue.component('Spin', Spin);
 

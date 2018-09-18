@@ -26,6 +26,7 @@
     </Modal>
     <Modal class="useraction" scrollable footer-hide v-model="RegistShow" width="360">
       <h1>注册</h1>
+      <Spin v-if="spinShow" fix>加载中...</Spin>
       <Form ref="RegistForm" :model="registForm" :rules="RegistRule">
         <FormItem label="用户名:" prop="account">
             <Input type="text"  placeholder="Username" v-model="registForm.account" />
@@ -94,6 +95,7 @@ export default {
       routeList: [],
       LoginShow: false,
       RegistShow: false,
+      spinShow: ture,
       LoginRule: {
           account: [
               { required: true, message: '请填写用户名/学号/邮箱', trigger: 'blur' }
@@ -172,7 +174,8 @@ export default {
               password: '',
             }
           }else if( name === 'RegistForm') {
-            this.$store.dispatch('UserRegist', this.registForm)
+            const back = this.$store.dispatch('UserRegist', this.registForm)
+            this.LoginShow = back;
             this.registForm = {
               account: '',
               password: '',

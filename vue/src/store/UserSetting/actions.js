@@ -33,14 +33,17 @@ export default {
       account: data.account,
       pwd: setMd5(data.password)
     }
-    console.log(formDataMD5)
+    let back = false
     api.userRegist(formDataMD5).then(result => {
       if (result.data.code === 200) {
         // commit(types.USER_LOGIN, result.data.token); //改变状态仓库
         console.log('成功');
+        back = true
       } else {
+        back = false
       }
     });
+    return back
   }
 };
 
