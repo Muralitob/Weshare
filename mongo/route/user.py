@@ -39,6 +39,6 @@ def login():
     data = request.get_json()
     result = user_db.login(data)
     if result:
-        return jsonify({"message": 'login success', "code": 200}), 200
+        return jsonify({"message": result, "code": 200}), 200
     else:
         return jsonify({"message": 'login fail', "code": 404}), 404
