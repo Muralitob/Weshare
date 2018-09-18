@@ -5,18 +5,18 @@ import crypto from 'crypto'
 export default {
   //action 异步操作Mutation 让Mutation去改变state
   //用户登录
-  UserLogin({ commit }, obj) {
+  UserLogin({ commit }, { form , remember, that }) {
     const formDataMD5 = {
-      account: obj.form.account,
-      pwd: setMd5(obj.form.password)
+      account: form.account,
+      pwd: setMd5(form.password)
     }
-    api.userLogin(formDataMD5).then(result => {
-      if (result.data.code === 200) {
-        commit(types.USER_LOGIN, result.data.message.token); //改变状态仓库
-        obj.this.$Message.info('欢迎回来!');
-      } else if(result.data.code === 502) {
+    api.userLogin(formDataMD5).then(({data}) => {
+      if (data.code === 200) {
+        commit(types.USER_LOGIN, data.message.token); //改变状态仓库
+        that.$Message.info('欢迎回来!');
+      } else if(data.code === 502) {
         // this.$Message.info('账号或密码错误!');
-      } else if(result.data.code === 404) {
+      } else if(data.code === 404) {
         // this.$Message.info('出问题了!');
       }
     });

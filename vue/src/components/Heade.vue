@@ -177,7 +177,7 @@ export default {
             this.$store.dispatch('UserLogin', {
               form: this.loginForm,
               rememeber: this.rememeber,
-              this: this
+              that: this
             })
             //关闭Modal
             this.$store.commit('LOGIN_SHOW')
@@ -189,7 +189,7 @@ export default {
           }else if( name === 'RegistForm') {
             this.$store.dispatch('UserRegist',{
               form: this.registForm,
-              this: this
+              that: this
             })
             setTimeout(()=>{
               this.registForm = {

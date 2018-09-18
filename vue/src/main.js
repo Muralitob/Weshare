@@ -5,6 +5,7 @@ import iView from "iview";
 import VueInsProgressBar from "vue-ins-progress-bar";
 import store from "./store/index";
 import axios from "axios";
+import VueCookie  from 'vue-cookie';
 Vue.config.productionTip = false;
 import "iview/dist/styles/iview.css";
 import "./scss/variable.scss";
@@ -51,6 +52,7 @@ const options = {
 
 Vue.use(VueInsProgressBar, options);
 Vue.use(iView);
+Vue.use(VueCookie);
 
 new Vue({
   el: "#app",
