@@ -17,9 +17,12 @@ import { Button,
          Message,
          Checkbox,
          CheckboxGroup,
-         Spin, 
+         Spin,
+         Notice,
          } from 'iview';
 Vue.prototype.$Message = Message
+Vue.prototype.$Notice = Notice
+
 Vue.component('Button', Button);
 Vue.component('Icon', Icon);
 Vue.component('Row', Row);

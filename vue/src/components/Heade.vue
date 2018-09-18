@@ -5,7 +5,6 @@
       <Form ref="LoginForm" :model="loginForm" :rules="LoginRule" :error="2333">
         <FormItem label="用户名/学号/邮箱:" prop="account">
             <Input type="text" v-model="loginForm.account" />
-         
         </FormItem>
         <FormItem label="密码:" prop="password">
             <Input type="password" v-model="loginForm.password" />
@@ -26,16 +25,17 @@
     </Modal>
     <Modal class="useraction" scrollable footer-hide v-model="RegistShow" width="360">
       <h1>注册</h1>
-      <Spin v-if="spinShow" fix>加载中...</Spin>
+      <Spin v-if="registSpinShow" fix>
+      </Spin>
       <Form ref="RegistForm" :model="registForm" :rules="RegistRule">
         <FormItem label="用户名:" prop="account">
-            <Input type="text"  placeholder="Username" v-model="registForm.account" />
+            <Input type="text" v-model="registForm.account" />
         </FormItem>
         <FormItem label="密码:" prop="password">
-            <Input type="password" placeholder="Password" v-model="registForm.password" />
+            <Input type="password" v-model="registForm.password" />
         </FormItem>
         <FormItem label="重复密码:" prop="passwdCheck">
-            <Input type="password" placeholder="请填写相同的密码" v-model="registForm.passwdCheck" />
+            <Input type="password" v-model="registForm.passwdCheck" />
         </FormItem>
         <FormItem>
             <Button type="primary" @click="handleSubmit('RegistForm')">注册</Button>
@@ -93,9 +93,6 @@ export default {
     };
     return {
       routeList: [],
-      LoginShow: false,
-      RegistShow: false,
-      spinShow: ture,
       LoginRule: {
           account: [
               { required: true, message: '请填写用户名/学号/邮箱', trigger: 'blur' }
@@ -129,6 +126,18 @@ export default {
       rememeber: false
     }
   },
+  computed: {
+    registSpinShow() {
+      return this.$store.state.UserSetting.registSpinShow;
+    },
+    RegistShow() {
+      return this.$store.state.UserSetting.RegistShow;
+    },
+    LoginShow() {
+      return this.$store.state.UserSetting.LoginShow;
+    }
+  }
+  ,
   methods: {
     //移动端下的切换
     toggleNav() {  
@@ -147,41 +156,48 @@ export default {
        }
     },
     Login() {
-      this.LoginShow = true
+      this.$store.commit('LOGIN_SHOW')
     },
     Regist() {
-      this.RegistShow = true
+      this.$store.commit('REGIST_SHOW')
     },
     changeAction(action) {
       if(action === 'regist') {
-        this.LoginShow = false
-        this.RegistShow = true
+        this.$store.commit('LOGIN_SHOW')
+        this.$store.commit('REGIST_SHOW')
       }else if(action === 'login') {
-        this.RegistShow = false
-        this.LoginShow = true
+        this.$store.commit('REGIST_SHOW')
+        this.$store.commit('LOGIN_SHOW')
       }
     },
     handleSubmit(name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
           if(name === 'LoginForm') {
-            this.$store.dispatch('UserLogin', this.loginForm, this.rememeber)
+            this.$store.dispatch('UserLogin', {
+              form: this.loginForm,
+              rememeber: this.rememeber,
+              this: this
+            })
             //关闭Modal
-            this.LoginShow = false
+            this.$store.commit('LOGIN_SHOW')
             //清空表单数据
             this.loginForm = {
               account: '',
               password: '',
             }
           }else if( name === 'RegistForm') {
-            const back = this.$store.dispatch('UserRegist', this.registForm)
-            this.LoginShow = back;
-            this.registForm = {
-              account: '',
-              password: '',
-              passwdCheck: ''
-            }
-            this.RegistShow = false
+            this.$store.dispatch('UserRegist',{
+              form: this.registForm,
+              this: this
+            })
+            setTimeout(()=>{
+              this.registForm = {
+                account: '',
+                password: '',
+                passwdCheck: ''
+              }
+            },3000)
           }
         }else {
           return
@@ -190,7 +206,6 @@ export default {
     },
     Remember() {
       this.rememeber = !this.rememeber
-      console.log(this.rememeber)
     }
   },
   mounted() {

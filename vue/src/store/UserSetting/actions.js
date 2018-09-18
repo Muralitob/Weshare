@@ -5,16 +5,15 @@ import crypto from 'crypto'
 export default {
   //action 异步操作Mutation 让Mutation去改变state
   //用户登录
-  UserLogin({ commit }, data, remember) {
+  UserLogin({ commit }, obj) {
     const formDataMD5 = {
-      account: data.account,
-      pwd: setMd5(data.password)
+      account: obj.form.account,
+      pwd: setMd5(obj.form.password)
     }
     api.userLogin(formDataMD5).then(result => {
       if (result.data.code === 200) {
-        // commit(types.USER_LOGIN, result.data.token); //改变状态仓库
-        console.log('登录成功');
-        // this.$Message.info('欢迎回来!');
+        commit(types.USER_LOGIN, result.data.message.token); //改变状态仓库
+        obj.this.$Message.info('欢迎回来!');
       } else if(result.data.code === 502) {
         // this.$Message.info('账号或密码错误!');
       } else if(result.data.code === 404) {
@@ -28,22 +27,25 @@ export default {
     router.replace({ path: "/" });
   },
   //用户注册
-  UserRegist({ commit }, data) {
+  UserRegist({ commit }, obj) {
     const formDataMD5 = {
-      account: data.account,
-      pwd: setMd5(data.password)
+      account: obj.form.account,
+      pwd: setMd5(obj.form.password)
     }
-    let back = false
     api.userRegist(formDataMD5).then(result => {
       if (result.data.code === 200) {
-        // commit(types.USER_LOGIN, result.data.token); //改变状态仓库
-        console.log('成功');
-        back = true
+        commit(types.SPIN_SHOW,'registSpinShow');
+        setTimeout(function(){
+          commit('SPIN_SHOW', 'registSpinShow')
+          obj.this.$Notice.success({
+            title: '注册提示',
+            desc: '恭喜你注册成功:),赶快登陆吧！ '
+          });
+          commit('REGIST_SHOW')
+        },3000)
       } else {
-        back = false
       }
     });
-    return back
   }
 };
 
