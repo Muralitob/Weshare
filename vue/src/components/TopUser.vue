@@ -3,15 +3,15 @@
     <div  class="top__user" v-if="Token">
       <Dropdown trigger="click">
         <div class="user_avator">
-          <Avatar style="background-color: #87d068" icon="ios-person" />
+          <Avatar  style="background-color: #87d068" icon="ios-person" />
         </div>
         <DropdownMenu slot="list">
-          <DropdownItem >
+          <DropdownItem @click.native="routeTo('space')" >
             <Icon type="md-home" />
             <span>我的空间</span>
           </DropdownItem>
           <DropdownItem >
-              <Icon type="md-settings" />
+              <Icon type="md-settings"  @click.native="routeTo('setting')" />
               <span>个人设置</span>
           </DropdownItem>
           <DropdownItem @click.native="LogOut">
@@ -30,6 +30,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      imgurl: ''
+    }
+  },
   methods: {
     Login() {
       this.$store.commit('LOGIN_SHOW')
@@ -39,6 +44,14 @@ export default {
     },
     LogOut() {
       this.$store.dispatch('UserLogOut',this)
+    },
+    routeTo(name) {
+      const UserId = this.$cookie.get('UserId')
+      if(UserId){
+        this.$router.push({
+          path: `/${name}/${this.$route.params.userId}`
+        });
+      }
     }
   },
   computed: {
@@ -51,9 +64,9 @@ export default {
       }
     }
   },
-  mounted() {
-    // console.log(this.Token)
-  },
+  updated () {
+    console.log('fetch数据')
+  }
 }
 </script>
 

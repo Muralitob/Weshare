@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import VueCookie from 'vue-cookie'
 import HomePage from '@pages/HomePage'
 import NewsPage from '@pages/News/NewsPage'
 import NewsHome from '@pages/News/NewsHome'
@@ -17,7 +18,7 @@ import SettingInfo from '@pages/Setting/SettingInfo'
 import SettingAvator from '@pages/Setting/SettingAvator'
 import SettingAccount from '@pages/Setting/SettingAccount'
 import NotFound from '@components/NotFound'
-
+import { Message } from 'iview';
 import store from "../store/index";
 
 Vue.use(Router)
@@ -232,14 +233,18 @@ const router = new Router({
 
 router.beforeEach((to,from,next)=>{
   let token = store.state.UserSetting.token;
+  const UserId = VueCookie.get('UserId')
   if(to.matched.some(record => record.meta.requiresAuth)) {
     if(token) {
-      next()
+      if(!UserId) {
+        store.dispatch('PromptReLogin')
+      }
     }else {
       next('/news')
     }
+  }else{
+    next()
   }
-  next()
 })
 
 

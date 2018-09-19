@@ -2,6 +2,7 @@ import * as types from "../types";
 import router from "../../router";
 import api from "../../api";
 import crypto from 'crypto'
+import { Message, Spin} from 'iview'
 export default {
   //用户登录
   UserLogin({ commit }, { form , remember, that }) {
@@ -10,6 +11,7 @@ export default {
       pwd: setMd5(form.password)
     }
     api.userLogin(formDataMD5).then(({data}) => {
+      console.log('登录返回信息:',data);
       if (data.code === 200) {
         commit(types.USER_LOGIN, data.message.token); //改变状态仓库
         that.$Spin.show();
@@ -18,12 +20,20 @@ export default {
           router.push('/')
         that.$Message.info('欢迎回来!');
         }, 1000);
+      } 
+    }).catch(err => {
+      if(err.code === 404) {
+        that.$Spin.show();
+        setTimeout(() => {
+          that.$Spin.hide();
+          router.push('/')
+          that.$Message.error('登录出错!请与管理员联系');
+        }, 1000);
       } else if(data.code === 502) {
-        // this.$Message.info('账号或密码错误!');
-      } else if(data.code === 404) {
-        // this.$Message.info('出问题了!');
-      }
-    });
+        this.$Message.error('账号或密码错误!请重新输入一遍');
+      } 
+    }
+    );
   },
   //用户注销
   UserLogOut({ commit }, that) {
@@ -56,6 +66,11 @@ export default {
       } else {
       }
     });
+  },
+  PromptReLogin({ commit }) {
+    commit(types.USER_LOGOUT);
+    router.replace({ path: "/" });
+    Message.error('错误!请重新登录');
   }
 };
 

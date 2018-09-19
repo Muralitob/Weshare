@@ -35,10 +35,8 @@ axios.interceptors.response.use(
       switch (error.response.status) {
         case 401:
           // 返回 401 清除token信息并跳转到登录页面
-          store.dispatch('UserLogOut');
-          router.replace({
-            path: "/",
-          });
+          Message.error('错误!请重新登录')
+          store.dispatch('PromptReLogin')
       }
     }
     return Promise.reject(error.response.data); // 返回接口返回的错误信息
