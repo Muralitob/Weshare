@@ -17,6 +17,9 @@ import SettingInfo from '@pages/Setting/SettingInfo'
 import SettingAvator from '@pages/Setting/SettingAvator'
 import SettingAccount from '@pages/Setting/SettingAccount'
 import NotFound from '@components/NotFound'
+
+import store from "../store/index";
+
 Vue.use(Router)
 
 const router = new Router({
@@ -227,24 +230,12 @@ const router = new Router({
   ]
 })
 
-function isLoggedIn() {
-  let token = localStorage.getItem("jwt");
-  if (token) {
-    const payload = JSON.parse(window.atob(token.split(".")[1]));
-    if (payload.exp > Date.now() / 1000) {
-      return token;
-    }
-  } else {
-    return false;
-  }
-}
-
 router.beforeEach((to,from,next)=>{
+  let token = store.state.UserSetting.token;
   if(to.matched.some(record => record.meta.requiresAuth)) {
-    if(isLoggedIn()) {
+    if(token) {
       next()
     }else {
-      this.$Message.info('请先登录')
       next('/news')
     }
   }

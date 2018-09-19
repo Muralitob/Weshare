@@ -5,7 +5,6 @@
       <Form ref="LoginForm" :model="loginForm" :rules="LoginRule" :error="2333">
         <FormItem label="用户名/学号/邮箱:" prop="account">
             <Input type="text" v-model="loginForm.account" />
-         
         </FormItem>
         <FormItem label="密码:" prop="password">
             <Input type="password" v-model="loginForm.password" />
@@ -26,15 +25,17 @@
     </Modal>
     <Modal class="useraction" scrollable footer-hide v-model="RegistShow" width="360">
       <h1>注册</h1>
+      <Spin v-if="registSpinShow" fix>
+      </Spin>
       <Form ref="RegistForm" :model="registForm" :rules="RegistRule">
         <FormItem label="用户名:" prop="account">
-            <Input type="text"  placeholder="Username" v-model="registForm.account" />
+            <Input type="text" v-model="registForm.account" />
         </FormItem>
         <FormItem label="密码:" prop="password">
-            <Input type="password" placeholder="Password" v-model="registForm.password" />
+            <Input type="password" v-model="registForm.password" />
         </FormItem>
         <FormItem label="重复密码:" prop="passwdCheck">
-            <Input type="password" placeholder="请填写相同的密码" v-model="registForm.passwdCheck" />
+            <Input type="password" v-model="registForm.passwdCheck" />
         </FormItem>
         <FormItem>
             <Button type="primary" @click="handleSubmit('RegistForm')">注册</Button>
@@ -46,24 +47,23 @@
     </Form>
     </Modal>
     <div class="top">
-      <ul class="top__list">
-        <div class="wrapper" @click="toggleNav">
-          <router-link  v-for="(item, idx) in routeList" 
-          v-if="item.meta.ifShow"
-          :key="idx" 
-          class="top__item" 
-          tag="li" 
-          :to="item.path"
-          activeClass="link_active"
-          >
-            <span class="top__item-title">{{item.name}}</span>
-          </router-link>
-        </div>
-      </ul>
-      <ul class="top__user">
-        <li @click="Login"><span>登录</span></li>
-        <li @click="Regist"><span>注册</span></li>
-      </ul>
+      <div class="top_bar">
+        <ul class="top__list">
+          <div class="wrapper" @click="toggleNav">
+            <router-link  v-for="(item, idx) in routeList" 
+            v-if="item.meta.ifShow"
+            :key="idx" 
+            class="top__item" 
+            tag="li" 
+            :to="item.path"
+            activeClass="link_active"
+            >
+              <span class="top__item-title">{{item.name}}</span>
+            </router-link>
+          </div>
+        </ul>
+        <top-user></top-user>
+      </div>
       <!-- <div class="top__hamburger" @click="toggleNav">
         <div class="bar"></div>
         <div class="bar"></div>
@@ -78,8 +78,11 @@
 
 <script>
 import Routes from '../router';
+import TopUser from './TopUser'
+import { mapState } from 'vuex'
 import { translate } from '../general/js/translate.js';
 export default {
+  components: { TopUser },
   data () {
     const validatePassCheck = (rule, value, callback) => {
       if (value === '') {
@@ -92,8 +95,6 @@ export default {
     };
     return {
       routeList: [],
-      LoginShow: false,
-      RegistShow: false,
       LoginRule: {
           account: [
               { required: true, message: '请填写用户名/学号/邮箱', trigger: 'blur' }
@@ -127,6 +128,40 @@ export default {
       rememeber: false
     }
   },
+  computed: {
+    registSpinShow: {
+      get() {
+        return this.$store.state.UserSetting.registSpinShow;
+      },
+      set() {
+
+      }
+    },
+    RegistShow: {
+      get(){
+        return this.$store.state.UserSetting.RegistShow;
+      },
+      set() {
+
+      }
+    },
+    LoginShow:{
+      get() {
+        return this.$store.state.UserSetting.LoginShow;
+      },
+      set() {
+
+      }
+    },
+  },
+  // computed: {
+  //   ...mapState ({
+  //   registSpinShow: (state) => state.UserSetting.registSpinShow,
+  //   RegistShow: (state) => state.UserSetting.RegistShow,
+  //   LoginShow: (state) => state.UserSetting.LoginShow,
+  //   Token: (state) => state.UserSetting.Token,
+  // })
+  // },
   methods: {
     //移动端下的切换
     toggleNav() {  
@@ -144,41 +179,43 @@ export default {
          document.querySelector('.top__list').style.position = "static" 
        }
     },
-    Login() {
-      this.LoginShow = true
-    },
-    Regist() {
-      this.RegistShow = true
-    },
     changeAction(action) {
       if(action === 'regist') {
-        this.LoginShow = false
-        this.RegistShow = true
+        this.$store.commit('LOGIN_SHOW')
+        this.$store.commit('REGIST_SHOW')
       }else if(action === 'login') {
-        this.RegistShow = false
-        this.LoginShow = true
+        this.$store.commit('REGIST_SHOW')
+        this.$store.commit('LOGIN_SHOW')
       }
     },
     handleSubmit(name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
           if(name === 'LoginForm') {
-            this.$store.dispatch('UserLogin', this.loginForm, this.rememeber)
+            this.$store.dispatch('UserLogin', {
+              form: this.loginForm,
+              rememeber: this.rememeber,
+              that: this
+            })
             //关闭Modal
-            this.LoginShow = false
+            this.$store.commit('LOGIN_SHOW')
             //清空表单数据
             this.loginForm = {
               account: '',
               password: '',
             }
           }else if( name === 'RegistForm') {
-            this.$store.dispatch('UserRegist', this.registForm)
-            this.registForm = {
-              account: '',
-              password: '',
-              passwdCheck: ''
-            }
-            this.RegistShow = false
+            this.$store.dispatch('UserRegist',{
+              form: this.registForm,
+              that: this
+            })
+            setTimeout(()=>{
+              this.registForm = {
+                account: '',
+                password: '',
+                passwdCheck: ''
+              }
+            },3000)
           }
         }else {
           return
@@ -187,7 +224,6 @@ export default {
     },
     Remember() {
       this.rememeber = !this.rememeber
-      console.log(this.rememeber)
     }
   },
   mounted() {
@@ -213,7 +249,7 @@ header{
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 999;
+  z-index: 99;
   @include tablet-min{
     // position: static;
     width: 100%;
@@ -242,17 +278,26 @@ header{
     text-align: center;
     line-height: 3.5rem;
   }
-  &__user{
-    position: absolute;
-    right: 0;
-    bottom: 0;
+  &_bar {
+    width: $main-width;
     display: flex;
-    margin-right: 17px;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &__user{
+    // position: absolute;
+    // right: 17rem;
+    // bottom: 0;
+    position: relative;
+    z-index: 11;
+    display: flex;
     height: 3.5rem;
     line-height: 3.5rem;
     li{
-      font-size: 14px;
-      font-weight: 350;
+      span {
+        font-size: 16px ;
+        font-weight: 350;
+      }
       cursor: pointer;
       &:nth-child(1){
         &::after{
@@ -324,6 +369,7 @@ header{
   }
   &__list{
       // background: rgba($c-white, 0.98);
+      width: 50rem;
       box-sizing: border-box;
       z-index: 11;
       @include mobile-only{
