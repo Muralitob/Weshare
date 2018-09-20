@@ -14,7 +14,7 @@
             </span>
           </p>
         </div>
-        <Dropdown trigger="hover" class="fan-dropdown" @on-click="function(name){return fanEdit(name, item.uid)}">
+        <Dropdown trigger="click" class="fan-dropdown" @on-click="function(name){return fanEdit(name, item.uid)}">
           <Button type="primary">
             已关注
             <Icon type="ios-arrow-down"></Icon>

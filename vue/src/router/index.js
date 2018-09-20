@@ -17,6 +17,8 @@ import SettingPage from '@pages/Setting'
 import SettingInfo from '@pages/Setting/SettingInfo'
 import SettingAvator from '@pages/Setting/SettingAvator'
 import SettingAccount from '@pages/Setting/SettingAccount'
+import WriteArticle from '@pages/Commit/WriteArticle';
+import Commit from '@pages/Commit'
 import NotFound from '@components/NotFound'
 import { Message } from 'iview';
 import store from "../store/index";
@@ -76,6 +78,7 @@ const router = new Router({
         ifShow: false,
         requiresAuth: false
       },
+      component: Commit,
       children: [
         {
           path: '/commit/write',
@@ -83,6 +86,7 @@ const router = new Router({
           meta: { 
             requiresAuth: true
           },
+          component: WriteArticle
         },
         {
           path: '/commit/history',
@@ -169,6 +173,9 @@ const router = new Router({
           meta: { 
             requiresAuth: true
           },
+          redirect: {
+            path: '/space/:userId/index/fan/00',
+          },
           component: SpaceFan,
           children: [
             {
@@ -234,17 +241,18 @@ const router = new Router({
 router.beforeEach((to,from,next)=>{
   let token = store.state.UserSetting.token;
   const UserId = VueCookie.get('UserId')
-  if(to.matched.some(record => record.meta.requiresAuth)) {
-    if(token) {
-      if(!UserId) {
-        store.dispatch('PromptReLogin')
-      }
-    }else {
-      next('/news')
-    }
-  }else{
-    next()
-  }
+  // if(to.matched.some(record => record.meta.requiresAuth)) {
+  //   if(token) {
+  //     if(!UserId) {
+  //       store.dispatch('PromptReLogin')
+  //     }
+  //   }else {
+  //     next('/news')
+  //   }
+  // }else{
+  //   next()
+  // }
+  next()
 })
 
 

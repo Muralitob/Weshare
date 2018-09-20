@@ -6,12 +6,17 @@ import VueInsProgressBar from "vue-ins-progress-bar";
 import store from "./store/index";
 import axios from "axios";
 import VueCookie  from 'vue-cookie';
+import  VueQuillEditor from 'vue-quill-editor'
 Vue.config.productionTip = false;
 import "iview/dist/styles/iview.css";
 import "./scss/variable.scss";
 import "./scss/media-queries.scss";
 import "./general/js/iviewComponent";
 import "../my-theme/index.less";
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+
 
 //每个请求都带上token
 axios.interceptors.request.use(
@@ -51,6 +56,7 @@ const options = {
 Vue.use(VueInsProgressBar, options);
 Vue.use(iView);
 Vue.use(VueCookie);
+Vue.use(VueQuillEditor)
 
 new Vue({
   el: "#app",
