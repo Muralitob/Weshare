@@ -149,6 +149,7 @@ export default {
 .editor {
   /* line-height: normal !important; */
   /* height: 300px; */
+  background-color: #fff;
 }
 .ql-container {
   height: 500px;

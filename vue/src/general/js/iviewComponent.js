@@ -19,6 +19,8 @@ import { Button,
          Spin,
          Notice,
          Upload,
+         Tabs,
+         TabPane,
          } from 'iview';
 Vue.prototype.$Message = Message
 Vue.prototype.$Notice = Notice
@@ -40,4 +42,6 @@ Vue.component('Checkbox', Checkbox);
 Vue.component('DropdownMenu', DropdownMenu);
 Vue.component('Spin', Spin);
 Vue.component('Upload', Upload);
+Vue.component('Tabs', Tabs);
+Vue.component('TabPane', TabPane);
 
