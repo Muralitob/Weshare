@@ -40,7 +40,7 @@
         </MenuItem>
     </MenuGroup>
     <MenuGroup title="我的粉丝" >
-      <MenuItem name="-1" class="between" >
+      <MenuItem name="fans" class="between" >
       <div>
         <Icon type="md-heart" />
         我的粉丝
@@ -67,15 +67,25 @@ export default {
   methods: {
     addGroup() {},
     routeTo(tagID) {
-      this.fan_type = tagID
-      this.$router.push({
-        path: `/space/${this.$route.params.userId}/index/fan/${tagID}`
+      if(tagID === 'fans') {
+        this.$router.push({
+        path: `/space/${this.$route.params.userId}/index/fans`
       });
+      }else {
+        this.$router.push({
+          path: `/space/${this.$route.params.userId}/index/fan/${tagID}`
+        });
+      }
+      this.fan_type = tagID
     },
   },
   computed: {
     Fan_Type() {
-      return this.$route.params.tagID;
+      if(this.$route.params.tagID) {
+        return this.$route.params.tagID
+      }else {
+        return 'fans'
+      }
     }
   },
   mounted() {
