@@ -13,12 +13,16 @@
       </p>
       <section class="news__main" v-html="item.content"></section>
     </div>
+    <div class="art">
+      <art-com></art-com>
+    </div>
   </div>  
 </template>
 
 <script>
+import ArtCom from '../../components/ArtCom';
 export default {
-  components: {  },
+  components: { ArtCom },
   data(){
     return {
       news_content: [
@@ -53,10 +57,10 @@ export default {
         flex-direction: column;
         justify-content: space-between;
         border: 1px solid #E1E1E1;
-        box-shadow: 0 0 2px rgba(0,0,0,.2);
         width: 56.25rem;
         min-width: 40rem;
         padding: 1.5625rem;
+        margin-bottom: 10px;
       }
       .wrap{
         display: flex;
@@ -96,5 +100,9 @@ export default {
       color: $c-gray;
       font-size: 12px;
     }
+    section {
+      min-height: 380px;
+    }
+    .art {}
   }
 </style>
