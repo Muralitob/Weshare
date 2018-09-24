@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import VueCookie from 'vue-cookie'
 import HomePage from '@pages/HomePage'
 import NewsPage from '@pages/News/NewsPage'
 import NewsHome from '@pages/News/NewsHome'
@@ -16,7 +17,12 @@ import SettingPage from '@pages/Setting'
 import SettingInfo from '@pages/Setting/SettingInfo'
 import SettingAvator from '@pages/Setting/SettingAvator'
 import SettingAccount from '@pages/Setting/SettingAccount'
+import WriteArticle from '@pages/Commit/WriteArticle';
+import Commit from '@pages/Commit'
 import NotFound from '@components/NotFound'
+import { Message } from 'iview';
+import store from "../store/index";
+
 Vue.use(Router)
 
 const router = new Router({
@@ -72,6 +78,7 @@ const router = new Router({
         ifShow: false,
         requiresAuth: false
       },
+      component: Commit,
       children: [
         {
           path: '/commit/write',
@@ -79,6 +86,7 @@ const router = new Router({
           meta: { 
             requiresAuth: true
           },
+          component: WriteArticle
         },
         {
           path: '/commit/history',
@@ -165,6 +173,9 @@ const router = new Router({
           meta: { 
             requiresAuth: true
           },
+          redirect: {
+            path: '/space/:userId/index/fan/00',
+          },
           component: SpaceFan,
           children: [
             {
@@ -227,27 +238,20 @@ const router = new Router({
   ]
 })
 
-function isLoggedIn() {
-  let token = localStorage.getItem("jwt");
-  if (token) {
-    const payload = JSON.parse(window.atob(token.split(".")[1]));
-    if (payload.exp > Date.now() / 1000) {
-      return token;
-    }
-  } else {
-    return false;
-  }
-}
-
 router.beforeEach((to,from,next)=>{
-  if(to.matched.some(record => record.meta.requiresAuth)) {
-    if(isLoggedIn()) {
-      next()
-    }else {
-      this.$Message.info('请先登录')
-      next('/news')
-    }
-  }
+  let token = store.state.UserSetting.token;
+  const UserId = VueCookie.get('UserId')
+  // if(to.matched.some(record => record.meta.requiresAuth)) {
+  //   if(token) {
+  //     if(!UserId) {
+  //       store.dispatch('PromptReLogin')
+  //     }
+  //   }else {
+  //     next('/news')
+  //   }
+  // }else{
+  //   next()
+  // }
   next()
 })
 

@@ -23,8 +23,8 @@
         </div>
         <div class="user__cutarea">
           <router-link to="/commit/write" class="user__Write shortcut">写文章</router-link>
-          <router-link to="/commit/history" class="user__History shortcut">浏览历史</router-link>
-          <router-link to="/commit/collection" class="user__Collection shortcut">我的收藏</router-link>
+          <router-link to="/space/01/history" class="user__History shortcut">浏览历史</router-link>
+          <router-link to="/space/01/collection" class="user__Collection shortcut">我的收藏</router-link>
         </div>
       </div>
     </div>

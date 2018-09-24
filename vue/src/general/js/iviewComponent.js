@@ -16,9 +16,15 @@ import { Button,
          MenuGroup,
          Message,
          Checkbox,
-         CheckboxGroup,
+         Spin,
+         Notice,
+         Upload,
+         Tabs,
+         TabPane,
          } from 'iview';
 Vue.prototype.$Message = Message
+Vue.prototype.$Notice = Notice
+
 Vue.component('Button', Button);
 Vue.component('Icon', Icon);
 Vue.component('Row', Row);
@@ -32,5 +38,10 @@ Vue.component('BackTop', BackTop);
 Vue.component('MenuGroup', MenuGroup);
 Vue.component('Dropdown', Dropdown);
 Vue.component('DropdownItem', DropdownItem);
+Vue.component('Checkbox', Checkbox);
 Vue.component('DropdownMenu', DropdownMenu);
+Vue.component('Spin', Spin);
+Vue.component('Upload', Upload);
+Vue.component('Tabs', Tabs);
+Vue.component('TabPane', TabPane);
 

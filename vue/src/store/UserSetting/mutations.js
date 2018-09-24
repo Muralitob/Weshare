@@ -8,4 +8,13 @@ export default{
         localStorage.removeItem('jwt');
         state.token = null;
     },
+    [types.SPIN_SHOW](state,spin){
+        state[spin] = !state[spin]
+    },
+    [types.REGIST_SHOW](state){
+        state.RegistShow = !state.RegistShow
+    },
+    [types.LOGIN_SHOW](state){
+        state.LoginShow = !state.LoginShow
+    },
 }

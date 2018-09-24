@@ -28,7 +28,7 @@
         <Card class="b-profile-info row" style="width:240px" dis-hover shadow>
           <Row>
             <Col span="12" class="col wrap" style="text-align:center">
-              <router-link exact-active-class="active" :to="fourl" @click.native="reset"  >
+              <router-link active-class="active" :to="fourl" @click.native="reset"  >
                 <div>
                   <Icon type="md-eye" size="20" color="#23c9ed"  />
                   <span>我的关注</span>
@@ -62,7 +62,7 @@
 export default {
   data() {
     return {
-      fourl: `/space/${this.$route.params.userId}/index/fan/00`,
+      fourl: `/space/${this.$route.params.userId}/index/fan`,
       faurl: `/space/${this.$route.params.userId}/index/fan/-1`,
     };
   },

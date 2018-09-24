@@ -2,45 +2,75 @@ import * as types from "../types";
 import router from "../../router";
 import api from "../../api";
 import crypto from 'crypto'
+import { Message, Spin} from 'iview'
 export default {
-  //action 异步操作Mutation 让Mutation去改变state
   //用户登录
-  UserLogin({ commit }, data, remember) {
+  UserLogin({ commit }, { form , remember, that }) {
     const formDataMD5 = {
-      account: data.account,
-      pwd: setMd5(data.password)
+      account: form.account,
+      pwd: setMd5(form.password)
     }
-    api.userLogin(formDataMD5).then(result => {
-      if (result.data.code === 200) {
-        // commit(types.USER_LOGIN, result.data.token); //改变状态仓库
-        console.log('登录成功');
-        // this.$Message.info('欢迎回来!');
-      } else if(result.data.code === 502) {
-        // this.$Message.info('账号或密码错误!');
-      } else if(result.data.code === 404) {
-        // this.$Message.info('出问题了!');
-      }
-    });
+    api.userLogin(formDataMD5).then(({data}) => {
+      console.log('登录返回信息:',data);
+      if (data.code === 200) {
+        commit(types.USER_LOGIN, data.message.token); //改变状态仓库
+        that.$Spin.show();
+        setTimeout(() => {
+          that.$Spin.hide();
+          router.push('/')
+        that.$Message.info('欢迎回来!');
+        }, 1000);
+      } 
+    }).catch(err => {
+      if(err.code === 404) {
+        that.$Spin.show();
+        setTimeout(() => {
+          that.$Spin.hide();
+          router.push('/')
+          that.$Message.error('登录出错!请与管理员联系');
+        }, 1000);
+      } else if(data.code === 502) {
+        this.$Message.error('账号或密码错误!请重新输入一遍');
+      } 
+    }
+    );
   },
   //用户注销
-  UserLogOut({ commit }) {
+  UserLogOut({ commit }, that) {
     commit(types.USER_LOGOUT);
-    router.replace({ path: "/" });
+    that.$Spin.show();
+    setTimeout(() => {
+      that.$Spin.hide();
+      router.replace({ path: "/" });
+      that.$Message.info('你已退出!');
+    }, 1000);
+    
   },
   //用户注册
-  UserRegist({ commit }, data) {
+  UserRegist({ commit }, { form , that }) {
     const formDataMD5 = {
-      account: data.account,
-      pwd: setMd5(data.password)
+      account: form.account,
+      pwd: setMd5(form.password)
     }
-    console.log(formDataMD5)
-    api.userRegist(formDataMD5).then(result => {
-      if (result.data.code === 200) {
-        // commit(types.USER_LOGIN, result.data.token); //改变状态仓库
-        console.log('成功');
+    api.userRegist(formDataMD5).then(({data}) => {
+      if (data.code === 200) {
+        commit(types.SPIN_SHOW,'registSpinShow');
+        setTimeout(function(){
+          commit('SPIN_SHOW', 'registSpinShow')
+          that.$Notice.success({
+            title: '注册提示',
+            desc: '恭喜你注册成功:),赶快登陆吧！ '
+          });
+          commit('REGIST_SHOW')
+        },3000)
       } else {
       }
     });
+  },
+  PromptReLogin({ commit }) {
+    commit(types.USER_LOGOUT);
+    router.replace({ path: "/" });
+    Message.error('错误!请重新登录');
   }
 };
 
