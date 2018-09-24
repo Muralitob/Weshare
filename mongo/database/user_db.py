@@ -28,9 +28,17 @@ def login(data):
                                  {"$set": {'login_time': datetime.utcnow()}})
         encoded = jwt.encode(
             {'account': user['account'], 'uid': str(user['uid']), 'organization': str(user['level']),
-             'update_time': str(datetime.utcnow())}, 'secret', algorithm='HS256')
+             'update_time': str(datetime.utcnow()), "exp": int(datetime.utcnow().second + 86400)}, 'secret',
+            algorithm='HS256')
         return_object = {'status': 'login success', 'code': 200, 'token': encoded,
                          'account': user['account'], 'org': str(user['level']), 'uid': str(user['uid'])}
         return return_object
     else:
         return False
+
+
+def check_token(token):
+    payload = jwt.decode(token, 'secret', algorithms=['HS256'])
+    if payload:
+        return True, token
+    return False, token
