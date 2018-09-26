@@ -15,17 +15,17 @@
       </div>
     </div>
     <div class="comment-list">
-      <div class="list-item">
+      <div class="list-item" v-for="(item, idx) in comLists" :key="idx">
         <div class="user-face">
           <Avatar icon="ios-person" size="large"  />
         </div>
         <div class="con">
-          <div class="user-name">Mura</div>
-          <p class="text">skrrrrrrrrrrrrrrrrrrrrr</p>
+          <div class="user-name">{{item.userName}}</div>
+          <p class="text">{{item.comText}}</p>
           <div class="info">
-            <span>#1</span>
-            <span class="time">5小时前</span>
-            <span class="like"><Icon type="md-thumbs-up" />0</span>
+            <span>#{{idx}}</span>
+            <span class="time">{{item.comTime}}</span>
+            <span class="like"><Icon type="md-thumbs-up" />{{item.comLikes}}</span>
             <span class="reply"><Button type="text">回复</Button></span>
           </div>
           <div class="reply-box">
@@ -49,7 +49,26 @@
 
 <script>
 export default {
-
+  data() {
+    return {
+      comLists: [
+        {
+          userName: 'Mura',
+          userUrl: '',
+          comTime: '2018-10-1 22:55',
+          comLikes: 40,
+          comText: 'skrrrrrrrrrrrrrrrrrr',
+        },
+        {
+          userName: 'Mura',
+          userUrl: '',
+          comTime: '2018-10-1 22:55',
+          comLikes: 40,
+          comText: 'skrrrrrrrrrrrrrrrrrr',
+        }
+      ]
+    }
+  }
 }
 </script>
 
