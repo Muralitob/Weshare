@@ -42,3 +42,17 @@ def login():
         return jsonify(result), 200
     else:
         return jsonify({"status": 'login fail', "code": 404}), 404
+
+
+@user.route('/get_user_info', methods=['GET'])
+def get_user_info():
+    """
+    获取用户信息
+    :return:
+    """
+    uid = request.args.get('uid')
+    result = user_db.get_user_info(uid)
+    if result:
+        return jsonify(result), 200
+    else:
+        return jsonify({"status": 'get user info fail', "code": 404}), 404
