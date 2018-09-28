@@ -240,18 +240,18 @@ const router = new Router({
 
 router.beforeEach((to,from,next)=>{
   let token = store.state.UserSetting.token;
-  const UserId = VueCookie.get('UserId')
-  // if(to.matched.some(record => record.meta.requiresAuth)) {
-  //   if(token) {
-  //     if(!UserId) {
-  //       store.dispatch('PromptReLogin')
-  //     }
-  //   }else {
-  //     next('/news')
-  //   }
-  // }else{
-  //   next()
-  // }
+  const uid = VueCookie.get('uid')
+  if(to.matched.some(record => record.meta.requiresAuth)) {
+    if(token) {
+      if(!uid) {
+        store.dispatch('PromptReLogin')
+      }
+    }else {
+      next('/news')
+    }
+  }else{
+    next()
+  }
   next()
 })
 

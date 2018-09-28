@@ -3,6 +3,7 @@ import router from "../../router";
 import api from "../../api";
 import crypto from 'crypto'
 import { Message, Spin} from 'iview'
+import VueCookie from 'vue-cookie';
 export default {
   //用户登录
   UserLogin({ commit }, { form , remember, that }) {
@@ -13,7 +14,8 @@ export default {
     api.userLogin(formDataMD5).then(({data}) => {
       console.log('登录返回信息:',data);
       if (data.code === 200) {
-        commit(types.USER_LOGIN, data.message.token); //改变状态仓库
+        commit(types.USER_LOGIN, data.token); //改变状态仓库
+        VueCookie.set('uid', data.uid)
         that.$Spin.show();
         setTimeout(() => {
           that.$Spin.hide();
