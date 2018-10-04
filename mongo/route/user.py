@@ -24,7 +24,7 @@ def register():
     if result:
         return jsonify({"message": 'register success', "code": 200}), 200
     else:
-        return jsonify({"message": 'register fail', "code": 404}), 404
+        return jsonify({"message": 'register fail', "code": 200}), 200
 
 
 @user.route('/login', methods=['POST'])
@@ -41,7 +41,7 @@ def login():
     if result:
         return jsonify(result), 200
     else:
-        return jsonify({"status": 'login fail', "code": 404}), 404
+        return jsonify({"status": 'login fail', "code": 200}), 200
 
 
 @user.route('/get_user_info', methods=['GET'])
@@ -55,4 +55,4 @@ def get_user_info():
     if result:
         return jsonify(result), 200
     else:
-        return jsonify({"status": 'get user info fail', "code": 404}), 404
+        return jsonify({"status": 'get user info fail', "code": 200}), 200

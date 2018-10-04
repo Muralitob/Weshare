@@ -45,6 +45,6 @@ def check_token(token):
 
 
 def get_user_info(uid):
-    query = {'uid': uid}
-    one = list(mongo_manager.find_one('users', query))
+    query = {'uid': int(uid)}
+    one = mongo_manager.find_one('users', query)
     return one

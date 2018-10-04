@@ -14,6 +14,7 @@ from flask_restplus import Api
 from os import path
 
 from route.user import user
+from route.article import article
 
 sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 
@@ -22,6 +23,7 @@ api = Api(program)
 CORS(program, supports_credentials=True)
 
 program.register_blueprint(user)
+program.register_blueprint(article)
 
 if __name__ == '__main__':
     program.run(host='0.0.0.0', port=3090, debug=True, threaded=True)
