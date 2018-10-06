@@ -247,19 +247,21 @@ const router = new Router({
 
 router.beforeEach((to,from,next)=>{
   let token = store.state.UserSetting.token;
-  const UserId = VueCookie.get('uid')
+  const uid = VueCookie.get('uid')
   if(to.matched.some(record => record.meta.requiresAuth)) {
     if(token) {
-      if(!UserId) {
-        store.dispatch('PromptReLogin')
+      if(!uid) {
+        // store.dispatch('PromptReLogin')
+        next('/')
+      }else {
+        next()
       }
     }else {
-      next('/news')
+      next('/')
     }
   }else{
     next()
   }
-  next()
 })
 
 
