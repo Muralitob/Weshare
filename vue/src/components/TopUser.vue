@@ -10,8 +10,8 @@
             <Icon type="md-home" />
             <span>我的空间</span>
           </DropdownItem>
-          <DropdownItem >
-              <Icon type="md-settings"  @click.native="routeTo('setting')" />
+          <DropdownItem @click.native="routeTo('setting')" >
+              <Icon type="md-settings"   />
               <span>个人设置</span>
           </DropdownItem>
           <DropdownItem @click.native="LogOut">
@@ -49,7 +49,7 @@ export default {
       const UserId = this.$cookie.get('UserId')
       if(UserId){
         this.$router.push({
-          path: `/${name}/${this.$route.params.userId}`
+          path: `/${name}/${UserId}`
         });
       }
     }
