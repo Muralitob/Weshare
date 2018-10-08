@@ -16,7 +16,7 @@
             </div>
           </div>
           <div class="btn-bar">
-            <Button class="handleArticle" type="success">提交文章</Button>
+            <Button class="handleArticle" type="success" @click="handleArticle">提交文章</Button>
             <Button class="handleArticle" type="warning">存入草稿</Button>
           </div>
         </TabPane>
@@ -41,6 +41,7 @@
 
 <script>
 import Editor from '../../components/Editor'
+import api from '../../api';
 export default {
   components: {
     Editor,
@@ -49,11 +50,11 @@ export default {
     return {
       article: {
         content: '',
-        UserId: this.$store.state.UserSetting.UserId,
+        uid: this.$cookie.get('uid'),
         title: '',
-      },
+      }, //文章
       activeTab: 'edit',
-      tagLists: [],
+      tagLists: [], //标签
       inputTag: '',
     }
   },
@@ -76,6 +77,9 @@ export default {
     colseTag(event, name) {
       const index = this.tagLists.indexOf(name);
       this.tagLists.splice(index, 1);
+    },
+    handleArticle() {
+      api.handleArticle(this.article, this.tagLists)
     }
   },
   updated() {

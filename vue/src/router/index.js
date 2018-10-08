@@ -96,7 +96,7 @@ const router = new Router({
           },
         },
         {
-          path: '/commit/history',
+          path: '/commit/collection',
           name: 'collectionArticle',
           meta: { 
             requiresAuth: true
@@ -188,6 +188,13 @@ const router = new Router({
           ]
         },
         {
+          path: '/space/:userId/index/fans',
+          meta: { 
+            requiresAuth: true
+          },
+          component: SpaceFan
+        },
+        {
           path: '/space/:userId/collection',
           meta: { 
             requiresAuth: true
@@ -245,14 +252,16 @@ router.beforeEach((to,from,next)=>{
     if(token) {
       if(!uid) {
         store.dispatch('PromptReLogin')
+        next('/')
+      }else {
+        next()
       }
     }else {
-      next('/news')
+      next('/')
     }
   }else{
     next()
   }
-  next()
 })
 
 

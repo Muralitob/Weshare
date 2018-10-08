@@ -63,7 +63,7 @@ export default {
   data() {
     return {
       fourl: `/space/${this.$route.params.userId}/index/fan`,
-      faurl: `/space/${this.$route.params.userId}/index/fan/-1`,
+      faurl: `/space/${this.$route.params.userId}/index/fans`,
     };
   },
   methods: {

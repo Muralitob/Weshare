@@ -2,6 +2,7 @@ import * as types from "../types";
 import router from "../../router";
 import api from "../../api";
 import crypto from 'crypto'
+import VueCookie from 'vue-cookie'
 import { Message, Spin} from 'iview'
 import VueCookie from 'vue-cookie';
 export default {
@@ -22,7 +23,7 @@ export default {
           router.push('/')
         that.$Message.info('欢迎回来!');
         }, 1000);
-      } 
+      }
     }).catch(err => {
       if(err.code === 404) {
         that.$Spin.show();

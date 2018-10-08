@@ -45,6 +45,11 @@ export default {
       this.$router.push({
         path: `/setting/${this.$route.params.userId}/${name}`
       });
+      if( name === 'space') {
+        this.$router.push({
+          path: `/space/${this.$route.params.userId}`
+        });
+      }
     }
   }
 }

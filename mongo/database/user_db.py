@@ -42,3 +42,9 @@ def check_token(token):
     if payload:
         return True, token
     return False, token
+
+
+def get_user_info(uid):
+    query = {'uid': int(uid)}
+    one = mongo_manager.find_one('users', query)
+    return one
