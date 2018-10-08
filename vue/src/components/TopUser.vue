@@ -46,10 +46,10 @@ export default {
       this.$store.dispatch('UserLogOut',this)
     },
     routeTo(name) {
-      const UserId = this.$cookie.get('UserId')
-      if(UserId){
+      const uid = this.$cookie.get('uid')
+      if(uid){
         this.$router.push({
-          path: `/${name}/${UserId}`
+          path: `/${name}/${uid}`
         });
       }
     }
