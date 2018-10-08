@@ -7,6 +7,8 @@ from flask import jsonify, make_response, request, json
 
 from database import user_db
 
+import utility
+
 user = Blueprint("user", __name__, url_prefix='/api/user')
 
 
@@ -53,6 +55,6 @@ def get_user_info():
     uid = request.args.get('uid')
     result = user_db.get_user_info(uid)
     if result:
-        return jsonify(result), 200
+        return jsonify(utility.convert_to_json(result)), 200
     else:
         return jsonify({"status": 'get user info fail', "code": 200}), 200
