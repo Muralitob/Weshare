@@ -4,7 +4,6 @@ import api from "../../api";
 import crypto from 'crypto'
 import VueCookie from 'vue-cookie'
 import { Message, Spin} from 'iview'
-import VueCookie from 'vue-cookie';
 export default {
   //用户登录
   UserLogin({ commit }, { form , remember, that }) {
@@ -18,6 +17,9 @@ export default {
         commit(types.USER_LOGIN, data.token); //改变状态仓库
         VueCookie.set('uid', data.uid)
         that.$Spin.show();
+        api.getUserInfo(data.uid).then(({data1}) => {
+          console.log(data1)
+        })
         setTimeout(() => {
           that.$Spin.hide();
           router.push('/')

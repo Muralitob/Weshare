@@ -31,7 +31,7 @@ export default {
         title: '微分享重磅登场......',
         author: 'weshare运营团队',
         created_at: '2018-04-12 10:10:19',
-        content: `终于OK了`
+        content: `终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了`
         },
       ]
     }
@@ -103,6 +103,8 @@ export default {
     section {
       min-height: 380px;
     }
-    .art {}
+    .art {
+      width: 56.25rem;
+    }
   }
 </style>

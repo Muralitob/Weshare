@@ -6,3 +6,4 @@ export const FOLLOW_SELECT = 'FOLLOW_SELECT' //关注 粉丝
 export const SPIN_SHOW = 'SPIN_SHOW' //spin加载是否显示
 export const REGIST_SHOW = 'REGIST_SHOW' //注册Modal显示
 export const LOGIN_SHOW = 'LOGIN_SHOW' //注册Modal显示
+export const USER_INFO = 'USER_INFO' //设置用户信息

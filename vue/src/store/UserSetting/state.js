@@ -8,6 +8,7 @@ export default {
   registSpinShow: false,
   RegistShow: false,
   LoginShow: false,
+  userInfo: {}
 };
 
 function isLoggedIn() {

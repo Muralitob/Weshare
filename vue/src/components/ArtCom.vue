@@ -20,25 +20,34 @@
           <Avatar icon="ios-person" size="large"  />
         </div>
         <div class="con">
-          <div class="user-name">{{item.userName}}</div>
+          <router-link to="" class="user-name" >
+            {{item.userName}}
+          </router-link>
           <p class="text">{{item.comText}}</p>
           <div class="info">
-            <span>#{{idx}}</span>
+            <span>#{{item.floor}}</span>
             <span class="time">{{item.comTime}}</span>
             <span class="like"><Icon type="md-thumbs-up" />{{item.comLikes}}</span>
-            <span class="reply"><Button type="text">回复</Button></span>
+            <span class="reply"><Button type="text" @click="reply(item)">回复</Button></span>
           </div>
           <div class="reply-box">
-            <div class="reply-item">
+            <div class="reply-item" v-for="(child, idx) in item.replyLists" :key="idx">
               <Avatar icon="ios-person" size="small" class="reply-face" />
               <div class="reply-con">
-                <div class="reply-name">Mura</div>
+                <router-link to="" class="user-name" >
+                  {{child.reply_Name}}
+                </router-link>
+                <span class="reply-text">{{child.reply_Text}}</span>
                 <div class="info">
-                  <span class="time">2018-10-1 22:55</span>
-                  <span class="like"><Icon type="md-thumbs-up" />0</span>
-                  <span class="reply"><Button type="text">回复</Button></span>
+                  <span class="time">{{child.reply_Time}}</span>
+                  <span class="like"><Icon type="md-thumbs-up" />{{child.reply_Likes}}</span>
+                  <span class="reply"><Button type="text" @click="reply(item,child)">回复</Button></span>
                 </div>
               </div>
+            </div>
+            <div class="box-textarea reply-textarea" v-if="item.replyshow">
+              <Input :cols=80 :rows=2  type="textarea" :placeholder='placeholderString' />
+              <button class="box-post">发表评论</button>
             </div>
           </div>
         </div>
@@ -57,16 +66,70 @@ export default {
           userUrl: '',
           comTime: '2018-10-1 22:55',
           comLikes: 40,
+          uid: '110',
           comText: 'skrrrrrrrrrrrrrrrrrr',
+          floor: '2',
+          replyLists : [
+            {
+              reply_Name: '村人A',
+              uid: '110',
+              reply_Url: '',
+              reply_Time: '2018-10-7 22:55',
+              reply_Likes: 20,
+              reply_Text: '个人觉得完全是充钱问题。小号剑魂心悦二碎片百分之8女装万世两套。大号弹药就去年买过一套年套13碎片，时光4等1。大大号天帝23碎片星辰4等1',
+            },
+            {
+              reply_Name: '村人B',
+              uid: '110',
+              reply_Url: '',
+              reply_Time: '2018-10-7 22:55',
+              reply_Likes: 20,
+              reply_Text: 'WDNM',
+            },
+            {
+              reply_Name: '村人B',
+              uid: '110',
+              reply_Url: '',
+              reply_Time: '2018-10-7 22:55',
+              reply_Likes: 20,
+              reply_Text: 'WDNM',
+            },
+          ],
+          replyshow: false
         },
         {
           userName: 'Mura',
+          uid: '110',
           userUrl: '',
+          floor: '1',
           comTime: '2018-10-1 22:55',
           comLikes: 40,
           comText: 'skrrrrrrrrrrrrrrrrrr',
+          replyshow: false
         }
-      ]
+      ],
+      placeholderString: '回复:',
+      nowReplyPerson:'',
+    }
+  },
+  methods: {
+    reply(parent, child) {
+      if(child) {
+        this.placeholderString = `回复 @${child.reply_Name}`
+        parent.replyshow = true
+      }else {
+        this.placeholderString = '请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。'
+        for(let i of this.comLists) {
+          i.replyshow = false
+        }
+        if(this.nowReplyPerson === parent.userName) {
+          this.nowReplyPerson = ''
+          parent.replyshow = false
+        }else {
+          this.nowReplyPerson = parent.userName
+          parent.replyshow = true
+        }
+      }
     }
   }
 }
@@ -159,6 +222,8 @@ export default {
         padding: 22px 0 14px;
         .user-name {
           color: #6d757a;
+          font-size: 12px;
+          // vertical-align: middle;
         }
         .text {
           padding-bottom: 4px;
@@ -184,9 +249,20 @@ export default {
               float: left;
               margin-top: 0;
             }
+            &-text {
+              font-weight: 400;
+              font-size: 14px;
+              line-height: 20px;
+              word-wrap:break-word;
+              overflow:hidden;
+            }
             &-con {
               position: relative;
               margin-left: 2rem;
+            }
+            &-textarea {
+              margin-left: 0;
+              margin-top: .5rem;
             }
           }
       }

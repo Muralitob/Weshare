@@ -33,6 +33,7 @@
 
 <script>
 import NaviBar from '../../components/Navi'
+import api from '../../api'
 export default {
   components: { NaviBar },
   data () {
@@ -46,7 +47,23 @@ export default {
         points: 3000,
       }
     }
-  }
+  },
+  watch: {
+    // [this.$store.state.UserSetting.token](){
+    //   if(this.$store.state.UserSetting.token) {
+    //     api.getUserInfo(this.$cookie.get('uid'))
+    //   }
+    // }
+  },
+  updated() {
+    // api.getUserInfo(this.$store.state.UserSetting.uid)
+  },
+  mounted() {
+    console.log(this.$store.state.UserSetting.token)
+    if(this.$store.state.token) {
+      api.getUserInfo(this.$cookie.get('uid'))
+    }
+  },
 }
 </script>
 
