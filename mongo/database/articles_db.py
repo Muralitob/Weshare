@@ -5,35 +5,31 @@ __author__:cjhcw
 from datetime import datetime
 from core_manager.mongo_manager import mongo_manager
 
+from bson import ObjectId
+
 articles_collection = 'articles'
 
 
-def create_new_article(article, activeTab, tagLists, inputTag):
+def create_new_article(data):
     """
     新建文章
-    :param article:
-    :param activeTab:
-    :param tagLists:
-    :param inputTag:
+    :param data:
     :return:
     """
-    title = article.get('title')
-    content = article.get('content')
-    uid = article.get('uid')
-    result = mongo_manager.save_one(articles_collection,
-                                    {'title': title, 'content': content, 'uid': int(uid), 'activeTab': activeTab,
-                                     'tagLists': tagLists, 'inputTag': inputTag, 'create_time': datetime.utcnow(),
-                                     'update_time': datetime.utcnow()})
+    data['create_time'] = datetime.utcnow()
+    data['update_time'] = datetime.utcnow()
+    result = mongo_manager.save_one(articles_collection, data)
     return result.acknowledged
 
 
-def get_articles_by_uid(uid):
+def get_articles_by_uid(uid, category):
     """
     根据uid获取文章
     :param uid:
+    :param category:
     :return:
     """
-    result = list(mongo_manager.find(articles_collection, {'uid': int(uid)}))
+    result = list(mongo_manager.find(articles_collection, {'uid': int(uid), 'category': category}))
     return result
 
 
@@ -49,3 +45,14 @@ def edit_article_by_id(article):
         return result.acknowledged
     else:
         return False
+
+
+def delete_article_by_id(ids):
+    """
+    批量删除文章
+    :param ids:
+    :return:
+    """
+    for id in ids:
+        result = mongo_manager.remove_one(articles_collection, {'_id': ObjectId(id)})
+    return result.acknowledged

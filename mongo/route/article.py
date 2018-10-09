@@ -18,7 +18,7 @@ def create_new_article():
     :return:
     """
     data = request.get_json()
-    result = articles_db.create_new_article(data['article'], data['activeTab'], data['tagLists'], data['inputTag'])
+    result = articles_db.create_new_article(data)
     if result:
         return jsonify({"message": 'create new article success', "code": 200}), 200
     else:
@@ -32,7 +32,8 @@ def get_articles_by_uid():
     :return:
     """
     uid = request.args.get('uid')
-    result = articles_db.get_articles_by_uid(uid)
+    category = request.args.get('category')
+    result = articles_db.get_articles_by_uid(uid, category)
     if result:
         return jsonify(utility.convert_to_json(result)), 200
     else:
@@ -51,3 +52,17 @@ def edit_article_by_id():
         return jsonify({"message": 'edit article success', "code": 200}), 200
     else:
         return jsonify({"message": 'edit article fail', "code": 200}), 200
+
+
+@article.route('/delete_article_by_id', methods=['DELETE'])
+def delete_article_by_id():
+    """
+    批量删除文章
+    :return:
+    """
+    ids = request.get_json()
+    result = articles_db.delete_article_by_id(ids)
+    if result:
+        return jsonify({"message": 'delete articles success', "code": 200}), 200
+    else:
+        return jsonify({"message": 'delete articles fail', "code": 200}), 200
