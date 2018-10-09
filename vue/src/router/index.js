@@ -251,7 +251,7 @@ router.beforeEach((to,from,next)=>{
   if(to.matched.some(record => record.meta.requiresAuth)) {
     if(token) {
       if(!uid) {
-        // store.dispatch('PromptReLogin')
+        store.dispatch('PromptReLogin')
         next('/')
       }else {
         next()

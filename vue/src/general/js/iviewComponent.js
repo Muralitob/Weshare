@@ -21,6 +21,7 @@ import { Button,
          Upload,
          Tabs,
          TabPane,
+         Page,
          } from 'iview';
 Vue.prototype.$Message = Message
 Vue.prototype.$Notice = Notice
@@ -44,4 +45,4 @@ Vue.component('Spin', Spin);
 Vue.component('Upload', Upload);
 Vue.component('Tabs', Tabs);
 Vue.component('TabPane', TabPane);
-
+Vue.component('Page', Page)

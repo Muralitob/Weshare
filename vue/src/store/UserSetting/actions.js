@@ -17,6 +17,9 @@ export default {
         commit(types.USER_LOGIN, data.token); //改变状态仓库
         VueCookie.set('uid', data.uid)
         that.$Spin.show();
+        api.getUserInfo(data.uid).then(({data1}) => {
+          console.log(data1)
+        })
         setTimeout(() => {
           that.$Spin.hide();
           router.push('/')

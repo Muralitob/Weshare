@@ -17,4 +17,7 @@ export default{
     [types.LOGIN_SHOW](state){
         state.LoginShow = !state.LoginShow
     },
+    [types.USER_INFO](state,data) {
+        state.userInfo = data
+    }
 }
