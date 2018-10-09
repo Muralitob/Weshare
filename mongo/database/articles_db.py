@@ -35,3 +35,17 @@ def get_articles_by_uid(uid):
     """
     result = list(mongo_manager.find(articles_collection, {'uid': int(uid)}))
     return result
+
+
+def edit_article_by_id(article):
+    """
+    根据id编辑文章
+    :param id:
+    :return:
+    """
+    _id = article.get('_id')
+    if _id:
+        result = mongo_manager.update_one(articles_collection, {'_id': _id}, {'$set': article})
+        return result.acknowledged
+    else:
+        return False

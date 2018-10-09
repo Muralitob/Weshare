@@ -33,8 +33,21 @@ def get_articles_by_uid():
     """
     uid = request.args.get('uid')
     result = articles_db.get_articles_by_uid(uid)
-    print(result)
     if result:
         return jsonify(utility.convert_to_json(result)), 200
     else:
         return jsonify({"message": 'get article fail', "code": 200}), 200
+
+
+@article.route('/edit_article_by_id', methods=['POST'])
+def edit_article_by_id():
+    """
+    根据article['id']编辑文章
+    :return:
+    """
+    article = request.get_json()
+    result = articles_db.edit_article_by_id(article)
+    if result:
+        return jsonify({"message": 'edit article success', "code": 200}), 200
+    else:
+        return jsonify({"message": 'edit article fail', "code": 200}), 200
