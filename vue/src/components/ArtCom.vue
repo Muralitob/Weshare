@@ -46,7 +46,7 @@
               </div>
             </div>
             <!-- <Page prev-text="上一页" next-text="下一页" v-if="parent.viewMore" :total="40" size="small" class-name="reply-pageBox"  ></Page> -->
-            <we-page :item="parent" ></we-page>
+            <we-page :item="parent" @returnData='updateData' url="/api/2" ></we-page>
             <div class="more" v-if="parent.replyNums>3&&!parent.viewMore">共有<b>{{parent.replyNums}}</b>条回复<Icon @click="viewmore(parent)" size='28' type="md-arrow-dropdown" class="more-view"/></div>
             <div class="box-textarea reply-textarea" v-if="parent.replyshow">
               <Input :cols=80 :rows=2  type="textarea" :placeholder='placeholderString' />
@@ -175,6 +175,9 @@ export default {
     },
     changepage(index) {
       //通过index去获取数据
+    },
+    updateData(data) {
+      console.log(data)
     }
   }
 };
