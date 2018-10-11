@@ -37,7 +37,7 @@ def get_articles_by_uid():
     根据uid获取文章
     :return:
     """
-    uid = request.args.get('uid')
+    uid = request.headers.get('uid')
     category = request.args.get('category')
     result = articles_db.get_articles_by_uid(uid, category)
     if result:
