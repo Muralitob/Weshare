@@ -1,6 +1,6 @@
 <template>
   <div id="text-contribute">
-      <Tabs :value="activeTab" animated>
+      <Tabs :value="activeTab" animated @on-click="getDrafts">
         <TabPane name="edit" label="文章投稿">
           <Input v-model="article.title" size="large" placeholder="请输入标题" />
           <Editor v-model="article.content" ></Editor>
@@ -53,6 +53,9 @@ export default {
         uid: this.$cookie.get('uid'),
         title: '',
       }, //文章
+      draftsList: {
+
+      },
       activeTab: 'edit',
       tagLists: [], //标签
       inputTag: '',
@@ -85,8 +88,19 @@ export default {
         tagLists: this.tagLists,
         category
       }).then(({data}) => {
-        console.log(data)
+        if(data.code === 200) {
+          this.$Message.success('提交文章成功')
+        }else if(data.code === 201) {
+          this.$Message.success('存入草稿箱成功')
+        }
       }) 
+    },
+    getDrafts(name){
+      if(name === 'drafts') {
+        api.getArticles('fake').then(({data}) => {
+          console.log(data)
+        })
+      }
     }
   },
   updated() {
