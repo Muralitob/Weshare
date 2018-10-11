@@ -1,164 +1,302 @@
 <template>
   <div class="commetion">
     <div class="commetion__wrapper">
-      <div class="commetion__list">
+      <div class="cutarea">
+        <router-link to="/commit/write" class="user__Write shortcut"><Icon size="38" type="ios-create-outline" />写文章</router-link>
+        <router-link to="/space/01/history" class="user__History shortcut"><Icon size="38" type="md-globe" />浏览历史</router-link>
+        <router-link to="/space/01/collection" class="user__Collection shortcut"><Icon size="38" type="ios-star" />我的收藏</router-link>
+        <span class="shortcut"><Icon size="38" type="md-search" />搜索</span>
       </div>
-      <div class="commetion__me">
-        <h4 class="commetion__me-region">我的信息</h4>
-        <div id="user-info">
-          <router-link :to="{ name: 'Space', params: { userId: user_info.userID }}">
-            <img :src="user_info.avator_URL" class="head_img">
-          </router-link>
-          <div class="user-wrapper">
-            <div class="user-name">
-              <router-link :to="{ name: 'Space', params: { userId: user_info.userID }}">{{user_info.name}}</router-link>
+      <ul class="a_list">
+        <li class="a_item">
+          <article>
+            <div class="a_con">
+              <div class="a_tags"> 
+                  <Tag type="border">标签三</Tag>
+              </div>
+              <router-link to="">
+                <h3 class="a_title">置顶公告,发帖必须看！</h3>
+              </router-link>
             </div>
-            <span class="user-like">获得喜欢：{{user_info.beLiked}}次</span>
-            <span class="user-watch">文章被阅读：{{user_info.beWatched}}次</span>
-            <div class="exp">
-              <div class="exp__tablet">积分：</div>
-              <div class="exp__tablet-current">{{user_info.points}}</div>
+          </article>
+        </li>
+        <li class="a_item" v-for="item in articles" :key="item._idx">
+          <article>
+            <header>
+              <div class="a_watch"><Icon type="md-eye" />{{item.watchNum}}</div>
+              <router-link to="">
+                <h3 class="a_title">{{item.title}}</h3>
+              </router-link>
+            </header>
+            <div class="a_con">
+              <div class="a_tags"> 
+                <Tag type="border">标签三</Tag>
+                <Tag type="border">标签三</Tag>
+              </div>
+              <div class="a_text" v-html="item.summary"></div>
+              <span class="a_time">{{item.time}}</span>
             </div>
-          </div>
-        </div>
-        <div class="user__cutarea">
-          <router-link to="/commit/write" class="user__Write shortcut">写文章</router-link>
-          <router-link to="/space/01/history" class="user__History shortcut">浏览历史</router-link>
-          <router-link to="/space/01/collection" class="user__Collection shortcut">我的收藏</router-link>
-        </div>
-      </div>
+            <footer><span>{{item.author}}</span></footer>
+          </article>
+          </li>
+      </ul>
+      <Page prev-text="上一页" next-text="下一页" @on-change="changepage" :total="40" show-elevator class-name="timeline-pageBox"></Page>
     </div>
   </div>  
 </template>
 
 <script>
-import NaviBar from '../../components/Navi'
-import api from '../../api'
+import NaviBar from "../../components/Navi";
+import api from "../../api";
 export default {
   components: { NaviBar },
-  data () {
+  data() {
     return {
-      user_info:{
-        userID: '01',
-        avator_URL: '../../assets/avator.jpeg',
-        name: '稳健如poi',
-        beLiked: '1.2K',
-        beWatched: '3K',
-        points: 3000,
-      }
-    }
+      user_info: {
+        userID: "01",
+        avator_URL: "../../assets/avator.jpeg",
+        name: "稳健如poi",
+        beLiked: "1.2K",
+        beWatched: "3K",
+        points: 3000
+      },
+      articles: [
+        {
+          tags: [],
+          _id: '111222333',
+          title: '今日分享：我想分享些什么呢？今天的天气很好，这就是标题吧！',
+          summary: '这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......',
+          time: '30分钟前',
+          author: 'Mura',
+          watchNum: '30K',
+        },
+        {
+          tags: [],
+          _id: '111222333',
+          title: '今日分享：我想分享些什么呢？今天的天气很好，这就是标题吧！',
+          summary: '这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......',
+          time: '30分钟前',
+          author: 'Mura',
+          watchNum: '30K',
+        },
+        {
+          tags: [],
+          _id: '111222333',
+          title: '今日分享：我想分享些什么呢？今天的天气很好，这就是标题吧！',
+          summary: '这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......',
+          time: '30分钟前',
+          author: 'Mura',
+          watchNum: '30K',
+        },
+        {
+          tags: [],
+          _id: '111222333',
+          title: '今日分享：我想分享些什么呢？今天的天气很好，这就是标题吧！',
+          summary: '这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......',
+          time: '30分钟前',
+          author: 'Mura',
+          watchNum: '30K',
+        },
+        {
+          tags: [],
+          _id: '111222333',
+          title: '今日分享：我想分享些什么呢？今天的天气很好，这就是标题吧！',
+          summary: '这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......',
+          time: '30分钟前',
+          author: 'Mura',
+          watchNum: '30K',
+        },
+        {
+          tags: [],
+          _id: '111222333',
+          title: '今日分享：我想分享些什么呢？今天的天气很好，这就是标题吧！',
+          summary: '这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......',
+          time: '30分钟前',
+          author: 'Mura',
+          watchNum: '30K',
+        },
+        {
+          tags: [],
+          _id: '111222333',
+          title: '今日分享：我想分享些什么呢？今天的天气很好，这就是标题吧！',
+          summary: '这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......',
+          time: '30分钟前',
+          author: 'Mura',
+          watchNum: '30K',
+        },
+      ]
+    };
   },
   watch: {
-    // [this.$store.state.UserSetting.token](){
-    //   if(this.$store.state.UserSetting.token) {
-    //     api.getUserInfo(this.$cookie.get('uid'))
-    //   }
-    // }
   },
   updated() {
     // api.getUserInfo(this.$store.state.UserSetting.uid)
   },
   mounted() {
-    console.log(this.$store.state.UserSetting.token)
-    if(this.$store.state.token) {
-      api.getUserInfo(this.$cookie.get('uid'))
+    console.log(this.$store.state.UserSetting.token);
+    if (this.$store.state.token) {
+      api.getUserInfo(this.$cookie.get("uid"));
     }
   },
-}
+  methods: {
+    changepage(index){
+      console.log(index);
+    }
+  }
+};
 </script>
 
 <style lang="scss">
-  .shortcut{
-    flex: 0 0 50%;
-    height: 3.75rem;
-    text-align: center;
-    line-height: 3.75rem;
-    box-sizing: border-box;
-    &:nth-child(1),&:nth-child(2),&:nth-child(3){
-      border-bottom: 1px solid rgba($c-gray, .5);
-      border-right: 1px solid rgba($c-gray, .5);
-    }
+.exp {
+  display: flex;
+  div {
+    font-size: 14px;
   }
-  .exp{
+}
+.cutarea {
+  display: flex;
+  width: 100%;
+  background-color: #fff;
+  height: 70px;
+  margin-bottom: 50px;
+  border-radius: 3px;
+  justify-content: space-around;
+  .shortcut {
+    line-height: 70px;
     display: flex;
-    div{
-      font-size: 14px;
+    align-items: center;
+    i {
+      margin-right: 1rem;
+    }
+    + span {
+      font-size: 16px;
+      cursor: pointer;
+      &:hover {
+        color: $c-green;
+      }
     }
   }
-  .user{
-    @include tablet-min{
-      &-like,&-watch{
+}
+.user {
+  @include tablet-min {
+    &-like,
+    &-watch {
       font-size: 14px;
       display: block;
+    }
+    &-wrapper {
+      margin-left: 1.25rem;
+    }
+    &-name {
+      a {
+        font-size: 14px;
       }
-      &-wrapper{
-        margin-left: 1.25rem;
+    }
+  }
+}
+#user-info {
+  @include tablet-min {
+    display: flex;
+    height: 5rem;
+    .head_img {
+      width: 5rem;
+    }
+  }
+}
+.commetion {
+  width: 100%;
+  &__wrapper {
+    @include tablet-min {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+  .a {
+    &_list {
+      background-color: $c-white;
+      width: 100%;
+      min-height: 60rem;
+    }
+    &_item {
+      padding: 20px;
+      border-bottom: 1px solid #EEEEEE;
+      color: #000;
+      &:not(:first-child):hover {
+        background-color: #fbfbfb;
       }
-      &-name{
-        a{
+      &:last-child {
+        border: none;
+      }
+      header {
+        // display: flex;
+        height: 30px;
+      }
+      footer {
+        margin-left: 6rem;
+        span {
           font-size: 14px;
         }
       }
-      &__cutarea{
-        margin-top: 1.25rem;
-        display: flex;
-        flex-flow: row wrap;
-        border: 1px solid rgba($c-gray, .5);
-        border-right: none;
-        border-bottom: none;
-        border-radius: 3px;
-        a{
-          color: rgba($c-dark,.8);
-          &:hover{
-            background-color: rgba($c-gray,.3);
-          }
-        }
+    }
+    &_watch {
+      float: left;
+      line-height: 30px;
+      i {
+        margin-right: 10px;
+        margin-top: -2px;
       }
     }
-  }
-  #user-info{
-    @include tablet-min{
+    &_title {
+      margin-left: 6rem;
+      line-height: 30px;
+      font-size:16px;
+      font-family:MicrosoftYaHei-Bold;
+      font-weight:bold;
+      color:rgba(0,0,0,1);
+    }
+    &_con {
+      position: relative;
+      margin: 1.5rem 0 1rem 0;
       display: flex;
-      height: 5rem;
-      .head_img{
-        width: 5rem;
-      }
+    }
+    &_text {
+      font-size: 16px;
+      margin-left: 6rem;
+      width: 80%;
+    }
+    &_tags {
+      position: absolute;
+      left: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+    &_time {
+      margin-left: 2rem;
+      font-size: 14px;
     }
   }
-  .commetion{
-    width: 100%;
-    &__wrapper{
-      @include tablet-min{
-        display: flex;
-        justify-content: space-between;
+  &__me {
+    @include mobile-only {
+      display: none;
+    }
+    @include tablet-min {
+      width: 17.5rem;
+      height: 30rem;
+      background-color: $c-white;
+      padding: 10px 10px;
+      &-region {
+        margin-bottom: 20px;
+        font-size: 15px;
+        font-weight: 700;
+        font-family: "microsoft yahei", simhei, sans-serif;
       }
     }
-    &__list{
-      @include tablet-min{
-        background-color: $c-white;
-        width: 60rem;
-        height: 60rem;
-      }
-    }
-    &__me{
-      @include mobile-only{
-        display: none;
-      }
-      @include tablet-min{
-        width: 17.5rem;
-        height: 30rem;
-        background-color: $c-white;
-        padding: 10px 10px;
-        &-region{
-          margin-bottom: 20px;
-          font-size: 15px;
-          font-weight: 700;
-          font-family: "microsoft yahei",simhei,sans-serif;
-        }
-      }
-      &--info{
-
-      }
+    &--info {
     }
   }
+  .timeline-pageBox {
+    background-color: #fff;
+    padding: 20px 0 20px 20px;
+  }
+}
 </style>

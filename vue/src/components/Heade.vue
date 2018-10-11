@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header class="head">
     <Modal class="useraction" scrollable footer-hide  v-model="LoginShow" width="360">
       <h1>登录</h1>
       <Form ref="LoginForm" :model="loginForm" :rules="LoginRule" :error="2333">
@@ -244,7 +244,7 @@ export default {
     display: none;
   }
 }
-header{
+.head{
   width: 100%;
   position: fixed;
   top: 0;

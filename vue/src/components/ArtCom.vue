@@ -45,8 +45,8 @@
                 </div>
               </div>
             </div>
-            <!-- <Page prev-text="上一页" next-text="下一页" v-if="parent.viewMore" :total="40" size="small" class-name="reply-pageBox"  ></Page> -->
-            <we-page :item="parent" ></we-page>
+            <Page prev-text="上一页" next-text="下一页" @on-change="changepage" v-if="parent.viewMore" :total="40" size="small" class-name="reply-pageBox"></Page>
+            <!-- <we-page :item="parent" ></we-page> -->
             <div class="more" v-if="parent.replyNums>3&&!parent.viewMore">共有<b>{{parent.replyNums}}</b>条回复<Icon @click="viewmore(parent)" size='28' type="md-arrow-dropdown" class="more-view"/></div>
             <div class="box-textarea reply-textarea" v-if="parent.replyshow">
               <Input :cols=80 :rows=2  type="textarea" :placeholder='placeholderString' />
@@ -55,14 +55,14 @@
           </div>
         </div>
       </div>
+      <Page prev-text="上一页" next-text="下一页" @on-change="changepage" :total="40" show-elevator class-name="commit-pageBox"></Page>
     </div>
   </div>  
 </template>
 
 <script>
-import WePage from './WePage'
+import api from '../api'
 export default {
-  components: {WePage},
   data() {
     return {
       comLists: [
@@ -175,6 +175,7 @@ export default {
     },
     changepage(index) {
       //通过index去获取数据
+      console.log(index)
     }
   }
 };
@@ -266,6 +267,9 @@ export default {
   }
 }
 .comment-list {
+  .commit-pageBox {
+    padding: 20px;
+  }
   padding-top: 20px;
   .list-item {
     // display: flex;
