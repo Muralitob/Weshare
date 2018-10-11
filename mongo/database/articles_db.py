@@ -29,7 +29,7 @@ def get_articles_by_uid(uid, category):
     :param category:
     :return:
     """
-    result = list(mongo_manager.find(articles_collection, {'uid': int(uid), 'category': category}))
+    result = list(mongo_manager.find(articles_collection, {'article.uid': uid, 'category': category}))
     return result
 
 
