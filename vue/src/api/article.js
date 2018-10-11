@@ -1,8 +1,7 @@
 import axios from "axios";
 export default {
   /**用户登录 */
-  async handleArticle(article, tagLists) {
-    console.log(article, tagLists);
-    // return axios.post("/api/user/login", data);
+  async handleArticle(data) {
+    return axios.post("/api/article/create_new_article", data);
   },
 };

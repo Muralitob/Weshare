@@ -16,8 +16,8 @@
             </div>
           </div>
           <div class="btn-bar">
-            <Button class="handleArticle" type="success" @click="handleArticle">提交文章</Button>
-            <Button class="handleArticle" type="warning">存入草稿</Button>
+            <Button class="handleArticle" type="success" @click="handleArticle('real')">提交文章</Button>
+            <Button class="handleArticle" type="warning" @click="handleArticle('fake')">存入草稿</Button>
           </div>
         </TabPane>
         <TabPane label="草稿箱" name="drafts">
@@ -78,12 +78,19 @@ export default {
       const index = this.tagLists.indexOf(name);
       this.tagLists.splice(index, 1);
     },
-    handleArticle() {
-      api.handleArticle(this.article, this.tagLists)
+    handleArticle(category) {
+      console.log(category)
+      api.handleArticle({
+        article: this.article,
+        tagLists: this.tagLists,
+        category
+      }).then(({data}) => {
+        console.log(data)
+      }) 
     }
   },
   updated() {
-    console.log(this.article)
+    // console.log(this.article)
   },
 }
 </script>
