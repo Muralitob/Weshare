@@ -3,8 +3,10 @@
 __author__:cjhcw
 """
 from flask import Blueprint
-from flask import jsonify, make_response, request, json
+from flask import request
+from flask import jsonify
 import utility
+import jwt
 
 from database import articles_db
 
@@ -37,9 +39,10 @@ def get_articles_by_uid():
     根据uid获取文章
     :return:
     """
-    uid = request.headers.get('uid')
+    token = request.headers.get('Authorization')
+    data = jwt.decode(token, 'secret', algorithms=['HS256'])
     category = request.args.get('category')
-    result = articles_db.get_articles_by_uid(uid, category)
+    result = articles_db.get_articles_by_uid(data['uid'], category)
     if result:
         return jsonify(utility.convert_to_json(result)), 200
     else:
