@@ -30,7 +30,7 @@
               <div class="meta-status"><span>最后修改时间: 2018-10-20</span></div>
               <div class="meta-action">
                 <Button type="primary">编辑</Button>
-                <Button>删除</Button>
+                <Button @click="deleteDrafts('12312312')">删除</Button>
               </div>
             </div>
           </div>
@@ -50,7 +50,6 @@ export default {
     return {
       article: {
         content: '',
-        uid: this.$cookie.get('uid'),
         title: '',
       }, //文章
       draftsList: {
@@ -90,6 +89,7 @@ export default {
       }).then(({data}) => {
         if(data.code === 200) {
           this.$Message.success('提交文章成功')
+
         }else if(data.code === 201) {
           this.$Message.success('存入草稿箱成功')
         }
@@ -99,8 +99,17 @@ export default {
       if(name === 'drafts') {
         api.getArticles('fake').then(({data}) => {
           console.log(data)
+        }).catch(res => {
+          console.log(res)
         })
       }
+    },
+    deleteDrafts(idList) {
+      api.deleteArticles(idList).then(({data}) => {
+        console.log(data)
+      }).catch(res => {
+        console.log(res)
+      })
     }
   },
   updated() {
