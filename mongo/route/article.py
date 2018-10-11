@@ -20,9 +20,15 @@ def create_new_article():
     data = request.get_json()
     result = articles_db.create_new_article(data)
     if result:
-        return jsonify({"message": 'create new article success', "code": 200}), 200
+        if data['category'] == 'real':
+            return jsonify({"message": 'create new article success', "code": 200}), 200
+        elif data['category'] == 'fake':
+            return jsonify({"message": 'create new fake article success', "code": 201}), 201
     else:
-        return jsonify({"message": 'create new article fail', "code": 200}), 200
+        if data['category'] == 'real':
+            return jsonify({"message": 'create new article fail', "code": 200}), 200
+        elif data['category'] == 'fake':
+            return jsonify({"message": 'create new fake article fail', "code": 201}), 201
 
 
 @article.route('/get_articles_by_uid', methods=['GET'])
