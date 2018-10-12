@@ -1,7 +1,7 @@
 <template>
   <div class="commetion">
     <div class="commetion__wrapper">
-      <div class="cutarea">
+      <div class="cutarea" v-if="IsLogin">
         <router-link to="/commit/write" class="user__Write shortcut"><Icon size="38" type="ios-create-outline" />写文章</router-link>
         <router-link :to="{name: 'Space', params: {userId: uid}}" class="user__History shortcut"><Icon size="38" type="md-globe" />浏览历史</router-link>
         <router-link :to="{name: 'myCollection', params: {userId: uid}}" class="user__Collection shortcut"><Icon size="38" type="ios-star" />我的收藏</router-link>
@@ -63,89 +63,100 @@ export default {
       articles: [
         {
           tags: [],
-          _id: '111222333',
-          title: '今日分享：我想分享些什么呢？今天的天气很好，这就是标题吧！',
-          summary: '这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......',
-          time: '30分钟前',
-          author: 'Mura',
-          watchNum: '30K',
+          _id: "111222333",
+          title: "今日分享：我想分享些什么呢？今天的天气很好，这就是标题吧！",
+          summary:
+            "这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......",
+          time: "30分钟前",
+          author: "Mura",
+          watchNum: "30K"
         },
         {
           tags: [],
-          _id: '111222333',
-          title: '今日分享：我想分享些什么呢？今天的天气很好，这就是标题吧！',
-          summary: '这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......',
-          time: '30分钟前',
-          author: 'Mura',
-          watchNum: '30K',
+          _id: "111222333",
+          title: "今日分享：我想分享些什么呢？今天的天气很好，这就是标题吧！",
+          summary:
+            "这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......",
+          time: "30分钟前",
+          author: "Mura",
+          watchNum: "30K"
         },
         {
           tags: [],
-          _id: '111222333',
-          title: '今日分享：我想分享些什么呢？今天的天气很好，这就是标题吧！',
-          summary: '这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......',
-          time: '30分钟前',
-          author: 'Mura',
-          watchNum: '30K',
+          _id: "111222333",
+          title: "今日分享：我想分享些什么呢？今天的天气很好，这就是标题吧！",
+          summary:
+            "这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......",
+          time: "30分钟前",
+          author: "Mura",
+          watchNum: "30K"
         },
         {
           tags: [],
-          _id: '111222333',
-          title: '今日分享：我想分享些什么呢？今天的天气很好，这就是标题吧！',
-          summary: '这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......',
-          time: '30分钟前',
-          author: 'Mura',
-          watchNum: '30K',
+          _id: "111222333",
+          title: "今日分享：我想分享些什么呢？今天的天气很好，这就是标题吧！",
+          summary:
+            "这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......",
+          time: "30分钟前",
+          author: "Mura",
+          watchNum: "30K"
         },
         {
           tags: [],
-          _id: '111222333',
-          title: '今日分享：我想分享些什么呢？今天的天气很好，这就是标题吧！',
-          summary: '这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......',
-          time: '30分钟前',
-          author: 'Mura',
-          watchNum: '30K',
+          _id: "111222333",
+          title: "今日分享：我想分享些什么呢？今天的天气很好，这就是标题吧！",
+          summary:
+            "这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......",
+          time: "30分钟前",
+          author: "Mura",
+          watchNum: "30K"
         },
         {
           tags: [],
-          _id: '111222333',
-          title: '今日分享：我想分享些什么呢？今天的天气很好，这就是标题吧！',
-          summary: '这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......',
-          time: '30分钟前',
-          author: 'Mura',
-          watchNum: '30K',
+          _id: "111222333",
+          title: "今日分享：我想分享些什么呢？今天的天气很好，这就是标题吧！",
+          summary:
+            "这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......",
+          time: "30分钟前",
+          author: "Mura",
+          watchNum: "30K"
         },
         {
           tags: [],
-          _id: '111222333',
-          title: '今日分享：我想分享些什么呢？今天的天气很好，这就是标题吧！',
-          summary: '这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......',
-          time: '30分钟前',
-          author: 'Mura',
-          watchNum: '30K',
-        },
+          _id: "111222333",
+          title: "今日分享：我想分享些什么呢？今天的天气很好，这就是标题吧！",
+          summary:
+            "这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......",
+          time: "30分钟前",
+          author: "Mura",
+          watchNum: "30K"
+        }
       ],
-      uid: this.$cookie.get('uid')
+      uid: this.$cookie.get("uid"),
+      token: this.$store.state.UserSetting.token
     };
   },
-  watch: {
+  watch: {},
+  computed: {
+    IsLogin() {
+      return this.$store.state.UserSetting.token && this.$cookie.get("uid");
+    }
   },
   updated() {
     // api.getUserInfo(this.$store.state.UserSetting.uid)
   },
   mounted() {
-    console.log(this.$store.state.UserSetting.token);
     if (this.$store.state.token) {
-      api.getUserInfo(this.$cookie.get("uid"));
+      api.getUserInfo(this.$cookie.get("uid")).then(({ data }) => {
+        console.log(data);
+      });
     }
   },
   methods: {
-    changepage(index){
+    changepage(index) {
       console.log(index);
     },
-    showSearch() {
-
-    }
+    showSearch() {}
   }
 };
 </script>
@@ -223,7 +234,7 @@ export default {
     }
     &_item {
       padding: 20px;
-      border-bottom: 1px solid #EEEEEE;
+      border-bottom: 1px solid #eeeeee;
       color: #000;
       &:not(:first-child):hover {
         background-color: #fbfbfb;
@@ -253,10 +264,10 @@ export default {
     &_title {
       margin-left: 6rem;
       line-height: 30px;
-      font-size:16px;
-      font-family:MicrosoftYaHei-Bold;
-      font-weight:bold;
-      color:rgba(0,0,0,1);
+      font-size: 16px;
+      font-family: MicrosoftYaHei-Bold;
+      font-weight: bold;
+      color: rgba(0, 0, 0, 1);
     }
     &_con {
       position: relative;
