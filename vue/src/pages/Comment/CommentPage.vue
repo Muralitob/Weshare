@@ -3,9 +3,9 @@
     <div class="commetion__wrapper">
       <div class="cutarea">
         <router-link to="/commit/write" class="user__Write shortcut"><Icon size="38" type="ios-create-outline" />写文章</router-link>
-        <router-link to="/space/01/history" class="user__History shortcut"><Icon size="38" type="md-globe" />浏览历史</router-link>
-        <router-link to="/space/01/collection" class="user__Collection shortcut"><Icon size="38" type="ios-star" />我的收藏</router-link>
-        <span class="shortcut"><Icon size="38" type="md-search" />搜索</span>
+        <router-link :to="{name: 'Space', params: {userId: uid}}" class="user__History shortcut"><Icon size="38" type="md-globe" />浏览历史</router-link>
+        <router-link :to="{name: 'myCollection', params: {userId: uid}}" class="user__Collection shortcut"><Icon size="38" type="ios-star" />我的收藏</router-link>
+        <span class="shortcut" @click="showSearch"><Icon size="38" type="md-search" />搜索</span>
       </div>
       <ul class="a_list">
         <li class="a_item">
@@ -124,7 +124,8 @@ export default {
           author: 'Mura',
           watchNum: '30K',
         },
-      ]
+      ],
+      uid: this.$cookie.get('uid')
     };
   },
   watch: {
@@ -141,6 +142,9 @@ export default {
   methods: {
     changepage(index){
       console.log(index);
+    },
+    showSearch() {
+
     }
   }
 };

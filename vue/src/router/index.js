@@ -196,10 +196,10 @@ const router = new Router({
         },
         {
           path: '/space/:userId/collection',
+          name: 'myCollection',
           meta: { 
             requiresAuth: true
           },
-          name: '我的收藏',
           component: SpaceCollection,
         },
         {

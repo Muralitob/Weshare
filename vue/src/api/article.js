@@ -6,7 +6,7 @@ export default {
   },
   /**获取用户个人文章,包括草稿 */
   async getArticles(category) {
-    return axios.get("api/article/get_articles_by_uid",{
+    return axios.get("/api/article/get_articles_by_uid",{
       params: {
         category
       }
@@ -14,6 +14,6 @@ export default {
   },
   /**删除文章 data为文章_id数组 */
   async deleteArticles(data) {
-    return axios.delete("api/article/delete_article_by_id",data)
+    return axios.delete("/api/article/delete_article_by_id",data)
   },
 };
