@@ -40,7 +40,7 @@ def get_articles_by_uid():
     :return:
     """
     token = request.headers.get('Authorization')
-    data = jwt.decode(token, 'secret', algorithms=['HS256'])
+    data = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
     category = request.args.get('category')
     result = articles_db.get_articles_by_uid(data['uid'], category)
     if result:
