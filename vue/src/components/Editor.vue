@@ -103,9 +103,13 @@ export default {
     onEditorFocus() {
       //获得焦点事件
     },
-    onEditorChange() {
+    onEditorChange(quill) {
       //内容改变事件
-      this.$emit("input", this.content);
+      // console.log(this.content);
+      let summary = quill.quill.getText(0, 10);
+      console.log(summary);
+      this.$emit("input",this.content);
+      this.$emit("summary", summary )
     },
 
     // 富文本图片上传前
