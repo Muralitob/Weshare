@@ -20,6 +20,9 @@ def create_new_article():
     :return:
     """
     data = request.get_json()
+    token = request.headers.get('Authorization')
+    token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+    data['article']['uid'] = token['uid']
     result = articles_db.create_new_article(data)
     if result:
         if data['category'] == 'real':
