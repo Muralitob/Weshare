@@ -84,7 +84,7 @@ export default {
                 } else {
                   this.quill.format("image", false);
                 }
-              },
+              }
             }
           }
         }
@@ -106,17 +106,20 @@ export default {
     onEditorChange(quill) {
       //内容改变事件
       // console.log(this.content);
-      let summary = quill.quill.getText(0, 10);
-      console.log(summary);
-      this.$emit("input",this.content);
-      this.$emit("summary", summary )
+      let summary = quill.quill.getText(0, 150);
+      var length = quill.quill.getLength();
+      if (length > 150) {
+        summary += "......";
+      }
+      this.$emit("input", this.content);
+      this.$emit("summary", summary);
     },
 
     // 富文本图片上传前
     beforeUpload() {
       // 显示loading动画
       this.quillUpdateImg = true;
-      this.$Spin.show()
+      this.$Spin.show();
     },
 
     uploadSuccess(res, file) {
@@ -136,13 +139,13 @@ export default {
       }
       // loading动画消失
       this.quillUpdateImg = false;
-      this.$Spin.hide()
+      this.$Spin.hide();
     },
     // 富文本图片上传失败
     uploadError() {
       // loading动画消失
       this.quillUpdateImg = false;
-      this.$Spin.hide()
+      this.$Spin.hide();
       this.$Message.error("图片插入失败");
     }
   }

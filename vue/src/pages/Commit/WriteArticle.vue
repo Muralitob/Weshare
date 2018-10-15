@@ -30,7 +30,7 @@
               <div class="meta-status"><span>{{item.update_time}}</span></div>
               <div class="meta-action">
                 <Button type="primary">编辑</Button>
-                <Button @click="deleteDrafts(item._id)">删除</Button>
+                <Button @click="deleteDrafts([item._id])">删除</Button>
               </div>
             </div>
           </div>
@@ -53,7 +53,7 @@ export default {
         summary: "",
         title: ""
       }, //文章
-      draftsList: {},
+      draftsList: [],
       activeTab: "edit",
       tagLists: [], //标签
       inputTag: ""
@@ -114,10 +114,25 @@ export default {
       api
         .deleteArticles(idList)
         .then(({ data }) => {
-          console.log(data);
+          //如果成功,在现有的数组上删除该条数据，并提醒删除成功
+          this.$Notice.success({
+            title: "删除成功",
+            desc: "您所选文章已被删除"
+          });
+          let draftsList = this.draftsList;
+          var arr = [];
+          idList.forEach(element => {
+            arr = draftsList.filter((item, index) => {
+              return item._id !== element;
+            });
+          });
+          this.draftsList = arr;
         })
-        .catch(res => {
-          console.log(res);
+        .catch(err => {
+          this.$Notice.error({
+            title: "删除失败",
+            desc: "有问题啦"
+          });
         });
     },
     returnSummary(data) {
@@ -177,12 +192,11 @@ export default {
   }
   .meta-summary {
     font-size: 14px;
-    line-height: 1.4;
+    line-height: 20px;
     color: #99a2aa;
     padding: 5px 0 10px;
-    min-height: 34px;
-    width: 680px;
-    white-space: nowrap;
+    word-wrap: break-word;
+    word-break: break-word;
     text-overflow: ellipsis;
     overflow: hidden;
   }
