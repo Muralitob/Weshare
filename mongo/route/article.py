@@ -45,7 +45,9 @@ def get_articles_by_uid():
     token = request.headers.get('Authorization')
     data = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
     category = request.args.get('category')
-    result = articles_db.get_articles_by_uid(data['uid'], category)
+    page = request.args.get('page')
+    limit = request.args.get('limit')
+    result = articles_db.get_articles_by_uid(data['uid'], category, int(page), int(limit))
     if result:
         return jsonify(utility.convert_to_json(result)), 200
     else:
