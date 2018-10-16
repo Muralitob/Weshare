@@ -22,21 +22,25 @@ def create_new_article(data):
     return result.acknowledged
 
 
-def get_articles_by_uid(uid, category):
+def get_articles_by_uid(uid, category, page, limit):
     """
     根据uid获取文章
     :param uid:
     :param category:
+    :param page:
+    :param limit:
     :return:
     """
-    result = list(mongo_manager.find(articles_collection, {'article.uid': uid, 'category': category}))
+    skip = (page - 1) * limit
+    result = list(
+        mongo_manager.find(articles_collection, {'article.uid': uid, 'category': category}).skip(skip).limit(limit))
     return result
 
 
 def edit_article_by_id(article):
     """
     根据id编辑文章
-    :param id:
+    :param article:
     :return:
     """
     _id = article.get('_id')

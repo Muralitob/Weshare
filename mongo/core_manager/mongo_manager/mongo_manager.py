@@ -110,10 +110,6 @@ def find_count(collection_str, json_str):
     return collection.find(json_str).count()
 
 
-def test():
-    save_one('tests', '{"中文名":"中文值"}')
-
-
 def url():
     username = config.getMongoUser()
     password = config.getMongoPass()
@@ -145,7 +141,3 @@ def find_projection(collection_str, json_str, projection_str):
 def remove_many(collection_str, json_str):
     collection = db[collection_str]
     return collection.delete_many(json_str)
-
-
-if __name__ == '__main__':
-    create_one('users', {'username': '何文达', 'passwrod': 'zhaokeyue1998'})
