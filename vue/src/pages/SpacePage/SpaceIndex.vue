@@ -2,27 +2,25 @@
   <div>
     <shadow-card class="card" title="我的文章">
       <div class="steam">
-        <Row v-for="(item, index) in collection_Array" :key="index"  class="steam-list">
+        <Row v-for="(item, index) in myArticle_Array" :key="index"  class="steam-list">
           <section>
             <div class="favs bookmark-rank">
               1
               <span>收藏</span>
             </div>
             <Col>
-              <router-link to="/" class="author">
-                {{item.author}}
+              <router-link class="title" to="/">
+                {{item.article.title}}
               </router-link>
-              <span>{{item.date}}</span>
+              <span>{{item.article.summary}}</span>
             </Col>
             <Col>
-              <router-link class="title" to="/">
-                {{item.article_title}}
-              </router-link>
+              <span>{{item.update_time}}</span>
             </Col>
           </section>
         </Row>
       </div>
-      <div class="more" @click="routeTo('collection')"> 查看更多 </div>
+      <div class="more" @click="routeTo('article')"> 查看更多 </div>
     </shadow-card>
     <shadow-card class="card" title="我的收藏">
       <div class="steam">
@@ -73,6 +71,7 @@
 
 <script>
 import ShadowCard from "../../components/ShadowCard";
+import api from '../../api';
 export default {
   components: { ShadowCard },
   data() {
@@ -93,15 +92,31 @@ export default {
           date: "2018年10月10日",
           author: "ddduanlian"
         }
-      ]
+      ],
+      myArticle_Array: []
     };
   },
   methods: {
     routeTo(name) {
       this.$router.push({path: `/space/${this.$route.params.userId}/${name}`});
       this.$store.commit('Menu_SELECT', name)
+    },
+    fetchResult(type){
+      if(type === 'myArticle') {
+        api.getArticles('real').then(({data}) => {
+          this.myArticle_Array = data
+        }).catch(err => {
+          console.log(err);
+        })
+      }
+    },
+    fetchAll() {
+      this.fetchResult('myArticle')
     }
-  }
+  },
+  mounted() {
+    this.fetchAll()
+  },
 };
 </script>
 
