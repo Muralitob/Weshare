@@ -26,14 +26,14 @@ def create_new_article():
     result = articles_db.create_new_article(data)
     if result:
         if data['category'] == 'real':
-            return jsonify({"message": 'create new article success', "code": 200}), 200
+            return jsonify({"code": 101}), 200
         elif data['category'] == 'fake':
-            return jsonify({"message": 'create new fake article success', "code": 201}), 201
+            return jsonify({"code": 102}), 201
     else:
         if data['category'] == 'real':
-            return jsonify({"message": 'create new article fail', "code": 200}), 200
+            return jsonify({"code": 103}), 200
         elif data['category'] == 'fake':
-            return jsonify({"message": 'create new fake article fail', "code": 201}), 201
+            return jsonify({"code": 104}), 201
 
 
 @article.route('/get_articles_by_uid', methods=['GET'])
@@ -51,7 +51,7 @@ def get_articles_by_uid():
     if result:
         return jsonify(utility.convert_to_json(result)), 200
     else:
-        return jsonify({"message": 'get article fail', "code": 200}), 200
+        return jsonify({"code": 105}), 200
 
 
 @article.route('/edit_article_by_id', methods=['POST'])
@@ -63,9 +63,9 @@ def edit_article_by_id():
     article = request.get_json()
     result = articles_db.edit_article_by_id(article)
     if result:
-        return jsonify({"message": 'edit article success', "code": 200}), 200
+        return jsonify({"code": 106}), 200
     else:
-        return jsonify({"message": 'edit article fail', "code": 200}), 200
+        return jsonify({"code": 107}), 200
 
 
 @article.route('/delete_article_by_id', methods=['DELETE'])
@@ -77,6 +77,6 @@ def delete_article_by_id():
     ids = request.get_json()
     result = articles_db.delete_article_by_id(ids)
     if result:
-        return jsonify({"message": 'delete articles success', "code": 200}), 200
+        return jsonify({"code": 108}), 200
     else:
-        return jsonify({"message": 'delete articles fail', "code": 200}), 200
+        return jsonify({"code": 109}), 200

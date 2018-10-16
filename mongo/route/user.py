@@ -24,9 +24,9 @@ def register():
     data = request.get_json()
     result = user_db.register(data)
     if result:
-        return jsonify({"message": 'register success', "code": 200}), 200
+        return jsonify({"code": 201}), 200
     else:
-        return jsonify({"message": 'register fail', "code": 200}), 200
+        return jsonify({"code": 202}), 200
 
 
 @user.route('/login', methods=['POST'])
@@ -43,7 +43,7 @@ def login():
     if result:
         return jsonify(result), 200
     else:
-        return jsonify({"status": 'login fail', "code": 200}), 200
+        return jsonify({"code": 203}), 200
 
 
 @user.route('/get_user_info', methods=['GET'])
@@ -57,4 +57,4 @@ def get_user_info():
     if result:
         return jsonify(utility.convert_to_json(result)), 200
     else:
-        return jsonify({"status": 'get user info fail', "code": 200}), 200
+        return jsonify({"code": 204}), 200
