@@ -25,12 +25,12 @@
             <div class="meta-wrap">
               <div class="meta-title"><h3>{{item.article.title}}</h3></div>
               <p class="meta-summary">
-                {{item.article.content}}
+                {{item.article.summary}}
               </p>
               <div class="meta-status"><span>{{item.update_time}}</span></div>
               <div class="meta-action">
                 <Button type="primary">编辑</Button>
-                <Button @click="deleteDrafts(item._id)">删除</Button>
+                <Button @click="deleteDrafts([item._id])">删除</Button>
               </div>
             </div>
           </div>
@@ -40,30 +40,28 @@
 </template>
 
 <script>
-import Editor from '../../components/Editor'
-import api from '../../api';
+import Editor from "../../components/Editor";
+import api from "../../api";
 export default {
   components: {
-    Editor,
+    Editor
   },
   data() {
     return {
       article: {
-        content: '',
-        summary: '',
-        title: '',
+        content: "",
+        summary: "",
+        title: ""
       }, //文章
-      draftsList: {
-
-      },
-      activeTab: 'edit',
+      draftsList: [],
+      activeTab: "edit",
       tagLists: [], //标签
-      inputTag: '',
-    }
+      inputTag: ""
+    };
   },
   computed: {
     restCount() {
-      return (10 - this.tagLists.length)
+      return 10 - this.tagLists.length;
     }
   },
   methods: {
@@ -71,115 +69,139 @@ export default {
       // console.log(content)
     },
     addTag() {
-      if(this.inputTag){
-        this.tagLists.push(this.inputTag)
+      if (this.inputTag) {
+        this.tagLists.push(this.inputTag);
       }
-      this.tagLists = [...new Set(this.tagLists)]
-      this.inputTag = ''
+      this.tagLists = [...new Set(this.tagLists)];
+      this.inputTag = "";
     },
     colseTag(event, name) {
       const index = this.tagLists.indexOf(name);
       this.tagLists.splice(index, 1);
     },
     handleArticle(category) {
-      // api.handleArticle({
-      //   article: this.article,
-      //   tagLists: this.tagLists,
-      //   category
-      // }).then(({data}) => {
-      //   if(data.code === 200) {
-      //     this.$Message.success('提交文章成功')
-
-      //   }else if(data.code === 201) {
-      //     this.$Message.success('存入草稿箱成功')
-      //   }
-      // }) 
-      console.log(this.article)
-    },
-    getDrafts(name){
-      if(name === 'drafts') {
-        api.getArticles('fake').then(({data}) => {
-          this.draftsList = data
-        }).catch(res => {
-          console.log(res)
+      api
+        .handleArticle({
+          article: this.article,
+          tagLists: this.tagLists,
+          category
         })
+        .then(({ data }) => {
+          if (data.code === 200) {
+            this.$Message.success("提交文章成功");
+          } else if (data.code === 201) {
+            this.$Message.success("存入草稿箱成功");
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      console.log(this.article);
+    },
+    getDrafts(name) {
+      if (name === "drafts") {
+        api
+          .getArticles("fake")
+          .then(({ data }) => {
+            this.draftsList = data;
+          })
+          .catch(res => {
+            console.log(res);
+          });
       }
     },
     deleteDrafts(idList) {
-      api.deleteArticles(idList).then(({data}) => {
-        console.log(data)
-      }).catch(res => {
-        console.log(res)
-      })
+      api
+        .deleteArticles(idList)
+        .then(({ data }) => {
+          //如果成功,在现有的数组上删除该条数据，并提醒删除成功
+          this.$Notice.success({
+            title: "删除成功",
+            desc: "您所选文章已被删除"
+          });
+          let draftsList = this.draftsList;
+          var arr = [];
+          idList.forEach(element => {
+            arr = draftsList.filter((item, index) => {
+              return item._id !== element;
+            });
+          });
+          this.draftsList = arr;
+        })
+        .catch(err => {
+          this.$Notice.error({
+            title: "删除失败",
+            desc: "有问题啦"
+          });
+        });
     },
     returnSummary(data) {
-      this.article.summary = data
-    },
+      this.article.summary = data;
+    }
   },
   updated() {
     // console.log(this.article)
-  },
-}
+  }
+};
 </script>
 
 <style lang="scss">
-  #text-contribute {
-    position: relative;
-  }
-  .handleArticle {
-    /* position: absolute;
+#text-contribute {
+  position: relative;
+}
+.handleArticle {
+  /* position: absolute;
     bottom: 0; */
+}
+.btn-bar {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  button {
+    margin: 0 20px;
   }
-  .btn-bar {
+}
+.block-wrap {
+  margin: 20px 0;
+}
+.block-title {
+  display: flex;
+  align-items: center;
+  padding: 6px 0;
+  span {
+    color: #99a2aa;
+    padding-left: 8px;
+  }
+}
+.tag-wrap {
+  span {
+    color: #99a2aa;
+    padding-left: 8px;
+  }
+}
+.draft-card {
+  background-color: #fff;
+  height: 12rem;
+  padding: 20px;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+  .meta-wrap {
+    height: 100%;
     display: flex;
-    justify-content: center;
-    margin-top: 2rem;
-    button {
-      margin: 0 20px;
-    }
+    flex-direction: column;
+    justify-content: space-between;
   }
-  .block-wrap {
-    margin: 20px 0;
+  .meta-summary {
+    font-size: 14px;
+    line-height: 20px;
+    color: #99a2aa;
+    padding: 5px 0 10px;
+    word-wrap: break-word;
+    word-break: break-word;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
-  .block-title{
-    display: flex;
-    align-items: center;
-    padding: 6px 0;
-    span {
-      color: #99a2aa;
-      padding-left: 8px;
-    }
+  p {
+    color: #99a2aa;
   }
-  .tag-wrap {
-    span {
-      color: #99a2aa;
-      padding-left: 8px;
-    }
-  }
-  .draft-card {
-    background-color: #fff;
-    height: 12rem;
-    padding: 20px;
-    box-shadow: 0 0 2px rgba(0,0,0,.2);
-    .meta-wrap {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .meta-summary {
-      font-size: 14px;
-      line-height: 1.4;
-      color: #99a2aa;
-      padding: 5px 0 10px;
-      min-height: 34px;
-      width: 680px;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
-    }
-    p {
-      color: #99a2aa;
-    }
-  }
+}
 </style>
