@@ -23,9 +23,9 @@
         <li class="a_item" v-for="item in articles" :key="item._idx">
           <article>
             <header>
-              <div class="a_watch"><Icon type="md-eye" />{{item.watchNum}}</div>
+              <div class="a_watch"><Icon type="md-eye" />{{item.watchNum || 0}}</div>
               <router-link to="">
-                <h3 class="a_title">{{item.title}}</h3>
+                <h3 class="a_title">{{item.article.title}}</h3>
               </router-link>
             </header>
             <div class="a_con">
@@ -33,16 +33,17 @@
                 <Tag type="border">标签三</Tag>
                 <Tag type="border">标签三</Tag>
               </div>
-              <div class="a_text" v-html="item.summary"></div>
+              <div class="a_text" v-html="item.article.summary || 0"></div>
             </div>
             <footer>
-                <span class="a_author"><Icon type="md-person" />{{item.author}}</span>
-                <span class="a_time"><Icon type="md-time" />{{item.time}}</span>
+                <span class="a_author"><Icon type="md-person" />{{item.author || 0}}</span>
+                <span class="a_time"><Icon type="md-time" />{{item.time || 0}}</span>
             </footer>
           </article>
           </li>
+          <Spin size="large" fix v-if="spinShow"></Spin>
       </ul>
-      <Page prev-text="上一页" next-text="下一页" @on-change="changepage" :total="40" show-elevator class-name="timeline-pageBox"></Page>
+      <Page prev-text="上一页" next-text="下一页" @on-change="changepage" :total="total" show-elevator class-name="timeline-pageBox"></Page>
     </div>
   </div>  
 </template>
@@ -62,78 +63,11 @@ export default {
         beWatched: "3K",
         points: 3000
       },
-      articles: [
-        {
-          tags: [],
-          _id: "111222333",
-          title: "今日分享：我想分享些什么呢？今天的天气很好，这就是标题吧！",
-          summary:
-            "这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......",
-          time: "30分钟前",
-          author: "Mura",
-          watchNum: "30K"
-        },
-        {
-          tags: [],
-          _id: "111222333",
-          title: "今日分享：我想分享些什么呢？今天的天气很好，这就是标题吧！",
-          summary:
-            "这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......",
-          time: "30分钟前",
-          author: "Mura",
-          watchNum: "30K"
-        },
-        {
-          tags: [],
-          _id: "111222333",
-          title: "今日分享：我想分享些什么呢？今天的天气很好，这就是标题吧！",
-          summary:
-            "这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......",
-          time: "30分钟前",
-          author: "Mura",
-          watchNum: "30K"
-        },
-        {
-          tags: [],
-          _id: "111222333",
-          title: "今日分享：我想分享些什么呢？今天的天气很好，这就是标题吧！",
-          summary:
-            "这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......",
-          time: "30分钟前",
-          author: "Mura",
-          watchNum: "30K"
-        },
-        {
-          tags: [],
-          _id: "111222333",
-          title: "今日分享：我想分享些什么呢？今天的天气很好，这就是标题吧！",
-          summary:
-            "这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......",
-          time: "30分钟前",
-          author: "Mura",
-          watchNum: "30K"
-        },
-        {
-          tags: [],
-          _id: "111222333",
-          title: "今日分享：我想分享些什么呢？今天的天气很好，这就是标题吧！",
-          summary:
-            "这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......",
-          time: "30分钟前",
-          author: "Mura",
-          watchNum: "30K"
-        },
-        {
-          tags: [],
-          _id: "111222333",
-          title: "今日分享：我想分享些什么呢？今天的天气很好，这就是标题吧！",
-          summary:
-            "这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......这里可以放一些内容的摘要，大概可以放两行字，具体有什么我也不知道。要放多长呢？大概这样 就可以了，不然可能会太长了，你说对吧。14px;多出来的内容......",
-          time: "30分钟前",
-          author: "Mura",
-          watchNum: "30K"
-        }
-      ],
+      total: 0,
+      page: 1,
+      articles: [],
+      result: [],
+      spinShow: false,
       uid: this.$cookie.get("uid"),
       token: this.$store.state.UserSetting.token
     };
@@ -148,17 +82,26 @@ export default {
     // api.getUserInfo(this.$store.state.UserSetting.uid)
   },
   mounted() {
-    if (this.$store.state.token) {
-      api.getUserInfo(this.$cookie.get("uid")).then(({ data }) => {
-        console.log(data);
-      });
-    }
+    this.fetchResult(1);
   },
   methods: {
     changepage(index) {
-      console.log(index);
+      this.fetchResult(index);
     },
-    showSearch() {}
+    showSearch() {},
+    fetchResult(page) {
+      this.spinShow = true;
+      api
+        .getAllArticles(page)
+        .then(({ data }) => {
+          this.articles = data.result;
+          this.total = data.length;
+          this.spinShow = false;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   }
 };
 </script>
@@ -231,6 +174,7 @@ export default {
   .a {
     &_list {
       background-color: $c-white;
+      position: relative;
       width: 100%;
       min-height: 60rem;
     }
