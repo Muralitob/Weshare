@@ -60,3 +60,16 @@ def delete_article_by_id(ids):
     for id in ids:
         result = mongo_manager.remove_one(articles_collection, {'_id': ObjectId(id)})
     return result.acknowledged
+
+
+def get_real_articles(page, limit):
+    """
+    获取category:real文章
+    :return:
+    """
+    query = {"category": "real"}
+    limit = int(limit)
+    skip = (int(page) - 1) * limit
+    result = list(mongo_manager.find(articles_collection, query).skip(skip).limit(limit))
+    length = len(list(mongo_manager.find(articles_collection, query)))
+    return {"result": result, "length": length}
