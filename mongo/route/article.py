@@ -80,3 +80,13 @@ def delete_article_by_id():
         return jsonify({"code": 108}), 200
     else:
         return jsonify({"code": 109}), 200
+
+
+@article.route('/get_real_articles', methods=['GET'])
+def get_real_articles():
+    """
+    获取real文章
+    :return:
+    """
+    result = articles_db.get_real_articles()
+    return jsonify(utility.convert_to_json(result)), 200
