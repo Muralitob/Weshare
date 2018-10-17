@@ -34,9 +34,11 @@
                 <Tag type="border">标签三</Tag>
               </div>
               <div class="a_text" v-html="item.summary"></div>
-              <span class="a_time">{{item.time}}</span>
             </div>
-            <footer><span>{{item.author}}</span></footer>
+            <footer>
+                <span class="a_author"><Icon type="md-person" />{{item.author}}</span>
+                <span class="a_time"><Icon type="md-time" />{{item.time}}</span>
+            </footer>
           </article>
           </li>
       </ul>
@@ -248,8 +250,11 @@ export default {
       }
       footer {
         margin-left: 6rem;
+        display: flex;
         span {
           font-size: 14px;
+          display: flex;
+          align-items: center;
         }
       }
     }
@@ -284,6 +289,8 @@ export default {
       left: 20px;
       display: flex;
       flex-direction: column;
+    }
+    &_author {
     }
     &_time {
       margin-left: 2rem;
