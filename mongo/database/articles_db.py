@@ -62,10 +62,14 @@ def delete_article_by_id(ids):
     return result.acknowledged
 
 
-def get_real_articles():
+def get_real_articles(page, limit):
     """
     获取category:real文章
     :return:
     """
     query = {"category": "real"}
-    return list(mongo_manager.find(articles_collection, query))
+    limit = int(limit)
+    skip = (int(page) - 1) * limit
+    result = list(mongo_manager.find(articles_collection, query).skip(skip).limit(limit))
+    length = len(list(mongo_manager.find(articles_collection, query)))
+    return {"result": result, "length": length}

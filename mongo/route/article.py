@@ -88,5 +88,7 @@ def get_real_articles():
     获取real文章
     :return:
     """
-    result = articles_db.get_real_articles()
+    page = request.args.get('page')
+    limit = request.args.get('limit')
+    result = articles_db.get_real_articles(page, limit)
     return jsonify(utility.convert_to_json(result)), 200
