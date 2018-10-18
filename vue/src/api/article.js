@@ -17,5 +17,14 @@ export default {
     return axios.delete("/api/article/delete_article_by_id", {
       data
     });
+  },
+  /**获取所有的文章，用户首页显示 */
+  async getAllArticles(page, limit = 10) {
+    return axios.get("/api/article/get_real_articles", {
+      params: {
+        page,
+        limit
+      }
+    });
   }
 };

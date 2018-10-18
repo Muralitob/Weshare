@@ -18,6 +18,15 @@
               {{item.article_title}}
             </router-link>
           </Col>
+          <Dropdown trigger="click">
+            <a href="javascript:void(0)">
+              <Icon type="ios-arrow-down"></Icon>
+            </a>
+            <DropdownMenu slot="list">
+                <DropdownItem>编辑</DropdownItem>
+                <DropdownItem>删除</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
         </section>
       </Row>
     </div>
@@ -30,10 +39,11 @@
 </template>
 
 <script>
+import editShadowCard from "../../components/editShadowCard";
 import ShadowCard from "../../components/ShadowCard";
 import InfiniteLoading from "vue-infinite-loading";
 export default {
-  components: { ShadowCard, InfiniteLoading },
+  components: { InfiniteLoading, editShadowCard, ShadowCard },
   data() {
     return {
       collection_Array: [
@@ -91,7 +101,7 @@ export default {
           article_title: "2019年学期统计",
           date: "2018年10月10日",
           author: "ddduanlian"
-        },
+        }
       ]
     };
   },
@@ -115,4 +125,16 @@ export default {
 
 <style lang="scss">
 @import "../../scss/common.scss";
+.steam-list {
+  section {
+  }
+  .ivu-col + .ivu-dropdown {
+    position: absolute;
+    right: 1rem;
+    top: 1.1rem;
+  }
+  .ivu-dropdown-item:nth-child(2) {
+    color: #ff371e;
+  }
+}
 </style>

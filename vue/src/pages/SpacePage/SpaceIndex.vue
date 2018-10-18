@@ -22,7 +22,7 @@
           </section>
         </Row>
       </div>
-      <div class="more" @click="routeTo('collection')"> 查看更多 </div>
+      <div class="more" @click="routeTo('article')"> 查看更多 </div>
     </shadow-card>
     <shadow-card class="card" title="我的收藏">
       <div class="steam">
@@ -98,13 +98,15 @@ export default {
   },
   methods: {
     routeTo(name) {
-      this.$router.push({path: `/space/${this.$route.params.userId}/${name}`});
-      this.$store.commit('Menu_SELECT', name)
+      this.$router.push({
+        path: `/space/${this.$route.params.userId}/${name}`
+      });
+      this.$store.commit("Menu_SELECT", name);
     }
   }
 };
 </script>
 
 <style lang="scss">
-  @import '../../scss/common.scss'
+@import "../../scss/common.scss";
 </style>
