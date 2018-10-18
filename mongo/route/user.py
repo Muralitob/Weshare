@@ -14,7 +14,6 @@ user = Blueprint("user", __name__, url_prefix='/api/user')
 
 
 @user.route('/register', methods=['POST'])
-@user_db.requires_auth
 def register():
     """
     注册用户
@@ -32,7 +31,6 @@ def register():
 
 
 @user.route('/login', methods=['POST'])
-@user_db.requires_auth
 def login():
     """
     登录(支持用户名、学号、邮箱登录)
