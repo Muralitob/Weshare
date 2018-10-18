@@ -36,6 +36,7 @@
           </div>
         </TabPane>
     </Tabs>
+    <Page prev-text="上一页" next-text="下一页" @on-change="changepage" :total="total" show-elevator class-name="timeline-pageBox"></Page>
   </div>
 </template>
 
@@ -58,7 +59,8 @@ export default {
       draftsList: [],
       activeTab: "edit",
       tagLists: [], //标签
-      inputTag: ""
+      inputTag: "",
+      total: 0
     };
   },
   computed: {
@@ -95,12 +97,16 @@ export default {
           this.$Message.error(translate(err.code));
         });
     },
+    changepage(index) {
+      this.getDrafts('drafts', index)
+    },
     getDrafts(name) {
       if (name === "drafts") {
         api
-          .getArticles("fake")
+          .getArticles("fake", 1)
           .then(({ data }) => {
             this.draftsList = data;
+            this.total = data.length
           })
           .catch(err => {
             this.$Message.error(translate(data.code));

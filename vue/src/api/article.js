@@ -5,10 +5,12 @@ export default {
     return axios.post("/api/article/create_new_article", data);
   },
   /**获取用户个人文章,包括草稿 */
-  async getArticles(category) {
+  async getArticles(category, page, limit = 10) {
     return axios.get("/api/article/get_articles_by_uid", {
       params: {
-        category
+        category,
+        page,
+        limit
       }
     });
   },

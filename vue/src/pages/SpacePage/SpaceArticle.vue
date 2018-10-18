@@ -1,7 +1,7 @@
 <template>
   <shadow-card class="card" title="我的文章">
     <div class="steam">
-      <Row v-for="(item, index) in collection_Array" :key="index"  class="steam-list">
+      <Row v-for="item in myArticle" :key="item._id"  class="steam-list">
         <section>
           <div class="favs bookmark-rank">
             1
@@ -9,13 +9,13 @@
           </div>
           <Col>
             <router-link to="/" class="author">
-              {{item.author}}
+              {{item.author || 'Mura'}}
             </router-link>
-            <span>{{item.date}}</span>
+            <span>{{item.update_time}}</span>
           </Col>
           <Col>
             <router-link class="title" to="/">
-              {{item.article_title}}
+              {{item.article.title}}
             </router-link>
           </Col>
           <Dropdown trigger="click">
@@ -23,14 +23,14 @@
               <Icon type="ios-arrow-down"></Icon>
             </a>
             <DropdownMenu slot="list">
-                <DropdownItem>编辑</DropdownItem>
-                <DropdownItem>删除</DropdownItem>
+                <DropdownItem @click.native="edit(item._id)" name="edit">编辑</DropdownItem>
+                <DropdownItem @click.native="del(item._id)" >删除</DropdownItem>
             </DropdownMenu>
           </Dropdown>
         </section>
       </Row>
     </div>
-    <InfiniteLoading :on-infinite="handleReachBottom" ref="infiniteLoading"  spinner="waveDots" >
+    <InfiniteLoading @infinite="handleReachBottom" :distance='1000' direction="bootom" ref="infiniteLoading"  spinner="waveDots" >
       <span slot="no-more">
         没有更多数据了:)
       </span>
@@ -42,81 +42,60 @@
 import editShadowCard from "../../components/editShadowCard";
 import ShadowCard from "../../components/ShadowCard";
 import InfiniteLoading from "vue-infinite-loading";
+import general from "../../general/js";
+import api from "../../api";
 export default {
   components: { InfiniteLoading, editShadowCard, ShadowCard },
   data() {
     return {
-      collection_Array: [
-        {
-          article_title: "2019届校招前端面试题整理——HTML、CSS篇",
-          date: "2018年10月10日",
-          author: "ddduanlian"
-        },
-        {
-          article_title: "2019年学期统计",
-          date: "2018年10月10日",
-          author: "ddduanlian"
-        },
-        {
-          article_title: "2019年学期统计",
-          date: "2018年10月10日",
-          author: "ddduanlian"
-        },
-        {
-          article_title: "2019年学期统计",
-          date: "2018年10月10日",
-          author: "ddduanlian"
-        },
-        {
-          article_title: "2019年学期统计",
-          date: "2018年10月10日",
-          author: "ddduanlian"
-        },
-        {
-          article_title: "2019年学期统计",
-          date: "2018年10月10日",
-          author: "ddduanlian"
-        },
-        {
-          article_title: "2019年学期统计",
-          date: "2018年10月10日",
-          author: "ddduanlian"
-        },
-        {
-          article_title: "2019年学期统计",
-          date: "2018年10月10日",
-          author: "ddduanlian"
-        },
-        {
-          article_title: "2019年学期统计",
-          date: "2018年10月10日",
-          author: "ddduanlian"
-        },
-        {
-          article_title: "2019年学期统计",
-          date: "2018年10月10日",
-          author: "ddduanlian"
-        },
-        {
-          article_title: "2019年学期统计",
-          date: "2018年10月10日",
-          author: "ddduanlian"
-        }
-      ]
+      myArticle: [],
+      page: 1
     };
   },
   methods: {
-    handleReachBottom() {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          this.$refs.infiniteLoading.$emit("$InfiniteLoading:loaded");
-          const last = this.collection_Array[this.collection_Array.length - 1];
-          for (let i = 1; i < 11; i++) {
-            this.collection_Array.push(last + i);
-          }
-          this.$refs.infiniteLoading.$emit("$InfiniteLoading:complete");
-          resolve();
-        }, 2000);
+    handleReachBottom($state) {
+      $state.loaded();
+      api
+        .getArticles("real", this.page, 5)
+        .then(({ data }) => {
+          this.myArticle = this.myArticle.concat(data);
+          console.log(this.myArticle[0].article.title);
+          this.page = this.page + 1;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      $state.complete();
+    },
+    articleAction(name) {
+      if (name === "edit") {
+      } else if (name === "delete") {
+      }
+    },
+    edit(_id) {
+      console.log(_id);
+    },
+    del(_id) {
+      this.$Modal.confirm({
+        title: "确认",
+        content: "<p>你确定删除这篇文章吗?</p>",
+        onOk: () => {
+          api.deleteArticles([_id]).then(({ data }) => {
+            if (data.code === 108) {
+              this.$Notice.success({
+                title: general.translate(data.code),
+                desc: "您所选文章已被删除"
+              });
+              var arr = [];
+              [_id].forEach(element => {
+                arr = this.myArticle.filter((item, index) => {
+                  return item._id !== element;
+                });
+              });
+              this.myArticle = arr;
+            }
+          });
+        }
       });
     }
   }

@@ -2,7 +2,7 @@
   <div>
     <shadow-card class="card" title="我的文章">
       <div class="steam">
-        <Row v-for="(item, index) in myArticle_Array" :key="index"  class="steam-list">
+        <Row v-for="(item, index) in myArticle" :key="index"  class="steam-list">
           <section>
             <div class="favs bookmark-rank">
               1
@@ -93,7 +93,9 @@ export default {
           author: "ddduanlian"
         }
       ],
-      myArticle_Array: []
+      myArticle: [],
+      myCollection: [],
+      myHistory: [],
     };
   },
   methods: {
@@ -101,17 +103,23 @@ export default {
       this.$router.push({path: `/space/${this.$route.params.userId}/${name}`});
       this.$store.commit('Menu_SELECT', name)
     },
-    fetchResult(type){
+    fetchResult(type, page, limit){
       if(type === 'myArticle') {
-        api.getArticles('real').then(({data}) => {
-          this.myArticle_Array = data
+        api.getArticles('real', page, limit).then(({data}) => {
+          this.myArticle = data
         }).catch(err => {
           console.log(err);
         })
+      }else if (type === 'myCollection') {
+        
+      }else if (type === 'myHistory') {
+        
       }
     },
     fetchAll() {
-      this.fetchResult('myArticle')
+      this.fetchResult('myArticle', 1, 5)
+      this.fetchResult('myCollection', 1, 5)
+      this.fetchResult('myHistory', 1, 5)
     }
   },
   mounted() {
