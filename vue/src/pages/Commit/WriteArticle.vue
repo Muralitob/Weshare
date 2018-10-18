@@ -41,6 +41,7 @@
 
 <script>
 import Editor from "../../components/Editor";
+import translate from '../../general/js/translate.js'
 import api from "../../api";
 export default {
   components: {
@@ -87,16 +88,11 @@ export default {
           category
         })
         .then(({ data }) => {
-          if (data.code === 200) {
-            this.$Message.success("提交文章成功");
-          } else if (data.code === 201) {
-            this.$Message.success("存入草稿箱成功");
-          }
+          this.$Message.success(translate(data.code));
         })
         .catch(err => {
-          console.log(err);
+          this.$Message.error(translate(err.code));
         });
-      console.log(this.article);
     },
     getDrafts(name) {
       if (name === "drafts") {
@@ -105,8 +101,8 @@ export default {
           .then(({ data }) => {
             this.draftsList = data;
           })
-          .catch(res => {
-            console.log(res);
+          .catch(err => {
+            this.$Message.error(translate(data.code));
           });
       }
     },
@@ -116,7 +112,7 @@ export default {
         .then(({ data }) => {
           //如果成功,在现有的数组上删除该条数据，并提醒删除成功
           this.$Notice.success({
-            title: "删除成功",
+            title: translate(data.code),
             desc: "您所选文章已被删除"
           });
           let draftsList = this.draftsList;
@@ -130,7 +126,7 @@ export default {
         })
         .catch(err => {
           this.$Notice.error({
-            title: "删除失败",
+            title: translate(data.code),
             desc: "有问题啦"
           });
         });
