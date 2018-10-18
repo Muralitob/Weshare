@@ -1,6 +1,6 @@
 import routeMap from '../../constants/routeMapName'
 import codeMap from '../../constants/codeMap'
-export function translate (bodyString) {
+export default function translate (bodyString) {
   const dictionary = {
     ...routeMap,
     ...codeMap,

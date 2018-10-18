@@ -80,7 +80,7 @@
 import Routes from "../router";
 import TopUser from "./TopUser";
 import { mapState } from "vuex";
-import { translate } from "../general/js/translate.js";
+import general from '../general/js';
 export default {
   components: { TopUser },
   data() {
@@ -225,7 +225,7 @@ export default {
   mounted() {
     const routes_Array = Routes.options.routes;
     this.routeList = Object.keys(routes_Array).map(e => ({
-      name: translate(routes_Array[e].name),
+      name: general.translate(routes_Array[e].name),
       key: e,
       path: routes_Array[e].path,
       meta: Object.assign({}, routes_Array[e].meta)

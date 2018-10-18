@@ -41,7 +41,8 @@
 
 <script>
 import Editor from "../../components/Editor";
-import translate from '../../general/js/translate.js'
+import utill from '../../general/js/translate.js'
+import general from '../../general/js'
 import api from "../../api";
 export default {
   components: {

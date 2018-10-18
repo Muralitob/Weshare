@@ -23,9 +23,9 @@
         <li class="a_item" v-for="item in articles" :key="item._idx">
           <article>
             <header>
-              <div class="a_watch"><Icon type="md-eye" />{{item.watchNum || 0}}</div>
-              <router-link to="">
-                <h3 class="a_title">{{item.article.title}}</h3>
+              <div class="a_watch"><Icon type="md-eye" />{{item.watchNum}}</div>
+              <router-link :to="{name: 'commentArticle', params: { com_id: item._id }}">
+                <h3 class="a_title">{{item.title}}</h3>
               </router-link>
             </header>
             <div class="a_con">
@@ -33,11 +33,11 @@
                 <Tag type="border">标签三</Tag>
                 <Tag type="border">标签三</Tag>
               </div>
-              <div class="a_text" v-html="item.article.summary || 0"></div>
+              <div class="a_text" v-html="item.summary || 0"></div>
             </div>
             <footer>
-                <span class="a_author"><Icon type="md-person" />{{item.author || 0}}</span>
-                <span class="a_time"><Icon type="md-time" />{{item.time || 0}}</span>
+                <span class="a_author"><Icon type="md-person" />{{item.author}}</span>
+                <span class="a_time"><Icon type="md-time" />{{item.time}}</span>
             </footer>
           </article>
           </li>
@@ -51,6 +51,8 @@
 <script>
 import NaviBar from "../../components/Navi";
 import api from "../../api";
+import general from '../../general/js';
+import article from '../../api/article';
 export default {
   components: { NaviBar },
   data() {
@@ -95,6 +97,17 @@ export default {
         .getAllArticles(page)
         .then(({ data }) => {
           this.articles = data.result;
+          // this.articles.time = general.TimeDesc(data.result.update_time)
+          let obj = {}
+          let dataAr = data.result;
+          this.articles = Object.values(dataAr).map(value => ({
+            time: general.TimeDesc(value.update_time),
+            title: value.article.title,
+            summary: value.article.summary,
+            _id: value._id,
+            author: value.author || 'Mura',
+            watchNum: value.article.watchNum || 0
+          }))
           this.total = data.length;
           this.spinShow = false;
         })
