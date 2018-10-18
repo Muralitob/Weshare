@@ -45,5 +45,10 @@ def check_token(token):
 
 def get_user_info(uid):
     query = {'uid': int(uid)}
-    one = mongo_manager.find_one('users', query)
+    one = mongo_manager.find_one(users_collection, query)
     return one
+
+
+def edit_user_info(uid, data):
+    result = mongo_manager.update_one(users_collection, {'uid': uid}, {"$set": data})
+    return result.acknowledged

@@ -3,13 +3,8 @@
 __author__:cjhcw
 """
 import sys
-from datetime import datetime
 from flask import Flask
-from flask import request
-from flask import make_response
 from flask_cors import CORS
-from flask import g
-from flask import got_request_exception
 from flask_restplus import Api
 from os import path
 

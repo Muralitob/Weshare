@@ -4,6 +4,7 @@ __author__:cjhcw
 """
 from flask import Blueprint
 from flask import jsonify, make_response, request, json
+import jwt
 
 from database import user_db
 
@@ -52,9 +53,26 @@ def get_user_info():
     获取用户信息
     :return:
     """
-    uid = request.args.get('uid')
-    result = user_db.get_user_info(uid)
+    token = request.headers.get('Authorization')
+    data = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+    result = user_db.get_user_info(data['uid'])
     if result:
         return jsonify(utility.convert_to_json(result)), 200
     else:
         return jsonify({"code": 204}), 200
+
+
+@user.route('/edit_user_info', methods=['POST'])
+def edit_user_info():
+    """
+    修改用户信息
+    :return:
+    """
+    data = request.get_json()
+    token = request.headers.get('Authorization')
+    token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+    result = user_db.edit_user_info(int(token['uid']), data)
+    if result:
+        return jsonify({"code": 205}), 200
+    else:
+        return jsonify({"code": 206}), 200

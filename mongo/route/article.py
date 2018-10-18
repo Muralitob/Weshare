@@ -47,11 +47,8 @@ def get_articles_by_uid():
     category = request.args.get('category')
     page = request.args.get('page')
     limit = request.args.get('limit')
-    result = articles_db.get_articles_by_uid(data['uid'], category, int(page), int(limit))
-    if result:
-        return jsonify(utility.convert_to_json(result)), 200
-    else:
-        return jsonify({"code": 105}), 200
+    result, length = articles_db.get_articles_by_uid(data['uid'], category, int(page), int(limit))
+    return jsonify({"articles": utility.convert_to_json(result), "total": length}), 200
 
 
 @article.route('/edit_article_by_id', methods=['POST'])
@@ -90,5 +87,5 @@ def get_real_articles():
     """
     page = request.args.get('page')
     limit = request.args.get('limit')
-    result = articles_db.get_real_articles(page, limit)
-    return jsonify(utility.convert_to_json(result)), 200
+    result, length = articles_db.get_real_articles(page, limit)
+    return jsonify({"articles": utility.convert_to_json(result), "total": length}), 200
