@@ -10,7 +10,7 @@
             </div>
             <Col>
               <router-link class="title" to="/">
-                {{item.article.title}}
+                {{item.article.title || 'mura'}}
               </router-link>
               <span>{{item.article.summary}}</span>
             </Col>
@@ -24,7 +24,7 @@
     </shadow-card>
     <shadow-card class="card" title="我的收藏">
       <div class="steam">
-        <Row v-for="(item, index) in collection_Array" :key="index"  class="steam-list">
+        <Row v-for="(item, index) in myCollection" :key="index"  class="steam-list">
           <section>
             <div class="favs bookmark-rank">
               1
@@ -48,7 +48,7 @@
     </shadow-card>
     <shadow-card class="card" title="我的浏览记录">
       <div class="steam">
-        <Row v-for="(item, index) in collection_Array" :key="index"  class="steam-list">
+        <Row v-for="(item, index) in myHistory" :key="index"  class="steam-list">
           <section>
             <Col class="between">
               <router-link class="title" to="/">
@@ -71,60 +71,47 @@
 
 <script>
 import ShadowCard from "../../components/ShadowCard";
-import api from '../../api';
+import api from "../../api";
 export default {
   components: { ShadowCard },
   data() {
     return {
-      collection_Array: [
-        {
-          article_title: "2019届校招前端面试题整理——HTML、CSS篇",
-          date: "2018年10月10日",
-          author: "ddduanlian"
-        },
-        {
-          article_title: "2019年学期统计",
-          date: "2018年10月10日",
-          author: "ddduanlian"
-        },
-        {
-          article_title: "2019年学期统计",
-          date: "2018年10月10日",
-          author: "ddduanlian"
-        }
-      ],
+      collection_Array: [],
       myArticle: [],
       myCollection: [],
-      myHistory: [],
+      myHistory: []
     };
   },
   methods: {
     routeTo(name) {
-      this.$router.push({path: `/space/${this.$route.params.userId}/${name}`});
-      this.$store.commit('Menu_SELECT', name)
+      this.$router.push({
+        path: `/space/${this.$route.params.userId}/${name}`
+      });
+      this.$store.commit("Menu_SELECT", name);
     },
-    fetchResult(type, page, limit){
-      if(type === 'myArticle') {
-        api.getArticles('real', page, limit).then(({data}) => {
-          this.myArticle = data
-        }).catch(err => {
-          console.log(err);
-        })
-      }else if (type === 'myCollection') {
-        
-      }else if (type === 'myHistory') {
-        
+    fetchResult(type, page, limit) {
+      if (type === "myArticle") {
+        api
+          .getArticles("real", page, limit)
+          .then(({ data }) => {
+            this.myArticle = data.articles;
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      } else if (type === "myCollection") {
+      } else if (type === "myHistory") {
       }
     },
     fetchAll() {
-      this.fetchResult('myArticle', 1, 5)
-      this.fetchResult('myCollection', 1, 5)
-      this.fetchResult('myHistory', 1, 5)
+      this.fetchResult("myArticle", 1, 5);
+      this.fetchResult("myCollection", 1, 5);
+      this.fetchResult("myHistory", 1, 5);
     }
   },
   mounted() {
-    this.fetchAll()
-  },
+    this.fetchAll();
+  }
 };
 </script>
 

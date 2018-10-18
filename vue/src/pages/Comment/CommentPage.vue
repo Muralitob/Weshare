@@ -97,13 +97,11 @@ export default {
         .getAllArticles(page)
         .then(({ data }) => {
           this.articles = data.result;
-          // this.articles.time = general.TimeDesc(data.result.update_time)
           let obj = {}
-          let dataAr = data.result;
-          this.articles = Object.values(dataAr).map(value => ({
+          this.articles = Object.values(data)[0].map(value => ({
             time: general.TimeDesc(value.update_time),
-            title: value.article.title,
-            summary: value.article.summary,
+            title: value.article.title || '233',
+            summary: value.article.summary || '233',
             _id: value._id,
             author: value.author || 'Mura',
             watchNum: value.article.watchNum || 0
