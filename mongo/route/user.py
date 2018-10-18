@@ -14,6 +14,7 @@ user = Blueprint("user", __name__, url_prefix='/api/user')
 
 
 @user.route('/register', methods=['POST'])
+@user_db.requires_auth
 def register():
     """
     注册用户
@@ -31,6 +32,7 @@ def register():
 
 
 @user.route('/login', methods=['POST'])
+@user_db.requires_auth
 def login():
     """
     登录(支持用户名、学号、邮箱登录)
@@ -48,6 +50,7 @@ def login():
 
 
 @user.route('/get_user_info', methods=['GET'])
+@user_db.requires_auth
 def get_user_info():
     """
     获取用户信息
@@ -63,6 +66,7 @@ def get_user_info():
 
 
 @user.route('/edit_user_info', methods=['POST'])
+@user_db.requires_auth
 def edit_user_info():
     """
     修改用户信息

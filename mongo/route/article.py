@@ -7,6 +7,7 @@ from flask import request
 from flask import jsonify
 import utility
 import jwt
+from database.user_db import requires_auth
 
 from database import articles_db
 
@@ -14,6 +15,7 @@ article = Blueprint("article", __name__, url_prefix='/api/article')
 
 
 @article.route('/create_new_article', methods=['POST'])
+@requires_auth
 def create_new_article():
     """
     新建文章
@@ -37,6 +39,7 @@ def create_new_article():
 
 
 @article.route('/get_articles_by_uid', methods=['GET'])
+@requires_auth
 def get_articles_by_uid():
     """
     根据uid获取文章
@@ -52,6 +55,7 @@ def get_articles_by_uid():
 
 
 @article.route('/edit_article_by_id', methods=['POST'])
+@requires_auth
 def edit_article_by_id():
     """
     根据article['id']编辑文章
@@ -66,6 +70,7 @@ def edit_article_by_id():
 
 
 @article.route('/delete_article_by_id', methods=['DELETE'])
+@requires_auth
 def delete_article_by_id():
     """
     批量删除文章
@@ -80,6 +85,7 @@ def delete_article_by_id():
 
 
 @article.route('/get_real_articles', methods=['GET'])
+@requires_auth
 def get_real_articles():
     """
     获取real文章

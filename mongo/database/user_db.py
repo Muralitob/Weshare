@@ -3,6 +3,8 @@
 __author__:cjhcw
 """
 import jwt
+from functools import wraps
+from flask import request
 from datetime import datetime
 from core_manager.mongo_manager import mongo_manager
 
@@ -36,11 +38,16 @@ def login(data):
         return False
 
 
-def check_token(token):
-    payload = jwt.decode(token, 'secret', algorithms=['HS256'])
-    if payload:
-        return True, token
-    return False, token
+def requires_auth(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        token = request.headers.get('Authorization')
+        payload = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+        if payload:
+            right = mongo_manager.find_one(users_collection, {'uid': payload['uid']})
+            if not right:
+                return f(*args, **kwargs)
+    return decorated
 
 
 def get_user_info(uid):
