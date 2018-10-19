@@ -1,7 +1,9 @@
 import routeMap from '../../constants/routeMapName'
-export function translate (bodyString) {
+import codeMap from '../../constants/codeMap'
+export default function translate (bodyString) {
   const dictionary = {
     ...routeMap,
+    ...codeMap,
   }
   if(dictionary.hasOwnProperty(bodyString)) {
     return dictionary[bodyString]

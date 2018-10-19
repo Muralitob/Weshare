@@ -9,11 +9,11 @@
 </template>
 
 <script>
-import { translate } from '../general/js/translate.js';
+import general from '../general/js';
 export default {
   data() {
     return {
-      preRouteName : translate(this.$route.name)
+      preRouteName : general.translate(this.$route.name)
     }
   },
   props: [ 'title' ],

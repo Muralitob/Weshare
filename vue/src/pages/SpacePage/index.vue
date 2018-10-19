@@ -59,6 +59,7 @@
 </template>
 
 <script>
+import api from '../../api';
 export default {
   data() {
     return {
@@ -76,6 +77,11 @@ export default {
     },
     reset() {
       this.$store.commit('Menu_SELECT', 'index')
+    },
+    getUserInfo() {
+      api.getUserInfo().then(({data}) => {
+        console.log(data);
+      })
     }
   },
   computed: {
@@ -86,6 +92,7 @@ export default {
   mounted() {
     //判断this.$route.params.userId是否与本地储存的uid是否相同
     //相同则展示目前的样子，如果不相同 则为他人空间，最好每个组件都传uid判断一下
+    this.getUserInfo();
   },
 };
 </script>

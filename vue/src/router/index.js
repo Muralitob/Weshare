@@ -41,7 +41,13 @@ const router = new Router({
       meta: { 
         ifShow: true,
         requiresAuth: false
-      }
+      },
+      children: [
+        {
+          path: '/timeline/:com_id',
+          name: 'commentArticle',
+        }
+      ]
     },
     {
       path: '/news',
