@@ -85,7 +85,6 @@ def delete_article_by_id():
 
 
 @article.route('/get_real_articles', methods=['GET'])
-@requires_auth
 def get_real_articles():
     """
     获取real文章

@@ -20,6 +20,7 @@ def register():
     :parameter
     account
     password
+    nickname
     :return:
     """
     data = request.get_json()
