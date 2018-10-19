@@ -3,10 +3,10 @@
 __author__:cjhcw
 """
 from flask import Blueprint
-from flask import jsonify, make_response, request, json
+from flask import jsonify, request
 import jwt
 
-from database import user_db
+from database import users_db
 
 import utility
 
@@ -24,7 +24,7 @@ def register():
     :return:
     """
     data = request.get_json()
-    result = user_db.register(data)
+    result = users_db.register(data)
     if result:
         return jsonify({"code": 201}), 200
     else:
@@ -41,7 +41,7 @@ def login():
     :return:
     """
     data = request.get_json()
-    result = user_db.login(data)
+    result = users_db.login(data)
     if result:
         return jsonify(result), 200
     else:
@@ -49,7 +49,7 @@ def login():
 
 
 @user.route('/get_user_info', methods=['GET'])
-@user_db.requires_auth
+@users_db.requires_auth
 def get_user_info():
     """
     获取用户信息
@@ -57,7 +57,7 @@ def get_user_info():
     """
     token = request.headers.get('Authorization')
     data = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
-    result = user_db.get_user_info(data['uid'])
+    result = users_db.get_user_info(data['uid'])
     if result:
         return jsonify(utility.convert_to_json(result)), 200
     else:
@@ -65,7 +65,7 @@ def get_user_info():
 
 
 @user.route('/edit_user_info', methods=['POST'])
-@user_db.requires_auth
+@users_db.requires_auth
 def edit_user_info():
     """
     修改用户信息
@@ -74,7 +74,7 @@ def edit_user_info():
     data = request.get_json()
     token = request.headers.get('Authorization')
     token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
-    result = user_db.edit_user_info(int(token['uid']), data)
+    result = users_db.edit_user_info(int(token['uid']), data)
     if result:
         return jsonify({"code": 205}), 200
     else:

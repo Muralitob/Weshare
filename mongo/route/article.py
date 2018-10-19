@@ -7,7 +7,7 @@ from flask import request
 from flask import jsonify
 import utility
 import jwt
-from database.user_db import requires_auth
+from database.users_db import requires_auth
 
 from database import articles_db
 
@@ -76,8 +76,9 @@ def delete_article_by_id():
     批量删除文章
     :return:
     """
-    ids = request.get_json()
-    result = articles_db.delete_article_by_id(ids)
+    data = request.get_json()
+    article_ids = data['article_ids']
+    result = articles_db.delete_article_by_id(article_ids)
     if result:
         return jsonify({"code": 108}), 200
     else:
