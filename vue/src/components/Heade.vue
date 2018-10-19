@@ -31,6 +31,9 @@
         <FormItem label="用户名:" prop="account">
             <Input type="text" v-model="registForm.account" />
         </FormItem>
+        <FormItem label="昵称:" prop="nickname">
+            <Input type="text" v-model="registForm.nickname" />
+        </FormItem>
         <FormItem label="密码:" prop="password">
             <Input type="password" v-model="registForm.password" />
         </FormItem>
@@ -108,6 +111,9 @@ export default {
         account: [
           { required: true, message: "请填写用户名/学号/邮箱", trigger: "blur" }
         ],
+        nickname: [
+          { required: true, message: "请填写昵称", trigger: "blur" }
+        ],
         password: [
           { required: true, message: "请填写密码", trigger: "blur" },
           { type: "string", min: 6, message: "密码至少是6位", trigger: "blur" }
@@ -121,6 +127,7 @@ export default {
       registForm: {
         account: "",
         password: "",
+        nickname: '',
         passwdCheck: ""
       },
       rememeber: false
@@ -208,6 +215,7 @@ export default {
             setTimeout(() => {
               this.registForm = {
                 account: "",
+                nickname: "",
                 password: "",
                 passwdCheck: ""
               };
