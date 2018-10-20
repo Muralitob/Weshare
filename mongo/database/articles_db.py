@@ -32,9 +32,10 @@ def get_articles_by_uid(uid, category, page, limit):
     :return:
     """
     skip = (page - 1) * limit
-    result = list(
-        mongo_manager.find(articles_collection, {'article.uid': uid, 'category': category}).skip(skip).limit(limit))
-    return result, len(result)
+    query = {'article.uid': uid, 'category': category}
+    result = list(mongo_manager.find(articles_collection, query).skip(skip).limit(limit))
+    length = mongo_manager.find_count(articles_collection, query)
+    return result, length
 
 
 def edit_article_by_id(article):
@@ -51,14 +52,13 @@ def edit_article_by_id(article):
         return False
 
 
-def delete_article_by_id(ids):
+def delete_article_by_id(article_ids):
     """
     批量删除文章
-    :param ids:
+    :param article_ids:
     :return:
     """
-    for _id in ids:
-        result = mongo_manager.remove_one(articles_collection, {'_id': ObjectId(_id)})
+    result = mongo_manager.remove_many(articles_collection, {'_id': ObjectId(_id) for _id in article_ids})
     return result.acknowledged
 
 
@@ -71,5 +71,5 @@ def get_real_articles(page, limit):
     limit = int(limit)
     skip = (int(page) - 1) * limit
     result = list(mongo_manager.find(articles_collection, query).skip(skip).limit(limit))
-    length = len(list(mongo_manager.find(articles_collection, query)))
+    length = mongo_manager.find_count(articles_collection, query)
     return result, length

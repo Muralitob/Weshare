@@ -5,16 +5,17 @@ __author__:cjhcw
 from flask import Blueprint
 from flask import request
 from flask import jsonify
-import utility
-import jwt
-from database.user_db import requires_auth
 
+from database.users_db import requires_auth
 from database import articles_db
 
-article = Blueprint("article", __name__, url_prefix='/api/article')
+import utility
+import jwt
+
+articles = Blueprint("article", __name__, url_prefix='/api/article')
 
 
-@article.route('/create_new_article', methods=['POST'])
+@articles.route('/create_new_article', methods=['POST'])
 @requires_auth
 def create_new_article():
     """
@@ -33,12 +34,12 @@ def create_new_article():
             return jsonify({"code": 102}), 201
     else:
         if data['category'] == 'real':
-            return jsonify({"code": 103}), 200
+            return jsonify({"code": 103}), 404
         elif data['category'] == 'fake':
-            return jsonify({"code": 104}), 201
+            return jsonify({"code": 104}), 404
 
 
-@article.route('/get_articles_by_uid', methods=['GET'])
+@articles.route('/get_articles_by_uid', methods=['GET'])
 @requires_auth
 def get_articles_by_uid():
     """
@@ -54,7 +55,7 @@ def get_articles_by_uid():
     return jsonify({"articles": utility.convert_to_json(result), "total": length}), 200
 
 
-@article.route('/edit_article_by_id', methods=['POST'])
+@articles.route('/edit_article_by_id', methods=['POST'])
 @requires_auth
 def edit_article_by_id():
     """
@@ -66,25 +67,26 @@ def edit_article_by_id():
     if result:
         return jsonify({"code": 106}), 200
     else:
-        return jsonify({"code": 107}), 200
+        return jsonify({"code": 107}), 404
 
 
-@article.route('/delete_article_by_id', methods=['DELETE'])
+@articles.route('/delete_article_by_id', methods=['DELETE'])
 @requires_auth
 def delete_article_by_id():
     """
     批量删除文章
     :return:
     """
-    ids = request.get_json()
-    result = articles_db.delete_article_by_id(ids)
+    data = request.get_json()
+    article_ids = data['article_ids']
+    result = articles_db.delete_article_by_id(article_ids)
     if result:
         return jsonify({"code": 108}), 200
     else:
-        return jsonify({"code": 109}), 200
+        return jsonify({"code": 109}), 404
 
 
-@article.route('/get_real_articles', methods=['GET'])
+@articles.route('/get_real_articles', methods=['GET'])
 def get_real_articles():
     """
     获取real文章

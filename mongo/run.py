@@ -8,8 +8,9 @@ from flask_cors import CORS
 from flask_restplus import Api
 from os import path
 
-from route.user import user
-from route.article import article
+from route.users import users
+from route.articles import articles
+from route.news import news
 
 sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 
@@ -17,8 +18,9 @@ program = Flask(__name__, static_url_path='', static_folder='../uploads')
 api = Api(program)
 CORS(program, supports_credentials=True)
 
-program.register_blueprint(user)
-program.register_blueprint(article)
+program.register_blueprint(users)
+program.register_blueprint(articles)
+program.register_blueprint(news)
 
 if __name__ == '__main__':
     program.run(host='0.0.0.0', port=3090, debug=True, threaded=True)
