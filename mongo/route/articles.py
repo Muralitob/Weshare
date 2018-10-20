@@ -96,3 +96,103 @@ def get_real_articles():
     limit = request.args.get('limit')
     result, length = articles_db.get_real_articles(page, limit)
     return jsonify({"articles": utility.convert_to_json(result), "total": length}), 200
+
+
+@articles.route('/comment', methods=['POST', 'DELETE', 'PUT', 'GET'])
+@requires_auth
+def comments_functions():
+    """
+    POST新增评论,
+    DELETE删除评论,
+    PUT编辑评论,
+    GET获取评论
+    :return:
+    """
+    if request.method == 'POST':
+        token = request.headers.get('Authorization')
+        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+        data = request.get_json()
+        parent_id = data['parent_id']
+        content = data['content']
+        result = articles_db.add_comment(parent_id, token['uid'], content)
+        if result:
+            return jsonify({"code": 110}), 200
+        else:
+            return jsonify({"code": 111}), 404
+    elif request.method == 'DELETE':
+        token = request.headers.get('Authorization')
+        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+        data = request.get_json()
+        parent_id = data['parent_id']
+        result = articles_db.delete_comment(parent_id, token['uid'])
+        if result:
+            return jsonify({"code": 112}), 200
+        else:
+            return jsonify({"code": 113}), 404
+    elif request.method == 'PUT':
+        token = request.headers.get('Authorization')
+        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+        data = request.get_json()
+        parent_id = data['parent_id']
+        content = data['content']
+        result = articles_db.edit_comment(parent_id, token['uid'], content)
+        if result:
+            return jsonify({"code": 114}), 200
+        else:
+            return jsonify({"code": 115}), 404
+    elif request.method == 'GET':
+        pass
+
+
+@articles.route('/like_comment', methods=['POST'])
+@requires_auth
+def like_comment():
+    """
+    评论点赞
+    +1 点赞 -1 取消点赞
+    :return:
+    """
+    token = request.headers.get('Authorization')
+    token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+    data = request.get_json()
+    parent_id = data['parent_id']
+    add = data['add']
+    result = articles_db.like_comment(parent_id, token['uid'], int(add))
+    if result:
+        return jsonify({"code": 116}), 200
+    else:
+        return jsonify({"code": 117}), 404
+
+
+@articles.route('/like_article', methods=['POST'])
+@requires_auth
+def like_article():
+    """
+    文章点赞
+    +1 点赞 -1 取消点赞
+    :return:
+    """
+    data = request.get_json()
+    article_id = data['article_id']
+    add = data['add']
+    result = articles_db.like_article(article_id, int(add))
+    if result:
+        return jsonify({"code": 118}), 200
+    else:
+        return jsonify({"code": 119}), 404
+
+
+@articles.route('/read_article', methods=['POST'])
+@requires_auth
+def read_article():
+    """
+    文章阅读数
+    :return:
+    """
+    data = request.get_json()
+    article_id = data['article_id']
+    result = articles_db.read_article(article_id)
+    if result:
+        return jsonify({"code": 120}), 200
+    else:
+        return jsonify({"code": 121}), 404
