@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import api from '../../api';
 export default {
   data() {
     return {
@@ -44,7 +45,17 @@ export default {
   methods: {
     test(pre, next) {
       console.log(pre, next)
+    },
+    fetchUserInfo() {
+      api.getUserInfo().then(({data}) => {
+        console.log(data)
+      }).catch(err => {
+        console.log('err', err)
+      })
     }
+  },
+  mounted () {
+    this.fetchUserInfo()
   }
 }
 </script>

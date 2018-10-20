@@ -27,7 +27,9 @@ export default {
         }, 1000);
       }
     }).catch(err => {
-      if(err.code === 404) {
+      
+      if(err.code === 203) {
+        console.log(err)
         that.$Spin.show();
         setTimeout(() => {
           that.$Spin.hide();
@@ -58,11 +60,13 @@ export default {
       pwd: setMd5(form.password)
     }
     api.userRegist(formDataMD5).then(({data}) => {
-      if (data.code === 200) {
+      console.log(data)
+      if (data.code === 201) {
         commit(types.SPIN_SHOW,'registSpinShow');
         setTimeout(function(){
           commit('SPIN_SHOW', 'registSpinShow')
-          that.$Notice.success({
+          // that.$Message.info('注册成功!');
+          that.$Message.success({
             title: '注册提示',
             desc: '恭喜你注册成功:),赶快登陆吧！ '
           });
@@ -70,6 +74,8 @@ export default {
         },3000)
       } else {
       }
+    }).catch(err => {
+      console.log(err)
     });
   },
   PromptReLogin({ commit }) {

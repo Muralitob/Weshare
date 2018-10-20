@@ -37,7 +37,10 @@
             </div>
             <footer>
                 <span class="a_author"><Icon type="md-person" />{{item.author}}</span>
-                <span class="a_time"><Icon type="md-time" />{{item.time}}</span>
+                <span class="a_time"><Icon type="md-time" />
+                <!-- {{item.time}} -->
+                <Time :time="new Date(item.time.replace(/-/g, '/')).getTime()" />
+                </span>
             </footer>
           </article>
           </li>
@@ -82,6 +85,7 @@ export default {
   },
   updated() {
     // api.getUserInfo(this.$store.state.UserSetting.uid)
+    console.log((new Date()).getTime())
   },
   mounted() {
     this.fetchResult(1);
@@ -99,7 +103,7 @@ export default {
           this.articles = data.result;
           let obj = {}
           this.articles = Object.values(data)[0].map(value => ({
-            time: general.TimeDesc(value.update_time),
+            time: value.update_time,
             title: value.article.title || '233',
             summary: value.article.summary || '233',
             _id: value._id,

@@ -42,7 +42,6 @@
 
 <script>
 import Editor from "../../components/Editor";
-import utill from '../../general/js/translate.js'
 import general from '../../general/js'
 import api from "../../api";
 export default {
@@ -91,10 +90,10 @@ export default {
           category
         })
         .then(({ data }) => {
-          this.$Message.success(translate(data.code));
+          this.$Message.success(general.translate(data.code));
         })
         .catch(err => {
-          this.$Message.error(translate(err.code));
+          this.$Message.error(general.translate(err.code));
         });
     },
     changepage(index) {
@@ -109,7 +108,7 @@ export default {
             this.total = data.length
           })
           .catch(err => {
-            this.$Message.error(translate(data.code));
+            this.$Message.error(general.translate(data.code));
           });
       }
     },
@@ -119,7 +118,7 @@ export default {
         .then(({ data }) => {
           //如果成功,在现有的数组上删除该条数据，并提醒删除成功
           this.$Notice.success({
-            title: translate(data.code),
+            title: general.translate(data.code),
             desc: "您所选文章已被删除"
           });
           let draftsList = this.draftsList;
@@ -133,7 +132,7 @@ export default {
         })
         .catch(err => {
           this.$Notice.error({
-            title: translate(data.code),
+            title: general.translate(data.code),
             desc: "有问题啦"
           });
         });
