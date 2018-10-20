@@ -5,8 +5,8 @@ __author__:cjhcw
 from flask import Blueprint
 from flask import request
 from flask import jsonify
-from database.users_db import requires_auth
 
+from database.users_db import requires_auth
 from database import news_db
 
 import utility
@@ -14,11 +14,15 @@ import utility
 news = Blueprint("news", __name__, url_prefix='/api/news')
 
 
-@news.route('/news', methods=['POST', 'GET', 'DELETE'])
+# restful-API
+@news.route('/news', methods=['POST', 'GET', 'DELETE', 'PUT'])
 @requires_auth
-def news():
+def news_functions():
     """
-    创建一条新闻,获取新闻,批量删除新闻
+    POST创建一条新闻,
+    GET获取全部新闻,
+    DELETE批量删除新闻,
+    PUT更新一条新闻内容
     :return:
     """
     if request.method == 'POST':
@@ -27,7 +31,7 @@ def news():
         if result:
             return jsonify({"code": 301}), 200
         else:
-            return jsonify({"code": 302}), 200
+            return jsonify({"code": 302}), 404
     elif request.method == 'GET':
         page = request.args.get('page')
         limit = request.args.get('limit')
@@ -40,20 +44,12 @@ def news():
         if result:
             return jsonify({"code": 303}), 200
         else:
-            return jsonify({"code": 304}), 200
-
-
-@news.route('/edit_one_new', methods=['POST'])
-@requires_auth
-def edit_one_new():
-    """
-    编辑一条新闻
-    :return:
-    """
-    data = request.get_json()
-    new_id = data['_id']
-    result = news_db.edit_one_new(new_id, data)
-    if result:
-        return jsonify({"code": 305}), 200
-    else:
-        return jsonify({"code": 306}), 200
+            return jsonify({"code": 304}), 404
+    elif request.method == 'PUT':
+        data = request.get_json()
+        new_id = data['_id']
+        result = news_db.edit_one_new(new_id, data)
+        if result:
+            return jsonify({"code": 305}), 200
+        else:
+            return jsonify({"code": 306}), 404

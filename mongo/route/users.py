@@ -10,10 +10,10 @@ from database import users_db
 
 import utility
 
-user = Blueprint("user", __name__, url_prefix='/api/user')
+users = Blueprint("user", __name__, url_prefix='/api/user')
 
 
-@user.route('/register', methods=['POST'])
+@users.route('/register', methods=['POST'])
 def register():
     """
     注册用户
@@ -28,10 +28,10 @@ def register():
     if result:
         return jsonify({"code": 201}), 200
     else:
-        return jsonify({"code": 202}), 200
+        return jsonify({"code": 202}), 404
 
 
-@user.route('/login', methods=['POST'])
+@users.route('/login', methods=['POST'])
 def login():
     """
     登录(支持用户名、学号、邮箱登录)
@@ -45,10 +45,10 @@ def login():
     if result:
         return jsonify(result), 200
     else:
-        return jsonify({"code": 203}), 200
+        return jsonify({"code": 203}), 404
 
 
-@user.route('/get_user_info', methods=['GET'])
+@users.route('/get_user_info', methods=['GET'])
 @users_db.requires_auth
 def get_user_info():
     """
@@ -61,10 +61,10 @@ def get_user_info():
     if result:
         return jsonify(utility.convert_to_json(result)), 200
     else:
-        return jsonify({"code": 204}), 200
+        return jsonify({"code": 204}), 404
 
 
-@user.route('/edit_user_info', methods=['POST'])
+@users.route('/edit_user_info', methods=['POST'])
 @users_db.requires_auth
 def edit_user_info():
     """
@@ -78,4 +78,4 @@ def edit_user_info():
     if result:
         return jsonify({"code": 205}), 200
     else:
-        return jsonify({"code": 206}), 200
+        return jsonify({"code": 206}), 404

@@ -47,13 +47,13 @@ def requires_auth(f):
             right = mongo_manager.find_one(users_collection, {'uid': payload['uid']})
             if not right:
                 return f(*args, **kwargs)
+
     return decorated
 
 
 def get_user_info(uid):
     query = {'uid': int(uid)}
-    one = mongo_manager.find_one(users_collection, query)
-    return one
+    return mongo_manager.find_one(users_collection, query)
 
 
 def edit_user_info(uid, data):
