@@ -8,13 +8,22 @@ from flask import request
 from datetime import datetime
 from core_manager.mongo_manager import mongo_manager
 
+from bson import ObjectId
+
 users_collection = 'users'
+articles_collection = 'articles'
 
 
 def register(data):
     data['register_time'] = datetime.utcnow()
     data['login_time'] = datetime.utcnow()
     data['level'] = '0002'
+    if 'collections' not in data:
+        return False
+    data['collections'] = []
+    if 'nickname' not in data:
+        return False
+    data['nickname'] = ''
     data['uid'] = max(list(mongo_manager.find_projection(users_collection, {}, {'uid': 1, '_id': 0})))['uid'] + 1
     user = mongo_manager.find_one(users_collection, {'account': data['account']})
     if user:
@@ -58,4 +67,36 @@ def get_user_info(uid):
 
 def edit_user_info(uid, data):
     result = mongo_manager.update_one(users_collection, {'uid': uid}, {"$set": data})
+    return result.acknowledged
+
+
+def get_collections_by_uid(uid):
+    user = mongo_manager.find_one(users_collection, {'uid': uid})
+    if 'collections' in user:
+        collections = user['collections']
+        articles = []
+        for article in collections:
+            collection_article = mongo_manager.find_one(articles_collection, {'_id': ObjectId(article)})
+            articles.append(collection_article)
+        return articles
+    else:
+        return []
+
+
+def save_collection(uid, article_id):
+    user = mongo_manager.find_one(users_collection, {'uid': uid})
+    if 'collections' not in user or user['collections']:
+        collections = [article_id]
+    else:
+        collections = user['collections'].append(article_id)
+    result = mongo_manager.update_one(users_collection, {'uid': uid}, {"$set": {'collections': collections}})
+    return result.acknowledged
+
+
+def delete_collections(uid, article_ids):
+    user = mongo_manager.find_one(users_collection, {'uid': uid})
+    for article_id in article_ids:
+        if article_id in user['collections']:
+            user['collections'].pop(article_id)
+    result = mongo_manager.update_one(users_collection, {'uid': uid}, {"$set": {'collections': user['collections']}})
     return result.acknowledged

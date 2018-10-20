@@ -79,3 +79,43 @@ def edit_user_info():
         return jsonify({"code": 205}), 200
     else:
         return jsonify({"code": 206}), 404
+
+
+# restful-API
+@users.route('/collections', methods=['POST', 'DELETE', 'GET'])
+# 不加auth， 别人也可以看到自己收藏的文章
+# @users_db.requires_auth
+def collections_functions():
+    """
+    POST收藏文章,
+    DELETE批量删除收藏的文章,
+    GET获取uid下的collections收藏
+    :return:
+    """
+    if request.method == 'GET':
+        token = request.headers.get('Authorization')
+        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+        result = users_db.get_collections_by_uid(token['uid'])
+        return jsonify(utility.convert_to_json(result)), 200
+    elif request.method == 'POST':
+        data = request.get_json()
+        token = request.headers.get('Authorization')
+        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+        uid = token['uid']
+        article_id = data['_id']
+        result = users_db.save_collection(uid, article_id)
+        if result:
+            return jsonify({"code": 207}), 200
+        else:
+            return jsonify({"code": 208}), 404
+    elif request.method == 'DELETE':
+        data = request.get_json()
+        token = request.headers.get('Authorization')
+        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+        uid = token['uid']
+        article_ids = data['article_ids']
+        result = users_db.delete_collections(uid, article_ids)
+        if result:
+            return jsonify({"code": 209}), 200
+        else:
+            return jsonify({"code": 210}), 404
