@@ -12,6 +12,7 @@ from bson import ObjectId
 
 users_collection = 'users'
 collcetions_collection = 'collections'
+articles_collection = 'articles'
 
 
 def register(data):
@@ -69,8 +70,12 @@ def edit_user_info(uid, data):
 def get_collections_by_uid(uid, page, limit):
     skip = (page - 1) * limit
     result = list(mongo_manager.find(collcetions_collection, {'uid': uid}).skip(skip).limit(limit))
+    articles = []
+    for item in result:
+        article = mongo_manager.find_one(articles_collection, {'_id': ObjectId(item['article_id'])})
+        articles.append(article)
     length = mongo_manager.find_count(collcetions_collection, {'uid': uid})
-    return result, length
+    return articles, length
 
 
 def save_collection(uid, article_id):
@@ -84,5 +89,9 @@ def save_collection(uid, article_id):
 
 def delete_collections(uid, article_ids):
     for article_id in article_ids:
-        result = mongo_manager.remove_one(collcetions_collection, {'uid': uid, 'article_id': article_id})
+        article = mongo_manager.find_one(collcetions_collection, {'uid': uid, 'article_id': article_id})
+        if article:
+            result = mongo_manager.remove_one(collcetions_collection, {'uid': uid, 'article_id': article_id})
+        else:
+            return False
     return result.acknowledged
