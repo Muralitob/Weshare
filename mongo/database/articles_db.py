@@ -41,6 +41,15 @@ def get_articles_by_uid(uid, category, page, limit):
     return result, length
 
 
+def get_articles_by_id(_id):
+    """
+    根据_id获取文章
+    :param _id:
+    :return:
+    """
+    return mongo_manager.find_one(articles_collection, {'_id': ObjectId(_id)})
+
+
 def edit_article_by_id(article):
     """
     根据id编辑文章

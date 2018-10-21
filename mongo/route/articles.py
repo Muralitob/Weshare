@@ -55,6 +55,21 @@ def get_articles_by_uid():
     return jsonify({"articles": utility.convert_to_json(result), "total": length}), 200
 
 
+@articles.route('/get_articles_by_id', methods=['GET'])
+@requires_auth
+def get_articles_by_id():
+    """
+    根据_id获取文章
+    :return:
+    """
+    _id = request.args.get('_id')
+    result = articles_db.get_articles_by_id(_id)
+    if result:
+        return jsonify({"articles": utility.convert_to_json(result)}), 200
+    else:
+        return jsonify({"message": "获取文章失败", "code": 105}), 404
+
+
 @articles.route('/edit_article_by_id', methods=['POST'])
 @requires_auth
 def edit_article_by_id():
