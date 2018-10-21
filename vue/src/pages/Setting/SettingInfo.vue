@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     test(pre, next) {
-      console.log(pre, next);
+      this.formItem.birth_day = pre
     },
     fetchUserInfo() {
       api
@@ -59,6 +59,7 @@ export default {
         });
     },
     handleUserInfo() {
+      console.log(this.formItem);
       api.editUserInfo(this.formItem).then(({ data }) => {
         this.$Notice.success({
           title: "用户信息更新",
