@@ -63,6 +63,8 @@ def get_user_info(uid):
 
 
 def edit_user_info(uid, data):
+    if '_id' in data:
+        data.pop('_id')
     result = mongo_manager.update_one(users_collection, {'uid': uid}, {"$set": data})
     return result.acknowledged
 
