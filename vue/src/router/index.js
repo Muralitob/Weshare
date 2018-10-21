@@ -19,9 +19,12 @@ import SettingAvator from '@pages/Setting/SettingAvator'
 import SettingAccount from '@pages/Setting/SettingAccount'
 import WriteArticle from '@pages/Commit/WriteArticle';
 import Commit from '@pages/Commit'
+import WeArticle from '@components/WeArticle.vue'
+import CommentHome from '@pages/Comment/CommentHome.vue'
 import NotFound from '@components/NotFound'
 import { Message } from 'iview';
 import store from "../store/index";
+import article from '../api/article';
 
 Vue.use(Router)
 
@@ -37,15 +40,27 @@ const router = new Router({
     {
       path: '/timeline',
       name: 'Home',
-      component: CommentPage,
+      component: CommentHome,
       meta: { 
         ifShow: true,
         requiresAuth: false
       },
       children: [
         {
+          path: '/timeline',
+          name: 'commentPage',
+          component: CommentPage,
+          meta: { 
+            requiresAuth: false
+          },
+        },
+        {
           path: '/timeline/:com_id',
           name: 'commentArticle',
+          meta: { 
+            requiresAuth: false
+          },
+          component: WeArticle,
         }
       ]
     },
@@ -73,7 +88,7 @@ const router = new Router({
           meta: {
             requiresAuth: false
           },
-          component: NewsArticle
+          component: WeArticle
         },
       ]
     },

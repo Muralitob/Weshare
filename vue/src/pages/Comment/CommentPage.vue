@@ -24,7 +24,7 @@
           <article>
             <header>
               <div class="a_watch"><Icon type="md-eye" />{{item.watchNum}}</div>
-              <router-link :to="{name: 'commentArticle', params: { com_id: item._id }}">
+              <router-link :to="{path: `/timeline/${item._id}`}">
                 <h3 class="a_title">{{item.title}}</h3>
               </router-link>
             </header>
@@ -54,8 +54,8 @@
 <script>
 import NaviBar from "../../components/Navi";
 import api from "../../api";
-import general from '../../general/js';
-import article from '../../api/article';
+import general from "../../general/js";
+import article from "../../api/article";
 export default {
   components: { NaviBar },
   data() {
@@ -85,7 +85,7 @@ export default {
   },
   updated() {
     // api.getUserInfo(this.$store.state.UserSetting.uid)
-    console.log((new Date()).getTime())
+    console.log(new Date().getTime());
   },
   mounted() {
     this.fetchResult(1);
@@ -95,27 +95,26 @@ export default {
       this.fetchResult(index);
     },
     showSearch() {},
-    fetchResult(page) {
+    async fetchResult(page) {
       this.spinShow = true;
-      api
-        .getAllArticles(page)
-        .then(({ data }) => {
-          this.articles = data.result;
-          let obj = {}
-          this.articles = Object.values(data)[0].map(value => ({
-            time: value.update_time,
-            title: value.article.title || '233',
-            summary: value.article.summary || '233',
-            _id: value._id,
-            author: value.author || 'Mura',
-            watchNum: value.article.watchNum || 0
-          }))
-          this.total = data.length;
-          this.spinShow = false;
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      try {
+        let { data } = await api.getAllArticles(page);
+        this.articles = data.result;
+        let obj = {};
+        this.articles = Object.values(data)[0].map(value => ({
+          time: value.update_time,
+          title: value.article.title || "233",
+          summary: value.article.summary || "233",
+          _id: value._id,
+          author: value.author || "Mura",
+          watchNum: value.article.watchNum || 0
+        }));
+        this.total = data.length;
+        this.spinShow = false;
+        console.log("data", data);
+      } catch (err) {
+        console.log("err", err);
+      }
     }
   }
 };

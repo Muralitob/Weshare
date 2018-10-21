@@ -11,6 +11,6 @@ export default {
     return axios.get("/api/user/get_user_info");
   },
   async editUserInfo(data) {
-    return axios.post("/api/edit_user_info", data);
+    return axios.post("/api/user/edit_user_info", data);
   }
 };

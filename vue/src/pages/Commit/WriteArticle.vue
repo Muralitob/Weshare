@@ -112,7 +112,7 @@ export default {
           });
       }
     },
-    deleteDrafts(idList) {
+    asyncdeleteDrafts(idList) {
       api
         .deleteArticles(idList)
         .then(({ data }) => {
