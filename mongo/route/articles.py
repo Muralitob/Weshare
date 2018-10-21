@@ -29,14 +29,14 @@ def create_new_article():
     result = articles_db.create_new_article(data)
     if result:
         if data['category'] == 'real':
-            return jsonify({"code": 101}), 200
+            return jsonify({"message": "发布文章成功", "code": 101}), 200
         elif data['category'] == 'fake':
-            return jsonify({"code": 102}), 201
+            return jsonify({"message": "草稿箱保存成功", "code": 102}), 201
     else:
         if data['category'] == 'real':
-            return jsonify({"code": 103}), 404
+            return jsonify({"message": "发布文章失败", "code": 103}), 404
         elif data['category'] == 'fake':
-            return jsonify({"code": 104}), 404
+            return jsonify({"message": "草稿箱保存失败", "code": 104}), 404
 
 
 @articles.route('/get_articles_by_uid', methods=['GET'])
@@ -65,9 +65,9 @@ def edit_article_by_id():
     article = request.get_json()
     result = articles_db.edit_article_by_id(article)
     if result:
-        return jsonify({"code": 106}), 200
+        return jsonify({"message": "保存文章成功", "code": 106}), 200
     else:
-        return jsonify({"code": 107}), 404
+        return jsonify({"message": "保存文章失败", "code": 107}), 404
 
 
 @articles.route('/delete_article_by_id', methods=['DELETE'])
@@ -81,9 +81,9 @@ def delete_article_by_id():
     article_ids = data['article_ids']
     result = articles_db.delete_article_by_id(article_ids)
     if result:
-        return jsonify({"code": 108}), 200
+        return jsonify({"message": "删除文章成功", "code": 108}), 200
     else:
-        return jsonify({"code": 109}), 404
+        return jsonify({"message": "删除文章失败", "code": 109}), 404
 
 
 @articles.route('/get_real_articles', methods=['GET'])
@@ -116,9 +116,9 @@ def comments_functions():
         content = data['content']
         result = articles_db.add_comment(parent_id, token['uid'], content)
         if result:
-            return jsonify({"code": 110}), 200
+            return jsonify({"message": "新增评论成功", "code": 110}), 200
         else:
-            return jsonify({"code": 111}), 404
+            return jsonify({"message": "新增评论失败", "code": 111}), 404
     elif request.method == 'DELETE':
         token = request.headers.get('Authorization')
         token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
@@ -126,9 +126,9 @@ def comments_functions():
         parent_id = data['parent_id']
         result = articles_db.delete_comment(parent_id, token['uid'])
         if result:
-            return jsonify({"code": 112}), 200
+            return jsonify({"message": "删除评论成功", "code": 112}), 200
         else:
-            return jsonify({"code": 113}), 404
+            return jsonify({"message": "删除评论失败", "code": 113}), 404
     elif request.method == 'PUT':
         token = request.headers.get('Authorization')
         token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
@@ -137,9 +137,9 @@ def comments_functions():
         content = data['content']
         result = articles_db.edit_comment(parent_id, token['uid'], content)
         if result:
-            return jsonify({"code": 114}), 200
+            return jsonify({"message": "编辑评论成功", "code": 114}), 200
         else:
-            return jsonify({"code": 115}), 404
+            return jsonify({"message": "编辑评论失败", "code": 115}), 404
     elif request.method == 'GET':
         pass
 
@@ -159,9 +159,12 @@ def like_comment():
     add = data['add']
     result = articles_db.like_comment(parent_id, token['uid'], int(add))
     if result:
-        return jsonify({"code": 116}), 200
+        if add == 1:
+            return jsonify({"message": "点赞成功", "code": 1161}), 200
+        else:
+            return jsonify({"message": "取消点赞", "code": 1162}), 200
     else:
-        return jsonify({"code": 117}), 404
+        return jsonify({"message": "点赞/取消点赞失败", "code": 117}), 404
 
 
 @articles.route('/like_article', methods=['POST'])
@@ -175,11 +178,14 @@ def like_article():
     data = request.get_json()
     article_id = data['article_id']
     add = data['add']
-    result = articles_db.like_article(article_id, int(add))
+    result = articles_db.like_article(article_id, add)
     if result:
-        return jsonify({"code": 118}), 200
+        if add == 1:
+            return jsonify({"message": "点赞成功", "code": 1181}), 200
+        else:
+            return jsonify({"message": "取消点赞", "code": 1182}), 200
     else:
-        return jsonify({"code": 119}), 404
+        return jsonify({"message": "点赞/取消点赞失败", "code": 119}), 404
 
 
 @articles.route('/read_article', methods=['POST'])
@@ -193,6 +199,4 @@ def read_article():
     article_id = data['article_id']
     result = articles_db.read_article(article_id)
     if result:
-        return jsonify({"code": 120}), 200
-    else:
-        return jsonify({"code": 121}), 404
+        return jsonify({"message": "阅读数+1", "code": 120}), 200

@@ -29,9 +29,9 @@ def news_functions():
         data = request.get_json()
         result = news_db.create_new_news(data)
         if result:
-            return jsonify({"code": 301}), 200
+            return jsonify({"message": "创建新闻成功", "code": 301}), 200
         else:
-            return jsonify({"code": 302}), 404
+            return jsonify({"message": "创建新闻失败", "code": 302}), 404
     elif request.method == 'GET':
         page = request.args.get('page')
         limit = request.args.get('limit')
@@ -42,14 +42,14 @@ def news_functions():
         news_ids = data['ids']
         result = news_db.delete_news_by_id(news_ids)
         if result:
-            return jsonify({"code": 303}), 200
+            return jsonify({"message": "批量删除新闻成功", "code": 303}), 200
         else:
-            return jsonify({"code": 304}), 404
+            return jsonify({"message": "批量删除新闻失败", "code": 304}), 404
     elif request.method == 'PUT':
         data = request.get_json()
         new_id = data['_id']
         result = news_db.edit_one_new(new_id, data)
         if result:
-            return jsonify({"code": 305}), 200
+            return jsonify({"message": "保存新闻成功", "code": 305}), 200
         else:
-            return jsonify({"code": 306}), 404
+            return jsonify({"message": "保存新闻失败", "code": 306}), 404

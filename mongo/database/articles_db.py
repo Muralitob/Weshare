@@ -72,8 +72,10 @@ def like_article(article_id, add):
     :param add +1 点赞 -1 取消点赞
     :return:
     """
-    query = {'article_id': article_id}
+    query = {'_id': ObjectId(article_id)}
     article = mongo_manager.find_one(articles_collection, query)
+    if add == -1 and article['like_num'] == 0:
+        return False
     comment = {"$set": {'like_num': article['like_num'] + add}}
     result = mongo_manager.update_one(articles_collection, query, comment)
     return result.acknowledged
@@ -85,7 +87,7 @@ def read_article(article_id):
     :param article_id:
     :return:
     """
-    query = {'article_id': article_id}
+    query = {'_id': ObjectId(article_id)}
     article = mongo_manager.find_one(articles_collection, query)
     comment = {"$set": {'read_num': article['read_num'] + 1}}
     result = mongo_manager.update_one(articles_collection, query, comment)
@@ -153,6 +155,8 @@ def like_comment(parent_id, uid, add):
     """
     query = {'parent_id': parent_id, 'uid': uid}
     old_comment = mongo_manager.find_one(comments_collection, query)
+    if add == -1 and old_comment['like_num'] == 0:
+        return False
     comment = {"$set": {'like_num': old_comment['like_num'] + add}}
     result = mongo_manager.update_one(comments_collection, query, comment)
     return result.acknowledged
