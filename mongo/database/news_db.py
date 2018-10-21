@@ -5,6 +5,7 @@ __author__:cjhcw
 from core_manager.mongo_manager import mongo_manager
 
 from bson import ObjectId
+from datetime import datetime
 
 news_collection = 'news'
 
@@ -15,6 +16,8 @@ def create_new_news(data):
     :param data:
     :return:
     """
+    data['create_time'] = datetime.now()
+    data['update_time'] = datetime.now()
     result = mongo_manager.save_one(news_collection, data)
     return result.acknowledged
 
@@ -48,5 +51,6 @@ def edit_one_new(new_id, data):
     :return:
     """
     data.pop('_id')
+    data['update_time'] = datetime.now()
     result = mongo_manager.update_one(news_collection, {'_id': ObjectId(new_id)}, {"$set": data})
     return result.acknowledged

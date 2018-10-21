@@ -17,8 +17,8 @@ def create_new_article(data):
     :param data:
     :return:
     """
-    data['create_time'] = datetime.utcnow()
-    data['update_time'] = datetime.utcnow()
+    data['create_time'] = datetime.now()
+    data['update_time'] = datetime.now()
     data['like_num'] = 0
     data['read_num'] = 0
     result = mongo_manager.save_one(articles_collection, data)
@@ -115,7 +115,7 @@ def add_comment(parent_id, uid, content):
     :param content:
     :return:
     """
-    comment = {'parent_id': parent_id, 'uid': uid, 'content': content, 'comment_time': datetime.utcnow(), 'like_num': 0}
+    comment = {'parent_id': parent_id, 'uid': uid, 'content': content, 'comment_time': datetime.now(), 'like_num': 0}
     result = mongo_manager.save_one(comments_collection, comment)
     return result.acknowledged
 
@@ -140,7 +140,7 @@ def edit_comment(parent_id, uid, content):
     """
     query = {'parent_id': parent_id, 'uid': uid}
     old_comment = mongo_manager.find_one(comments_collection, query)
-    comment = {"$set": {'content': content, 'comment_time': datetime.utcnow(), 'like_num': old_comment['like_num']}}
+    comment = {"$set": {'content': content, 'comment_time': datetime.now(), 'like_num': old_comment['like_num']}}
     result = mongo_manager.update_one(comments_collection, query, comment)
     return result.acknowledged
 

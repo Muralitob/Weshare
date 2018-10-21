@@ -16,8 +16,8 @@ articles_collection = 'articles'
 
 
 def register(data):
-    data['register_time'] = datetime.utcnow()
-    data['login_time'] = datetime.utcnow()
+    data['register_time'] = datetime.now()
+    data['login_time'] = datetime.now()
     data['level'] = '0002'
     if 'nickname' not in data:
         data['nickname'] = ''
@@ -33,10 +33,10 @@ def login(data):
     user = mongo_manager.find_one(users_collection, {'account': data['account']})
     if user and user['pwd'] == data['pwd']:
         mongo_manager.update_one(users_collection, {'account': data['account']},
-                                 {"$set": {'login_time': datetime.utcnow()}})
+                                 {"$set": {'login_time': datetime.now()}})
         encoded = jwt.encode(
             {'account': user['account'], 'uid': str(user['uid']), 'organization': str(user['level']),
-             'update_time': str(datetime.utcnow())}, 'secret', algorithm='HS256')
+             'update_time': str(datetime.now())}, 'secret', algorithm='HS256')
         return_object = {'status': 'login success', 'code': 200, 'token': encoded,
                          'account': user['account'], 'org': str(user['level']), 'uid': str(user['uid'])}
         return return_object
