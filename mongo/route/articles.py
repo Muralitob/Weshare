@@ -120,11 +120,9 @@ def comments_functions():
         else:
             return jsonify({"message": "新增评论失败", "code": 111}), 404
     elif request.method == 'DELETE':
-        token = request.headers.get('Authorization')
-        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
         data = request.get_json()
-        parent_id = data['parent_id']
-        result = articles_db.delete_comment(parent_id, token['uid'])
+        _id = data['_id']
+        result = articles_db.delete_comment(_id)
         if result:
             return jsonify({"message": "删除评论成功", "code": 112}), 200
         else:
@@ -141,7 +139,11 @@ def comments_functions():
         else:
             return jsonify({"message": "编辑评论失败", "code": 115}), 404
     elif request.method == 'GET':
-        pass
+        page = request.args.get('page')
+        limit = request.args.get('limit')
+        article_id = request.args.get('article_id')
+        result, length = articles_db.get_comments(article_id, int(page), int(limit))
+        return jsonify({"comments": utility.convert_to_json(result), "total": length}), 200
 
 
 @articles.route('/like_comment', methods=['POST'])

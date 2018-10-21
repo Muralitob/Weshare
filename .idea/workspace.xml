@@ -3,10 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="5e9a0fd0-261a-4c9f-84b5-3ffa10777b6c" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/mongo/code.txt" afterPath="$PROJECT_DIR$/mongo/code.txt" />
       <change beforePath="$PROJECT_DIR$/mongo/database/articles_db.py" afterPath="$PROJECT_DIR$/mongo/database/articles_db.py" />
-      <change beforePath="$PROJECT_DIR$/mongo/database/news_db.py" afterPath="$PROJECT_DIR$/mongo/database/news_db.py" />
-      <change beforePath="$PROJECT_DIR$/mongo/database/users_db.py" afterPath="$PROJECT_DIR$/mongo/database/users_db.py" />
+      <change beforePath="$PROJECT_DIR$/mongo/route/articles.py" afterPath="$PROJECT_DIR$/mongo/route/articles.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -16,7 +14,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/Weshare$run.coverage" NAME="run Coverage Results" MODIFIED="1540098821646" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo" />
+    <SUITE FILE_PATH="coverage/Weshare$run.coverage" NAME="run Coverage Results" MODIFIED="1540108085702" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo" />
     <SUITE FILE_PATH="coverage/Weshare$mongo_manager.coverage" NAME="mongo_manager Coverage Results" MODIFIED="1536755314128" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo/core_manager/mongo_manager" />
     <SUITE FILE_PATH="coverage/Weshare$Unnamed.coverage" NAME="Unnamed Coverage Results" MODIFIED="1537187267460" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo" />
     <SUITE FILE_PATH="coverage/Weshare$user_db.coverage" NAME="user_db Coverage Results" MODIFIED="1538656386448" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo/database" />
@@ -24,36 +22,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="news_db.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mongo/database/news_db.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-161">
-              <caret line="19" column="40" lean-forward="false" selection-start-line="19" selection-start-column="40" selection-end-line="19" selection-end-column="40" />
-              <folding>
-                <element signature="e#43#95#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="users_db.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/mongo/database/users_db.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="159">
-              <caret line="82" column="70" lean-forward="false" selection-start-line="82" selection-start-column="70" selection-end-line="82" selection-end-column="70" />
-              <folding>
-                <element signature="e#43#53#0" expanded="true" />
-                <element signature="e#2120#2232#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="articles_db.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mongo/database/articles_db.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="249">
-              <caret line="139" column="7" lean-forward="false" selection-start-line="139" selection-start-column="7" selection-end-line="139" selection-end-column="7" />
+            <state relative-caret-position="146">
+              <caret line="136" column="12" lean-forward="true" selection-start-line="136" selection-start-column="12" selection-end-line="136" selection-end-column="12" />
               <folding>
                 <element signature="e#43#72#0" expanded="true" />
                 <element signature="e#592#969#0" expanded="false" />
@@ -62,8 +35,28 @@
                 <element signature="e#1554#1984#0" expanded="false" />
                 <element signature="e#2021#2353#0" expanded="false" />
                 <element signature="e#2396#2715#0" expanded="false" />
-                <element signature="e#3113#3293#0" expanded="false" />
-                <element signature="e#3820#4282#0" expanded="false" />
+                <element signature="e#4165#4627#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="articles.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/mongo/route/articles.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1125">
+              <caret line="146" column="0" lean-forward="true" selection-start-line="146" selection-start-column="0" selection-end-line="146" selection-end-column="0" />
+              <folding>
+                <element signature="e#43#70#0" expanded="true" />
+                <element signature="e#402#1131#0" expanded="false" />
+                <element signature="e#1237#1694#0" expanded="false" />
+                <element signature="e#1799#2086#0" expanded="false" />
+                <element signature="e#2197#2512#0" expanded="false" />
+                <element signature="e#3101#3565#0" expanded="false" />
+                <element signature="e#3923#4388#0" expanded="false" />
+                <element signature="e#4826#5412#0" expanded="false" />
+                <element signature="e#5505#5960#0" expanded="false" />
+                <element signature="e#6053#6281#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -116,13 +109,13 @@
         <option value="$PROJECT_DIR$/mongo/route/user.py" />
         <option value="$PROJECT_DIR$/mongo/run.py" />
         <option value="$PROJECT_DIR$/mongo/route/article.py" />
-        <option value="$PROJECT_DIR$/mongo/route/articles.py" />
         <option value="$PROJECT_DIR$/mongo/route/users.py" />
         <option value="$PROJECT_DIR$/mongo/route/news.py" />
         <option value="$PROJECT_DIR$/mongo/code.txt" />
-        <option value="$PROJECT_DIR$/mongo/database/articles_db.py" />
         <option value="$PROJECT_DIR$/mongo/database/news_db.py" />
         <option value="$PROJECT_DIR$/mongo/database/users_db.py" />
+        <option value="$PROJECT_DIR$/mongo/database/articles_db.py" />
+        <option value="$PROJECT_DIR$/mongo/route/articles.py" />
       </list>
     </option>
   </component>
@@ -712,7 +705,14 @@
       <option name="project" value="LOCAL" />
       <updated>1540104205837</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="北京时间">
+      <created>1540104596207</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1540104596207</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -721,7 +721,7 @@
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3675937" sideWeight="0.52360517" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3700121" sideWeight="0.47639486" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3700121" sideWeight="0.47639486" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3700121" sideWeight="0.4941003" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31559855" sideWeight="0.49713877" order="9" side_tool="false" content_ui="tabs" />
@@ -733,7 +733,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="CSS-X-Fire" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39782345" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.39782345" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -809,7 +809,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="uid自增" />
     <MESSAGE value="requirements.txt" />
     <MESSAGE value="token过期时间和token验证" />
     <MESSAGE value="article" />
@@ -834,11 +833,34 @@
     <MESSAGE value=" 收藏接口 完成" />
     <MESSAGE value="文章点赞、阅读数 评论除了获取评论" />
     <MESSAGE value="文章点赞、阅读数 加上message code update" />
-    <option name="LAST_COMMIT_MESSAGE" value="文章点赞、阅读数 加上message code update" />
+    <MESSAGE value="北京时间" />
+    <option name="LAST_COMMIT_MESSAGE" value="北京时间" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="29" />
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/mongo/route/articles.py</url>
+          <line>140</line>
+          <option name="timeStamp" value="29" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/mongo/route/articles.py</url>
+          <line>144</line>
+          <option name="timeStamp" value="30" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/mongo/database/articles_db.py</url>
+          <line>131</line>
+          <option name="timeStamp" value="31" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/mongo/database/articles_db.py</url>
+          <line>132</line>
+          <option name="timeStamp" value="33" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="42" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1109,7 +1131,7 @@
         <state relative-caret-position="285">
           <caret line="19" column="21" lean-forward="false" selection-start-line="19" selection-start-column="21" selection-end-line="19" selection-end-column="21" />
           <folding>
-            <element signature="e#43#70#0" expanded="true" />
+            <element signature="e#43#70#0" expanded="false" />
             <element signature="e#393#1684#0" expanded="false" />
           </folding>
         </state>
@@ -1139,41 +1161,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mongo/route/articles.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="3" lean-forward="true" selection-start-line="3" selection-start-column="3" selection-end-line="3" selection-end-column="3" />
-          <folding>
-            <element signature="e#43#70#0" expanded="true" />
-            <element signature="e#402#1131#0" expanded="false" />
-            <element signature="e#1237#1694#0" expanded="false" />
-            <element signature="e#1799#2086#0" expanded="false" />
-            <element signature="e#2197#2512#0" expanded="false" />
-            <element signature="e#2599#2862#0" expanded="false" />
-            <element signature="e#2980#4590#0" expanded="false" />
-            <element signature="e#3101#3565#0" expanded="false" />
-            <element signature="e#4078#4543#0" expanded="false" />
-            <element signature="e#4683#5269#0" expanded="false" />
-            <element signature="e#5362#5817#0" expanded="false" />
-            <element signature="e#5910#6138#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mongo/database/news_db.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-161">
           <caret line="19" column="40" lean-forward="false" selection-start-line="19" selection-start-column="40" selection-end-line="19" selection-end-column="40" />
           <folding>
-            <element signature="e#43#95#0" expanded="true" />
+            <element signature="e#43#95#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mongo/database/users_db.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="10" lean-forward="true" selection-start-line="4" selection-start-column="10" selection-end-line="4" selection-end-column="10" />
+          <folding>
+            <element signature="e#2120#2232#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mongo/database/articles_db.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="249">
-          <caret line="139" column="7" lean-forward="false" selection-start-line="139" selection-start-column="7" selection-end-line="139" selection-end-column="7" />
+        <state relative-caret-position="146">
+          <caret line="136" column="12" lean-forward="true" selection-start-line="136" selection-start-column="12" selection-end-line="136" selection-end-column="12" />
           <folding>
             <element signature="e#43#72#0" expanded="true" />
             <element signature="e#592#969#0" expanded="false" />
@@ -1182,19 +1193,26 @@
             <element signature="e#1554#1984#0" expanded="false" />
             <element signature="e#2021#2353#0" expanded="false" />
             <element signature="e#2396#2715#0" expanded="false" />
-            <element signature="e#3113#3293#0" expanded="false" />
-            <element signature="e#3820#4282#0" expanded="false" />
+            <element signature="e#4165#4627#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mongo/database/users_db.py">
+    <entry file="file://$PROJECT_DIR$/mongo/route/articles.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="159">
-          <caret line="82" column="70" lean-forward="false" selection-start-line="82" selection-start-column="70" selection-end-line="82" selection-end-column="70" />
+        <state relative-caret-position="1125">
+          <caret line="146" column="0" lean-forward="true" selection-start-line="146" selection-start-column="0" selection-end-line="146" selection-end-column="0" />
           <folding>
-            <element signature="e#43#53#0" expanded="true" />
-            <element signature="e#2120#2232#0" expanded="false" />
+            <element signature="e#43#70#0" expanded="true" />
+            <element signature="e#402#1131#0" expanded="false" />
+            <element signature="e#1237#1694#0" expanded="false" />
+            <element signature="e#1799#2086#0" expanded="false" />
+            <element signature="e#2197#2512#0" expanded="false" />
+            <element signature="e#3101#3565#0" expanded="false" />
+            <element signature="e#3923#4388#0" expanded="false" />
+            <element signature="e#4826#5412#0" expanded="false" />
+            <element signature="e#5505#5960#0" expanded="false" />
+            <element signature="e#6053#6281#0" expanded="false" />
           </folding>
         </state>
       </provider>

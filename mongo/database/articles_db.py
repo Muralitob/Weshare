@@ -120,14 +120,27 @@ def add_comment(parent_id, uid, content):
     return result.acknowledged
 
 
-def delete_comment(parent_id, uid):
+def get_comments(article_id, page, limit):
     """
-    删除单条评论
-    :param parent_id:
-    :param uid
+
+    :param article_id:
+    :param page:
+    :param limit:
     :return:
     """
-    return mongo_manager.remove_one(comments_collection, {'parent_id': parent_id, 'uid': uid}).acknowledged
+    skip = (page - 1) * limit
+    result = list(mongo_manager.find(comments_collection, {'parent_id': article_id}).skip(skip).limit(limit))
+    length = mongo_manager.find_count(comments_collection, {'parent_id': article_id})
+    return result, length
+
+
+def delete_comment(_id):
+    """
+    删除单条评论
+    :param _id:
+    :return:
+    """
+    return mongo_manager.remove_one(comments_collection, {'_id': ObjectId(parent_id)}).acknowledged
 
 
 def edit_comment(parent_id, uid, content):
