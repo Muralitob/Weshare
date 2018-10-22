@@ -1,179 +1,180 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import VueCookie from 'vue-cookie'
-import HomePage from '@pages/HomePage'
-import NewsPage from '@pages/News/NewsPage'
-import NewsHome from '@pages/News/NewsHome'
-import NewsArticle from '@pages/News/NewsArticle'
-import MarketPage from '@pages/MarketPage'
-import CommentPage from '@pages/Comment/CommentPage'
-import SpacePage from '@pages/SpacePage'
-import SpaceIndex from '@pages/SpacePage/SpaceIndex'
-import SpaceArticle from '@pages/SpacePage/SpaceArticle'
-import SpaceCollection from '@pages/SpacePage/SpaceCollection'
-import SpaceHistory from '@pages/SpacePage/SpaceHistory'
-import SpaceFan from '@pages/SpacePage/SpaceFan'
-import SettingPage from '@pages/Setting'
-import SettingInfo from '@pages/Setting/SettingInfo'
-import SettingAvator from '@pages/Setting/SettingAvator'
-import SettingAccount from '@pages/Setting/SettingAccount'
-import WriteArticle from '@pages/Commit/WriteArticle';
-import Commit from '@pages/Commit'
-import WeArticle from '@components/WeArticle.vue'
-import CommentHome from '@pages/Comment/CommentHome.vue'
-import NotFound from '@components/NotFound'
-import { Message } from 'iview';
+import Vue from "vue";
+import Router from "vue-router";
+import VueCookie from "vue-cookie";
+import HomePage from "@pages/HomePage";
+import NewsPage from "@pages/News/NewsPage";
+import NewsHome from "@pages/News/NewsHome";
+import NewsArticle from "@pages/News/NewsArticle";
+import UsedPage from "@pages/Used/UsedPage";
+import UsedHome from "@pages/Used/UsedHome";
+import CommentPage from "@pages/Comment/CommentPage";
+import SpacePage from "@pages/SpacePage";
+import SpaceIndex from "@pages/SpacePage/SpaceIndex";
+import SpaceArticle from "@pages/SpacePage/SpaceArticle";
+import SpaceCollection from "@pages/SpacePage/SpaceCollection";
+import SpaceHistory from "@pages/SpacePage/SpaceHistory";
+import SpaceFan from "@pages/SpacePage/SpaceFan";
+import SettingPage from "@pages/Setting";
+import SettingInfo from "@pages/Setting/SettingInfo";
+import SettingAvator from "@pages/Setting/SettingAvator";
+import SettingAccount from "@pages/Setting/SettingAccount";
+import WriteArticle from "@pages/Commit/WriteArticle";
+import Commit from "@pages/Commit";
+import WeArticle from "@components/WeArticle.vue";
+import CommentHome from "@pages/Comment/CommentHome.vue";
+import NotFound from "@components/NotFound";
+import { Message } from "iview";
 import store from "../store/index";
-import article from '../api/article';
+import article from "../api/article";
 
-Vue.use(Router)
+Vue.use(Router);
 
 const router = new Router({
-  mode: 'history',
+  mode: "history",
   routes: [
     {
-      path: '/',
+      path: "/",
       redirect: {
-        name: 'Home'
+        name: "Home"
       }
     },
     {
-      path: '/timeline',
-      name: 'Home',
+      path: "/timeline",
+      name: "Home",
       component: CommentHome,
-      meta: { 
-        ifShow: true,
-        requiresAuth: false
-      },
-      children: [
-        {
-          path: '/timeline/',
-          name: 'commentPage',
-          component: CommentPage,
-          meta: { 
-            requiresAuth: false
-          },
-        },
-        {
-          path: '/timeline/:com_id',
-          name: 'commentArticle',
-          meta: { 
-            requiresAuth: false
-          },
-          component: WeArticle,
-        }
-      ]
-    },
-    {
-      path: '/news',
-      component: NewsHome,
-      name: 'News',
-      redirect: {name: 'NewList'},
       meta: {
         ifShow: true,
         requiresAuth: false
       },
       children: [
         {
-          path: '/news/',
-          name: 'NewsList',
-          component: NewsPage,
+          path: "/timeline/",
+          name: "commentPage",
+          component: CommentPage,
           meta: {
             requiresAuth: false
-          },
+          }
         },
         {
-          path: '/news/:article_id',
-          name: 'NewsArticle',
+          path: "/timeline/:com_id",
+          name: "commentArticle",
           meta: {
             requiresAuth: false
           },
           component: WeArticle
-        },
+        }
       ]
     },
     {
-      path: '/commit',
-      name: 'Commit',
-      meta: { 
+      path: "/news",
+      component: NewsHome,
+      name: "News",
+      redirect: { name: "NewList" },
+      meta: {
+        ifShow: true,
+        requiresAuth: false
+      },
+      children: [
+        {
+          path: "/news/",
+          name: "NewsList",
+          component: NewsPage,
+          meta: {
+            requiresAuth: false
+          }
+        },
+        {
+          path: "/news/:article_id",
+          name: "NewsArticle",
+          meta: {
+            requiresAuth: false
+          },
+          component: WeArticle
+        }
+      ]
+    },
+    {
+      path: "/commit",
+      name: "Commit",
+      meta: {
         ifShow: false,
         requiresAuth: false
       },
       component: Commit,
       children: [
         {
-          path: '/commit/write',
-          name: 'writeArticle',
-          meta: { 
+          path: "/commit/write",
+          name: "writeArticle",
+          meta: {
             requiresAuth: true
           },
           component: WriteArticle
         },
         {
-          path: '/commit/history',
-          name: 'historyArticle',
-          meta: { 
+          path: "/commit/history",
+          name: "historyArticle",
+          meta: {
             requiresAuth: true
-          },
+          }
         },
         {
-          path: '/commit/collection',
-          name: 'collectionArticle',
-          meta: { 
+          path: "/commit/collection",
+          name: "collectionArticle",
+          meta: {
             requiresAuth: true
-          },
-        },
+          }
+        }
       ]
     },
     {
-      path: '/setting/:userId',
-      name: 'setting',
+      path: "/setting/:userId",
+      name: "setting",
       component: SettingPage,
-      meta: { 
+      meta: {
         requiresAuth: true
       },
-      redirect: { name: 'info' },
+      redirect: { name: "info" },
       children: [
         {
-          path: '/setting/:userId/info',
-          name: 'info',
-          meta: { 
+          path: "/setting/:userId/info",
+          name: "info",
+          meta: {
             requiresAuth: true
           },
           component: SettingInfo
         },
         {
-          path: '/setting/:userId/avator',
-          name: 'avator',
-          meta: { 
+          path: "/setting/:userId/avator",
+          name: "avator",
+          meta: {
             requiresAuth: true
           },
           component: SettingAvator
         },
         {
-          path: '/setting/:userId/account',
-          name: 'info',
-          meta: { 
+          path: "/setting/:userId/account",
+          name: "info",
+          meta: {
             requiresAuth: true
           },
           component: SettingAccount
         },
         {
-          path: '/setting/:userId/space',
-          name: 'info',
-          meta: { 
+          path: "/setting/:userId/space",
+          name: "info",
+          meta: {
             requiresAuth: true
           },
           component: SettingInfo
-        },
+        }
       ]
     },
     {
-      path: '/space/:userId',
-      name: 'Space',
+      path: "/space/:userId",
+      name: "Space",
       component: SpacePage,
       redirect: {
-        name: 'index'
+        name: "index"
       },
       meta: {
         ifShow: false,
@@ -181,109 +182,118 @@ const router = new Router({
       },
       children: [
         {
-          path: '/space/:userId/index',
-          name: 'index',
-          meta: { 
+          path: "/space/:userId/index",
+          name: "index",
+          meta: {
             requiresAuth: true
           },
-          component: SpaceIndex,
+          component: SpaceIndex
         },
         {
-          path: '/space/:userId/index/fan',
-          name: 'fan',
-          meta: { 
+          path: "/space/:userId/index/fan",
+          name: "fan",
+          meta: {
             requiresAuth: true
           },
           redirect: {
-            path: '/space/:userId/index/fan/00',
+            path: "/space/:userId/index/fan/00"
           },
           component: SpaceFan,
           children: [
             {
-              path: '/space/:userId/index/fan/:tagID',
-              meta: { 
+              path: "/space/:userId/index/fan/:tagID",
+              meta: {
                 requiresAuth: true
               },
-              name: 'follow_type',
-            },
+              name: "follow_type"
+            }
           ]
         },
         {
-          path: '/space/:userId/index/fans',
-          meta: { 
+          path: "/space/:userId/index/fans",
+          meta: {
             requiresAuth: true
           },
           component: SpaceFan
         },
         {
-          path: '/space/:userId/collection',
-          name: 'myCollection',
-          meta: { 
+          path: "/space/:userId/collection",
+          name: "myCollection",
+          meta: {
             requiresAuth: true
           },
-          component: SpaceCollection,
+          component: SpaceCollection
         },
         {
-          path: '/space/:userId/history',
-          name: '浏览记录',
-          meta: { 
+          path: "/space/:userId/history",
+          name: "浏览记录",
+          meta: {
             requiresAuth: true
           },
           component: SpaceHistory
         },
-        { 
-          path: '/space/:userId/article',
-          meta: { 
+        {
+          path: "/space/:userId/article",
+          meta: {
             requiresAuth: true
           },
-          name: '我的文章',
+          name: "我的文章",
           component: SpaceArticle
-        },
+        }
       ]
     },
     {
-      path: '/market',
-      name: 'Market',
-      component: MarketPage,
-      meta: { 
+      path: "/used",
+      name: "Market",
+      component: UsedPage,
+      meta: {
         ifShow: true,
         requiresAuth: false
-      }
+      },
+      children: [
+        {
+          path: "/used/",
+          name: "UsedHome",
+          meta: {
+            requiresAuth
+          },
+          component: UsedHome
+        }
+      ]
     },
     {
-      path: '/shop',
-      name: 'Shop',
+      path: "/shop",
+      name: "Shop",
       component: HomePage,
-      meta: { 
+      meta: {
         ifShow: true,
         requiresAuth: false
       }
     },
     {
-      path: '*',
+      path: "*",
       component: NotFound
     }
   ]
-})
+});
 
-router.beforeEach((to,from,next)=>{
+router.beforeEach((to, from, next) => {
   let token = store.state.UserSetting.token;
-  const uid = VueCookie.get('uid')
-  if(to.matched.some(record => record.meta.requiresAuth)) {
-    if(token) {
-      if(!uid) {
-        store.dispatch('PromptReLogin')
-        next('/')
-      }else {
-        next()
+  const uid = VueCookie.get("uid");
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (token) {
+      if (!uid) {
+        store.dispatch("PromptReLogin");
+        next("/");
+      } else {
+        next();
       }
-    }else {
-      next('/')
+    } else {
+      next("/");
     }
-  }else{
-    next()
+  } else {
+    next();
   }
-})
+});
 
-
-export default router
+export default router;
