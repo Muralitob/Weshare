@@ -2,10 +2,15 @@
   <div class="commetion">
     <div class="commetion__wrapper" >
       <div class="cutarea" v-if="IsLogin">
-        <router-link to="/commit/write" class="user__Write shortcut"><Icon size="38" type="ios-create-outline" />写文章</router-link>
-        <router-link :to="{name: 'Space', params: {userId: uid}}" class="user__History shortcut"><Icon size="38" type="md-globe" />浏览历史</router-link>
-        <router-link :to="{name: 'myCollection', params: {userId: uid}}" class="user__Collection shortcut"><Icon size="38" type="ios-star" />我的收藏</router-link>
-        <span class="shortcut" @click="showSearch"><Icon size="38" type="md-search" />搜索</span>
+        <section class="cutarea_bar" v-if="!searhIf">
+          <router-link to="/commit/write" class="user__Write shortcut"><Icon size="38" type="ios-create-outline" />写文章</router-link>
+          <router-link :to="{name: 'Space', params: {userId: uid}}" class="user__History shortcut"><Icon size="38" type="md-globe" />浏览历史</router-link>
+          <router-link :to="{name: 'myCollection', params: {userId: uid}}" class="user__Collection shortcut"><Icon size="38" type="ios-star" />我的收藏</router-link>
+          <span class="shortcut" @click="showSearch"><Icon size="38" type="md-search" />搜索</span>
+        </section>
+        <section id="search-form"  v-if="searhIf">
+          <Input @on-blur="searhIf= false" autofocus size="large"  search placeholder="Enter something..." />
+        </section>
       </div>
       <ul class="a_list">
         <li class="a_item">
@@ -74,7 +79,8 @@ export default {
       result: [],
       spinShow: false,
       uid: this.$cookie.get("uid"),
-      token: this.$store.state.UserSetting.token
+      token: this.$store.state.UserSetting.token,
+      searhIf: false
     };
   },
   watch: {},
@@ -94,7 +100,9 @@ export default {
     changepage(index) {
       this.fetchResult(index);
     },
-    showSearch() {},
+    showSearch() {
+      this.searhIf = !this.searhIf;
+    },
     async fetchResult(page) {
       this.spinShow = true;
       try {
@@ -135,6 +143,33 @@ export default {
   margin-bottom: 50px;
   border-radius: 3px;
   justify-content: space-around;
+  align-items: center;
+  position: relative;
+  .cutarea_bar {
+    display: flex;
+    width: 100%;
+    background-color: #fff;
+    justify-content: space-around;
+  }
+  // .ivu-input-wrapper-large .ivu-input-icon {
+  //   height: 40px;
+  //   line-height: 40px;
+  //   // margin-top: -20px;
+  // }
+  // .ivu-input-wrapper {
+  //   position: absolute;
+  //   right: 20px;
+  //   width: 200px;
+  //   height: 40px;
+  //   line-height: 40px;
+  // }
+  #search-form:focus-within {
+    width: 600px;
+  }
+  input {
+    width: 200px;
+    height: 40px;
+  }
   .shortcut {
     line-height: 70px;
     display: flex;

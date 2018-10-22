@@ -47,7 +47,7 @@ const router = new Router({
       },
       children: [
         {
-          path: '/timeline',
+          path: '/timeline/',
           name: 'commentPage',
           component: CommentPage,
           meta: { 
