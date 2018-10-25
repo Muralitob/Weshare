@@ -9,6 +9,7 @@ from bson import ObjectId
 
 articles_collection = 'articles'
 comments_collection = 'comments'
+users_collection = 'users'
 
 
 def create_new_article(data):
@@ -124,22 +125,33 @@ def add_comment(parent_id, uid, content):
     :param content:
     :return:
     """
-    comment = {'parent_id': parent_id, 'uid': uid, 'content': content, 'comment_time': datetime.now(), 'like_num': 0}
+    article = mongo_manager.find_one(articles_collection, {'_id': ObjectId(parent_id)})
+    if article:
+        is_first_comment = True
+    else:
+        is_first_comment = False
+    user = mongo_manager.find_one(users_collection, {'uid': uid})
+    comment = {'parent_id': ObjectId(parent_id), 'name': user['nickname'], 'content': content,
+               'comment_time': datetime.now(),
+               'is_first_comment': is_first_comment, 'like_num': 0}
     result = mongo_manager.save_one(comments_collection, comment)
     return result.acknowledged
 
 
 def get_comments(article_id, page, limit):
     """
-
+    获取评论
     :param article_id:
     :param page:
     :param limit:
     :return:
     """
     skip = (page - 1) * limit
-    result = list(mongo_manager.find(comments_collection, {'parent_id': article_id}).skip(skip).limit(limit))
-    length = mongo_manager.find_count(comments_collection, {'parent_id': article_id})
+    result = list(mongo_manager.find(comments_collection, {'parent_id': ObjectId(article_id)}).skip(skip).limit(limit))
+    for item in result:
+        comments = list(mongo_manager.find(comments_collection, {'parent_id': item['_id']}))
+        item['comments'] = comments
+    length = mongo_manager.find_count(comments_collection, {'parent_id': ObjectId(article_id)})
     return result, length
 
 
@@ -149,33 +161,31 @@ def delete_comment(_id):
     :param _id:
     :return:
     """
-    return mongo_manager.remove_one(comments_collection, {'_id': ObjectId(parent_id)}).acknowledged
+    return mongo_manager.remove_one(comments_collection, {'_id': ObjectId(_id)}).acknowledged
 
 
-def edit_comment(parent_id, uid, content):
+def edit_comment(_id, content):
     """
     编辑单条评论
-    :param parent_id:
-    :param uid:
+    :param _id:
     :param content:
     :return:
     """
-    query = {'parent_id': parent_id, 'uid': uid}
+    query = {'_id': ObjectId(_id)}
     old_comment = mongo_manager.find_one(comments_collection, query)
     comment = {"$set": {'content': content, 'comment_time': datetime.now(), 'like_num': old_comment['like_num']}}
     result = mongo_manager.update_one(comments_collection, query, comment)
     return result.acknowledged
 
 
-def like_comment(parent_id, uid, add):
+def like_comment(_id, add):
     """
     点赞
-    :param parent_id:
-    :param uid:
+    :param _id:
     :param add +1 点赞 -1 取消点赞
     :return:
     """
-    query = {'parent_id': parent_id, 'uid': uid}
+    query = {'_id': ObjectId(_id)}
     old_comment = mongo_manager.find_one(comments_collection, query)
     if add == -1 and old_comment['like_num'] == 0:
         return False

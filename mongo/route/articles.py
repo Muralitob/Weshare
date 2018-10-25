@@ -129,7 +129,7 @@ def comments_functions():
         data = request.get_json()
         parent_id = data['parent_id']
         content = data['content']
-        result = articles_db.add_comment(parent_id, token['uid'], content)
+        result = articles_db.add_comment(parent_id, int(token['uid']), content)
         if result:
             return jsonify({"message": "新增评论成功", "code": 110}), 200
         else:
@@ -143,12 +143,10 @@ def comments_functions():
         else:
             return jsonify({"message": "删除评论失败", "code": 113}), 404
     elif request.method == 'PUT':
-        token = request.headers.get('Authorization')
-        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
         data = request.get_json()
-        parent_id = data['parent_id']
+        _id = data['_id']
         content = data['content']
-        result = articles_db.edit_comment(parent_id, token['uid'], content)
+        result = articles_db.edit_comment(_id, content)
         if result:
             return jsonify({"message": "编辑评论成功", "code": 114}), 200
         else:
@@ -169,12 +167,10 @@ def like_comment():
     +1 点赞 -1 取消点赞
     :return:
     """
-    token = request.headers.get('Authorization')
-    token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
     data = request.get_json()
-    parent_id = data['parent_id']
+    _id = data['_id']
     add = data['add']
-    result = articles_db.like_comment(parent_id, token['uid'], int(add))
+    result = articles_db.like_comment(_id, int(add))
     if result:
         if add == 1:
             return jsonify({"message": "点赞成功", "code": 1161}), 200
