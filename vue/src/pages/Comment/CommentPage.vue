@@ -8,8 +8,8 @@
           <router-link :to="{name: 'myCollection', params: {userId: uid}}" class="user__Collection shortcut"><Icon size="38" type="ios-star" />我的收藏</router-link>
           <span class="shortcut" @click="showSearch"><Icon size="38" type="md-search" />搜索</span>
         </section>
-        <section id="search-form"  v-if="searhIf">
-          <Input @on-blur="searhIf= false" autofocus size="large"  search placeholder="Enter something..." />
+        <section id="search" ref="ss" v-if="searhIf">
+          <Input element-id="search-form" @on-blur="searhIf= false" autofocus="autofocus" size="large"  search placeholder="在这里搜索吧~" />
         </section>
       </div>
       <ul class="a_list">
@@ -89,10 +89,7 @@ export default {
       return this.$store.state.UserSetting.token && this.$cookie.get("uid");
     }
   },
-  updated() {
-    // api.getUserInfo(this.$store.state.UserSetting.uid)
-    console.log(new Date().getTime());
-  },
+  updated() {},
   mounted() {
     this.fetchResult(1);
   },
@@ -102,6 +99,9 @@ export default {
     },
     showSearch() {
       this.searhIf = !this.searhIf;
+      this.$nextTick(() => {
+        document.getElementById("search-form").focus();
+      });
     },
     async fetchResult(page) {
       this.spinShow = true;
@@ -151,20 +151,22 @@ export default {
     background-color: #fff;
     justify-content: space-around;
   }
-  // .ivu-input-wrapper-large .ivu-input-icon {
-  //   height: 40px;
-  //   line-height: 40px;
-  //   // margin-top: -20px;
-  // }
-  // .ivu-input-wrapper {
-  //   position: absolute;
-  //   right: 20px;
-  //   width: 200px;
-  //   height: 40px;
-  //   line-height: 40px;
-  // }
+  #search-form {
+    // position: absolute;
+    // right: 20px;
+    transition: width 0.25s ease;
+    // i {
+    //   position: absolute;
+    //   right: 0;
+    // }
+  }
+  #search {
+    position: absolute;
+    right: 20px;
+  }
   #search-form:focus-within {
-    width: 600px;
+    width: 1100px;
+    // width: 77%;
   }
   input {
     width: 200px;

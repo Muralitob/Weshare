@@ -7,6 +7,7 @@ import NewsHome from "@pages/News/NewsHome";
 import NewsArticle from "@pages/News/NewsArticle";
 import UsedPage from "@pages/Used/UsedPage";
 import UsedHome from "@pages/Used/UsedHome";
+import UsedRelease from '@pages/Used/UsedRelease.vue'
 import CommentPage from "@pages/Comment/CommentPage";
 import SpacePage from "@pages/SpacePage";
 import SpaceIndex from "@pages/SpacePage/SpaceIndex";
@@ -34,8 +35,8 @@ const router = new Router({
   routes: [
     {
       path: "/",
-      redirect: {
-        name: "Home"
+      meta: {
+        requiresAuth: false
       }
     },
     {
@@ -46,9 +47,12 @@ const router = new Router({
         ifShow: true,
         requiresAuth: false
       },
+      redirect: {
+        name: 'commentPage'
+      },
       children: [
         {
-          path: "/timeline/",
+          path: "/timeline",
           name: "commentPage",
           component: CommentPage,
           meta: {
@@ -255,10 +259,18 @@ const router = new Router({
           path: "/used/",
           name: "UsedHome",
           meta: {
-            requiresAuth
+            requiresAuth: false
           },
           component: UsedHome
-        }
+        },
+        {
+          path: "/used/release",
+          name: "UsedRelease",
+          meta: {
+            requiresAuth: true
+          },
+          component: UsedRelease
+        },
       ]
     },
     {
@@ -280,6 +292,9 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   let token = store.state.UserSetting.token;
   const uid = VueCookie.get("uid");
+  if(to.path === '/') {
+    next('/timeline')
+  }
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (token) {
       if (!uid) {
