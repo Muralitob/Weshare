@@ -10,11 +10,11 @@
         <Avatar icon="ios-person" size="large" />
       </div>
       <div class="box-textarea">
-        <Input :cols=80 :rows=2  type="textarea" placeholder="请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。" />
-        <button class="box-post">发表评论</button>
+        <Input v-model="first_content" :cols=80 :rows=2  type="textarea" placeholder="请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。" />
+        <button @click="reply" class="box-post">发表评论</button>
       </div>
     </div>
-    <div class="comment-list">
+    <div v-if="comLists.length > 0" class="comment-list">
       <div class="list-item" v-for="(parent, idx) in comLists" :key="idx">
         <div class="user-face">
           <Avatar icon="ios-person" size="large"  />
@@ -23,15 +23,15 @@
           <router-link to="" class="user-name" >
             {{parent.userName}}
           </router-link>
-          <p class="text">{{parent.comText}}</p>
+          <p class="text">{{parent.content}}</p>
           <div class="info">
-            <span>#{{parent.floor}}</span>
-            <span class="time">{{parent.comTime}}</span>
-            <span class="like"><Icon type="md-thumbs-up" />{{parent.comLikes}}</span>
+            <span>#{{idx}}</span>
+            <Time type="date" :time="parent.comment_time" />
+            <span class="like"><Icon type="md-thumbs-up" />{{parent.like_num}}</span>
             <span class="reply"><Button type="text" @click="reply(parent)">回复</Button></span>
           </div>
           <div class="reply-box">
-            <div class="reply-item" v-for="(child, idx) in parent.replyLists" :key="idx">
+            <div class="reply-item" v-for="(child, idx) in parent.comments" :key="idx">
               <Avatar icon="ios-person" size="small" class="reply-face" />
               <div class="reply-con">
                 <router-link to="" class="user-name" >
@@ -41,7 +41,6 @@
                 <div class="info">
                   <span class="time">{{child.reply_Time}}</span>
                   <span class="like"><Icon type="md-thumbs-up" />{{child.reply_Likes}}</span>
-                  <span class="reply"><Button type="text" @click="reply(item,child)">回复</Button></span>
                 </div>
               </div>
             </div>
@@ -50,124 +49,79 @@
             <div class="more" v-if="parent.replyNums>3&&!parent.viewMore">共有<b>{{parent.replyNums}}</b>条回复<Icon @click="viewmore(parent)" size='28' type="md-arrow-dropdown" class="more-view"/></div>
             <div class="box-textarea reply-textarea" v-if="parent.replyshow">
               <Input :cols=80 :rows=2  type="textarea" :placeholder='placeholderString' />
-              <button class="box-post">发表评论</button>
+              <button class="box-post" @click="reply">发表评论</button>
             </div>
           </div>
         </div>
       </div>
-      <Page prev-text="上一页" next-text="下一页" @on-change="changepage" :total="40" show-elevator class-name="commit-pageBox"></Page>
+      <Page prev-text="上一页" next-text="下一页" @on-change="changepage" :total="total" show-elevator class-name="commit-pageBox"></Page>
+    </div>
+    <div class="no_reply" v-else>
+      <span>暂无评论 :)</span>
     </div>
   </div>  
 </template>
 
 <script>
-import api from '../api'
+import api from "../api";
+import general from "../general/js";
 export default {
+  props: ["list"],
   data() {
     return {
-      comLists: [
-        {
-          userName: "Mura",
-          userUrl: "",
-          comTime: "2018-10-1 22:55",
-          comLikes: 40,
-          uid: "110",
-          comText: "skrrrrrrrrrrrrrrrrrr",
-          floor: "2",
-          replyNums: 10,
-          viewMore: false,
-          replyLists: [
-            {
-              reply_Name: "村人A",
-              uid: "110",
-              reply_Url: "",
-              reply_Time: "2018-10-7 22:55",
-              reply_Likes: 20,
-              reply_Text:
-                "个人觉得完全是充钱问题。小号剑魂心悦二碎片百分之8女装万世两套。大号弹药就去年买过一套年套13碎片，时光4等1。大大号天帝23碎片星辰4等1"
-            },
-            {
-              reply_Name: "村人B",
-              uid: "110",
-              reply_Url: "",
-              reply_Time: "2018-10-7 22:55",
-              reply_Likes: 20,
-              reply_Text: "WDNM"
-            },
-            {
-              reply_Name: "村人B",
-              uid: "110",
-              reply_Url: "",
-              reply_Time: "2018-10-7 22:55",
-              reply_Likes: 20,
-              reply_Text: "WDNM"
-            }
-          ],
-          replyshow: false
-        },
-        {
-          userName: "Mura",
-          uid: "110",
-          userUrl: "",
-          floor: "1",
-          comTime: "2018-10-1 22:55",
-          comLikes: 40,
-          comText: "skrrrrrrrrrrrrrrrrrr",
-          replyshow: false,
-          viewMore: false,
-          replyNums: 5,
-          replyLists: [
-            {
-              reply_Name: "村人A",
-              uid: "110",
-              reply_Url: "",
-              reply_Time: "2018-10-7 22:55",
-              reply_Likes: 20,
-              reply_Text:
-                "个人觉得完全是充钱问题。小号剑魂心悦二碎片百分之8女装万世两套。大号弹药就去年买过一套年套13碎片，时光4等1。大大号天帝23碎片星辰4等1"
-            },
-            {
-              reply_Name: "村人B",
-              uid: "110",
-              reply_Url: "",
-              reply_Time: "2018-10-7 22:55",
-              reply_Likes: 20,
-              reply_Text: "WDNM"
-            },
-            {
-              reply_Name: "村人B",
-              uid: "110",
-              reply_Url: "",
-              reply_Time: "2018-10-7 22:55",
-              reply_Likes: 20,
-              reply_Text: "WDNM"
-            }
-          ],
-        }
-      ],
+      comLists: [],
       placeholderString: "回复:",
-      nowReplyPerson: ""
+      nowReplyPerson: "",
+      first_content: "",
+      a_id: this.$route.params["com_id"],
+      total: 0,
+      currentPage: 1
     };
   },
   methods: {
-    reply(parent, child) {
-      if (child) {
-        this.placeholderString = `回复 @${child.reply_Name}`;
-        parent.replyshow = true;
-      } else {
-        this.placeholderString =
-          "请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。";
-        for (let i of this.comLists) {
-          i.replyshow = false;
+    async reply(parent) {
+      //主级评论
+      if (!parent.replyshow) {
+        //判断是否回复内容是否为空
+        try {
+          if (this.first_content.length > 0) {
+            let { data } = await api.commentArticle("post", {
+              parent_id: this.a_id,
+              content: this.first_content
+            });
+            if (data.code === 110) {
+              this.getReplyById(this.currentPage);
+              this.$Notice.success({
+                title: general.translate(data.code)
+              });
+              this.first_content = "";
+            }
+          }
+        } catch (error) {
+          this.$Notice.error({
+            title: general.translate(error.data.code)
+          });
         }
-        if (this.nowReplyPerson === parent.userName) {
-          this.nowReplyPerson = "";
-          parent.replyshow = false;
-        } else {
-          this.nowReplyPerson = parent.userName;
-          parent.replyshow = true;
-        }
+      }else {
+        
       }
+      // if (child) {
+      //   this.placeholderString = `回复 @${child.reply_Name}`;
+      //   parent.replyshow = true;
+      // } else {
+      //   this.placeholderString =
+      //     "请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。";
+      //   for (let i of this.comLists) {
+      //     i.replyshow = false;
+      //   }
+      //   if (this.nowReplyPerson === parent.userName) {
+      //     this.nowReplyPerson = "";
+      //     parent.replyshow = false;
+      //   } else {
+      //     this.nowReplyPerson = parent.userName;
+      //     parent.replyshow = true;
+      //   }
+      // }
     },
     viewmore(parent) {
       //调用pagechange接口，去获得第一页面的数据
@@ -175,13 +129,30 @@ export default {
     },
     changepage(index) {
       //通过index去获取数据
-      console.log(index)
+      this.currentPage = index;
+      this.getReplyById(this.currentPage);
+    },
+    async getReplyById(page) {
+      try {
+        let { data } = await api.commentArticle("get", this.a_id, page);
+        this.comLists = data.comments;
+        this.total = data.total;
+        console.log("回复", data);
+      } catch (error) {
+        console.log(error);
+      }
     }
+  },
+  mounted() {
+    this.getReplyById(this.currentPage);
   }
 };
 </script>
 
 <style lang="scss">
+.no_reply {
+  text-align: center;
+}
 .art-com {
   border: 1px solid #e1e1e1;
   background-color: #fff;

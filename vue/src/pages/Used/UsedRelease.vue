@@ -35,12 +35,12 @@
             </div>
           </Upload>
         </FormItem>
-        <FormItem label="Hobby" prop="interest">
-            <CheckboxGroup v-model="formValidate.interest">
-                <Checkbox label="Eat"></Checkbox>
-                <Checkbox label="Sleep"></Checkbox>
-                <Checkbox label="Run"></Checkbox>
-                <Checkbox label="Movie"></Checkbox>
+        <FormItem label="价格" prop="price">
+            <Input v-model="formValidate.price" placeholder="Enter your name"></Input>
+        </FormItem>
+        <FormItem label="交易方式" prop="price">
+            <CheckboxGroup value="当面交易">
+              <Checkbox label="当面交易" disabled></Checkbox>
             </CheckboxGroup>
         </FormItem>
         <FormItem>

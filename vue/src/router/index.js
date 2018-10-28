@@ -7,6 +7,7 @@ import NewsHome from "@pages/News/NewsHome";
 import NewsArticle from "@pages/News/NewsArticle";
 import UsedPage from "@pages/Used/UsedPage";
 import UsedHome from "@pages/Used/UsedHome";
+import UsedDetail from '@pages/Used/UsedDetail'
 import UsedRelease from '@pages/Used/UsedRelease.vue'
 import CommentPage from "@pages/Comment/CommentPage";
 import SpacePage from "@pages/SpacePage";
@@ -270,6 +271,14 @@ const router = new Router({
             requiresAuth: true
           },
           component: UsedRelease
+        },
+        {
+          path: "/used/release/:used_id",
+          name: "UsedDetail",
+          meta: {
+            requiresAuth: false
+          },
+          component: UsedDetail
         },
       ]
     },

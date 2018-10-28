@@ -1,48 +1,53 @@
 <template>
   <div class="article__article">
-    <div class="article__content" v-for="item in article_content" :key="item.id" >
+    <div class="article__content" >
       <div class="wrap">
-        <div class="article__title">{{item.title}}</div>
+        <div class="article__title">{{article_content.title}}</div>
         <div class="reback" @click="returnLast">
           <Icon type="arrow-return-left" size=35 color="#01d277"></Icon>
         </div>
       </div>
       <p class="article__artinfo borline">
-        <span class="article__author">{{item.author}}</span>
-        {{item.created_at}}
+        <span class="article__author">{{article_data.author||'mura'}}</span>
+        {{article_data.update_time}}
       </p>
-      <section class="article__main" v-html="item.content"></section>
+      <section class="article__main" v-html="article_content.content"></section>
     </div>
     <div class="art">
-      <art-com></art-com>
+      <art-com :a_id="article_data._id" :list="article_data.reply || []"></art-com>
     </div>
   </div>  
 </template>
 
 <script>
 import ArtCom from './ArtCom';
+import api from '../api';
 export default {
   components: { ArtCom },
   data(){
     return {
-      article_content: [
-        {
-        id: '01',
-        title: '微分享重磅登场......',
-        author: 'weshare运营团队',
-        created_at: '2018-04-12 10:10:19',
-        content: `终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了`
-        },
-      ]
+      article_content: {},
+      article_data: {},
     }
   },
   methods: {
     returnLast() {
       this.$router.go(-1)
+    },
+    async fetchData() {
+      let _id = this.$route.params['com_id']
+      try {
+        let { data } = await api.getArticleById(_id)
+        this.article_content = data.articles.article
+        console.log(data)
+        this.article_data = data.articles
+      } catch (error) {
+        console.log(error)
+      }
     }
   },
   mounted () {
-    
+    this.fetchData()
   }
 }
 </script>

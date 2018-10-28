@@ -134,6 +134,6 @@ header{
   background-color: #fff;
   padding: 20px 0 20px 20px;
   border-radius: 3px;
-  box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
+  // box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
 }
 </style>
