@@ -21,12 +21,12 @@
         </div>
         <div class="con">
           <router-link to="" class="user-name" >
-            {{parent.userName}}
+            {{parent.name}}
           </router-link>
           <p class="text">{{parent.content}}</p>
           <div class="info">
             <span>#{{idx}}</span>
-            <Time type="date" :time="parent.comment_time" />
+            <Time  :time="parent.comment_time" />
             <span class="like"><Icon type="md-thumbs-up" />{{parent.like_num}}</span>
             <span class="reply"><Button type="text" @click="reply(parent)">回复</Button></span>
           </div>
@@ -35,21 +35,21 @@
               <Avatar icon="ios-person" size="small" class="reply-face" />
               <div class="reply-con">
                 <router-link to="" class="user-name" >
-                  {{child.reply_Name}}
+                  {{child.name}}
                 </router-link>
-                <span class="reply-text">{{child.reply_Text}}</span>
+                <span class="reply-text">{{child.content}}</span>
                 <div class="info">
-                  <span class="time">{{child.reply_Time}}</span>
-                  <span class="like"><Icon type="md-thumbs-up" />{{child.reply_Likes}}</span>
+                  <Time  :time="child.comment_time" />
+                  <span class="like"><Icon type="md-thumbs-up" />{{child.like_num}}</span>
                 </div>
               </div>
             </div>
             <Page prev-text="上一页" next-text="下一页" @on-change="changepage" v-if="parent.viewMore" :total="40" size="small" class-name="reply-pageBox"></Page>
             <!-- <we-page :item="parent" ></we-page> -->
-            <div class="more" v-if="parent.replyNums>3&&!parent.viewMore">共有<b>{{parent.replyNums}}</b>条回复<Icon @click="viewmore(parent)" size='28' type="md-arrow-dropdown" class="more-view"/></div>
+            <div class="more" v-if="parent.comments.length>3&&!parent.viewMore">共有<b>{{parent.replyNums}}</b>条回复<Icon @click="viewmore(parent)" size='28' type="md-arrow-dropdown" class="more-view"/></div>
             <div class="box-textarea reply-textarea" v-if="parent.replyshow">
-              <Input :cols=80 :rows=2  type="textarea" :placeholder='placeholderString' />
-              <button class="box-post" @click="reply">发表评论</button>
+              <Input v-model="second_content" :cols=80 :rows=2  type="textarea" :placeholder='placeholderString' />
+              <button class="box-post" @click="reply(parent)">发表评论</button>
             </div>
           </div>
         </div>
@@ -73,6 +73,7 @@ export default {
       placeholderString: "回复:",
       nowReplyPerson: "",
       first_content: "",
+      second_content: "",
       a_id: this.$route.params["com_id"],
       total: 0,
       currentPage: 1
@@ -80,8 +81,31 @@ export default {
   },
   methods: {
     async reply(parent) {
-      //主级评论
-      if (!parent.replyshow) {
+      if (parent.is_first_comment) {
+        //二级评论
+        parent.replyshow = !parent.replyshow;
+        this.placeholderString = `回复: ${parent.name}`;
+        try {
+          if (this.second_content.length > 0) {
+            let { data } = await api.commentArticle("post", {
+              parent_id: parent._id,
+              content: this.second_content
+            });
+            if (data.code === 110) {
+              this.getReplyById(this.currentPage);
+              this.$Notice.success({
+                title: general.translate(data.code)
+              });
+              this.second_content = "";
+            }
+          }
+        } catch (error) {
+          this.$Notice.error({
+            title: general.translate(error.data.code)
+          });
+        }
+      } else {
+        //主级评论
         //判断是否回复内容是否为空
         try {
           if (this.first_content.length > 0) {
@@ -90,6 +114,7 @@ export default {
               content: this.first_content
             });
             if (data.code === 110) {
+              //给每个一级评论加上字段
               this.getReplyById(this.currentPage);
               this.$Notice.success({
                 title: general.translate(data.code)
@@ -102,8 +127,6 @@ export default {
             title: general.translate(error.data.code)
           });
         }
-      }else {
-        
       }
       // if (child) {
       //   this.placeholderString = `回复 @${child.reply_Name}`;
@@ -135,7 +158,14 @@ export default {
     async getReplyById(page) {
       try {
         let { data } = await api.commentArticle("get", this.a_id, page);
-        this.comLists = data.comments;
+        let result = Object.values(data.comments).map(ele => {
+          return {
+            ...ele,
+            viewMore: false,
+            replyshow: false
+          };
+        });
+        this.comLists = result;
         this.total = data.total;
         console.log("回复", data);
       } catch (error) {
