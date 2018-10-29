@@ -40,7 +40,7 @@ export default {
   async commentArticle(types, data, page, limit = 10) {
     switch (types) {
       case "post": //新增评论
-        console.log(data)
+        console.log(data);
         return axios.post("/api/article/comment", data);
       case "delete": //删除评论
         return axios.delete("/api/article/comment", {
@@ -49,7 +49,7 @@ export default {
       case "put":
         // return axios.put("/api/article/get_articles_by_id")
         break;
-      case "get":  //获取评论
+      case "get": //获取评论
         return axios.get("/api/article/comment", {
           params: {
             page,
@@ -61,5 +61,11 @@ export default {
         break;
     }
     return axios[types];
-  }
+  },
+  //修改文章浏览数
+  async countArticle(data) {
+    return axios.post("/api/article/read_article", {
+      article_id: data
+    });
+  },
 };

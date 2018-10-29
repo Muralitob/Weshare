@@ -3,7 +3,7 @@
     <div id="news-header">
       <h1 class="header-title">评论</h1>
       <p class="header-protocol">文明上网理性发言</p>
-      <p class="header-number">8条评论</p>
+      <p class="header-number">{{total}}条评论</p>
     </div>
     <div class="box">
       <div class="myface" >

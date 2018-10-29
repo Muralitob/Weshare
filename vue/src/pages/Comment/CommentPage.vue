@@ -17,7 +17,7 @@
           <article>
             <div class="a_con">
               <div class="a_tags"> 
-                  <Tag type="border">标签三</Tag>
+                  <Tag color="red">公告</Tag>
               </div>
               <router-link to="">
                 <h3 class="a_title">置顶公告,发帖必须看！</h3>
@@ -34,11 +34,11 @@
               </router-link>
             </header>
             <div class="a_con">
-              <div class="a_tags"> 
-                <Tag type="border">标签三</Tag>
-                <Tag type="border">标签三</Tag>
+              <div class="a_tags">
+                <Tag v-if="item.tagLists.length >= 1" color="green" v-for="t in item.tagLists" :key="t" :name="t" >{{t}}</Tag>
+                <Tag  v-if="!item.tagLists.length" color="cyan">日常</Tag>
               </div>
-              <div class="a_text" v-html="item.summary || 0"></div>
+              <div class="a_text" v-html="item.summary"></div>
             </div>
             <footer>
                 <span class="a_author"><Icon type="md-person" />{{item.author}}</span>
@@ -51,7 +51,7 @@
           </li>
           <Spin size="large" fix v-if="spinShow"></Spin>
       </ul>
-      <Page prev-text="上一页" next-text="下一页" @on-change="changepage" :total="total" show-elevator class-name="timeline-pageBox"></Page>
+      <Page prev-text="上一页" next-text="下一页" :current="parseInt(currentPage)" @on-change="changepage" :total="total" show-elevator class-name="timeline-pageBox"></Page>
     </div>
   </div>  
 </template>
@@ -80,7 +80,8 @@ export default {
       spinShow: false,
       uid: this.$cookie.get("uid"),
       token: this.$store.state.UserSetting.token,
-      searhIf: false
+      searhIf: false,
+      currentPage: this.$route.query.page || 1
     };
   },
   watch: {},
@@ -91,11 +92,12 @@ export default {
   },
   updated() {},
   mounted() {
-    this.fetchResult(1);
+    this.fetchResult(this.currentPage);
   },
   methods: {
     changepage(index) {
-      this.fetchResult(index);
+      this.currentPage = index;
+      this.fetchResult(this.currentPage);
     },
     showSearch() {
       this.searhIf = !this.searhIf;
@@ -104,10 +106,13 @@ export default {
       });
     },
     async fetchResult(page) {
+      this.$router.push({ path: "/timeline", query: { page } });
+      console.log(this.$route.query.page);
       this.spinShow = true;
       try {
         let { data } = await api.getAllArticles(page);
         this.articles = data.result;
+        console.log("article", data);
         let obj = {};
         this.articles = Object.values(data)[0].map(value => ({
           time: value.update_time,
@@ -115,9 +120,10 @@ export default {
           summary: value.article.summary || "233",
           _id: value._id,
           author: value.author || "Mura",
-          watchNum: value.article.watchNum || 0
+          watchNum: general.ToThousand(value.read_num) || 0,
+          tagLists: value.tagLists
         }));
-        this.total = data.length;
+        this.total = data.total;
         this.spinShow = false;
         console.log("data", data);
       } catch (err) {

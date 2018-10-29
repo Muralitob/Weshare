@@ -22,6 +22,7 @@ import { Button,
          Tabs,
          TabPane,
          Page,
+         Affix,
          } from 'iview';
 Vue.prototype.$Message = Message
 Vue.prototype.$Notice = Notice
@@ -46,3 +47,4 @@ Vue.component('Upload', Upload);
 Vue.component('Tabs', Tabs);
 Vue.component('TabPane', TabPane);
 Vue.component('Page', Page)
+Vue.component('Affix', Affix)
