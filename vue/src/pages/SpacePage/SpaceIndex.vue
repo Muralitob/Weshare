@@ -5,12 +5,12 @@
         <Row v-for="(item, index) in myArticle" :key="index"  class="steam-list">
           <section>
             <div class="favs bookmark-rank">
-              1
+              0
               <span>收藏</span>
             </div>
             <Col>
-              <router-link class="title" to="/">
-                {{item.article.title || 'mura'}}
+              <router-link class="title" :to="{name: 'commentArticle', params: {com_id: item._id}}">
+                {{item.article.title}}
               </router-link>
               <span>{{item.article.summary}}</span>
             </Col>
@@ -27,7 +27,7 @@
         <Row v-for="(item, index) in myCollection" :key="index"  class="steam-list">
           <section>
             <div class="favs bookmark-rank">
-              1
+              0
               <span>收藏</span>
             </div>
             <Col>

@@ -154,7 +154,6 @@ export default {
   .cutarea_bar {
     display: flex;
     width: 100%;
-    background-color: #fff;
     justify-content: space-around;
   }
   #search-form {
