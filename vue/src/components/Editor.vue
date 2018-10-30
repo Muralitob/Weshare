@@ -68,7 +68,6 @@ export default {
 
   data() {
     return {
-      content: this.value,
       quillUpdateImg: false, // 根据图片上传状态来确定是否显示loading动画，刚开始是false,不显示
       editorOption: {
         theme: "snow", // or 'bubble'
@@ -147,6 +146,14 @@ export default {
       this.quillUpdateImg = false;
       this.$Spin.hide();
       this.$Message.error("图片插入失败");
+    }
+  },
+  computed: {
+    content: {
+      get() {
+        return this.value;
+      },
+      set(newValue) {}
     }
   }
 };

@@ -29,20 +29,20 @@
               </p>
               <div class="meta-status"><span>{{item.update_time}}</span></div>
               <div class="meta-action">
-                <Button type="primary">编辑</Button>
+                <Button type="primary" @click="editDraft(item._id)">编辑</Button>
                 <Button @click="deleteDrafts([item._id])">删除</Button>
               </div>
             </div>
           </div>
+          <Page prev-text="上一页" next-text="下一页" @on-change="changepage" :total="total" show-elevator class-name="draft-pageBox"></Page>
         </TabPane>
     </Tabs>
-    <Page prev-text="上一页" next-text="下一页" @on-change="changepage" :total="total" show-elevator class-name="timeline-pageBox"></Page>
   </div>
 </template>
 
 <script>
 import Editor from "../../components/Editor";
-import general from '../../general/js'
+import general from "../../general/js";
 import api from "../../api";
 export default {
   components: {
@@ -56,7 +56,7 @@ export default {
         title: ""
       }, //文章
       draftsList: [],
-      activeTab: "edit",
+      activeTab: "",
       tagLists: [], //标签
       inputTag: "",
       total: 0
@@ -97,22 +97,24 @@ export default {
         });
     },
     changepage(index) {
-      this.getDrafts('drafts', index)
+      this.getDrafts("drafts", index);
     },
     getDrafts(name) {
+      this.activeTab = name
       if (name === "drafts") {
         api
           .getArticles("fake", 1)
           .then(({ data }) => {
-            this.draftsList = data;
-            this.total = data.length
+            this.draftsList = data.articles;
+            console.log(this.draftsList);
+            this.total = data.length;
           })
           .catch(err => {
             this.$Message.error(general.translate(data.code));
           });
       }
     },
-    asyncdeleteDrafts(idList) {
+    async deleteDrafts(idList) {
       api
         .deleteArticles(idList)
         .then(({ data }) => {
@@ -139,6 +141,18 @@ export default {
     },
     returnSummary(data) {
       this.article.summary = data;
+    },
+    async editDraft(id) {
+      // console.log(this.activeTab)
+      this.activeTab = "edit";
+      try {
+        let { data } = await api.getArticleById(id);
+        this.article = data.articles.article
+        this.tagLists = data.articles.tagLists
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
     }
   },
   updated() {
@@ -154,6 +168,10 @@ export default {
 .handleArticle {
   /* position: absolute;
     bottom: 0; */
+}
+.draft-pageBox {
+  padding: 20px 20px;
+  background-color: #fff;
 }
 .btn-bar {
   display: flex;

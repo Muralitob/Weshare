@@ -27,16 +27,16 @@
         <li class="u_item" v-for="(item, idx) in used_info" :key="idx">
           <article>
             <span class="u_time">{{item.release_time}}</span>
-            <p class="u_tname">{{item.release_thingname}}</p>
+            <router-link to="/used/101"><p class="u_tname">{{item.release_thingname}}</p></router-link>
             <p class="u_name">{{item.user_name}}<span> - ￥{{item.price}}</span></p>
           </article>
         </li>
+      <Page prev-text="上一页" next-text="下一页" @on-change="changepage" :total="40" show-elevator class-name="used-pageBox"></Page>
       </ul>
       <section>
         最新成交
       </section>
     </div>
-    <Page prev-text="上一页" next-text="下一页" @on-change="changepage" :total="40" show-elevator class-name="used-pageBox"></Page>
   </div>
 </template>
 
@@ -95,9 +95,7 @@ export default {
     };
   },
   methods: {
-    changepage() {
-
-    }
+    changepage() {}
   }
 };
 </script>
@@ -143,7 +141,10 @@ export default {
 }
 .u {
   &_list {
+    border-radius: 3px;
     background-color: $c-white;
+    // display: flex;
+    // flex-direction: column;
     position: relative;
     width: 100%;
     min-height: 60rem;
@@ -173,16 +174,18 @@ export default {
     color: #707070;
   }
   &_tname {
-    font-weight:400;
+    font-weight: 400;
   }
   &_name {
     font-size: 14px;
     font-weight: 400;
     color: #707070;
   }
-  .used-pageBox {
-    background-color: #fff;
-    padding: 20px 0 20px 20px;
-  }
+}
+.used-pageBox {
+  flex: 0 0 auto;
+  padding: 20px 0 20px 20px;
+  position: absolute;
+  bottom: 20px;
 }
 </style>

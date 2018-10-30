@@ -37,6 +37,7 @@ export default {
       }
     });
   },
+  /**文章回复 */
   async commentArticle(types, data, page, limit = 10) {
     switch (types) {
       case "post": //新增评论

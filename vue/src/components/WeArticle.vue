@@ -21,7 +21,7 @@
           </div>
         </div>
         <p class="article__artinfo borline">
-          <span class="article__author">{{article_data.author||'mura'}}</span>
+          <span class="article__author">{{article_data.author}}</span>
           {{article_data.update_time}}
         </p>
         <section class="article__main" v-html="article_content.content"></section>

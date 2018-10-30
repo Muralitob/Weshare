@@ -273,7 +273,7 @@ const router = new Router({
           component: UsedRelease
         },
         {
-          path: "/used/release/:used_id",
+          path: "/used/:used_id",
           name: "UsedDetail",
           meta: {
             requiresAuth: false

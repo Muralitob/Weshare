@@ -13,37 +13,39 @@
 </template>
 
 <script>
-import Header from './components/Heade';
-import Footer from './components/Footer';
+import Header from "./components/Heade";
+import Footer from "./components/Footer";
 export default {
-  name: 'App',
+  name: "App",
   components: { Header, Footer },
   created() {
-    this.$insProgress.start()
+    this.$insProgress.start();
 
     this.$router.beforeEach((to, from, next) => {
-      this.$insProgress.start()
-      next()
-    })
+      this.$insProgress.start();
+      next();
+    });
 
     this.$router.afterEach((to, from) => {
-      this.$insProgress.finish()
-    })
+      this.$insProgress.finish();
+    });
   }
-}
+};
 </script>
 
 
 <style lang="scss">
-@import './scss/variable.scss';
-@import './scss/media-queries.scss';
-body,html{
-  font-family: -apple-system,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Helvetica Neue,Arial,sans-serif;
-  @include tablet-min{
+@import "./scss/variable.scss";
+@import "./scss/media-queries.scss";
+body,
+html {
+  font-family: -apple-system, PingFang SC, Hiragino Sans GB, Microsoft YaHei,
+    Helvetica Neue, Arial, sans-serif;
+  @include tablet-min {
     background-color: $c-background;
   }
 }
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -53,47 +55,48 @@ body,html{
 span {
   font-size: 12px;
 }
-ul,li{
+ul,
+li {
   list-style: none;
   margin: 0;
   padding: 0;
 }
-a{
+a {
   text-decoration: none;
   color: $c-dark;
   text-decoration: none;
 }
-.pl{
-  @include mobile-only{
-    padding-left: 10px
+.pl {
+  @include mobile-only {
+    padding-left: 10px;
   }
-  @include tablet-min{
+  @include tablet-min {
     padding-left: 30px;
   }
 }
-.pr{
-  @include mobile-only{
-    padding-right: 10px
+.pr {
+  @include mobile-only {
+    padding-right: 10px;
   }
-  @include tablet-min{
+  @include tablet-min {
     padding-right: 30px;
   }
 }
 .wrap {
   margin: 0 auto;
 }
-.wrapper{
+.wrapper {
   width: 100%;
   margin: 0 auto;
-  @include firstMedia{
+  @include firstMedia {
     width: $main-width;
   }
   @include secondMedia {
     width: $min-width;
   }
 }
-.borline{
-  border-bottom: 1px dotted #BFBFBF;
+.borline {
+  border-bottom: 1px dotted #bfbfbf;
   overflow: hidden;
   zoom: 1;
 }
@@ -101,22 +104,22 @@ a{
   display: flex;
   flex-direction: column;
 }
-main{
+main {
   flex: 1 0 auto;
-  @include tablet-min{
-  //  margin-top: 4.5rem;
+  @include tablet-min {
+    //  margin-top: 4.5rem;
     padding-top: 6.5rem;
   }
 }
-#app{
+#app {
   display: flex;
   flex-direction: column;
   height: 100vh;
 }
-footer{
+footer {
   flex: 0 0 auto;
 }
-header{
+header {
   flex: 0 0 auto;
 }
 .between {
@@ -131,9 +134,21 @@ header{
   border-radius: 2px;
 }
 .box {
+  position: relative;
   background-color: #fff;
   padding: 20px 0 20px 20px;
   border-radius: 3px;
   // box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
+}
+.base_ver {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0 1.5rem 0 1rem;
+  text-align: center;
+}
+.base_title {
+  font-size: 16px;
+  color: #6A6A6A;
 }
 </style>

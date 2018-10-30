@@ -23,6 +23,9 @@ import { Button,
          TabPane,
          Page,
          Affix,
+         Divider,
+         Carousel,
+         CarouselItem,
          } from 'iview';
 Vue.prototype.$Message = Message
 Vue.prototype.$Notice = Notice
@@ -48,3 +51,6 @@ Vue.component('Tabs', Tabs);
 Vue.component('TabPane', TabPane);
 Vue.component('Page', Page)
 Vue.component('Affix', Affix)
+Vue.component('Divider', Divider)
+Vue.component('Carousel', Carousel)
+Vue.component('CarouselItem', CarouselItem)
