@@ -93,8 +93,7 @@ def delete_article_by_id():
     :return:
     """
     data = request.get_json()
-    article_ids = data['article_ids']
-    result = articles_db.delete_article_by_id(article_ids)
+    result = articles_db.delete_article_by_id(data)
     if result:
         return jsonify({"message": "删除文章成功", "code": 108}), 200
     else:
