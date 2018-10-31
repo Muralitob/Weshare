@@ -11,6 +11,7 @@ articles_collection = 'articles'
 comments_collection = 'comments'
 users_collection = 'users'
 collcetions_collection = 'collections'
+like_collection = 'like_articles'
 
 
 def create_new_article(data):
@@ -76,17 +77,26 @@ def delete_article_by_id(article_ids):
     return result.acknowledged
 
 
-def like_article(article_id, add):
+def like_article(article_id, add, uid):
     """
     文章点赞
     :param article_id:
     :param add +1 点赞 -1 取消点赞
+    :param uid
     :return:
     """
     query = {'_id': ObjectId(article_id)}
     article = mongo_manager.find_one(articles_collection, query)
     if add == -1 and article['like_num'] == 0:
         return False
+    elif add == -1 and article['like_num'] > 0:
+        delete = mongo_manager.remove_one(like_collection, {"uid": uid, "article": ObjectId(article_id)})
+        if not delete:
+            return delete
+    else:
+        add = mongo_manager.save_one(like_collection, {"uid": uid, "article": ObjectId(article_id)})
+        if not add:
+            return add
     comment = {"$set": {'like_num': article['like_num'] + add}}
     result = mongo_manager.update_one(articles_collection, query, comment)
     return result.acknowledged
@@ -126,6 +136,11 @@ def get_real_articles(keyword, page, limit, uid):
             article['is_collection'] = True
         else:
             article['is_collection'] = False
+        like_length = list(mongo_manager.find(like_collection, {'uid': uid, 'article_id': article['_id']}))
+        if len(like_length) == 1:
+            article['is_like'] = True
+        else:
+            article['is_like'] = False
     length = mongo_manager.find_count(articles_collection, query)
     return result, length
 

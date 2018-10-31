@@ -193,7 +193,9 @@ def like_article():
     data = request.get_json()
     article_id = data['article_id']
     add = data['add']
-    result = articles_db.like_article(article_id, add)
+    token = request.headers.get('Authorization')
+    token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+    result = articles_db.like_article(article_id, add, int(token['uid']))
     if result:
         if add == 1:
             return jsonify({"message": "点赞成功", "code": 1181}), 200
