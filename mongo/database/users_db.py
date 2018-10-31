@@ -81,7 +81,7 @@ def get_collections_by_uid(uid, page, limit):
 
 
 def save_collection(uid, article_id):
-    query = {'uid': uid, 'article_id': article_id}
+    query = {'uid': uid, 'article_id': ObjectId(article_id)}
     collcetion = mongo_manager.find_one(collcetions_collection, query)
     if collcetion:
         return False
@@ -91,9 +91,9 @@ def save_collection(uid, article_id):
 
 def delete_collections(uid, article_ids):
     for article_id in article_ids:
-        article = mongo_manager.find_one(collcetions_collection, {'uid': uid, 'article_id': article_id})
+        article = mongo_manager.find_one(collcetions_collection, {'uid': uid, 'article_id': ObjectId(article_id)})
         if article:
-            result = mongo_manager.remove_one(collcetions_collection, {'uid': uid, 'article_id': article_id})
+            result = mongo_manager.remove_one(collcetions_collection, {'uid': uid, 'article_id': ObjectId(article_id)})
         else:
             return False
-    return result.acknowledged
+    return True

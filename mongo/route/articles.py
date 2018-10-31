@@ -106,9 +106,12 @@ def get_real_articles():
     获取real文章
     :return:
     """
+    keyword = request.args.get('keyword')
     page = request.args.get('page')
     limit = request.args.get('limit')
-    result, length = articles_db.get_real_articles(page, limit)
+    token = request.headers.get('Authorization')
+    token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+    result, length = articles_db.get_real_articles(keyword, page, limit, int(token['uid']))
     return jsonify({"articles": utility.convert_to_json(result), "total": length}), 200
 
 

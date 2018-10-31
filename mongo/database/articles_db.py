@@ -10,6 +10,7 @@ from bson import ObjectId
 articles_collection = 'articles'
 comments_collection = 'comments'
 users_collection = 'users'
+collcetions_collection = 'collections'
 
 
 def create_new_article(data):
@@ -104,15 +105,27 @@ def read_article(article_id):
     return result.acknowledged
 
 
-def get_real_articles(page, limit):
+def get_real_articles(keyword, page, limit, uid):
     """
     获取category:real文章
+    :param keyword:
+    :param page:
+    :param limit:
+    :param uid
     :return:
     """
     query = {"category": "real"}
+    if keyword:
+        query['article.title'] = {'$regex': keyword}
     limit = int(limit)
     skip = (int(page) - 1) * limit
     result = list(mongo_manager.find(articles_collection, query).skip(skip).limit(limit))
+    for article in result:
+        collection_length = list(mongo_manager.find(collcetions_collection, {'uid': uid, 'article_id': article['_id']}))
+        if len(collection_length) == 1:
+            article['is_collection'] = True
+        else:
+            article['is_collection'] = False
     length = mongo_manager.find_count(articles_collection, query)
     return result, length
 
