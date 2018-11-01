@@ -154,10 +154,12 @@ def comments_functions():
         else:
             return jsonify({"message": "编辑评论失败", "code": 115}), 404
     elif request.method == 'GET':
+        token = request.headers.get('Authorization')
+        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
         page = request.args.get('page')
         limit = request.args.get('limit')
         article_id = request.args.get('article_id')
-        result, length = articles_db.get_comments(article_id, int(page), int(limit))
+        result, length = articles_db.get_comments(article_id, int(page), int(limit), int(token['uid']))
         return jsonify({"comments": utility.convert_to_json(result), "total": length}), 200
 
 
@@ -169,10 +171,12 @@ def like_comment():
     +1 点赞 -1 取消点赞
     :return:
     """
+    token = request.headers.get('Authorization')
+    token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
     data = request.get_json()
     _id = data['_id']
     add = data['add']
-    result = articles_db.like_comment(_id, int(add))
+    result = articles_db.like_comment(_id, int(add), int(token['uid']))
     if result:
         if add == 1:
             return jsonify({"message": "点赞成功", "code": 1161}), 200
@@ -217,3 +221,29 @@ def read_article():
     result = articles_db.read_article(article_id)
     if result:
         return jsonify({"message": "阅读数+1", "code": 120}), 200
+
+
+@articles.route('/article_history', methods=['GET', 'POST'])
+@requires_auth
+def article_history():
+    """
+
+    :return:
+    """
+    if request.method == 'POST':
+        token = request.headers.get('Authorization')
+        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+        data = request.get_json()
+        article_id = data['article_id']
+        result = articles_db.add_article_history(article_id, int(token['uid']))
+        if result:
+            return jsonify({"message": "新增浏览记录成功", "code": 121}), 200
+        else:
+            return jsonify({"message": "新增浏览记录失败", "code": 122}), 404
+    elif request.method == 'GET':
+        token = request.headers.get('Authorization')
+        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+        page = request.args.get('page')
+        limit = request.args.get('limit')
+        result, length = articles_db.get_article_history(int(page), int(limit), int(token['uid']))
+        return jsonify({"article_history": utility.convert_to_json(result), "total": length}), 200

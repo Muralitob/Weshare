@@ -12,6 +12,8 @@ comments_collection = 'comments'
 users_collection = 'users'
 collcetions_collection = 'collections'
 like_collection = 'like_articles'
+like_comment_collection = 'like_comments'
+article_history_collection = 'article_history'
 
 
 def create_new_article(data):
@@ -166,18 +168,31 @@ def add_comment(parent_id, uid, content):
     return result.acknowledged
 
 
-def get_comments(article_id, page, limit):
+def get_comments(article_id, page, limit, uid):
     """
     获取评论
     :param article_id:
     :param page:
     :param limit:
+    :param uid:
     :return:
     """
     skip = (page - 1) * limit
     result = list(mongo_manager.find(comments_collection, {'parent_id': ObjectId(article_id)}).skip(skip).limit(limit))
     for item in result:
+        like_comment_length = list(mongo_manager.find(like_comment_collection, {"uid": uid, "comment": item['_id']}))
+        if len(like_comment_length) == 1:
+            item['is_like'] = True
+        else:
+            item['is_like'] = False
         comments = list(mongo_manager.find(comments_collection, {'parent_id': item['_id']}))
+        for comment in comments:
+            like_next_comment_length = list(
+                mongo_manager.find(like_comment_collection, {"uid": uid, "comment": comment['_id']}))
+            if len(like_next_comment_length) == 1:
+                comment['is_like'] = True
+            else:
+                comment['is_like'] = False
         item['comments'] = comments
     length = mongo_manager.find_count(comments_collection, {'parent_id': ObjectId(article_id)})
     return result, length
@@ -206,17 +221,56 @@ def edit_comment(_id, content):
     return result.acknowledged
 
 
-def like_comment(_id, add):
+def like_comment(_id, add, uid):
     """
     点赞
     :param _id:
     :param add +1 点赞 -1 取消点赞
+    :param uid
     :return:
     """
     query = {'_id': ObjectId(_id)}
     old_comment = mongo_manager.find_one(comments_collection, query)
     if add == -1 and old_comment['like_num'] == 0:
         return False
+    elif add == -1 and old_comment['like_num'] > 0:
+        delete = mongo_manager.remove_one(like_comment_collection, {"uid": uid, "comment": ObjectId(_id)})
+        if not delete:
+            return delete
+    else:
+        add = mongo_manager.save_one(like_comment_collection, {"uid": uid, "comment": ObjectId(_id)})
+        if not add:
+            return add
     comment = {"$set": {'like_num': old_comment['like_num'] + add}}
     result = mongo_manager.update_one(comments_collection, query, comment)
     return result.acknowledged
+
+
+def add_article_history(article_id, uid):
+    """
+    添加浏览记录
+    :param article_id:
+    :param uid:
+    :return:
+    """
+    result = mongo_manager.save_one(article_history_collection, {"article_id": ObjectId(article_id), "uid": uid})
+    return result.acknowledged
+
+
+def get_article_history(page, limit, uid):
+    """
+    获取用户浏览记录
+    :param page:
+    :param limit:
+    :param uid:
+    :return:
+    """
+    skip = (page - 1) * limit
+    result = list(mongo_manager.find(article_history_collection, {"uid": uid}).skip(skip).limit(limit))
+    articles_history = []
+    for item in result:
+        article = mongo_manager.find_one(articles_collection, {"_id": ObjectId(item["article_id"])})
+        if article:
+            articles_history.append(article)
+    length = len(articles_history)
+    return articles_history, length
