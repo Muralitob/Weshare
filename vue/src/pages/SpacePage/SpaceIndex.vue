@@ -15,12 +15,12 @@
               <span>{{item.article.summary}}</span>
             </Col>
             <Col>
-              <span>{{item.update_time}}</span>
+              <Time type="datetime" :time="item.update_time" />
             </Col>
           </section>
         </Row>
       </div>
-      <div class="more" @click="routeTo('article')"> 查看更多 </div>
+      <div class="more" @click="routeTo('article')" v-if="myArticle.length>5"> 查看更多 </div>
     </shadow-card>
     <shadow-card class="card" title="我的收藏">
       <div class="steam">
@@ -44,7 +44,7 @@
           </section>
         </Row>
       </div>
-      <div class="more" @click="routeTo('collection')"> 查看更多 </div>
+      <div class="more" @click="routeTo('collection')" v-if="myCollection.length>5"> 查看更多 </div>
     </shadow-card>
     <shadow-card class="card" title="我的浏览记录">
       <div class="steam">
