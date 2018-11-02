@@ -152,7 +152,7 @@ def get_real_articles(keyword, page, limit, uid):
         query['article.title'] = {'$regex': keyword}
     limit = int(limit)
     skip = (int(page) - 1) * limit
-    result = list(mongo_manager.find(articles_collection, query).skip(skip).limit(limit).sort([{"create_time": -1}]))
+    result = list(mongo_manager.find(articles_collection, query).skip(skip).limit(limit).sort([("create_time", -1)]))
     if uid:
         for article in result:
             collection_length = list(
@@ -207,7 +207,7 @@ def get_comments(article_id, page, limit, uid):
     skip = (page - 1) * limit
     result = list(
         mongo_manager.find(comments_collection, {'parent_id': ObjectId(article_id)}).skip(skip).limit(limit).sort(
-            [{"comment_time": -1}]))
+            [("comment_time", -1)]))
     for item in result:
         if uid:
             like_comment_length = list(
@@ -304,7 +304,7 @@ def get_article_history(page, limit, uid):
     """
     skip = (page - 1) * limit
     result = list(mongo_manager.find(article_history_collection, {"uid": uid}).skip(skip).limit(limit).sort(
-        [{"create_time": -1}]))
+        [("create_time", -1)]))
     articles_history = []
     for item in result:
         article = mongo_manager.find_one(articles_collection, {"_id": ObjectId(item["article_id"])})
