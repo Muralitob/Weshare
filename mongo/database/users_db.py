@@ -72,7 +72,7 @@ def edit_user_info(uid, data):
 def get_collections_by_uid(uid, page, limit):
     skip = (page - 1) * limit
     result = list(
-        mongo_manager.find(collcetions_collection, {'uid': uid}).skip(skip).limit(limit).sort([{"create_time": -1}]))
+        mongo_manager.find(collcetions_collection, {'uid': uid}).skip(skip).limit(limit).sort([("create_time", -1)]))
     articles = []
     for item in result:
         article = mongo_manager.find_one(articles_collection, {'_id': ObjectId(item['article_id'])})
