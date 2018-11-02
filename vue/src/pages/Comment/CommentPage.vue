@@ -41,7 +41,7 @@
               <div class="a_text" v-html="item.summary"></div>
             </div>
             <footer>
-                <span class="a_author"><Icon type="md-person" />{{item.author}}</span>
+                <span class="a_author"><Icon type="md-person" />{{item.nickname}}</span>
                 <span class="a_time"><Icon type="md-time" />
                 <!-- {{item.time}} -->
                 <Time :time="item.time" />
@@ -120,7 +120,8 @@ export default {
           _id: value._id,
           author: value.author || "Mura",
           watchNum: general.ToThousand(value.read_num) || 0,
-          tagLists: value.tagLists
+          tagLists: value.tagLists,
+          nickname: value.article.nickname,
         }));
         this.total = data.total;
         this.spinShow = false;

@@ -28,8 +28,8 @@
             <span>#{{parent.floor}}</span>
             <Time :time="parent.comment_time" />
             <span class="like">
-              <Icon class="like_btn" type="md-thumbs-up" v-if="!parent.is_like" @click="isLike(+1, parent._id)" />
-              <Icon class="like_btn" type="md-thumbs-up" v-else @click="isLike(-1, parent._id)"  color="#01af63" />
+              <Icon class="like_btn" type="md-thumbs-up" v-if="!parent.is_like" @click="isLike(+1, parent)" />
+              <Icon class="like_btn" type="md-thumbs-up" v-else @click="isLike(-1, parent)"  color="#01af63" />
               {{parent.like_num}}
             </span>
             <span class="reply"><Button type="text" @click="reply(parent)">回复</Button></span>
@@ -45,8 +45,8 @@
                 <div class="info">
                   <Time  :time="child.comment_time" />
                   <span class="like">
-                    <Icon type="md-thumbs-up" v-if="!child.is_like" />
-                    <Icon type="md-thumbs-up" v-else color="#01af63" />
+                    <Icon class="like_btn" type="md-thumbs-up" v-if="!child.is_like" @click="isLike(+1, child)" />
+                    <Icon class="like_btn" type="md-thumbs-up" v-else color="#01af63" @click="isLike(-1, child)" />
                     {{child.like_num}}
                   </span>
                 </div>
@@ -186,10 +186,15 @@ export default {
         console.log(error);
       }
     },
-    async isLike(add, id) {
+    async isLike(add, obj) {
       try {
-        let {data} = await api.addLikeComment(add,id)
-        console.log(data);
+        let {data} = await api.addLikeComment(add,obj._id)
+        if(add===1) {
+          obj.like_num++;
+        }else if(add === -1) {
+          obj.like_num--;
+        }
+        obj.is_like = !obj.is_like
       } catch (error) {
         console.log('点赞error', error);
       }

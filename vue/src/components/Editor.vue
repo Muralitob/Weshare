@@ -91,7 +91,8 @@ export default {
       serverUrl: "/v1/blog/imgUpload", // 这里写你要上传的图片服务器地址
       header: {
         // token: sessionStorage.token
-      } // 有的图片服务器要求请求头需要有token
+      }, // 有的图片服务器要求请求头需要有token
+      con: ''
     };
   },
 
@@ -110,7 +111,7 @@ export default {
       if (length > 150) {
         summary += "......";
       }
-      this.$emit("input", this.content);
+      this.$emit("input", this.con);
       this.$emit("summary", summary);
     },
 
@@ -153,7 +154,9 @@ export default {
       get() {
         return this.value;
       },
-      set(newValue) {}
+      set(newValue) {
+        this.con = newValue
+      }
     }
   }
 };

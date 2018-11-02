@@ -2,10 +2,10 @@
   <div class="article">
     <Affix class="left_bar" :offset-top="100">
       <ButtonGroup vertical>
-        <Button @click="colArticle(1)" icon="md-star"></Button> 
-        <Button @click="colArticle(-1)" icon="md-star" class="col_btn_active"></Button>
-        <Button @click="likeArticle(1)" icon="md-thumbs-up"></Button>
-        <Button @click="likeArticle(-1)" icon="md-thumbs-up" class="like_btn_active"></Button>
+        <Button @click="colArticle(1)" v-if="!article_data.is_collection" icon="md-star"></Button> 
+        <Button @click="colArticle(-1)" v-else icon="md-star" class="col_btn_active"></Button>
+        <Button @click="likeArticle(1)" v-if="!article_data.is_like" icon="md-thumbs-up"></Button>
+        <Button @click="likeArticle(-1)" v-else icon="md-thumbs-up" class="like_btn_active"></Button>
         <Button icon="logo-facebook"></Button>
         <Button icon="logo-twitter"></Button>
         <Button icon="logo-googleplus"></Button>
@@ -66,14 +66,19 @@ export default {
       if(add === 1) {
         //收藏
         let { data } = await api.collectionFun('post',this.com_id)
-        console.log('收藏',data);
+        this.article_data.is_collection = true
       }else {
         //取消收藏
         let { data } = await api.collectionFun('delete',this.com_id)
-        console.log('取消收藏',data);
+        this.article_data.is_collection = false
       }
     },
     likeArticle(add) {
+      if(add=== 1) {
+        this.article_data.is_like = true
+      }else {
+        this.article_data.is_like = false
+      }
       api.addLikeArticle(add, this.com_id)
     }
   },
