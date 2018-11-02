@@ -274,9 +274,9 @@ def like_comment(_id, add, uid):
         if not delete:
             return delete
     else:
-        add = mongo_manager.save_one(like_comment_collection, {"uid": uid, "comment": ObjectId(_id)})
-        if not add:
-            return add
+        add_add = mongo_manager.save_one(like_comment_collection, {"uid": uid, "comment": ObjectId(_id)})
+        if not add_add:
+            return add_add
     comment = {"$set": {'like_num': old_comment['like_num'] + add}}
     result = mongo_manager.update_one(comments_collection, query, comment)
     return result.acknowledged
