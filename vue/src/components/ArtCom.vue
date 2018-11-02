@@ -26,10 +26,10 @@
           <p class="text">{{parent.content}}</p>
           <div class="info">
             <span>#{{parent.floor}}</span>
-            <Time  :time="parent.comment_time" />
+            <Time :time="parent.comment_time" />
             <span class="like">
-              <Icon type="md-thumbs-up" v-if="!parent.is_like" @click="isLike(+1, parent._id)" />
-              <Icon type="md-thumbs-up" v-else @click="isLike(-1, parent._id)"  color="#01af63" />
+              <Icon class="like_btn" type="md-thumbs-up" v-if="!parent.is_like" @click="isLike(+1, parent._id)" />
+              <Icon class="like_btn" type="md-thumbs-up" v-else @click="isLike(-1, parent._id)"  color="#01af63" />
               {{parent.like_num}}
             </span>
             <span class="reply"><Button type="text" @click="reply(parent)">回复</Button></span>
@@ -73,8 +73,12 @@
 <script>
 import api from "../api";
 import general from "../general/js";
+import VueStar from 'vue-star'
 export default {
   props: ["list"],
+  components: {
+    VueStar
+  },
   data() {
     return {
       comLists: [],
@@ -198,6 +202,9 @@ export default {
 </script>
 
 <style lang="scss">
+.like_btn {
+  cursor: pointer;
+}
 .no_reply {
   text-align: center;
 }
@@ -205,6 +212,24 @@ export default {
   border: 1px solid #e1e1e1;
   background-color: #fff;
   padding: 20px;
+  .VueStar {
+    position: relative;
+    .VueStar__ground {
+      width: 16px;
+      height: 16px;
+      .VueStar__icon {
+        display: flex;
+        align-items: center;
+      }
+      .VueStar__decoration {
+        // background-position: center center;
+        width: 100px;
+        height: 100px;
+        left: -40px;
+        top: -40px;
+      }
+    }
+  }
   .more {
     font-size: 12px;
     color: #6d757a;

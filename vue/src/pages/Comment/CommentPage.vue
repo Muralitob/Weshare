@@ -87,7 +87,7 @@ export default {
   watch: {},
   computed: {
     IsLogin() {
-      return this.$store.state.UserSetting.token && this.$cookie.get("uid");
+      return this.$store.state.UserSetting.token;
     }
   },
   updated() {},

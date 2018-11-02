@@ -12,7 +12,7 @@ export default {
 };
 
 function isLoggedIn() {
-  let token = localStorage.getItem("jwt");
+  let token = VueCookie.get('jwt')  || localStorage.getItem("jwt");
   if (token) {
     const payload = JSON.parse(window.atob(token.split(".")[1]));
     console.log(payload)

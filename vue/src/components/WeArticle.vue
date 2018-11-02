@@ -2,7 +2,7 @@
   <div class="article">
     <Affix class="left_bar" :offset-top="100">
       <ButtonGroup vertical>
-        <Button @click="colArticle(1)" icon="md-star"></Button>
+        <Button @click="colArticle(1)" icon="md-star"></Button> 
         <Button @click="colArticle(-1)" icon="md-star" class="col_btn_active"></Button>
         <Button @click="likeArticle(1)" icon="md-thumbs-up"></Button>
         <Button @click="likeArticle(-1)" icon="md-thumbs-up" class="like_btn_active"></Button>
