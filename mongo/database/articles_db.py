@@ -26,6 +26,10 @@ def create_new_article(data):
     data['update_time'] = datetime.now()
     data['like_num'] = 0
     data['read_num'] = 0
+    user = mongo_manager.find_one(users_collection, {"uid": data["article"]["uid"]})
+    data['article']['nickname'] = user['nickname']
+    if not data['article']['nickname']:
+        data['article']['nickname'] = user["account"]
     result = mongo_manager.save_one(articles_collection, data)
     return result.acknowledged
 
@@ -46,13 +50,30 @@ def get_articles_by_uid(uid, category, page, limit):
     return result, length
 
 
-def get_articles_by_id(_id):
+def get_articles_by_id(article_id, uid):
     """
-    根据_id获取文章
-    :param _id:
+    根据_id获取文章get_articles_by_id
+    :param article_id:
+    :param uid:
     :return:
     """
-    return mongo_manager.find_one(articles_collection, {'_id': ObjectId(_id)})
+    article = mongo_manager.find_one(articles_collection, {'_id': ObjectId(article_id)})
+    if uid:
+        collection_length = list(
+            mongo_manager.find(collcetions_collection, {'uid': uid, 'article_id': ObjectId(article_id)}))
+        if collection_length:
+            article['is_collection'] = True
+        else:
+            article['is_collection'] = False
+        like_length = list(mongo_manager.find(like_collection, {'uid': uid, 'article_id': article['_id']}))
+        if like_length:
+            article['is_like'] = True
+        else:
+            article['is_like'] = False
+    else:
+        article['is_like'] = False
+        article['is_collection'] = False
+    return article
 
 
 def edit_article_by_id(article):
@@ -131,18 +152,24 @@ def get_real_articles(keyword, page, limit, uid):
         query['article.title'] = {'$regex': keyword}
     limit = int(limit)
     skip = (int(page) - 1) * limit
-    result = list(mongo_manager.find(articles_collection, query).skip(skip).limit(limit))
-    for article in result:
-        collection_length = list(mongo_manager.find(collcetions_collection, {'uid': uid, 'article_id': article['_id']}))
-        if len(collection_length) == 1:
-            article['is_collection'] = True
-        else:
-            article['is_collection'] = False
-        like_length = list(mongo_manager.find(like_collection, {'uid': uid, 'article_id': article['_id']}))
-        if len(like_length) == 1:
-            article['is_like'] = True
-        else:
+    result = list(mongo_manager.find(articles_collection, query).skip(skip).limit(limit).sort([{"create_time": -1}]))
+    if uid:
+        for article in result:
+            collection_length = list(
+                mongo_manager.find(collcetions_collection, {'uid': uid, 'article_id': article['_id']}))
+            if collection_length:
+                article['is_collection'] = True
+            else:
+                article['is_collection'] = False
+            like_length = list(mongo_manager.find(like_collection, {'uid': uid, 'article_id': article['_id']}))
+            if like_length:
+                article['is_like'] = True
+            else:
+                article['is_like'] = False
+    else:
+        for article in result:
             article['is_like'] = False
+            article['is_collection'] = False
     length = mongo_manager.find_count(articles_collection, query)
     return result, length
 
@@ -178,19 +205,28 @@ def get_comments(article_id, page, limit, uid):
     :return:
     """
     skip = (page - 1) * limit
-    result = list(mongo_manager.find(comments_collection, {'parent_id': ObjectId(article_id)}).skip(skip).limit(limit))
+    result = list(
+        mongo_manager.find(comments_collection, {'parent_id': ObjectId(article_id)}).skip(skip).limit(limit).sort(
+            [{"comment_time": -1}]))
     for item in result:
-        like_comment_length = list(mongo_manager.find(like_comment_collection, {"uid": uid, "comment": item['_id']}))
-        if len(like_comment_length) == 1:
-            item['is_like'] = True
+        if uid:
+            like_comment_length = list(
+                mongo_manager.find(like_comment_collection, {"uid": uid, "comment": item['_id']}))
+            if len(like_comment_length) == 1:
+                item['is_like'] = True
+            else:
+                item['is_like'] = False
         else:
             item['is_like'] = False
         comments = list(mongo_manager.find(comments_collection, {'parent_id': item['_id']}))
         for comment in comments:
-            like_next_comment_length = list(
-                mongo_manager.find(like_comment_collection, {"uid": uid, "comment": comment['_id']}))
-            if len(like_next_comment_length) == 1:
-                comment['is_like'] = True
+            if uid:
+                like_next_comment_length = list(
+                    mongo_manager.find(like_comment_collection, {"uid": uid, "comment": comment['_id']}))
+                if len(like_next_comment_length) == 1:
+                    comment['is_like'] = True
+                else:
+                    comment['is_like'] = False
             else:
                 comment['is_like'] = False
         item['comments'] = comments
@@ -238,9 +274,9 @@ def like_comment(_id, add, uid):
         if not delete:
             return delete
     else:
-        add = mongo_manager.save_one(like_comment_collection, {"uid": uid, "comment": ObjectId(_id)})
-        if not add:
-            return add
+        add_add = mongo_manager.save_one(like_comment_collection, {"uid": uid, "comment": ObjectId(_id)})
+        if not add_add:
+            return add_add
     comment = {"$set": {'like_num': old_comment['like_num'] + add}}
     result = mongo_manager.update_one(comments_collection, query, comment)
     return result.acknowledged
@@ -253,7 +289,8 @@ def add_article_history(article_id, uid):
     :param uid:
     :return:
     """
-    result = mongo_manager.save_one(article_history_collection, {"article_id": ObjectId(article_id), "uid": uid})
+    result = mongo_manager.save_one(article_history_collection,
+                                    {"article_id": ObjectId(article_id), "uid": uid, "create_time": datetime.now()})
     return result.acknowledged
 
 
@@ -266,7 +303,8 @@ def get_article_history(page, limit, uid):
     :return:
     """
     skip = (page - 1) * limit
-    result = list(mongo_manager.find(article_history_collection, {"uid": uid}).skip(skip).limit(limit))
+    result = list(mongo_manager.find(article_history_collection, {"uid": uid}).skip(skip).limit(limit).sort(
+        [{"create_time": -1}]))
     articles_history = []
     for item in result:
         article = mongo_manager.find_one(articles_collection, {"_id": ObjectId(item["article_id"])})
