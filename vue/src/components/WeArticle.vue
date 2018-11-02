@@ -2,10 +2,10 @@
   <div class="article">
     <Affix class="left_bar" :offset-top="100">
       <ButtonGroup vertical>
-        <Button @click="colArticle" icon="md-star"></Button>
-        <Button @click="colArticle" icon="md-star" class="col_btn_active"></Button>
-        <Button @click="likeArticle" icon="md-thumbs-up"></Button>
-        <Button @click="likeArticle" icon="md-thumbs-up" class="like_btn_active"></Button>
+        <Button @click="colArticle(1)" icon="md-star"></Button>
+        <Button @click="colArticle(-1)" icon="md-star" class="col_btn_active"></Button>
+        <Button @click="likeArticle(1)" icon="md-thumbs-up"></Button>
+        <Button @click="likeArticle(-1)" icon="md-thumbs-up" class="like_btn_active"></Button>
         <Button icon="logo-facebook"></Button>
         <Button icon="logo-twitter"></Button>
         <Button icon="logo-googleplus"></Button>
@@ -41,7 +41,8 @@ export default {
   data() {
     return {
       article_content: {},
-      article_data: {}
+      article_data: {},
+      com_id: this.$route.params["com_id"]
     };
   },
   methods: {
@@ -49,9 +50,8 @@ export default {
       this.$router.go(-1);
     },
     async fetchData() {
-      let _id = this.$route.params["com_id"];
       try {
-        let { data } = await api.getArticleById(_id);
+        let { data } = await api.getArticleById(this.com_id);
         this.article_content = data.articles.article;
         console.log(data);
         this.article_data = data.articles;
@@ -60,14 +60,21 @@ export default {
       }
     },
     async readArticle() {
-      let { data } = await api.countArticle(this.$route.params["com_id"]);
-      console.log(data);
+      let { data } = await api.countArticle(this.com_id);
     },
-    colArticle(event) {
-      console.log(event.target)
+    async colArticle(add) {
+      if(add === 1) {
+        //收藏
+        let { data } = await api.collectionFun('post',this.com_id)
+        console.log('收藏',data);
+      }else {
+        //取消收藏
+        let { data } = await api.collectionFun('delete',this.com_id)
+        console.log('取消收藏',data);
+      }
     },
-    likeArticle(event) {
-      
+    likeArticle(add) {
+      api.addLikeArticle(add, this.com_id)
     }
   },
   mounted() {

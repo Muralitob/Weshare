@@ -25,9 +25,13 @@
           </router-link>
           <p class="text">{{parent.content}}</p>
           <div class="info">
-            <span>#{{idx}}</span>
+            <span>#{{parent.floor}}</span>
             <Time  :time="parent.comment_time" />
-            <span class="like"><Icon type="md-thumbs-up" />{{parent.like_num}}</span>
+            <span class="like">
+              <Icon type="md-thumbs-up" v-if="!parent.is_like" @click="isLike(+1, parent._id)" />
+              <Icon type="md-thumbs-up" v-else @click="isLike(-1, parent._id)"  color="#01af63" />
+              {{parent.like_num}}
+            </span>
             <span class="reply"><Button type="text" @click="reply(parent)">回复</Button></span>
           </div>
           <div class="reply-box">
@@ -40,7 +44,11 @@
                 <span class="reply-text">{{child.content}}</span>
                 <div class="info">
                   <Time  :time="child.comment_time" />
-                  <span class="like"><Icon type="md-thumbs-up" />{{child.like_num}}</span>
+                  <span class="like">
+                    <Icon type="md-thumbs-up" v-if="!child.is_like" />
+                    <Icon type="md-thumbs-up" v-else color="#01af63" />
+                    {{child.like_num}}
+                  </span>
                 </div>
               </div>
             </div>
@@ -158,18 +166,28 @@ export default {
     async getReplyById(page) {
       try {
         let { data } = await api.commentArticle("get", this.a_id, page);
-        let result = Object.values(data.comments).map(ele => {
+        let result = Object.values(data.comments).map((ele, idx) => {
           return {
             ...ele,
             viewMore: false,
-            replyshow: false
+            replyshow: false,
+            floor: data.total - ((this.currentPage - 1) * 10 + idx)
           };
         });
+        this;
         this.comLists = result;
         this.total = data.total;
         console.log("回复", data);
       } catch (error) {
         console.log(error);
+      }
+    },
+    async isLike(add, id) {
+      try {
+        let {data} = await api.addLikeComment(add,id)
+        console.log(data);
+      } catch (error) {
+        console.log('点赞error', error);
       }
     }
   },

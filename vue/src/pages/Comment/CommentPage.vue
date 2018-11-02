@@ -44,7 +44,7 @@
                 <span class="a_author"><Icon type="md-person" />{{item.author}}</span>
                 <span class="a_time"><Icon type="md-time" />
                 <!-- {{item.time}} -->
-                <Time :time="new Date(item.time.replace(/-/g, '/')).getTime()" />
+                <Time :time="item.time" />
                 </span>
             </footer>
           </article>
@@ -107,7 +107,6 @@ export default {
     },
     async fetchResult(page) {
       this.$router.push({ path: "/timeline", query: { page } });
-      console.log(this.$route.query.page);
       this.spinShow = true;
       try {
         let { data } = await api.getAllArticles(page);
