@@ -20,7 +20,7 @@
           </section>
         </Row>
       </div>
-      <div class="more" @click="routeTo('article')" v-if="myArticle.length>5"> 查看更多 </div>
+      <div class="more" @click="routeTo('article')" v-if="myArticle.length>4"> 查看更多 </div>
     </shadow-card>
     <shadow-card class="card" title="我的收藏">
       <div class="steam">
@@ -44,7 +44,7 @@
           </section>
         </Row>
       </div>
-      <div class="more" @click="routeTo('collection')" v-if="myCollection.length>5"> 查看更多 </div>
+      <div class="more" @click="routeTo('collection')" v-if="myCollection.length>4"> 查看更多 </div>
     </shadow-card>
     <shadow-card class="card" title="我的浏览记录">
       <div class="steam">
@@ -79,7 +79,8 @@ export default {
       collection_Array: [],
       myArticle: [],
       myCollection: [],
-      myHistory: []
+      myHistory: [],
+      visitUid: this.$route.params["userId"],
     };
   },
   methods: {
@@ -111,7 +112,16 @@ export default {
   },
   mounted() {
     this.fetchAll();
-  }
+  },
+  computed: {
+    IsSelf() {
+      if(this.$cookie.get('uid')   === this.visitUid) {
+        return true
+      }else {
+        return false
+      }
+    }
+  },
 };
 </script>
 

@@ -130,7 +130,7 @@ export default {
         nickname: '',
         passwdCheck: ""
       },
-      rememeber: false
+      remember: false
     };
   },
   computed: {
@@ -153,14 +153,6 @@ export default {
       set() {}
     }
   },
-  // computed: {
-  //   ...mapState ({
-  //   registSpinShow: (state) => state.UserSetting.registSpinShow,
-  //   RegistShow: (state) => state.UserSetting.RegistShow,
-  //   LoginShow: (state) => state.UserSetting.LoginShow,
-  //   Token: (state) => state.UserSetting.Token,
-  // })
-  // },
   methods: {
     //移动端下的切换
     toggleNav() {
@@ -197,7 +189,7 @@ export default {
           if (name === "LoginForm") {
             this.$store.dispatch("UserLogin", {
               form: this.loginForm,
-              rememeber: this.rememeber,
+              remember: this.remember,
               that: this
             });
             //关闭Modal
@@ -227,7 +219,7 @@ export default {
       });
     },
     Remember() {
-      this.rememeber = !this.rememeber;
+      this.remember = !this.remember;
     }
   },
   mounted() {

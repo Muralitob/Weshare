@@ -41,10 +41,9 @@
               <div class="a_text" v-html="item.summary"></div>
             </div>
             <footer>
-                <span class="a_author"><Icon type="md-person" />{{item.author}}</span>
+                <span class="a_author"><Icon type="md-person" />{{item.nickname}}</span>
                 <span class="a_time"><Icon type="md-time" />
-                <!-- {{item.time}} -->
-                <Time :time="new Date(item.time.replace(/-/g, '/')).getTime()" />
+                <Time :time="item.time" />
                 </span>
             </footer>
           </article>
@@ -87,7 +86,7 @@ export default {
   watch: {},
   computed: {
     IsLogin() {
-      return this.$store.state.UserSetting.token && this.$cookie.get("uid");
+      return this.$store.state.UserSetting.token;
     }
   },
   updated() {},
@@ -107,12 +106,10 @@ export default {
     },
     async fetchResult(page) {
       this.$router.push({ path: "/timeline", query: { page } });
-      console.log(this.$route.query.page);
       this.spinShow = true;
       try {
         let { data } = await api.getAllArticles(page);
         this.articles = data.result;
-        console.log("article", data);
         let obj = {};
         this.articles = Object.values(data)[0].map(value => ({
           time: value.update_time,
@@ -121,7 +118,8 @@ export default {
           _id: value._id,
           author: value.author || "Mura",
           watchNum: general.ToThousand(value.read_num) || 0,
-          tagLists: value.tagLists
+          tagLists: value.tagLists,
+          nickname: value.article.nickname,
         }));
         this.total = data.total;
         this.spinShow = false;

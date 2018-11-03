@@ -65,7 +65,6 @@ export default {
     }
   },
   updated () {
-    console.log('fetch数据')
   }
 }
 </script>

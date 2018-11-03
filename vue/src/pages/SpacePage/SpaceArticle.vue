@@ -14,7 +14,7 @@
             <span>{{item.update_time}}</span>
           </Col>
           <Col>
-            <router-link class="title" to="/">
+            <router-link class="title" :to="{name: 'commentArticle', params: {com_id: item._id}}">
               {{item.article.title}}
             </router-link>
           </Col>
@@ -56,10 +56,10 @@ export default {
     handleReachBottom($state) {
       $state.loaded();
       api
-        .getArticles("real", this.page, 5)
+        .getArticles("real", this.page, 10)
         .then(({ data }) => {
-          this.myArticle = this.myArticle.concat(data.articles);
-          console.log(this.myArticle[0].article.title);
+          // console.log(data);
+          this.myArticle = this.myArticle.concat(data.articles || {});
           this.page = this.page + 1;
         })
         .catch(err => {

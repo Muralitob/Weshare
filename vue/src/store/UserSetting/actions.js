@@ -16,8 +16,15 @@ export default {
       .then(({ data }) => {
         console.log("登录返回信息:", data);
         if (data.code === 200) {
-          commit(types.USER_LOGIN, data.token); //改变状态仓库
-          VueCookie.set("uid", data.uid);
+          commit(types.USER_LOGIN, {
+            token: data.token,
+            remember
+          } ); //改变状态仓库
+          if (remember) {
+            VueCookie.set("uid", data.uid, 30 * 60);
+          } else {
+            VueCookie.set("uid", data.uid, "0");
+          }
           that.$Spin.show();
           api.getUserInfo(data.uid).then(({ data }) => {
             commit(types.USER_INFO, data);

@@ -28,7 +28,7 @@ import NotFound from "@components/NotFound";
 import { Message } from "iview";
 import store from "../store/index";
 import article from "../api/article";
-
+import api from '../api';
 Vue.use(Router);
 
 const router = new Router({
@@ -89,7 +89,7 @@ const router = new Router({
           }
         },
         {
-          path: "/news/:article_id",
+          path: "/news/:com_id",
           name: "NewsArticle",
           meta: {
             requiresAuth: false
@@ -301,6 +301,13 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   let token = store.state.UserSetting.token;
   const uid = VueCookie.get("uid");
+  if(to.params.com_id) {
+    //说明访问了文章
+    // console.log(to.params.com_id);
+    api.historyFunction('post',to.params.com_id).then(({data})=> {
+      console.log(data)
+    })
+  }
   if(to.path === '/') {
     next('/timeline')
   }

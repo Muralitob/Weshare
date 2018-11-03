@@ -15,6 +15,7 @@
       </div>
     </div>
     <div v-if="comLists.length > 0" class="comment-list">
+      <Spin size="large" fix v-if="spinShow"></Spin>
       <div class="list-item" v-for="(parent, idx) in comLists" :key="idx">
         <div class="user-face">
           <Avatar icon="ios-person" size="large"  />
@@ -25,9 +26,13 @@
           </router-link>
           <p class="text">{{parent.content}}</p>
           <div class="info">
-            <span>#{{idx}}</span>
-            <Time  :time="parent.comment_time" />
-            <span class="like"><Icon type="md-thumbs-up" />{{parent.like_num}}</span>
+            <span>#{{parent.floor}}</span>
+            <Time :time="parent.comment_time" />
+            <span class="like">
+              <Icon class="like_btn" type="md-thumbs-up" v-if="!parent.is_like" @click="isLike(+1, parent)" />
+              <Icon class="like_btn" type="md-thumbs-up" v-else @click="isLike(-1, parent)"  color="#01af63" />
+              {{parent.like_num}}
+            </span>
             <span class="reply"><Button type="text" @click="reply(parent)">回复</Button></span>
           </div>
           <div class="reply-box">
@@ -40,7 +45,11 @@
                 <span class="reply-text">{{child.content}}</span>
                 <div class="info">
                   <Time  :time="child.comment_time" />
-                  <span class="like"><Icon type="md-thumbs-up" />{{child.like_num}}</span>
+                  <span class="like">
+                    <Icon class="like_btn" type="md-thumbs-up" v-if="!child.is_like" @click="isLike(+1, child)" />
+                    <Icon class="like_btn" type="md-thumbs-up" v-else color="#01af63" @click="isLike(-1, child)" />
+                    {{child.like_num}}
+                  </span>
                 </div>
               </div>
             </div>
@@ -65,8 +74,12 @@
 <script>
 import api from "../api";
 import general from "../general/js";
+import VueStar from 'vue-star'
 export default {
   props: ["list"],
+  components: {
+    VueStar
+  },
   data() {
     return {
       comLists: [],
@@ -76,7 +89,8 @@ export default {
       second_content: "",
       a_id: this.$route.params["com_id"],
       total: 0,
-      currentPage: 1
+      currentPage: 1,
+      spinShow: false,
     };
   },
   methods: {
@@ -156,20 +170,35 @@ export default {
       this.getReplyById(this.currentPage);
     },
     async getReplyById(page) {
+      this.spinShow = true
       try {
         let { data } = await api.commentArticle("get", this.a_id, page);
-        let result = Object.values(data.comments).map(ele => {
+        let result = Object.values(data.comments).map((ele, idx) => {
           return {
             ...ele,
             viewMore: false,
-            replyshow: false
+            replyshow: false,
+            floor: data.total - ((this.currentPage - 1) * 10 + idx)
           };
         });
         this.comLists = result;
         this.total = data.total;
-        console.log("回复", data);
+        this.spinShow = false
       } catch (error) {
         console.log(error);
+      }
+    },
+    async isLike(add, obj) {
+      try {
+        let {data} = await api.addLikeComment(add,obj._id)
+        if(add===1) {
+          obj.like_num++;
+        }else if(add === -1) {
+          obj.like_num--;
+        }
+        obj.is_like = !obj.is_like
+      } catch (error) {
+        console.log('点赞error', error);
       }
     }
   },
@@ -180,6 +209,9 @@ export default {
 </script>
 
 <style lang="scss">
+.like_btn {
+  cursor: pointer;
+}
 .no_reply {
   text-align: center;
 }
@@ -187,6 +219,24 @@ export default {
   border: 1px solid #e1e1e1;
   background-color: #fff;
   padding: 20px;
+  .VueStar {
+    position: relative;
+    .VueStar__ground {
+      width: 16px;
+      height: 16px;
+      .VueStar__icon {
+        display: flex;
+        align-items: center;
+      }
+      .VueStar__decoration {
+        // background-position: center center;
+        width: 100px;
+        height: 100px;
+        left: -40px;
+        top: -40px;
+      }
+    }
+  }
   .more {
     font-size: 12px;
     color: #6d757a;

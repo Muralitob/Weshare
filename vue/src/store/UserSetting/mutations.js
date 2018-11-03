@@ -1,10 +1,16 @@
 import * as types from '../types'
+import VueCookie from 'vue-cookie'
 export default{
-    [types.USER_LOGIN](state,token){
-        localStorage.setItem('jwt',token)
-        state.token=token;
+    [types.USER_LOGIN](state,obj){
+        if(obj.remember) {
+            localStorage.setItem('jwt',obj.token)
+        }else {
+            VueCookie.set('jwt', obj.token, '0');
+        }
+        state.token=obj.token;
     },
     [types.USER_LOGOUT](state){
+        VueCookie.delete("uid");
         localStorage.removeItem('jwt');
         state.token = null;
     },

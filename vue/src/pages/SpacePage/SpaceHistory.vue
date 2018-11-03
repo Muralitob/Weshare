@@ -5,19 +5,19 @@
         <section>
           <Col class="between">
             <router-link class="title" to="/">
-              {{item.article_title}}
+              {{item.title}}
             </router-link>
             <div>
               <router-link to="/" class="author">
                 {{item.author}}
               </router-link>
-              <span>{{item.date}}</span>
+              <span><Time type="datetime" :time="item.time" /></span>
             </div>
           </Col>
         </section>
       </Row>
     </div>
-    <InfiniteLoading :on-infinite="handleReachBottom" ref="infiniteLoading"  spinner="waveDots" >
+    <InfiniteLoading @infinite="handleReachBottom"  spinner="waveDots" >
       <span slot="no-more">
         没有更多数据了:)
       </span>
@@ -28,83 +28,40 @@
 <script>
 import ShadowCard from "../../components/ShadowCard";
 import InfiniteLoading from "vue-infinite-loading";
+import api from '../../api';
 export default {
   components: { ShadowCard, InfiniteLoading },
   data() {
     return {
       collection_Array: [
-        {
-          article_title: "2019届校招前端面试题整理——HTML、CSS篇",
-          date: "2018年10月10日",
-          author: "ddduanlian"
-        },
-        {
-          article_title: "2019年学期统计",
-          date: "2018年10月10日",
-          author: "ddduanlian"
-        },
-        {
-          article_title: "2019年学期统计",
-          date: "2018年10月10日",
-          author: "ddduanlian"
-        },
-        {
-          article_title: "2019年学期统计",
-          date: "2018年10月10日",
-          author: "ddduanlian"
-        },
-        {
-          article_title: "2019年学期统计",
-          date: "2018年10月10日",
-          author: "ddduanlian"
-        },
-        {
-          article_title: "2019年学期统计",
-          date: "2018年10月10日",
-          author: "ddduanlian"
-        },
-        {
-          article_title: "2019年学期统计",
-          date: "2018年10月10日",
-          author: "ddduanlian"
-        },
-        {
-          article_title: "2019年学期统计",
-          date: "2018年10月10日",
-          author: "ddduanlian"
-        },
-        {
-          article_title: "2019年学期统计",
-          date: "2018年10月10日",
-          author: "ddduanlian"
-        },
-        {
-          article_title: "2019年学期统计",
-          date: "2018年10月10日",
-          author: "ddduanlian"
-        },
-        {
-          article_title: "2019年学期统计",
-          date: "2018年10月10日",
-          author: "ddduanlian"
-        },
-      ]
+      ],
+      currentPage: 1
     };
   },
   methods: {
-    handleReachBottom() {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          this.$refs.infiniteLoading.$emit("$InfiniteLoading:loaded");
-          const last = this.collection_Array[this.collection_Array.length - 1];
-          for (let i = 1; i < 11; i++) {
-            this.collection_Array.push(last + i);
-          }
-          this.$refs.infiniteLoading.$emit("$InfiniteLoading:complete");
-          resolve();
-        }, 2000);
-      });
-    }
+    handleReachBottom($state) {
+      $state.loaded();
+      api
+        .historyFunction("get", 0, this.currentPage)
+        .then(({ data }) => {
+          // console.log('history', data)
+          let result = Object.values(data.article_history).map(ele=> ({
+            title: ele.article.title,
+            time: ele.update_time,
+            _id: ele._id
+          }))
+          this.collection_Array = this.collection_Array.concat(result);
+          // console.log(this.collection_Array)
+          this.currentPage = this.currentPage + 1;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      $state.complete();
+    },
+  },
+  mounted () {
+    // this.fetchData(1)
   }
 };
 </script>

@@ -61,7 +61,6 @@ export default {
       default:
         break;
     }
-    return axios[types];
   },
   //修改文章浏览数
   async countArticle(data) {
@@ -69,4 +68,32 @@ export default {
       article_id: data
     });
   },
+  //评论点赞 add: 1 +1  -1 -1
+  async addLikeComment(add, _id) {
+    return axios.post("/api/article/like_comment", {
+      add,
+      _id
+    });
+  },
+  //文章点赞 add: 1 +1  -1 -1
+  async addLikeArticle(add, _id) {
+    return axios.post("/api/article/like_comment", {
+      add,
+      _id
+    });
+  },
+  async historyFunction(type, data, page, limit = 10 ) {
+    if (type === "post") {
+      return axios.post("/api/article/article_history", {
+        article_id: data
+      });
+    } else if (type === "get") {
+      return axios.get("/api/article/article_history", {
+        params: {
+          page,
+          limit,
+        }
+      });
+    }
+  }
 };
