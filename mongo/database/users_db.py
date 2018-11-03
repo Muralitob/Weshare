@@ -21,6 +21,9 @@ def register(data):
     data['level'] = '0002'
     if 'nickname' not in data:
         data['nickname'] = ''
+    data['birthday'] = ''
+    data['sign'] = ''
+    data['sex'] = ''
     data['uid'] = max(list(mongo_manager.find_projection(users_collection, {}, {'uid': 1, '_id': 0})))['uid'] + 1
     user = mongo_manager.find_one(users_collection, {'account': data['account']})
     if user:

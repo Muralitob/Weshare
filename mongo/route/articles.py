@@ -51,7 +51,7 @@ def get_articles_by_uid():
     category = request.args.get('category')
     page = request.args.get('page')
     limit = request.args.get('limit')
-    result, length = articles_db.get_articles_by_uid(data['uid'], category, int(page), int(limit))
+    result, length = articles_db.get_articles_by_uid(int(data['uid']), category, int(page), int(limit))
     return jsonify({"articles": utility.convert_to_json(result), "total": length}), 200
 
 
