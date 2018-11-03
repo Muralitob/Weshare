@@ -15,6 +15,7 @@
       </div>
     </div>
     <div v-if="comLists.length > 0" class="comment-list">
+      <Spin size="large" fix v-if="spinShow"></Spin>
       <div class="list-item" v-for="(parent, idx) in comLists" :key="idx">
         <div class="user-face">
           <Avatar icon="ios-person" size="large"  />
@@ -88,7 +89,8 @@ export default {
       second_content: "",
       a_id: this.$route.params["com_id"],
       total: 0,
-      currentPage: 1
+      currentPage: 1,
+      spinShow: false,
     };
   },
   methods: {
@@ -168,6 +170,7 @@ export default {
       this.getReplyById(this.currentPage);
     },
     async getReplyById(page) {
+      this.spinShow = true
       try {
         let { data } = await api.commentArticle("get", this.a_id, page);
         let result = Object.values(data.comments).map((ele, idx) => {
@@ -178,10 +181,9 @@ export default {
             floor: data.total - ((this.currentPage - 1) * 10 + idx)
           };
         });
-        this;
         this.comLists = result;
         this.total = data.total;
-        console.log("回复", data);
+        this.spinShow = false
       } catch (error) {
         console.log(error);
       }

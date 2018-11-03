@@ -79,7 +79,8 @@ export default {
       collection_Array: [],
       myArticle: [],
       myCollection: [],
-      myHistory: []
+      myHistory: [],
+      visitUid: this.$route.params["userId"],
     };
   },
   methods: {
@@ -111,7 +112,16 @@ export default {
   },
   mounted() {
     this.fetchAll();
-  }
+  },
+  computed: {
+    IsSelf() {
+      if(this.$cookie.get('uid')   === this.visitUid) {
+        return true
+      }else {
+        return false
+      }
+    }
+  },
 };
 </script>
 

@@ -58,9 +58,8 @@ export default {
       api
         .getArticles("real", this.page, 10)
         .then(({ data }) => {
-          this.myArticle = this.myArticle.concat(data.articles);
-          console.log(data);
-          console.log(this.myArticle[0].article.title);
+          // console.log(data);
+          this.myArticle = this.myArticle.concat(data.articles || {});
           this.page = this.page + 1;
         })
         .catch(err => {

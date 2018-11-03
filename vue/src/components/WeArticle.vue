@@ -21,7 +21,9 @@
           </div>
         </div>
         <p class="article__artinfo borline">
-          <span class="article__author">{{article_data.author}}</span>
+          <router-link :to="{name:'Space', params: {userId: article_content.uid}}">
+            <span class="article__author">{{article_content.nickname}}</span>
+          </router-link>
           {{article_data.update_time}}
         </p>
         <section class="article__main" v-html="article_content.content"></section>
@@ -29,6 +31,7 @@
       <div class="art">
         <art-com :a_id="article_data._id" :list="article_data.reply || []"></art-com>
       </div>
+      <Spin size="large" fix v-if="spinShow"></Spin>
     </div>
   </div>  
 </template>
@@ -42,7 +45,8 @@ export default {
     return {
       article_content: {},
       article_data: {},
-      com_id: this.$route.params["com_id"]
+      com_id: this.$route.params["com_id"],
+      spinShow: false
     };
   },
   methods: {
@@ -50,11 +54,13 @@ export default {
       this.$router.go(-1);
     },
     async fetchData() {
+      this.spinShow = true
       try {
         let { data } = await api.getArticleById(this.com_id);
         this.article_content = data.articles.article;
-        console.log(data);
+        console.log(this.article_content);
         this.article_data = data.articles;
+        this.spinShow = false
       } catch (error) {
         console.log(error);
       }

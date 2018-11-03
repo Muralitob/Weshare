@@ -6,7 +6,7 @@
     <div class="info_main">
       <Form :model="formItem" :label-width="80">
         <FormItem label="昵称:">
-            <Input style="width: 200px" v-model="formItem.nick_name" placeholder="输入你的昵称" />
+            <Input style="width: 200px" v-model="formItem.nickname" placeholder="输入你的昵称" />
         </FormItem>
         <FormItem label="我的签名">
           <Input class="sign" v-model="formItem.sign" type="textarea" :autosize="{minRows: 4,maxRows: 5}" placeholder="Enter something..."></Input>
@@ -51,8 +51,14 @@ export default {
       api
         .getUserInfo()
         .then(({ data }) => {
-          console.log(data)
-          this.formItem = data
+          console.log('用户信息',data)
+          let result=  {
+            nickname: data.nick_name,
+            sex: data.sex || 'secret',
+            birth_day: data.birth_day || '',
+            sign: data.sign || '你怎么这么懒,签名都不写',
+          }
+          this.formItem = result
         })
         .catch(err => {
           console.log("err", err);

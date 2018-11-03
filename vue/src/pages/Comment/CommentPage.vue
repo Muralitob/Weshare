@@ -43,7 +43,6 @@
             <footer>
                 <span class="a_author"><Icon type="md-person" />{{item.nickname}}</span>
                 <span class="a_time"><Icon type="md-time" />
-                <!-- {{item.time}} -->
                 <Time :time="item.time" />
                 </span>
             </footer>
@@ -111,7 +110,6 @@ export default {
       try {
         let { data } = await api.getAllArticles(page);
         this.articles = data.result;
-        console.log("article", data);
         let obj = {};
         this.articles = Object.values(data)[0].map(value => ({
           time: value.update_time,

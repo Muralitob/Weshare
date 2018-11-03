@@ -5,16 +5,17 @@
         <div class="h-gradient"></div>
         <div class="h-user">
           <div class="h-info">
-            <router-link :to="{name: 'setting' }">
-              <Avatar class="avatar" />
+            <router-link v-if="IsSelf" :to="{name: 'setting' }">
+              <Avatar :src='user_info.avatar_url' class="avatar" />
             </router-link>
+            <Avatar v-else :src='user_info.avatar_url' class="avatar" />
             <div class="h-basic">
               <div class="h-name">
-                木拉M
+                {{user_info.nick_name}}
               </div>
               <div class="h-basic-spacing">
                 <span>
-                  我爱吃柚子
+                  {{user_info.sign}}
                 </span>
               </div>
             </div>
@@ -23,6 +24,7 @@
       </div>
     </div>
     <div class="b">
+      <component :is="current"></component>
       <router-view></router-view>
       <div>
         <Card class="b-profile-info row" style="width:240px" dis-hover shadow>
@@ -55,16 +57,21 @@
         </Menu>
       </div>
     </div>
-  </div>  
+  </div>
 </template>
 
 <script>
-import api from '../../api';
+import api from "../../api";
+import OtherIndex from './other/SpaceIndex'
 export default {
+  components: {OtherIndex},
   data() {
     return {
       fourl: `/space/${this.$route.params.userId}/index/fan`,
       faurl: `/space/${this.$route.params.userId}/index/fans`,
+      user_info: {},
+      visitUid: this.$route.params["userId"],
+      current:'OtherIndex'
     };
   },
   methods: {
@@ -76,24 +83,37 @@ export default {
       this.$store.commit("Menu_SELECT", name);
     },
     reset() {
-      this.$store.commit('Menu_SELECT', 'index')
+      this.$store.commit("Menu_SELECT", "index");
     },
     getUserInfo() {
-      api.getUserInfo().then(({data}) => {
-        console.log(data);
-      })
+      api.getUserInfo().then(({ data }) => {
+        let result = {
+          nick_name: data.nick_name,
+          sign: data.sign,
+          avatar_url: data.avatar_url || ""
+        };
+        this.user_info = result;
+        console.log("用户信息", data);
+      });
     }
   },
   computed: {
     activeName() {
       return this.$store.state.Menu.activeName;
+    },
+    IsSelf() {
+      if (this.$cookie.get("uid") === this.visitUid) {
+        return true;
+      } else {
+        return false;
+      }
     }
   },
   mounted() {
     //判断this.$route.params.userId是否与本地储存的uid是否相同
     //相同则展示目前的样子，如果不相同 则为他人空间，最好每个组件都传uid判断一下
     this.getUserInfo();
-  },
+  }
 };
 </script>
 
