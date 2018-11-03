@@ -24,7 +24,6 @@
       </div>
     </div>
     <div class="b">
-      <component :is="current"></component>
       <router-view></router-view>
       <div>
         <Card class="b-profile-info row" style="width:240px" dis-hover shadow>
