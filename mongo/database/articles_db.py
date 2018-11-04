@@ -311,5 +311,5 @@ def get_article_history(page, limit, uid):
         article = mongo_manager.find_one(articles_collection, {"_id": ObjectId(item["article_id"])})
         if article:
             articles_history.append(article)
-    length = len(articles_history)
+    length = mongo_manager.find_count(article_history_collection, {"uid": uid})
     return articles_history, length
