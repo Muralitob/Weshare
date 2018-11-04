@@ -8,11 +8,13 @@ from flask import request
 from datetime import datetime
 from core_manager.mongo_manager import mongo_manager
 
+from utility import page_limit_skip
 from bson import ObjectId
 
 users_collection = 'users'
 collcetions_collection = 'collections'
 articles_collection = 'articles'
+like_collection = 'like_articles'
 
 
 def register(data):
@@ -29,7 +31,7 @@ def register(data):
     if user:
         return False
     else:
-        return mongo_manager.save_one(users_collection, data)
+        return mongo_manager.save_one(users_collection, data).acknowledged
 
 
 def login(data):
@@ -61,24 +63,25 @@ def requires_auth(f):
 
 
 def get_user_info(uid):
-    query = {'uid': int(uid)}
+    query = {'uid': uid}
     return mongo_manager.find_one(users_collection, query)
 
 
 def edit_user_info(uid, data):
     if '_id' in data:
         data.pop('_id')
-    result = mongo_manager.update_one(users_collection, {'uid': uid}, {"$set": data})
-    return result.acknowledged
+    return mongo_manager.update_one(users_collection, {'uid': uid}, {"$set": data}).acknowledged
 
 
 def get_collections_by_uid(uid, page, limit):
-    skip = (page - 1) * limit
+    skip = page_limit_skip(limit, page)
     result = list(
         mongo_manager.find(collcetions_collection, {'uid': uid}).skip(skip).limit(limit).sort([("create_time", -1)]))
     articles = []
     for item in result:
         article = mongo_manager.find_one(articles_collection, {'_id': ObjectId(item['article_id'])})
+        article['col_num'] = mongo_manager.find_count(collcetions_collection, {"article_id": article["_id"]})
+        article['like_num'] = mongo_manager.find_count(like_collection, {"article_id": article["_id"]})
         articles.append(article)
     length = mongo_manager.find_count(collcetions_collection, {'uid': uid})
     return articles, length
@@ -89,17 +92,16 @@ def save_collection(uid, article_id):
     collcetion = mongo_manager.find_one(collcetions_collection, query)
     if collcetion:
         return False
-    result = mongo_manager.save_one(collcetions_collection,
-                                    {'uid': uid, 'article_id': ObjectId(article_id), 'create_time': datetime.now(),
-                                     'update_time': datetime.now()})
-    return result.acknowledged
+    return mongo_manager.save_one(collcetions_collection,
+                                  {'uid': uid, 'article_id': ObjectId(article_id), 'create_time': datetime.now(),
+                                   'update_time': datetime.now()}).acknowledged
 
 
 def delete_collections(uid, article_ids):
     for article_id in article_ids:
         article = mongo_manager.find_one(collcetions_collection, {'uid': uid, 'article_id': ObjectId(article_id)})
         if article:
-            result = mongo_manager.remove_one(collcetions_collection, {'uid': uid, 'article_id': ObjectId(article_id)})
+            mongo_manager.remove_one(collcetions_collection, {'uid': uid, 'article_id': ObjectId(article_id)})
         else:
             return False
     return True

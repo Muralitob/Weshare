@@ -5,6 +5,8 @@ __author__:cjhcw
 from datetime import datetime
 from core_manager.mongo_manager import mongo_manager
 
+from utility import page_limit_skip
+
 from bson import ObjectId
 
 articles_collection = 'articles'
@@ -28,8 +30,8 @@ def create_new_article(data):
     data['read_num'] = 0
     user = mongo_manager.find_one(users_collection, {"uid": data["article"]["uid"]})
     data['article']['nickname'] = user['nickname']
-    if not data['article']['nickname']:
-        data['article']['nickname'] = user["account"]
+    # if not data['article']['nickname']:
+    #     data['article']['nickname'] = user["account"]
     result = mongo_manager.save_one(articles_collection, data)
     return result.acknowledged
 
@@ -43,7 +45,7 @@ def get_articles_by_uid(uid, category, page, limit):
     :param limit:
     :return:
     """
-    skip = (page - 1) * limit
+    skip = page_limit_skip(limit, page)
     query = {'article.uid': uid, 'category': category}
     result = list(mongo_manager.find(articles_collection, query).skip(skip).limit(limit))
     length = mongo_manager.find_count(articles_collection, query)
@@ -73,6 +75,8 @@ def get_articles_by_id(article_id, uid):
     else:
         article['is_like'] = False
         article['is_collection'] = False
+    article["col_num"] = mongo_manager.find_count(collcetions_collection, {"article_id": ObjectId(article_id)})
+    article["like_num"] = mongo_manager.find_count(like_collection, {"article_id": ObjectId(article_id)})
     return article
 
 
@@ -84,10 +88,8 @@ def edit_article_by_id(article):
     """
     _id = article.get('_id')
     if _id:
-        result = mongo_manager.update_one(articles_collection, {'_id': _id}, {'$set': article})
-        return result.acknowledged
-    else:
-        return False
+        return mongo_manager.update_one(articles_collection, {'_id': _id}, {'$set': article}).acknowledged
+    return False
 
 
 def delete_article_by_id(article_ids):
@@ -122,8 +124,7 @@ def like_article(article_id, add, uid):
         if not add_add:
             return add_add
     comment = {"$set": {'like_num': article['like_num'] + add}}
-    result = mongo_manager.update_one(articles_collection, query, comment)
-    return result.acknowledged
+    return mongo_manager.update_one(articles_collection, query, comment).acknowledged
 
 
 def read_article(article_id):
@@ -135,8 +136,7 @@ def read_article(article_id):
     query = {'_id': ObjectId(article_id)}
     article = mongo_manager.find_one(articles_collection, query)
     comment = {"$set": {'read_num': article['read_num'] + 1}}
-    result = mongo_manager.update_one(articles_collection, query, comment)
-    return result.acknowledged
+    return mongo_manager.update_one(articles_collection, query, comment).acknowledged
 
 
 def get_real_articles(keyword, page, limit, uid):
@@ -145,14 +145,13 @@ def get_real_articles(keyword, page, limit, uid):
     :param keyword:
     :param page:
     :param limit:
-    :param uid
+    :param uid:
     :return:
     """
     query = {"category": "real"}
     if keyword:
         query['article.title'] = {'$regex': keyword}
-    limit = int(limit)
-    skip = (int(page) - 1) * limit
+    skip = page_limit_skip(limit, page)
     result = list(mongo_manager.find(articles_collection, query).skip(skip).limit(limit).sort([("create_time", -1)]))
     if uid:
         for article in result:
@@ -167,10 +166,14 @@ def get_real_articles(keyword, page, limit, uid):
                 article['is_like'] = True
             else:
                 article['is_like'] = False
+            article["col_num"] = mongo_manager.find_count(collcetions_collection, {"article_id": article['_id']})
+            article["like_num"] = mongo_manager.find_count(like_collection, {"article_id": article['_id']})
     else:
         for article in result:
             article['is_like'] = False
             article['is_collection'] = False
+            article["col_num"] = mongo_manager.find_count(collcetions_collection, {"article_id": article['_id']})
+            article["like_num"] = mongo_manager.find_count(like_collection, {"article_id": article['_id']})
     length = mongo_manager.find_count(articles_collection, query)
     return result, length
 
@@ -192,8 +195,7 @@ def add_comment(parent_id, uid, content):
     comment = {'parent_id': ObjectId(parent_id), 'name': user['nickname'], 'content': content,
                'comment_time': datetime.now(),
                'is_first_comment': is_first_comment, 'like_num': 0}
-    result = mongo_manager.save_one(comments_collection, comment)
-    return result.acknowledged
+    return mongo_manager.save_one(comments_collection, comment).acknowledged
 
 
 def get_comments(article_id, page, limit, uid):
@@ -205,7 +207,7 @@ def get_comments(article_id, page, limit, uid):
     :param uid:
     :return:
     """
-    skip = (page - 1) * limit
+    skip = page_limit_skip(limit, page)
     result = list(
         mongo_manager.find(comments_collection, {'parent_id': ObjectId(article_id)}).skip(skip).limit(limit).sort(
             [("comment_time", -1)]))
@@ -254,16 +256,15 @@ def edit_comment(_id, content):
     query = {'_id': ObjectId(_id)}
     old_comment = mongo_manager.find_one(comments_collection, query)
     comment = {"$set": {'content': content, 'comment_time': datetime.now(), 'like_num': old_comment['like_num']}}
-    result = mongo_manager.update_one(comments_collection, query, comment)
-    return result.acknowledged
+    return mongo_manager.update_one(comments_collection, query, comment).acknowledged
 
 
 def like_comment(_id, add, uid):
     """
     点赞
     :param _id:
-    :param add +1 点赞 -1 取消点赞
-    :param uid
+    :param add: +1 点赞 -1 取消点赞
+    :param uid:
     :return:
     """
     query = {'_id': ObjectId(_id)}
@@ -279,8 +280,7 @@ def like_comment(_id, add, uid):
         if not add_add:
             return add_add
     comment = {"$set": {'like_num': old_comment['like_num'] + add}}
-    result = mongo_manager.update_one(comments_collection, query, comment)
-    return result.acknowledged
+    return mongo_manager.update_one(comments_collection, query, comment).acknowledged
 
 
 def add_article_history(article_id, uid):
@@ -290,9 +290,9 @@ def add_article_history(article_id, uid):
     :param uid:
     :return:
     """
-    result = mongo_manager.save_one(article_history_collection,
-                                    {"article_id": ObjectId(article_id), "uid": uid, "create_time": datetime.now()})
-    return result.acknowledged
+    return mongo_manager.save_one(article_history_collection,
+                                  {"article_id": ObjectId(article_id), "uid": uid,
+                                   "create_time": datetime.now()}).acknowledged
 
 
 def get_article_history(page, limit, uid):
@@ -303,7 +303,7 @@ def get_article_history(page, limit, uid):
     :param uid:
     :return:
     """
-    skip = (page - 1) * limit
+    skip = page_limit_skip(limit, page)
     result = list(mongo_manager.find(article_history_collection, {"uid": uid}).skip(skip).limit(limit).sort(
         [("create_time", -1)]))
     articles_history = []

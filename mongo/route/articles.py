@@ -51,7 +51,7 @@ def get_articles_by_uid():
     category = request.args.get('category')
     page = request.args.get('page')
     limit = request.args.get('limit')
-    result, length = articles_db.get_articles_by_uid(int(data['uid']), category, int(page), int(limit))
+    result, length = articles_db.get_articles_by_uid(int(data['uid']), category, page, int(limit))
     return jsonify({"articles": utility.convert_to_json(result), "total": length}), 200
 
 
@@ -121,7 +121,7 @@ def get_real_articles():
         uid = int(token['uid'])
     else:
         uid = None
-    result, length = articles_db.get_real_articles(keyword, page, limit, uid)
+    result, length = articles_db.get_real_articles(keyword, page, int(limit), uid)
     return jsonify({"articles": utility.convert_to_json(result), "total": length}), 200
 
 
@@ -173,7 +173,7 @@ def comments_functions():
         page = request.args.get('page')
         limit = request.args.get('limit')
         article_id = request.args.get('article_id')
-        result, length = articles_db.get_comments(article_id, int(page), int(limit), uid)
+        result, length = articles_db.get_comments(article_id, page, int(limit), uid)
         return jsonify({"comments": utility.convert_to_json(result), "total": length}), 200
 
 
@@ -241,7 +241,7 @@ def read_article():
 @requires_auth
 def article_history():
     """
-
+    文章浏览记录
     :return:
     """
     if request.method == 'POST':
@@ -259,5 +259,5 @@ def article_history():
         token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
         page = request.args.get('page')
         limit = request.args.get('limit')
-        result, length = articles_db.get_article_history(int(page), int(limit), int(token['uid']))
+        result, length = articles_db.get_article_history(page, int(limit), int(token['uid']))
         return jsonify({"article_history": utility.convert_to_json(result), "total": length}), 200
