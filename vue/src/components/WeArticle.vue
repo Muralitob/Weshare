@@ -27,6 +27,11 @@
           {{article_data.update_time}}
         </p>
         <section class="article__main" v-html="article_content.content"></section>
+        <Card style="width:80px">
+          <!-- <div style="text-align:center">
+              <span>喜欢</span>
+          </div> -->
+        </Card>
       </div>
       <div class="art">
         <art-com :a_id="article_data._id" :list="article_data.reply || []"></art-com>

@@ -32,13 +32,13 @@
             </div>
             <Col>
               <router-link to="/" class="author">
-                {{item.author}}
+                {{item.article.nickname}}
               </router-link>
-              <span>{{item.date}}</span>
+              <span>{{item.update_time}}</span>
             </Col>
             <Col>
               <router-link class="title" to="/">
-                {{item.article_title}}
+                {{item.article.title}}
               </router-link>
             </Col>
           </section>
@@ -52,13 +52,13 @@
           <section>
             <Col class="between">
               <router-link class="title" to="/">
-                {{item.article_title}}
+                {{item.article.title}}
               </router-link>
               <div>
                 <router-link to="/" class="author">
-                  {{item.author}}
+                  {{item.article.nickname}}
                 </router-link>
-                <span>{{item.date}}</span>
+                <span>{{item.update_time}}</span>
               </div>
             </Col>
           </section>
@@ -100,7 +100,23 @@ export default {
             console.log(err);
           });
       } else if (type === "myCollection") {
+        api
+          .collectionFun("get", 1, page, limit)
+          .then(({ data }) => {
+            this.myCollection = data.collections;
+          })
+          .catch(err => {
+            console.log(err);
+          });
       } else if (type === "myHistory") {
+        api
+          .historyFunction("get", 1, page, limit)
+          .then(({ data }) => {
+            this.myHistory = data.article_history;
+          })
+          .catch(err => {
+            console.log(err);
+          });
       }
     },
     fetchAll() {

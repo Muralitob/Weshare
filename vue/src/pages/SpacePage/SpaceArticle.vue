@@ -54,18 +54,20 @@ export default {
   },
   methods: {
     handleReachBottom($state) {
-      $state.loaded();
       api
         .getArticles("real", this.page, 10)
         .then(({ data }) => {
-          console.log(data);
-          this.myArticle = this.myArticle.concat(data.articles || {});
-          this.page = this.page + 1;
+          if(data.articles.length) {
+            this.myArticle = this.myArticle.concat(data.articles || {});
+            this.page += 1;
+            $state.loaded();
+          }else {
+            $state.complete();
+          }
         })
         .catch(err => {
           console.log(err);
         });
-      $state.complete();
     },
     articleAction(name) {
       if (name === "edit") {

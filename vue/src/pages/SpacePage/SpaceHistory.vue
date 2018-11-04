@@ -17,7 +17,7 @@
         </section>
       </Row>
     </div>
-    <InfiniteLoading @infinite="handleReachBottom"  spinner="waveDots" >
+    <InfiniteLoading direction="bottom" @infinite="handleReachBottom"  spinner="waveDots" >
       <span slot="no-more">
         没有更多数据了:)
       </span>
@@ -34,15 +34,15 @@ export default {
   data() {
     return {
       history_Array: [],
-      currentPage: 1
+      page: 1
     };
   },
   methods: {
     handleReachBottom($state) {
-      $state.loaded();
       api
-        .historyFunction("get", 0, this.currentPage)
+        .historyFunction("get", 1, this.page, 5)
         .then(({ data }) => {
+          console.log(data)
           if (data.article_history.length) {
             let result = Object.values(data.article_history).map(ele => ({
               title: ele.article.title,
@@ -51,7 +51,7 @@ export default {
               _id: ele._id
             }));
             this.history_Array = this.history_Array.concat(result);
-            this.currentPage = this.currentPage + 1;
+            this.page += 1;
             $state.loaded();
           } else {
             $state.complete();
@@ -60,7 +60,6 @@ export default {
         .catch(err => {
           console.log(err);
         });
-      $state.complete();
     }
   },
   mounted() {

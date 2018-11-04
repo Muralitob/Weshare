@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     handleReachBottom($state) {
-      api.collectionFun('get', 1, this.page, 5).then(({data})=> {
+      api.collectionFun('get', 1, this.page, 10).then(({data})=> {
         if(data.collections.length) {
           this.collection_Array = this.collection_Array.concat(data.collections || {});
           this.page += 1;
