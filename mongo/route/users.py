@@ -97,7 +97,7 @@ def collections_functions():
         token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
         page = request.args.get('page')
         limit = request.args.get('limit')
-        result, length = users_db.get_collections_by_uid(int(token['uid']), int(page), int(limit))
+        result, length = users_db.get_collections_by_uid(int(token['uid']), page, int(limit))
         return jsonify({"collections": utility.convert_to_json(result), "total": length}), 200
     elif request.method == 'POST':
         data = request.get_json()

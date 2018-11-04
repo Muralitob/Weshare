@@ -7,6 +7,8 @@ from core_manager.mongo_manager import mongo_manager
 from bson import ObjectId
 from datetime import datetime
 
+from utility import page_limit_skip
+
 news_collection = 'news'
 
 
@@ -18,8 +20,7 @@ def create_new_news(data):
     """
     data['create_time'] = datetime.now()
     data['update_time'] = datetime.now()
-    result = mongo_manager.save_one(news_collection, data)
-    return result.acknowledged
+    return mongo_manager.save_one(news_collection, data).acknowledged
 
 
 def get_all_news(page, limit):
@@ -27,7 +28,7 @@ def get_all_news(page, limit):
     获取所有新闻
     :return:
     """
-    skip = (page - 1) * limit
+    skip = page_limit_skip(limit, page)
     news_list = list(mongo_manager.find(news_collection, {}).skip(skip).limit(limit))
     length = mongo_manager.find_count(news_collection, {})
     return news_list, length
@@ -39,8 +40,7 @@ def delete_news_by_id(news_ids):
     :param news_ids:
     :return:
     """
-    result = mongo_manager.remove_many(news_collection, {'_id': ObjectId(_id) for _id in news_ids})
-    return result.acknowledged
+    return mongo_manager.remove_many(news_collection, {'_id': ObjectId(_id) for _id in news_ids}).acknowledged
 
 
 def edit_one_new(new_id, data):
@@ -52,5 +52,4 @@ def edit_one_new(new_id, data):
     """
     data.pop('_id')
     data['update_time'] = datetime.now()
-    result = mongo_manager.update_one(news_collection, {'_id': ObjectId(new_id)}, {"$set": data})
-    return result.acknowledged
+    return mongo_manager.update_one(news_collection, {'_id': ObjectId(new_id)}, {"$set": data}).acknowledged

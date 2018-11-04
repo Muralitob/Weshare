@@ -35,7 +35,7 @@ def news_functions():
     elif request.method == 'GET':
         page = request.args.get('page')
         limit = request.args.get('limit')
-        result, length = news_db.get_all_news(int(page), int(limit))
+        result, length = news_db.get_all_news(page, int(limit))
         return jsonify({"news": utility.convert_to_json(result), "total": length}), 200
     elif request.method == 'DELETE':
         data = request.get_json()
