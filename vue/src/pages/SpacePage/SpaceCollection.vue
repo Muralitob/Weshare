@@ -45,7 +45,7 @@ export default {
   methods: {
     handleReachBottom($state) {
       $state.loaded();
-      api.historyFunction('get', this.page, 10).then(({data})=> {
+      api.collectionFun('get', 1, 10).then(({data})=> {
         console.log(data)
       })
       $state.complete();
