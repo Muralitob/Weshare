@@ -36,7 +36,7 @@ export default {
   data() {
     return {
       formItem: {
-        nick_name: "",
+        nickname: "",
         sign: "",
         sex: "",
         birth_day: ""
@@ -53,7 +53,7 @@ export default {
         .then(({ data }) => {
           console.log('用户信息',data)
           let result=  {
-            nickname: data.nick_name,
+            nickname: data.nickname,
             sex: data.sex || 'secret',
             birth_day: data.birth_day || '',
             sign: data.sign || '你怎么这么懒,签名都不写',

@@ -58,7 +58,7 @@ export default {
       try {
         let { data } = await api.getArticleById(this.com_id);
         this.article_content = data.articles.article;
-        console.log(this.article_content);
+        console.log('当前文章信息', data.articles);
         this.article_data = data.articles;
         this.spinShow = false
       } catch (error) {

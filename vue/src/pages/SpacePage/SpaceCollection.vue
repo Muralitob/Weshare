@@ -21,7 +21,7 @@
         </section>
       </Row>
     </div>
-    <InfiniteLoading :on-infinite="handleReachBottom" ref="infiniteLoading"  spinner="waveDots" >
+    <InfiniteLoading  @infinite="handleReachBottom" :distance='1000' direction="bootom" ref="infiniteLoading"  spinner="waveDots" >
       <span slot="no-more">
         没有更多数据了:)
       </span>
@@ -32,82 +32,23 @@
 <script>
 import ShadowCard from "../../components/ShadowCard";
 import InfiniteLoading from "vue-infinite-loading";
+import api from '../../api'
 export default {
   components: { ShadowCard, InfiniteLoading },
   data() {
     return {
       collection_Array: [
-        {
-          article_title: "2019届校招前端面试题整理——HTML、CSS篇",
-          date: "2018年10月10日",
-          author: "ddduanlian"
-        },
-        {
-          article_title: "2019年学期统计",
-          date: "2018年10月10日",
-          author: "ddduanlian"
-        },
-        {
-          article_title: "2019年学期统计",
-          date: "2018年10月10日",
-          author: "ddduanlian"
-        },
-        {
-          article_title: "2019年学期统计",
-          date: "2018年10月10日",
-          author: "ddduanlian"
-        },
-        {
-          article_title: "2019年学期统计",
-          date: "2018年10月10日",
-          author: "ddduanlian"
-        },
-        {
-          article_title: "2019年学期统计",
-          date: "2018年10月10日",
-          author: "ddduanlian"
-        },
-        {
-          article_title: "2019年学期统计",
-          date: "2018年10月10日",
-          author: "ddduanlian"
-        },
-        {
-          article_title: "2019年学期统计",
-          date: "2018年10月10日",
-          author: "ddduanlian"
-        },
-        {
-          article_title: "2019年学期统计",
-          date: "2018年10月10日",
-          author: "ddduanlian"
-        },
-        {
-          article_title: "2019年学期统计",
-          date: "2018年10月10日",
-          author: "ddduanlian"
-        },
-        {
-          article_title: "2019年学期统计",
-          date: "2018年10月10日",
-          author: "ddduanlian"
-        },
-      ]
+      ],
+      page: 1,
     };
   },
   methods: {
-    handleReachBottom() {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          this.$refs.infiniteLoading.$emit("$InfiniteLoading:loaded");
-          const last = this.collection_Array[this.collection_Array.length - 1];
-          for (let i = 1; i < 11; i++) {
-            this.collection_Array.push(last + i);
-          }
-          this.$refs.infiniteLoading.$emit("$InfiniteLoading:complete");
-          resolve();
-        }, 2000);
-      });
+    handleReachBottom($state) {
+      $state.loaded();
+      api.historyFunction('get', this.page, 10).then(({data})=> {
+        console.log(data)
+      })
+      $state.complete();
     }
   }
 };

@@ -64,7 +64,7 @@ export default {
   UserRegist({ commit }, { form, that }) {
     const formDataMD5 = {
       account: form.account,
-      pwd: setMd5(form.password)
+      pwd: setMd5(form.password),
     };
     api
       .userRegist(formDataMD5)
