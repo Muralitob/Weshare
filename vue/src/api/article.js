@@ -77,9 +77,9 @@ export default {
   },
   //文章点赞 add: 1 +1  -1 -1
   async addLikeArticle(add, _id) {
-    return axios.post("/api/article/like_comment", {
+    return axios.post("/api/article/like_article", {
       add,
-      _id
+      article_id:_id
     });
   },
   async historyFunction(type, data, page, limit = 10 ) {

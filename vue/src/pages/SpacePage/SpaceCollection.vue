@@ -4,24 +4,27 @@
       <Row v-for="(item, index) in collection_Array" :key="index"  class="steam-list">
         <section>
           <div class="favs bookmark-rank">
-            1
+            0
             <span>收藏</span>
           </div>
           <Col>
             <router-link to="/" class="author">
-              {{item.author}}
+              {{item.article.nickname}}
             </router-link>
-            <span>{{item.date}}</span>
+            <span>
+              <Time type="date" :time="item.update_time" />
+              {{item.date}}
+              </span>
           </Col>
           <Col>
             <router-link class="title" to="/">
-              {{item.article_title}}
+              {{item.article.title}}
             </router-link>
           </Col>
         </section>
       </Row>
     </div>
-    <InfiniteLoading  @infinite="handleReachBottom" :distance='1000' direction="bootom" ref="infiniteLoading"  spinner="waveDots" >
+    <InfiniteLoading  direction="bottom" @infinite="handleReachBottom" spinner="waveDots">
       <span slot="no-more">
         没有更多数据了:)
       </span>
@@ -32,6 +35,7 @@
 <script>
 import ShadowCard from "../../components/ShadowCard";
 import InfiniteLoading from "vue-infinite-loading";
+import MugenScroll from 'vue-mugen-scroll'
 import api from '../../api'
 export default {
   components: { ShadowCard, InfiniteLoading },
@@ -44,11 +48,17 @@ export default {
   },
   methods: {
     handleReachBottom($state) {
-      $state.loaded();
-      api.collectionFun('get', 1, 10).then(({data})=> {
-        console.log(data)
+      api.collectionFun('get', 1, this.page, 5).then(({data})=> {
+        if(data.collections.length) {
+          this.collection_Array = this.collection_Array.concat(data.collections || {});
+          this.page += 1;
+          $state.loaded();
+        }else {
+          $state.complete();
+        }
+      }).catch(err => {
+        console.log(err)
       })
-      $state.complete();
     }
   }
 };
