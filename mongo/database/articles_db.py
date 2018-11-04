@@ -52,7 +52,7 @@ def get_articles_by_uid(uid, category, page, limit):
 
 def get_articles_by_id(article_id, uid):
     """
-    根据_id获取文章get_articles_by_id
+    根据_id获取文章
     :param article_id:
     :param uid:
     :return:
@@ -104,8 +104,8 @@ def like_article(article_id, add, uid):
     """
     文章点赞
     :param article_id:
-    :param add +1 点赞 -1 取消点赞
-    :param uid
+    :param add: +1 点赞 -1 取消点赞
+    :param uid:
     :return:
     """
     query = {'_id': ObjectId(article_id)}
@@ -113,13 +113,14 @@ def like_article(article_id, add, uid):
     if add == -1 and article['like_num'] == 0:
         return False
     elif add == -1 and article['like_num'] > 0:
-        delete = mongo_manager.remove_one(like_collection, {"uid": uid, "article": ObjectId(article_id)})
+        delete = mongo_manager.remove_one(like_collection,
+                                          {"uid": uid, "article_id": ObjectId(article_id)}).acknowledged
         if not delete:
             return delete
     else:
-        add = mongo_manager.save_one(like_collection, {"uid": uid, "article": ObjectId(article_id)})
-        if not add:
-            return add
+        add_add = mongo_manager.save_one(like_collection, {"uid": uid, "article_id": ObjectId(article_id)}).acknowledged
+        if not add_add:
+            return add_add
     comment = {"$set": {'like_num': article['like_num'] + add}}
     result = mongo_manager.update_one(articles_collection, query, comment)
     return result.acknowledged
