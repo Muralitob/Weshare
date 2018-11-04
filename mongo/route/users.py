@@ -57,7 +57,7 @@ def get_user_info():
     """
     token = request.headers.get('Authorization')
     data = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
-    result = users_db.get_user_info(data['uid'])
+    result = users_db.get_user_info(int(data['uid']))
     if result:
         return jsonify(utility.convert_to_json(result)), 200
     else:
@@ -97,14 +97,14 @@ def collections_functions():
         token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
         page = request.args.get('page')
         limit = request.args.get('limit')
-        result, length = users_db.get_collections_by_uid(token['uid'], int(page), int(limit))
+        result, length = users_db.get_collections_by_uid(int(token['uid']), int(page), int(limit))
         return jsonify({"collections": utility.convert_to_json(result), "total": length}), 200
     elif request.method == 'POST':
         data = request.get_json()
         token = request.headers.get('Authorization')
         token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
         article_id = data['_id']
-        result = users_db.save_collection(token['uid'], article_id)
+        result = users_db.save_collection(int(token['uid']), article_id)
         if result:
             return jsonify({"message": "收藏文章成功", "code": 207}), 200
         else:
@@ -114,7 +114,7 @@ def collections_functions():
         token = request.headers.get('Authorization')
         token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
         article_ids = data['article_ids']
-        result = users_db.delete_collections(token['uid'], article_ids)
+        result = users_db.delete_collections(int(token['uid']), article_ids)
         if result:
             return jsonify({"message": "删除收藏成功", "code": 209}), 200
         else:
