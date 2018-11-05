@@ -25,5 +25,8 @@ export default{
     },
     [types.USER_INFO](state,data) {
         state.userInfo = data
+    },
+    [types.CURRENT_COMP](state,data) {
+        state.currentComponent = data
     }
 }

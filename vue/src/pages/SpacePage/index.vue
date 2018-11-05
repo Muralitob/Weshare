@@ -13,12 +13,12 @@ export default {
   },
   data() {
     return {
-      current: this.$store.state.UserSetting.currentComp,
+      // current: this.$store.state.UserSetting.currentComp,
     }
   },
   computed: {
-    visitUid() {
-      return this.$route.params["userId"]
+    current() {
+      return this.$store.state.UserSetting.currentComponent;
     }
   },
   watch: {
@@ -32,14 +32,7 @@ export default {
     // }
   },
   mounted() {
-    console.log(this.$cookie.get('uid') === this.visitUid)
-    if(this.$cookie.get('uid') === this.visitUid) {
-      console.log('一样')
-      this.current = 'MyIndex'
-    }else {
-      console.log('不一样')
-      this.current = 'OtherIndex'
-    }
+    
   },
 }
 </script>

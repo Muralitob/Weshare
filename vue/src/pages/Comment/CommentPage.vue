@@ -4,8 +4,8 @@
       <div class="cutarea" v-if="IsLogin">
         <section class="cutarea_bar" v-if="!searhIf">
           <router-link to="/commit/write" class="user__Write shortcut"><Icon size="38" type="ios-create-outline" />写文章</router-link>
-          <router-link :to="{name: 'Space', params: {userId: uid}}" class="user__History shortcut"><Icon size="38" type="md-globe" />浏览历史</router-link>
-          <router-link :to="{name: 'myCollection', params: {userId: uid}}" class="user__Collection shortcut"><Icon size="38" type="ios-star" />我的收藏</router-link>
+          <router-link :to="{name: 'history', params: {userId: uid}}" class="user__History shortcut"><Icon size="38" type="md-globe" />浏览历史</router-link>
+          <router-link :to="{name: 'collection', params: {userId: uid}}" class="user__Collection shortcut"><Icon size="38" type="ios-star" />我的收藏</router-link>
           <span class="shortcut" @click="showSearch"><Icon size="38" type="md-search" />搜索</span>
         </section>
         <section id="search" ref="ss" v-if="searhIf">

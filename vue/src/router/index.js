@@ -223,7 +223,7 @@ const router = new Router({
         },
         {
           path: "/space/:userId/collection",
-          name: "myCollection",
+          name: "collection",
           meta: {
             requiresAuth: true
           },
@@ -231,7 +231,7 @@ const router = new Router({
         },
         {
           path: "/space/:userId/history",
-          name: "浏览记录",
+          name: "history",
           meta: {
             requiresAuth: true
           },
@@ -242,7 +242,7 @@ const router = new Router({
           meta: {
             requiresAuth: true
           },
-          name: "我的文章",
+          name: "article",
           component: SpaceArticle
         }
       ]
@@ -308,6 +308,16 @@ router.beforeEach((to, from, next) => {
       console.log(data)
     })
   }
+  if(to.params.userId) {
+    if(VueCookie.get('uid') === to.params.userId) {
+      store.commit('CURRENT_COMP', 'MyIndex')
+      console.log('相同')
+    }else {
+      store.commit('CURRENT_COMP', 'OtherIndex')
+      console.log('不相同')
+    }
+  }
+  console.log('to', to.params.userId)
   if(to.path === '/') {
     next('/timeline')
   }

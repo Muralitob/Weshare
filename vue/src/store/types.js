@@ -7,3 +7,4 @@ export const SPIN_SHOW = 'SPIN_SHOW' //spin加载是否显示
 export const REGIST_SHOW = 'REGIST_SHOW' //注册Modal显示
 export const LOGIN_SHOW = 'LOGIN_SHOW' //注册Modal显示
 export const USER_INFO = 'USER_INFO' //设置用户信息
+export const CURRENT_COMP = 'CURRENT_COMP' //设置当前模板
