@@ -55,9 +55,12 @@ def get_user_info():
     获取用户信息
     :return:
     """
-    token = request.headers.get('Authorization')
-    data = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
-    result = users_db.get_user_info(int(data['uid']))
+    uid = request.args.get("uid")
+    if not uid:
+        token = request.headers.get('Authorization')
+        data = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+        uid = int(data["uid"])
+    result = users_db.get_user_info(uid)
     if result:
         return jsonify(utility.convert_to_json(result)), 200
     else:
