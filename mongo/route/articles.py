@@ -8,7 +8,6 @@ from flask import jsonify
 
 from database.users_db import requires_auth
 from database import articles_db
-
 import utility
 import jwt
 

@@ -59,7 +59,7 @@ def get_user_info():
     if not uid:
         token = request.headers.get('Authorization')
         data = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
-        uid = int(data["uid"])
+        uid = data["uid"]
     result = users_db.get_user_info(int(uid))
     if result:
         return jsonify(utility.convert_to_json(result)), 200
