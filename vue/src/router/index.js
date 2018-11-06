@@ -311,13 +311,14 @@ router.beforeEach((to, from, next) => {
   if(to.params.userId) {
     if(VueCookie.get('uid') === to.params.userId) {
       store.commit('CURRENT_COMP', 'MyIndex')
-      console.log('相同')
     }else {
+      if(to.matched[0].name === 'setting') {
+        next('/')
+      }
       store.commit('CURRENT_COMP', 'OtherIndex')
-      console.log('不相同')
     }
   }
-  console.log('to', to.params.userId)
+  console.log('to', to)
   if(to.path === '/') {
     next('/timeline')
   }

@@ -44,7 +44,7 @@
                   <span>粉丝人数</span>
                 </div>
                 <span>0</span>
-              </router-link >
+              </router-link>
             </Col>
           </Row>
         </Card>
@@ -61,16 +61,13 @@
 
 <script>
 import api from "../../api";
-import OtherIndex from './other/SpaceIndex'
 export default {
-  components: {OtherIndex},
   data() {
     return {
       fourl: `/space/${this.$route.params.userId}/index/fan`,
       faurl: `/space/${this.$route.params.userId}/index/fans`,
       user_info: {},
       visitUid: this.$route.params["userId"],
-      current:'OtherIndex'
     };
   },
   methods: {
