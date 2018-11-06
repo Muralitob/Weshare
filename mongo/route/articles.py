@@ -114,13 +114,12 @@ def get_real_articles():
     keyword = request.args.get('keyword')
     page = request.args.get('page')
     limit = request.args.get('limit')
-    token = request.headers.get('Authorization')
-    if token:
+    uid = request.args.get('uid')
+    if not uid:
+        token = request.headers.get('Authorization')
         token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
-        uid = int(token['uid'])
-    else:
-        uid = None
-    result, length = articles_db.get_real_articles(keyword, page, int(limit), uid)
+        uid = token['uid']
+    result, length = articles_db.get_real_articles(keyword, page, int(limit), int(uid))
     return jsonify({"articles": utility.convert_to_json(result), "total": length}), 200
 
 

@@ -96,11 +96,14 @@ def collections_functions():
     :return:
     """
     if request.method == 'GET':
-        token = request.headers.get('Authorization')
-        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+        uid = request.args.get('uid')
+        if not uid:
+            token = request.headers.get('Authorization')
+            token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+            uid = token['uid']
         page = request.args.get('page')
         limit = request.args.get('limit')
-        result, length = users_db.get_collections_by_uid(int(token['uid']), page, int(limit))
+        result, length = users_db.get_collections_by_uid(int(uid), page, int(limit))
         return jsonify({"collections": utility.convert_to_json(result), "total": length}), 200
     elif request.method == 'POST':
         data = request.get_json()
