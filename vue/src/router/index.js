@@ -309,12 +309,14 @@ router.beforeEach((to, from, next) => {
     })
   }
   if(to.params.userId) {
-    if(VueCookie.get('uid') === to.params.userId) {
+    if(VueCookie.get('uid') == to.params.userId) {
+      console.log('相同啊')
       store.commit('CURRENT_COMP', 'MyIndex')
     }else {
       if(to.matched[0].name === 'setting') {
         next('/')
       }
+      console.log('不相同啊')
       store.commit('CURRENT_COMP', 'OtherIndex')
     }
   }

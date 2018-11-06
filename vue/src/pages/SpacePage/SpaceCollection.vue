@@ -23,12 +23,12 @@
           </Col>
         </section>
       </Row>
+      <InfiniteLoading  direction="bottom" @infinite="handleReachBottom" spinner="waveDots">
+        <span slot="no-more">
+          没有更多数据了:)
+        </span>
+      </InfiniteLoading>
     </div>
-    <InfiniteLoading  direction="bottom" @infinite="handleReachBottom" spinner="waveDots">
-      <span slot="no-more">
-        没有更多数据了:)
-      </span>
-    </InfiniteLoading>
   </shadow-card>
 </template>
 

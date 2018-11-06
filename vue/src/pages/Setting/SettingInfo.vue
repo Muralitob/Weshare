@@ -11,6 +11,11 @@
         <FormItem label="我的签名">
           <Input class="sign" v-model="formItem.sign" type="textarea" :autosize="{minRows: 4,maxRows: 5}" placeholder="Enter something..."></Input>
         </FormItem>
+        <FormItem label="我的专业">
+          <Select filterable v-model="formItem.major" style="width:200px">
+            <Option v-for="item in majorList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          </Select>
+        </FormItem>
         <FormItem label="性别:">
             <RadioGroup v-model="formItem.sex">
                 <Radio label="male">男</Radio>
@@ -39,26 +44,53 @@ export default {
         nickname: "",
         sign: "",
         sex: "",
-        birth_day: ""
-      }
+        birth_day: "",
+        major: '',
+      },
+      majorList: [
+          {
+            value: "New York",
+            label: "New York"
+          },
+          {
+            value: "London",
+            label: "London"
+          },
+          {
+            value: "Sydney",
+            label: "Sydney"
+          },
+          {
+            value: "Ottawa",
+            label: "Ottawa"
+          },
+          {
+            value: "Paris",
+            label: "Paris"
+          },
+          {
+            value: "Canberra",
+            label: "Canberra"
+          }
+        ]
     };
   },
   methods: {
     test(pre, next) {
-      this.formItem.birth_day = pre
+      this.formItem.birth_day = pre;
     },
     fetchUserInfo() {
       api
         .getUserInfo()
         .then(({ data }) => {
-          console.log('用户信息',data)
-          let result=  {
+          console.log("用户信息", data);
+          let result = {
             nickname: data.nickname,
-            sex: data.sex || 'secret',
-            birth_day: data.birth_day || '',
-            sign: data.sign || '你怎么这么懒,签名都不写',
-          }
-          this.formItem = result
+            sex: data.sex || "secret",
+            birth_day: data.birth_day || "",
+            sign: data.sign || "你怎么这么懒,签名都不写"
+          };
+          this.formItem = result;
         })
         .catch(err => {
           console.log("err", err);

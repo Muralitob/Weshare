@@ -18,7 +18,7 @@ export default {
     return axios.post("/api/user/edit_user_info", data);
   },
   /**收藏文章方法 restful-api */
-  async collectionFun(types, data, page, limit = 10) {
+  async collectionFun(types, data, page, limit = 10, uid) {
     switch (types) {
       case "post": //收藏文章
         console.log(data);
@@ -34,6 +34,7 @@ export default {
           params: {
             page,
             limit,
+            uid,
           }
         });
       default:

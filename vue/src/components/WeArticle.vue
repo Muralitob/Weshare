@@ -22,7 +22,6 @@
         </div>
         <p class="article__artinfo borline">
           <router-link :to="{name:'Space', params: {userId: article_content.uid}}">
-            {{article_content.uid}}
             <span class="article__author">{{article_content.nickname}}</span>
           </router-link>
           {{article_data.update_time}}
