@@ -7,8 +7,12 @@ export default {
   async userRegist(data) {
     return axios.post("/api/user/register", data);
   },
-  async getUserInfo() {
-    return axios.get("/api/user/get_user_info");
+  async getUserInfo(uid) {
+    return axios.get("/api/user/get_user_info",{
+      params: {
+        uid
+      }
+    });
   },
   async editUserInfo(data) {
     return axios.post("/api/user/edit_user_info", data);

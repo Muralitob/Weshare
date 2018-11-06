@@ -78,11 +78,12 @@ export default {
     return {
       user_info: {},
       articles: [],
+      uid: this.$route.params.userId,
     }
   },
   methods: {
     getUserInfo() {
-      api.getUserInfo().then(({ data }) => {
+      api.getUserInfo(this.uid).then(({ data }) => {
         let result = {
           nickname: data.nickname,
           sign: data.sign,
@@ -90,6 +91,8 @@ export default {
         };
         this.user_info = result;
         console.log("用户信息", data);
+      }).catch(err => {
+        console.log(err)
       });
     },
   },
