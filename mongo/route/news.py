@@ -8,7 +8,6 @@ from flask import jsonify
 
 from database.users_db import requires_auth
 from database import news_db
-
 import utility
 
 news = Blueprint("news", __name__, url_prefix='/api/news')

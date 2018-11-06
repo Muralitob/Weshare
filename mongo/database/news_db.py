@@ -3,7 +3,6 @@
 __author__:cjhcw
 """
 from core_manager.mongo_manager import mongo_manager
-
 from bson import ObjectId
 from datetime import datetime
 
