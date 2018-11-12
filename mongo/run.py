@@ -11,6 +11,7 @@ from os import path
 from route.users import users
 from route.articles import articles
 from route.news import news
+from route.goods import goods
 
 sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 
@@ -21,6 +22,7 @@ CORS(program, supports_credentials=True)
 program.register_blueprint(users)
 program.register_blueprint(articles)
 program.register_blueprint(news)
+program.register_blueprint(goods)
 
 if __name__ == '__main__':
     program.run(host='0.0.0.0', port=3090, debug=True, threaded=True)
