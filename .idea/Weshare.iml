@@ -5,7 +5,7 @@
       <sourceFolder url="file://$MODULE_DIR$/mongo" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/vue" isTestSource="false" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="Python 2.7.10 (/System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TestRunnerService">
