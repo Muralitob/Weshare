@@ -49,8 +49,8 @@
           </article>
           </li>
           <Spin size="large" fix v-if="spinShow"></Spin>
+          <Page prev-text="上一页" next-text="下一页" :current="parseInt(currentPage)" @on-change="changepage" :total="total" show-elevator class-name="timeline-pageBox"></Page>
       </ul>
-      <Page prev-text="上一页" next-text="下一页" :current="parseInt(currentPage)" @on-change="changepage" :total="total" show-elevator class-name="timeline-pageBox"></Page>
     </div>
   </div>  
 </template>
@@ -97,6 +97,11 @@ export default {
     changepage(index) {
       this.currentPage = index;
       this.fetchResult(this.currentPage);
+      if (document.body.scrollTop) {
+        document.body.scrollTop = 0;
+      } else {
+        document.documentElement.scrollTop = 0;
+      }
     },
     showSearch() {
       this.searhIf = !this.searhIf;
@@ -119,7 +124,7 @@ export default {
           author: value.author || "Mura",
           watchNum: general.ToThousand(value.read_num) || 0,
           tagLists: value.tagLists,
-          nickname: value.article.nickname,
+          nickname: value.article.nickname
         }));
         this.total = data.total;
         this.spinShow = false;
@@ -145,9 +150,10 @@ export default {
   background-color: #fff;
   height: 70px;
   margin-bottom: 50px;
-  border-radius: 3px;
+  border-radius: 4px;
   justify-content: space-around;
   align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.14);
   position: relative;
   .cutarea_bar {
     display: flex;
@@ -227,6 +233,7 @@ export default {
   }
   .a {
     &_list {
+      box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.1), 0 1px rgba(0, 0, 0, 0.1);
       background-color: $c-white;
       position: relative;
       width: 100%;
@@ -240,7 +247,7 @@ export default {
         background-color: #fbfbfb;
       }
       &:last-child {
-        border: none;
+        border-bottom: none;
       }
       header {
         // display: flex;

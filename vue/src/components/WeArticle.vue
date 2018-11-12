@@ -102,6 +102,7 @@ export default {
 
 <style lang="scss">
 .article {
+  border-radius: 3px;
   position: relative;
   .left_bar {
     position: absolute;

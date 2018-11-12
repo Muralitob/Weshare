@@ -4,6 +4,9 @@
       <Dropdown trigger="click">
         <div class="user_avator">
           <Avatar  style="background-color: #87d068" icon="ios-person" />
+          <span class="nickname">
+            {{user_info.nickname}}
+          </span>
         </div>
         <DropdownMenu slot="list">
           <DropdownItem @click.native="routeTo('space')" >
@@ -29,10 +32,12 @@
 </template>
 
 <script>
+import api from '../api';
 export default {
   data() {
     return {
-      imgurl: ''
+      imgurl: '',
+      user_info: {}
     }
   },
   methods: {
@@ -64,7 +69,19 @@ export default {
       }
     }
   },
+  mounted () {
+    api.getUserInfo().then(({data})=> {
+      this.user_info = data
+    }).catch(err => {
+      console.log(err)
+    })
+  },
   updated () {
+    api.getUserInfo().then(({data})=> {
+      this.user_info = data
+    }).catch(err => {
+      console.log(err)
+    })
   }
 }
 </script>
@@ -72,5 +89,8 @@ export default {
 <style lang="scss">
   .user_avator{
     cursor: pointer;
+    .nickname {
+      color: #fff;
+    }
   }
 </style>
