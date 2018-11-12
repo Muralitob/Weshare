@@ -5,6 +5,7 @@ __author__:cjhcw
 from core_manager.mongo_manager import mongo_manager
 
 from bson import ObjectId
+from utility import page_limit_skip
 
 users_collection = "users"
 goods_collection = "goods"
@@ -41,3 +42,17 @@ def edit_send_goods(data):
     _id = data['_id']
     data.pop('_id')
     return mongo_manager.update_one(goods_collection, {"_id": _id}, {"$set": data})
+
+
+def get_goods(uid, page, limit):
+    """
+    获取商品列表
+    :param uid:
+    :param page:
+    :param limit:
+    :return:
+    """
+    skip = page_limit_skip(limit, page)
+    goods = list(mongo_manager.find(goods_collection, {"uid": uid}).skip(skip).limit(limit))
+    length = mongo_manager.find_count(goods_collection, {"uid": uid})
+    return goods, length
