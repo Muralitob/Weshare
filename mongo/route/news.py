@@ -2,9 +2,7 @@
 """
 __author__:cjhcw
 """
-from flask import Blueprint
-from flask import request
-from flask import jsonify
+from flask import Blueprint, request, jsonify
 
 from database.users_db import requires_auth
 from database import news_db

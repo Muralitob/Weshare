@@ -2,8 +2,7 @@
 """
 __author__:cjhcw
 """
-from flask import Blueprint
-from flask import jsonify, request
+from flask import Blueprint, jsonify, request
 import jwt
 
 from database import users_db
