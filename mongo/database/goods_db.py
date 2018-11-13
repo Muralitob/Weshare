@@ -6,6 +6,7 @@ from core_manager.mongo_manager import mongo_manager
 
 from bson import ObjectId
 from utility import page_limit_skip
+from datetime import datetime
 
 users_collection = "users"
 goods_collection = "goods"
@@ -21,6 +22,7 @@ def add_send_good(uid, data):
     user = mongo_manager.find_one(users_collection, {"uid": uid})
     data['user'] = user
     data['uid'] = uid
+    data['release_time'] = datetime.now()
     return mongo_manager.save_one(goods_collection, data).acknowledged
 
 
