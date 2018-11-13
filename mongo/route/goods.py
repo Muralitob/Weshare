@@ -61,4 +61,4 @@ def get_goods():
         token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
         uid = token['uid']
     goods, length = goods_db.get_goods(int(uid), page, int(limit))
-    return jsonify({"news": utility.convert_to_json(goods), "total": length}), 200
+    return jsonify({"goods": utility.convert_to_json(goods), "total": length}), 200
