@@ -15,6 +15,7 @@ users_collection = 'users'
 collcetions_collection = 'collections'
 articles_collection = 'articles'
 like_collection = 'like_articles'
+attention_collection = 'attentions'
 
 
 def register(data):
@@ -105,3 +106,30 @@ def delete_collections(uid, article_ids):
         else:
             return False
     return True
+
+
+def add_attention(uid, attention_uid):
+    is_attentions = mongo_manager.find_one(attention_collection, {"uid": uid, "attention_uid": attention_uid})
+    if is_attentions:
+        return False
+    else:
+        return mongo_manager.save_one(attention_collection, {"uid": uid, "attention_uid": attention_uid}).acknowledged
+
+
+def delete_attention(uid, attention_uid):
+    is_attentions = mongo_manager.find_one(attention_collection, {"uid": uid, "attention_uid": attention_uid})
+    if not is_attentions:
+        return False
+    else:
+        return mongo_manager.remove_one(attention_collection, {"uid": uid, "attention_uid": attention_uid}).acknowledged
+
+
+def get_attentions(uid, page, limit):
+    skip = page_limit_skip(limit, page)
+    attentions = list(mongo_manager.find(attention_collection, {"uid": uid}).skip(skip).limit(limit))
+    users = []
+    for attention in attentions:
+        user = mongo_manager.find_one(users_collection, {"uid": attention["attention_uid"]})
+        users.append(user)
+    count = mongo_manager.find_count(attention_collection, {"uid": uid})
+    return users, count

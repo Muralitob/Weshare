@@ -106,7 +106,7 @@ def delete_article_by_id():
 @articles.route('/get_real_articles', methods=['GET'])
 def get_real_articles():
     """
-    获取real文章
+    获取real文章 支持关键字搜索
     :return:
     """
     keyword = request.args.get('keyword')
