@@ -106,18 +106,20 @@ def delete_article_by_id():
 @articles.route('/get_real_articles', methods=['GET'])
 def get_real_articles():
     """
-    获取real文章
+    获取real文章 支持关键字搜索
     :return:
     """
-    keyword = request.args.get('keyword')
-    page = request.args.get('page')
-    limit = request.args.get('limit')
-    uid = request.args.get('uid')
+    data = request.get_json()
+    tags = data.get("tags")
+    keyword = data.get('keyword')
+    page = data.get('page')
+    limit = data.get('limit')
+    uid = data.get('uid')
     if not uid:
         token = request.headers.get('Authorization')
         token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
         uid = token['uid']
-    result, length = articles_db.get_real_articles(keyword, page, int(limit), int(uid))
+    result, length = articles_db.get_real_articles(tags, keyword, page, int(limit), int(uid))
     return jsonify({"articles": utility.convert_to_json(result), "total": length}), 200
 
 

@@ -124,3 +124,40 @@ def collections_functions():
             return jsonify({"message": "删除收藏成功", "code": 209}), 200
         else:
             return jsonify({"message": "删除收藏失败", "code": 210}), 404
+
+
+@users.route('/attention', methods=['POST', 'DELETE', 'GET'])
+@users_db.requires_auth
+def attention():
+    """
+    关注 取关 和关注列表
+    :return:
+    """
+    if request.method == "POST":
+        token = request.headers.get('Authorization')
+        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+        uid = int(token["uid"])
+        attention_uid = request.get_json()["attention_uid"]
+        result = users_db.add_attention(uid, int(attention_uid))
+        if result:
+            return jsonify({"message": "关注成功", "code": 211}), 200
+        else:
+            return jsonify({"message": "关注失败", "code": 212}), 404
+    elif request.method == "DELETE":
+        token = request.headers.get('Authorization')
+        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+        uid = int(token["uid"])
+        attention_uid = request.get_json()["attention_uid"]
+        result = users_db.delete_attention(uid, int(attention_uid))
+        if result:
+            return jsonify({"message": "取关成功", "code": 213}), 200
+        else:
+            return jsonify({"message": "取关失败", "code": 214}), 404
+    elif request.method == "GET":
+        token = request.headers.get('Authorization')
+        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+        uid = int(token["uid"])
+        page = request.args.get("page")
+        limit = request.args.get("limit")
+        result, length = users_db.get_attentions(uid, int(page), int(limit))
+        return jsonify({"attentions": utility.convert_to_json(result), "total": length}), 200
