@@ -4,9 +4,11 @@ __author__:cjhcw
 """
 from flask import Blueprint, jsonify, request
 import jwt
+import os
+from werkzeug.utils import secure_filename
 
 from database import users_db
-
+from core_manager.mongo_manager import mongo_manager
 import utility
 
 users = Blueprint("user", __name__, url_prefix='/api/user')
@@ -161,3 +163,34 @@ def attention():
         limit = request.args.get("limit")
         result, length = users_db.get_attentions(uid, int(page), int(limit))
         return jsonify({"attentions": utility.convert_to_json(result), "total": length}), 200
+
+
+@users.route('/save_user_avatar', methods=["POST"])
+@users_db.requires_auth
+def save_user_avatar():
+    """
+    保存用户头像
+    :return:
+    """
+    # 获取参数, 头像图片、用户
+    token = request.headers.get('Authorization')
+    token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+    uid = int(token["uid"])
+    image_file = request.files.get("avatar")
+    # 校验参数
+    if image_file is None:
+        # 表示用户没有上传头像
+        return jsonify({"message": "未上传头像", "code": 215}), 404
+
+    basepath = os.path.dirname(__file__)  # 当前文件所在路径
+    upload_path = os.path.join(basepath, 'static/uploads_user_photos',
+                               str(uid) + "_" + secure_filename(image_file.filename))
+    image_file.save(upload_path)
+
+    # 将文件名信息保存到数据库中
+    r = mongo_manager.update_one("users", {"uid": uid},
+                                 {"$set": {"avatar_url": str(uid) + "_" + image_file.filename}}).acknowledged
+    if not r:
+        return jsonify({"message": "保存头像信息失败", "code": 216}), 404
+
+    return jsonify({"message": "保存头像成功"}), 200

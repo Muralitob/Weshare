@@ -10,11 +10,6 @@ from flask import request
 from datetime import datetime, timedelta
 from core_manager.mongo_manager import mongo_manager
 
-from qiniu import Auth, put_data
-
-# 需要填写你的 Access Key 和 Secret Key
-access_key = 'uzc59bVURbUbazey9vrexXKocNKBUN8NuLijk57N'
-secret_key = '-9lenw28jU2REojvGkcsEPWk5Nm9V2HIVqb5Nkts'
 
 ts = time.time()
 utc_offset = (datetime.fromtimestamp(ts) -
@@ -305,29 +300,3 @@ def percentage_calculate(divisor_a, divisor_b, bit=None):
     else:
         value = round(float(divisor_a) / divisor_b, bit) * 100
         return str(value) + '%'
-
-
-def storage(file_data, bucketname):
-    """
-    上传图片到七牛, file_data是文件的二进制数据
-    :param file_data:
-    :param bucketname: 要上传的空间 的名称
-    :return:
-    """
-    # 构建鉴权对象
-    q = Auth(access_key, secret_key)
-
-    # 要上传的空间
-    bucket_name = bucketname
-
-    # 生成上传 Token，可以指定过期时间等
-    token = q.upload_token(bucket_name, None, 3600)
-    # ret, info = put_file(token, key, localfile)
-    ret, info = put_data(token, None, file_data)
-
-    if info.status_code == 200:
-        # 表示上传成功， 返回文件名
-        return ret.get("key")
-    else:
-        # 表示上传失败
-        raise Exception("上传失败")
