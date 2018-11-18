@@ -2,7 +2,10 @@
 """
 __author__:cjhcw
 """
+import os
 from flask import Blueprint, request, jsonify
+from core_manager.mongo_manager import mongo_manager
+from werkzeug.utils import secure_filename
 
 from database.users_db import requires_auth
 from database import goods_db
@@ -62,3 +65,32 @@ def get_goods():
         uid = token['uid']
     goods, length = goods_db.get_goods(int(uid), page, int(limit))
     return jsonify({"goods": utility.convert_to_json(goods), "total": length}), 200
+
+
+@goods.route('/save_good_photo', methods=['POST'])
+@requires_auth
+def save_good_photo():
+    """
+
+    :return:
+    """
+    token = request.headers.get('Authorization')
+    token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+    uid = int(token["uid"])
+    image_file = request.files.get("good")
+    # 校验参数
+    if image_file is None:
+        # 表示用户没有上传商品照片
+        return jsonify({"message": "未上传商品照片", "code": 407}), 404
+
+    basepath = os.path.dirname(__file__)  # 当前文件所在路径
+    upload_path = os.path.join(basepath, 'static/uploads_goods_photo',
+                               str(uid) + "_" + secure_filename(image_file.filename))
+    image_file.save(upload_path)
+
+    # 将文件名信息保存到数据库中
+    r = mongo_manager.save_one("goods", {"uid": uid, "good_url": str(uid) + "_" + image_file.filename})
+    if not r:
+        return jsonify({"message": "保存商品照片失败", "code": 408}), 404
+
+    return jsonify({"message": "保存商品照片成功", "good_id": str(r.inserted_id)}), 200

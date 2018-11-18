@@ -2,6 +2,7 @@
 """
 __author__:cjhcw
 """
+import os
 import jwt
 from functools import wraps
 from flask import request
@@ -65,7 +66,11 @@ def requires_auth(f):
 
 def get_user_info(uid):
     query = {'uid': uid}
-    return mongo_manager.find_one(users_collection, query)
+    one = mongo_manager.find_one(users_collection, query)
+    basepath = os.path.dirname(__file__)  # 当前文件所在路径
+    avatar_url = basepath + 'static/uploads_user_photos/' + one['avatar_url']
+    one["avatar_url"] = avatar_url
+    return one
 
 
 def edit_user_info(uid, data):

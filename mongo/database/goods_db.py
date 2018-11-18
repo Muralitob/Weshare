@@ -2,6 +2,7 @@
 """
 __author__:cjhcw
 """
+import os
 from core_manager.mongo_manager import mongo_manager
 
 from bson import ObjectId
@@ -23,7 +24,9 @@ def add_send_good(uid, data):
     data['user'] = user
     data['uid'] = uid
     data['release_time'] = datetime.now()
-    return mongo_manager.save_one(goods_collection, data).acknowledged
+    good_id = data.pop("good_id")
+    return mongo_manager.update_one(goods_collection, {"_id": ObjectId(good_id)}, {"$set": data},
+                                    upsert=True).acknowledged
 
 
 def delete_send_goods(goods_list):
@@ -56,5 +59,9 @@ def get_goods(uid, page, limit):
     """
     skip = page_limit_skip(limit, page)
     goods = list(mongo_manager.find(goods_collection, {"uid": uid}).skip(skip).limit(limit))
+    for good in goods:
+        basepath = os.path.dirname(__file__)  # 当前文件所在路径
+        good_url = basepath + 'static/uploads_goods_photo/' + good['good_url']
+        good["good_url"] = good_url
     length = mongo_manager.find_count(goods_collection, {"uid": uid})
     return goods, length
