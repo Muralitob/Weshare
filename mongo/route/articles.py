@@ -21,8 +21,12 @@ def create_new_article():
     """
     data = request.get_json()
     token = request.headers.get('Authorization')
-    token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
-    data['article']['uid'] = int(token['uid'])
+    if token:
+        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+        uid = token['uid']
+    else:
+        uid = request.cookies.get('uid')
+    data['article']['uid'] = int(uid)
     result = articles_db.create_new_article(data)
     if result:
         if data['category'] == 'real':
@@ -44,11 +48,15 @@ def get_articles_by_uid():
     :return:
     """
     token = request.headers.get('Authorization')
-    data = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+    if token:
+        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+        uid = token['uid']
+    else:
+        uid = request.cookies.get('uid')
     category = request.args.get('category')
     page = request.args.get('page')
     limit = request.args.get('limit')
-    result, length = articles_db.get_articles_by_uid(int(data['uid']), category, page, int(limit))
+    result, length = articles_db.get_articles_by_uid(int(uid), category, page, int(limit))
     return jsonify({"articles": utility.convert_to_json(result), "total": length}), 200
 
 
@@ -62,9 +70,11 @@ def get_articles_by_id():
     token = request.headers.get('Authorization')
     if token:
         token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
-        uid = int(token['uid'])
+        uid = token['uid']
     else:
-        uid = None
+        uid = request.cookies.get('uid')
+        if not uid:
+            uid = None
     article_id = request.args.get('_id')
     result = articles_db.get_articles_by_id(article_id, uid)
     if result:
@@ -116,9 +126,16 @@ def get_real_articles():
     uid = request.args.get('uid')
     if not uid:
         token = request.headers.get('Authorization')
-        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
-        uid = token['uid']
-    result, length = articles_db.get_real_articles(tag, keyword, page, int(limit), int(uid))
+        if token:
+            token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+            uid = int(token['uid'])
+        else:
+            uid = request.cookies.get('uid')
+            if not uid:
+                uid = None
+            else:
+                uid = int(uid)
+    result, length = articles_db.get_real_articles(tag, keyword, page, int(limit), uid)
     return jsonify({"articles": utility.convert_to_json(result), "total": length}), 200
 
 
@@ -134,11 +151,15 @@ def comments_functions():
     """
     if request.method == 'POST':
         token = request.headers.get('Authorization')
-        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+        if token:
+            token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+            uid = token['uid']
+        else:
+            uid = request.cookies.get('uid')
         data = request.get_json()
         parent_id = data['parent_id']
         content = data['content']
-        result = articles_db.add_comment(parent_id, int(token['uid']), content)
+        result = articles_db.add_comment(parent_id, int(uid), content)
         if result:
             return jsonify({"message": "新增评论成功", "code": 110}), 200
         else:
@@ -164,9 +185,11 @@ def comments_functions():
         token = request.headers.get('Authorization')
         if token:
             token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
-            uid = int(token['uid'])
+            uid = token['uid']
         else:
-            uid = None
+            uid = request.cookies.get('uid')
+            if not uid:
+                uid = None
         page = request.args.get('page')
         limit = request.args.get('limit')
         article_id = request.args.get('article_id')
@@ -183,11 +206,15 @@ def like_comment():
     :return:
     """
     token = request.headers.get('Authorization')
-    token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+    if token:
+        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+        uid = token['uid']
+    else:
+        uid = request.cookies.get('uid')
     data = request.get_json()
     _id = data['_id']
     add = data['add']
-    result = articles_db.like_comment(_id, int(add), int(token['uid']))
+    result = articles_db.like_comment(_id, int(add), int(uid))
     if result:
         if add == 1:
             return jsonify({"message": "点赞成功", "code": 1161}), 200
@@ -209,8 +236,12 @@ def like_article():
     article_id = data['article_id']
     add = data['add']
     token = request.headers.get('Authorization')
-    token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
-    result = articles_db.like_article(article_id, add, int(token['uid']))
+    if token:
+        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+        uid = token['uid']
+    else:
+        uid = request.cookies.get('uid')
+    result = articles_db.like_article(article_id, add, int(uid))
     if result:
         if add == 1:
             return jsonify({"message": "点赞成功", "code": 1181}), 200
@@ -243,18 +274,26 @@ def article_history():
     """
     if request.method == 'POST':
         token = request.headers.get('Authorization')
-        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+        if token:
+            token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+            uid = token['uid']
+        else:
+            uid = request.cookies.get('uid')
         data = request.get_json()
         article_id = data['article_id']
-        result = articles_db.add_article_history(article_id, int(token['uid']))
+        result = articles_db.add_article_history(article_id, int(uid))
         if result:
             return jsonify({"message": "新增浏览记录成功", "code": 121}), 200
         else:
             return jsonify({"message": "新增浏览记录失败", "code": 122}), 404
     elif request.method == 'GET':
         token = request.headers.get('Authorization')
-        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+        if token:
+            token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+            uid = token['uid']
+        else:
+            uid = request.cookies.get('uid')
         page = request.args.get('page')
         limit = request.args.get('limit')
-        result, length = articles_db.get_article_history(page, int(limit), int(token['uid']))
+        result, length = articles_db.get_article_history(page, int(limit), int(uid))
         return jsonify({"article_history": utility.convert_to_json(result), "total": length}), 200

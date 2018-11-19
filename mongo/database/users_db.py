@@ -55,12 +55,16 @@ def requires_auth(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         token = request.headers.get('Authorization')
-        payload = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
-        if payload:
-            right = mongo_manager.find_one(users_collection, {'uid': payload['uid']})
+        if token:
+            payload = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+            right = mongo_manager.find_one(users_collection, {'uid': int(payload['uid'])})
             if not right:
+                cookie_uid = request.cookies.get("uid")
+                cookie_user = mongo_manager.find_one(users_collection, {'uid': cookie_uid})
+                if cookie_user:
+                    return f(*args, **kwargs)
+            else:
                 return f(*args, **kwargs)
-
     return decorated
 
 

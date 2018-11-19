@@ -27,8 +27,12 @@ def send_goods():
     if request.method == 'POST':
         data = request.get_json()
         token = request.headers.get('Authorization')
-        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
-        result = goods_db.add_send_good(int(token['uid']), data)
+        if token:
+            token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+            uid = token['uid']
+        else:
+            uid = request.cookies.get('uid')
+        result = goods_db.add_send_good(int(uid), data)
         if result:
             return jsonify({"message": "添加商品成功", "code": 401}), 200
         else:
@@ -61,8 +65,11 @@ def get_goods():
     uid = request.args.get("uid")
     if not uid:
         token = request.headers.get('Authorization')
-        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
-        uid = token['uid']
+        if token:
+            token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+            uid = token['uid']
+        else:
+            uid = request.cookies.get('uid')
     goods, length = goods_db.get_goods(int(uid), page, int(limit))
     return jsonify({"goods": utility.convert_to_json(goods), "total": length}), 200
 
@@ -75,8 +82,11 @@ def save_good_photo():
     :return:
     """
     token = request.headers.get('Authorization')
-    token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
-    uid = int(token["uid"])
+    if token:
+        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+        uid = token['uid']
+    else:
+        uid = request.cookies.get('uid')
     image_file = request.files.get("good")
     # 校验参数
     if image_file is None:
@@ -85,11 +95,11 @@ def save_good_photo():
 
     basepath = os.path.dirname(__file__)  # 当前文件所在路径
     upload_path = os.path.join(basepath, 'static/uploads_goods_photo',
-                               str(uid) + "_" + secure_filename(image_file.filename))
+                               uid + "_" + secure_filename(image_file.filename))
     image_file.save(upload_path)
 
     # 将文件名信息保存到数据库中
-    r = mongo_manager.save_one("goods", {"uid": uid, "good_url": str(uid) + "_" + image_file.filename})
+    r = mongo_manager.save_one("goods", {"uid": int(uid), "good_url": uid + "_" + image_file.filename})
     if not r:
         return jsonify({"message": "保存商品照片失败", "code": 408}), 404
 

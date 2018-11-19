@@ -13,7 +13,7 @@ news = Blueprint("news", __name__, url_prefix='/api/news')
 
 # restful-API
 @news.route('/news', methods=['POST', 'GET', 'DELETE', 'PUT'])
-@requires_auth
+# @requires_auth
 def news_functions():
     """
     POST创建一条新闻,

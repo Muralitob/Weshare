@@ -2,7 +2,7 @@
 """
 __author__:cjhcw
 """
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, make_response
 import jwt
 import os
 from werkzeug.utils import secure_filename
@@ -50,7 +50,7 @@ def login():
 
 
 @users.route('/get_user_info', methods=['GET'])
-@users_db.requires_auth
+# @users_db.requires_auth
 def get_user_info():
     """
     获取用户信息
@@ -59,8 +59,13 @@ def get_user_info():
     uid = request.args.get("uid")
     if not uid:
         token = request.headers.get('Authorization')
-        data = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
-        uid = data["uid"]
+        if token:
+            token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+            uid = token['uid']
+        else:
+            uid = request.cookies.get('uid')
+            if not uid:
+                return make_response(jsonify({"message": "获取用户信息失败", "code": 204}), 404)
     result = users_db.get_user_info(int(uid))
     if result:
         return jsonify(utility.convert_to_json(result)), 200
@@ -77,8 +82,12 @@ def edit_user_info():
     """
     data = request.get_json()
     token = request.headers.get('Authorization')
-    token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
-    result = users_db.edit_user_info(int(token['uid']), data)
+    if token:
+        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+        uid = token['uid']
+    else:
+        uid = request.cookies.get('uid')
+    result = users_db.edit_user_info(int(uid), data)
     if result:
         return jsonify({"message": "修改用户信息成功", "code": 205}), 200
     else:
@@ -100,8 +109,11 @@ def collections_functions():
         uid = request.args.get('uid')
         if not uid:
             token = request.headers.get('Authorization')
-            token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
-            uid = token['uid']
+            if token:
+                token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+                uid = token['uid']
+            else:
+                uid = request.cookies.get('uid')
         page = request.args.get('page')
         limit = request.args.get('limit')
         result, length = users_db.get_collections_by_uid(int(uid), page, int(limit))
@@ -109,9 +121,13 @@ def collections_functions():
     elif request.method == 'POST':
         data = request.get_json()
         token = request.headers.get('Authorization')
-        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+        if token:
+            token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+            uid = token['uid']
+        else:
+            uid = request.cookies.get('uid')
         article_id = data['_id']
-        result = users_db.save_collection(int(token['uid']), article_id)
+        result = users_db.save_collection(int(uid), article_id)
         if result:
             return jsonify({"message": "收藏文章成功", "code": 207}), 200
         else:
@@ -119,9 +135,13 @@ def collections_functions():
     elif request.method == 'DELETE':
         data = request.get_json()
         token = request.headers.get('Authorization')
-        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+        if token:
+            token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+            uid = token['uid']
+        else:
+            uid = request.cookies.get('uid')
         article_ids = data['article_ids']
-        result = users_db.delete_collections(int(token['uid']), article_ids)
+        result = users_db.delete_collections(int(uid), article_ids)
         if result:
             return jsonify({"message": "删除收藏成功", "code": 209}), 200
         else:
@@ -137,31 +157,40 @@ def attention():
     """
     if request.method == "POST":
         token = request.headers.get('Authorization')
-        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
-        uid = int(token["uid"])
+        if token:
+            token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+            uid = token['uid']
+        else:
+            uid = request.cookies.get('uid')
         attention_uid = request.get_json()["attention_uid"]
-        result = users_db.add_attention(uid, int(attention_uid))
+        result = users_db.add_attention(int(uid), int(attention_uid))
         if result:
             return jsonify({"message": "关注成功", "code": 211}), 200
         else:
             return jsonify({"message": "关注失败", "code": 212}), 404
     elif request.method == "DELETE":
         token = request.headers.get('Authorization')
-        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
-        uid = int(token["uid"])
+        if token:
+            token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+            uid = token['uid']
+        else:
+            uid = request.cookies.get('uid')
         attention_uid = request.get_json()["attention_uid"]
-        result = users_db.delete_attention(uid, int(attention_uid))
+        result = users_db.delete_attention(int(uid), int(attention_uid))
         if result:
             return jsonify({"message": "取关成功", "code": 213}), 200
         else:
             return jsonify({"message": "取关失败", "code": 214}), 404
     elif request.method == "GET":
         token = request.headers.get('Authorization')
-        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
-        uid = int(token["uid"])
+        if token:
+            token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+            uid = token['uid']
+        else:
+            uid = request.cookies.get('uid')
         page = request.args.get("page")
         limit = request.args.get("limit")
-        result, length = users_db.get_attentions(uid, int(page), int(limit))
+        result, length = users_db.get_attentions(int(uid), int(page), int(limit))
         return jsonify({"attentions": utility.convert_to_json(result), "total": length}), 200
 
 
@@ -174,8 +203,11 @@ def save_user_avatar():
     """
     # 获取参数, 头像图片、用户
     token = request.headers.get('Authorization')
-    token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
-    uid = int(token["uid"])
+    if token:
+        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+        uid = token['uid']
+    else:
+        uid = request.cookies.get('uid')
     image_file = request.files.get("avatar")
     # 校验参数
     if image_file is None:
@@ -184,12 +216,12 @@ def save_user_avatar():
 
     basepath = os.path.dirname(__file__)  # 当前文件所在路径
     upload_path = os.path.join(basepath, 'static/uploads_user_photos',
-                               str(uid) + "_" + secure_filename(image_file.filename))
+                               uid + "_" + secure_filename(image_file.filename))
     image_file.save(upload_path)
 
     # 将文件名信息保存到数据库中
-    r = mongo_manager.update_one("users", {"uid": uid},
-                                 {"$set": {"avatar_url": str(uid) + "_" + image_file.filename}}).acknowledged
+    r = mongo_manager.update_one("users", {"uid": int(uid)},
+                                 {"$set": {"avatar_url": uid + "_" + image_file.filename}}).acknowledged
     if not r:
         return jsonify({"message": "保存头像信息失败", "code": 216}), 404
 
