@@ -138,10 +138,10 @@ def read_article(article_id):
     return mongo_manager.update_one(articles_collection, query, comment).acknowledged
 
 
-def get_real_articles(tags, keyword, page, limit, uid):
+def get_real_articles(tag, keyword, page, limit, uid):
     """
     获取category:real文章
-    :param tags:
+    :param tag:
     :param keyword:
     :param page:
     :param limit:
@@ -149,10 +149,8 @@ def get_real_articles(tags, keyword, page, limit, uid):
     :return:
     """
     query = {"category": "real"}
-    if tags:
-        query['$or'] = []
-        for tag in tags:
-            query['$or'].append({"tagLists": tag})
+    if tag:
+        query["tagLists"] = tag
     if keyword:
         query['article.title'] = {'$regex': keyword}
     skip = page_limit_skip(limit, page)
