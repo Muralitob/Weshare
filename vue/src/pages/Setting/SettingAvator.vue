@@ -19,6 +19,8 @@
       @crop-upload-fail.native="cropUploadFail"
       v-model="show"
       img-format="png"
+      url="/api/user/save_user_avatar"
+      method="post"
     >
     </my-upload>
   </div>

@@ -70,12 +70,22 @@
 </template>
 
 <script>
+import api from '../../api'
 export default {
   data() {
     return {
-      imgurl: "../../static/makalong.jpg"
+      imgurl: "../../static/makalong.jpg",
+      userid: this.$route.params["used_id"]
     };
-  }
+  },
+  methods: {
+    fetchData(uid) {
+      
+    }
+  },
+  mounted() {
+    this.fetchData(this.userid)
+  },
 };
 </script>
 

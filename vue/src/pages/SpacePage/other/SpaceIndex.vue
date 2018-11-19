@@ -385,11 +385,7 @@ export default {
     }
   }
   .used_list {
-    display: flex;
-    flex-wrap: wrap;
-    .ivu-card-body {
-      flex: 1;
-    }
+    
   }
   .ivu-card-body {
     display: flex;
@@ -408,6 +404,11 @@ export default {
     background-color: #fff;
   }
   .used_list {
+    display: flex;
+    flex-wrap: wrap;
+    .ivu-card-body {
+      flex: 1;
+    }
     img {
       width: 200px;
       height: 125px;

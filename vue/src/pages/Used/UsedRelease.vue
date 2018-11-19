@@ -1,24 +1,39 @@
 <template>
   <div class="used_release box">
     <h3>发布信息</h3>
-    <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
-        <FormItem label="标题" prop="name">
-            <Input v-model="formValidate.name" placeholder="Enter your name"></Input>
+    <Form ref="usedGoods" :model="usedGoods" :rules="ruleValidate" :label-width="80">
+        <FormItem label="标题" prop="title">
+            <Input v-model="usedGoods.title" placeholder="输入标题"></Input>
         </FormItem>
-        <FormItem label="Desc" prop="desc">
-            <Input v-model="formValidate.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter something..."></Input>
+        <FormItem label="描述" prop="desc">
+            <Input v-model="usedGoods.desc" placeholder="描述一下闲置物品" type="textarea" :autosize="{minRows: 2,maxRows: 5}" ></Input>
         </FormItem>
-        <FormItem label="类型" prop="city">
-            <Select style="width:150px" v-model="formValidate.city" placeholder="Select your city">
-                <Option value="beijing">New York</Option>
-                <Option value="shanghai">London</Option>
-                <Option value="shenzhen">Sydney</Option>
+        <FormItem label="类型" prop="type">
+            <Select style="width:150px" v-model="usedGoods.type" placeholder="选择物品类型">
+                <Option v-for="item in usedtypes" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
         </FormItem>
-        <FormItem label="物品照片" prop="gender">
+        <FormItem label="新旧程度" prop="degree">
+            <Select style="width:150px" v-model="usedGoods.degree" placeholder="选择物品类型">
+                <Option v-for="item in degree" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
+        </FormItem>
+        <FormItem label="物品照片" prop="pic">
+          <div class="demo-upload-list" v-for="item in uploadList" :key="item">
+            <template v-if="item.status === 'finished'">
+              <img :src="item.url">
+              <div class="demo-upload-list-cover">
+                <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
+                <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+              </div>
+            </template>
+            <template v-else>
+              <Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
+            </template>
+          </div>
            <Upload
             ref="upload"
-            :show-upload-list="false"
+            :show-upload-list="true"
             :default-file-list="defaultList"
             :on-success="handleSuccess"
             :format="['jpg','jpeg','png']"
@@ -26,6 +41,7 @@
             :on-format-error="handleFormatError"
             :on-exceeded-size="handleMaxSize"
             :before-upload="handleBeforeUpload"
+            :on-progress="handleProgress"
             multiple
             type="drag"
             action="//jsonplaceholder.typicode.com/posts/"
@@ -36,118 +52,149 @@
           </Upload>
         </FormItem>
         <FormItem label="价格" prop="price">
-            <Input v-model="formValidate.price" placeholder="Enter your name"></Input>
+            <Input v-model="usedGoods.price" prefix="logo-yen" placeholder="输入你的价格" style="width: 120px" />
         </FormItem>
-        <FormItem label="交易方式" prop="price">
-            <CheckboxGroup value="当面交易">
-              <Checkbox label="当面交易" disabled></Checkbox>
+        <FormItem label="交易方式" prop="mode">
+            <CheckboxGroup v-model="usedGoods.mode">
+              <Checkbox label="face" disabled>当面交易</Checkbox>
             </CheckboxGroup>
         </FormItem>
         <FormItem>
-            <Button type="primary" @click="handleSubmit('formValidate')">发布</Button>
-            <Button @click="handleReset('formValidate')" style="margin-left: 8px">重置</Button>
+            <Button type="primary" @click="handleSubmit('usedGoods')">发布</Button>
+            <Button @click="handleReset('usedGoods')" style="margin-left: 8px">重置</Button>
         </FormItem>
     </Form>
   </div>
 </template>
 
 <script>
+import api from "../../api";
+import used from "../../constants/usedType.js";
 export default {
   data() {
     return {
-      formValidate: {
-        name: "",
-        mail: "",
-        city: "",
-        gender: "",
-        interest: [],
-        date: "",
-        time: "",
-        desc: ""
+      usedGoods: {
+        title: "",
+        type: "",
+        pic: "",
+        price: "",
+        mode: ["face"],
+        desc: "",
+        degree: ''
       },
+      degree: [
+        {
+          value: '0',
+          label: '全新',
+        },
+        {
+          value: "9",
+          label: "九成新"
+        },
+        {
+          value: "8",
+          label: "八成新"
+        },
+        {
+          value: "7",
+          label: "七成新"
+        },
+        {
+          value: "6",
+          label: "六成新"
+        },
+        {
+          value: "5",
+          label: "五成新及以下"
+        }
+      ],
       ruleValidate: {
-        name: [
+        title: [
           {
             required: true,
-            message: "The name cannot be empty",
-            trigger: "blur"
-          }
-        ],
-        mail: [
-          {
-            required: true,
-            message: "Mailbox cannot be empty",
+            message: "标题不能为空",
             trigger: "blur"
           },
-          { type: "email", message: "Incorrect email format", trigger: "blur" }
-        ],
-        city: [
           {
-            required: true,
-            message: "Please select the city",
-            trigger: "change"
-          }
-        ],
-        gender: [
-          { required: true, message: "Please select gender", trigger: "change" }
-        ],
-        interest: [
-          {
-            required: true,
-            type: "array",
-            min: 1,
-            message: "Choose at least one hobby",
-            trigger: "change"
-          },
-          {
-            type: "array",
-            max: 2,
-            message: "Choose two hobbies at best",
-            trigger: "change"
-          }
-        ],
-        date: [
-          {
-            required: true,
-            type: "date",
-            message: "Please select the date",
-            trigger: "change"
-          }
-        ],
-        time: [
-          {
-            required: true,
             type: "string",
-            message: "Please select time",
+            min: 4,
+            message: "至少需要4个字",
+            trigger: "blur"
+          }
+        ],
+        type: [
+          {
+            required: true,
+            message: "请选择一个类型",
+            trigger: "change"
+          }
+        ],
+        price: [
+          {
+            required: true,
+            message: "输入一个价格",
+            trigger: "blur"
+          },
+          {
+            type: "number",
+            message: "请输入一个有效的价格",
+            trigger: "blur",
+            transform(value) {
+              return Number(value);
+            }
+          }
+        ],
+        degree: [
+          {
+            required: true,
+            message: "新旧程度不能为空",
             trigger: "change"
           }
         ],
         desc: [
           {
             required: true,
-            message: "Please enter a personal introduction",
+            message: "请输入简介",
             trigger: "blur"
           },
           {
             type: "string",
             min: 20,
-            message: "Introduce no less than 20 words",
+            message: "至少需要20个字",
             trigger: "blur"
           }
         ]
       },
       imgName: "",
       visible: false,
-      uploadList: []
+      uploadList: [],
+      usedtypes: used.usedType,
+      defaultList: []
     };
   },
   methods: {
+    handleView(name) {
+      this.imgName = name;
+      this.visible = true;
+    },
+    handleRemove(file) {
+      const fileList = this.$refs.upload.fileList;
+      this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
+    },
     handleSubmit(name) {
       this.$refs[name].validate(valid => {
         if (valid) {
-          this.$Message.success("Success!");
+          this.$Message.success("发布成功!");
+          api
+            .realeaseUsed("post", this.usedGoods)
+            .then(({ data }) => {
+              console.log(data);
+            })
+            .catch(err => {
+              console.log("err", err);
+            });
         } else {
-          this.$Message.error("Fail!");
+          this.$Message.error("请你检查应填信息");
         }
       });
     },
@@ -169,28 +216,33 @@ export default {
     },
     handleFormatError(file) {
       this.$Notice.warning({
-        title: "The file format is incorrect",
-        desc:
-          "File format of " +
-          file.name +
-          " is incorrect, please select jpg or png."
+        title: "文件格式不正确",
+        desc: "文件格式:" + file.name + " 不正确，请选择JPG或PNG。"
       });
     },
     handleMaxSize(file) {
       this.$Notice.warning({
-        title: "Exceeding file size limit",
-        desc: "File  " + file.name + " is too large, no more than 2M."
+        title: "文件大小闲置",
+        desc: "文件:" + file.name + " 太大了, 不能超过2M"
       });
     },
     handleBeforeUpload() {
       const check = this.uploadList.length < 5;
+      console.log("上传前");
       if (!check) {
         this.$Notice.warning({
-          title: "Up to five pictures can be uploaded."
+          title: "最多可上传五张图片。"
         });
       }
       return check;
+    },
+    handleProgress(event, file, fileList) {
+      console.log(file);
     }
+  },
+  mounted() {
+    this.uploadList = this.$refs.upload.fileList;
+    console.log(this.$refs.upload);
   }
 };
 </script>

@@ -4,14 +4,14 @@
       <section>
         <div>
           <span>类别:</span>
-          <Select clearable  v-model="model1" style="width:150px">
-            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          <Select clearable  v-model="type" style="width:150px">
+            <Option v-for="item in usedType" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
         </div>
         <div>
           <span>新旧程度:</span>
-          <Select clearable  v-model="model2" style="width:120px">
-            <Option v-for="item in cityList1" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          <Select clearable  v-model="oldandnew" style="width:120px">
+            <Option v-for="item in degree" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
         </div>
       </section>
@@ -26,9 +26,9 @@
       <ul class="u_list">
         <li class="u_item" v-for="(item, idx) in used_info" :key="idx">
           <article>
-            <span class="u_time">{{item.release_time}}</span>
-            <router-link to="/used/101"><p class="u_tname">{{item.release_thingname}}</p></router-link>
-            <p class="u_name">{{item.user_name}}<span> - ￥{{item.price}}</span></p>
+            <Time class="u_time" :time="item.release_time" type="date"></Time>
+            <router-link :to="{path: `/used/${item._id}`}"><p class="u_tname">{{item.title}}</p></router-link>
+            <p class="u_name">{{item.user.nickname || '0'}}<span> - ￥{{item.price}}</span></p>
           </article>
         </li>
       <Page prev-text="上一页" next-text="下一页" @on-change="changepage" :total="40" show-elevator class-name="used-pageBox"></Page>
@@ -41,20 +41,17 @@
 </template>
 
 <script>
+import used from '../../constants/usedType.js'
+import api from '../../api';
 export default {
   data() {
     return {
-      cityList: [
+      usedType: used.usedType,
+      degree: [
         {
-          value: "New York",
-          label: "New York"
+          value: '0',
+          label: '全新',
         },
-        {
-          value: "London",
-          label: "London"
-        }
-      ],
-      cityList1: [
         {
           value: "9",
           label: "九成新"
@@ -76,8 +73,8 @@ export default {
           label: "五成新及以下"
         }
       ],
-      model1: "",
-      model2: "",
+      type: "",
+      oldandnew: "",
       used_info: [
         {
           release_time: "10月21号",
@@ -95,8 +92,20 @@ export default {
     };
   },
   methods: {
-    changepage() {}
-  }
+    changepage() {},
+    async fetchResult(page) {
+      try {
+        let {data} = await api.getUsedList(page, 10)
+        this.used_info = data.goods
+        console.log(data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  },
+  mounted() {
+    this.fetchResult(1)
+  },
 };
 </script>
 
@@ -166,9 +175,13 @@ export default {
     }
   }
   &_item {
+    display: flex;
     border-bottom: 1px solid rgba(229, 229, 229, 1);
     height: 3rem;
     padding: 0 1rem;
+    article {
+      width: 100%;
+    }
   }
   &_time {
     color: #707070;
@@ -180,6 +193,8 @@ export default {
     font-size: 14px;
     font-weight: 400;
     color: #707070;
+    position: absolute;
+    right: 0;
   }
 }
 .used-pageBox {

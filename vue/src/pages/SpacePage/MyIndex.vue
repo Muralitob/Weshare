@@ -51,6 +51,7 @@
         <Menu theme="light" class="b-menubar" @on-select="routeTo" :active-name="activeName">
           <MenuItem name="index"> <Icon type="md-home" color="#00c091" size="20" />我的主页</MenuItem>
           <MenuItem name="article"><Icon type="md-create" color="#02b5da" size="20" />我的文章</MenuItem>
+          <MenuItem name="used"><Icon type="md-basket" size="20" color="#fef310" />我的闲置</MenuItem>
           <MenuItem name="collection"><Icon type="md-star" size="20" color="#f3a034" /></Icon>我的收藏</MenuItem>
           <MenuItem name="history"><Icon type="md-paw" size="20" color="#23c9ed" />浏览记录</MenuItem>
         </Menu>
@@ -86,7 +87,7 @@ export default {
         let result = {
           nickname: data.nickname,
           sign: data.sign,
-          avatar_url: data.avatar_url || ""
+          // avatar_url: data.avatar_url || ""
         };
         this.user_info = result;
         console.log("用户信息", data);

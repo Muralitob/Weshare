@@ -27,17 +27,26 @@
           {{article_data.update_time}}
         </p>
         <section class="article__main" v-html="article_content.content"></section>
-        <Card style="width:80px">
-          <!-- <div style="text-align:center">
+        <!-- <Card style="width:80px">
+          <div style="text-align:center">
               <span>喜欢</span>
-          </div> -->
-        </Card>
+          </div>
+        </Card> -->
       </div>
       <div class="art">
         <art-com :a_id="article_data._id" :list="article_data.reply || []"></art-com>
       </div>
       <Spin size="large" fix v-if="spinShow"></Spin>
     </div>
+    <Card dis-hover :bordered="false">
+      <p slot="title">本周最热</p>
+      <div class="hot-item">
+        <router-link to="/">
+          <span>23333333</span>
+        </router-link>
+        <Time :time="time2" type="date" />
+      </div>
+    </Card>
   </div>  
 </template>
 
@@ -51,7 +60,8 @@ export default {
       article_content: {},
       article_data: {},
       com_id: this.$route.params["com_id"],
-      spinShow: false
+      spinShow: false,
+      time2: new Date().getTime() - 86400 * 3 * 1000
     };
   },
   methods: {
@@ -59,13 +69,13 @@ export default {
       this.$router.go(-1);
     },
     async fetchData() {
-      this.spinShow = true
+      this.spinShow = true;
       try {
         let { data } = await api.getArticleById(this.com_id);
         this.article_content = data.articles.article;
-        console.log('当前文章信息', data.articles);
+        console.log("当前文章信息", data.articles);
         this.article_data = data.articles;
-        this.spinShow = false
+        this.spinShow = false;
       } catch (error) {
         console.log(error);
       }
@@ -74,23 +84,23 @@ export default {
       let { data } = await api.countArticle(this.com_id);
     },
     async colArticle(add) {
-      if(add === 1) {
+      if (add === 1) {
         //收藏
-        let { data } = await api.collectionFun('post',this.com_id)
-        this.article_data.is_collection = true
-      }else {
+        let { data } = await api.collectionFun("post", this.com_id);
+        this.article_data.is_collection = true;
+      } else {
         //取消收藏
-        let { data } = await api.collectionFun('delete',this.com_id)
-        this.article_data.is_collection = false
+        let { data } = await api.collectionFun("delete", this.com_id);
+        this.article_data.is_collection = false;
       }
     },
     likeArticle(add) {
-      if(add=== 1) {
-        this.article_data.is_like = true
-      }else {
-        this.article_data.is_like = false
+      if (add === 1) {
+        this.article_data.is_like = true;
+      } else {
+        this.article_data.is_like = false;
       }
-      api.addLikeArticle(add, this.com_id)
+      api.addLikeArticle(add, this.com_id);
     }
   },
   mounted() {
@@ -109,7 +119,7 @@ export default {
     left: -3.5rem;
     width: 36px;
     .ivu-btn-group .ivu-btn-icon-only .ivu-icon {
-        font-size: 18px;
+      font-size: 18px;
     }
     .col_btn_active {
       i {
@@ -175,6 +185,21 @@ export default {
   }
   section {
     min-height: 380px;
+  }
+  .ivu-card {
+    width: 280px;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .hot-item {
+    display: flex;
+    justify-content: space-between;
+    a {
+      span {
+        font-size: 16px;
+      }
+    }
   }
 }
 .art {

@@ -13,6 +13,7 @@ import CommentPage from "@pages/Comment/CommentPage";
 import SpacePage from "@pages/SpacePage";
 import SpaceIndex from "@pages/SpacePage/SpaceIndex";
 import SpaceArticle from "@pages/SpacePage/SpaceArticle";
+import SpaceUsed from '@pages/SpacePage/SpaceUsed'
 import SpaceCollection from "@pages/SpacePage/SpaceCollection";
 import SpaceHistory from "@pages/SpacePage/SpaceHistory";
 import SpaceFan from "@pages/SpacePage/SpaceFan";
@@ -244,6 +245,14 @@ const router = new Router({
           },
           name: "article",
           component: SpaceArticle
+        },
+        {
+          path: "/space/:userId/used",
+          meta: {
+            requiresAuth: true
+          },
+          name: "used",
+          component: SpaceUsed
         }
       ]
     },
@@ -282,15 +291,15 @@ const router = new Router({
         },
       ]
     },
-    {
-      path: "/shop",
-      name: "Shop",
-      component: HomePage,
-      meta: {
-        ifShow: true,
-        requiresAuth: false
-      }
-    },
+    // {
+    //   path: "/shop",
+    //   name: "Shop",
+    //   component: HomePage,
+    //   meta: {
+    //     ifShow: true,
+    //     requiresAuth: false
+    //   }
+    // },
     {
       path: "*",
       component: NotFound

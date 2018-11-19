@@ -77,11 +77,6 @@ export default {
     })
   },
   updated () {
-    api.getUserInfo().then(({data})=> {
-      this.user_info = data
-    }).catch(err => {
-      console.log(err)
-    })
   }
 }
 </script>

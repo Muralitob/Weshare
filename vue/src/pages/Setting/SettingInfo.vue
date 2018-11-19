@@ -11,8 +11,8 @@
         <FormItem label="我的签名">
           <Input class="sign" v-model="formItem.sign" type="textarea" :autosize="{minRows: 4,maxRows: 5}" placeholder="Enter something..."></Input>
         </FormItem>
-        <FormItem label="我的专业">
-          <Select filterable v-model="formItem.major" style="width:200px">
+        <FormItem label="我的分院">
+          <Select filterable v-model="formItem.branch" style="width:200px">
             <Option v-for="item in majorList" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
         </FormItem>
@@ -37,6 +37,7 @@
 <script>
 import api from "../../api";
 import general from "../../general/js";
+import major from '../../constants/major.js';
 export default {
   data() {
     return {
@@ -45,34 +46,9 @@ export default {
         sign: "",
         sex: "",
         birth_day: "",
-        major: '',
+        branch: '',
       },
-      majorList: [
-          {
-            value: "New York",
-            label: "New York"
-          },
-          {
-            value: "London",
-            label: "London"
-          },
-          {
-            value: "Sydney",
-            label: "Sydney"
-          },
-          {
-            value: "Ottawa",
-            label: "Ottawa"
-          },
-          {
-            value: "Paris",
-            label: "Paris"
-          },
-          {
-            value: "Canberra",
-            label: "Canberra"
-          }
-        ]
+      majorList: major
     };
   },
   methods: {

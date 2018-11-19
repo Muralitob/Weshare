@@ -10,10 +10,10 @@
           <Icon type="md-camera" />
           我的头像
         </MenuItem>
-        <MenuItem name="account" >
+        <!-- <MenuItem name="account" >
           <Icon type="md-lock" />
           账号安全
-        </MenuItem>
+        </MenuItem> -->
         <MenuItem name="space" >
           <Icon type="md-home" />
           个人空间

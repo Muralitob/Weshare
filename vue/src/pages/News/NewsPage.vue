@@ -13,10 +13,7 @@
           <span>{{item.created_at}}</span>
         </li>
       </ul>
-      <div class="newsp__list-page">
-        <button>上一页</button>
-        <button>下一页</button>
-      </div>
+      <Page prev-text="上一页" next-text="下一页" :current="parseInt(currentPage)" @on-change="changepage" :total="total" show-elevator class-name="newsp-pageBox"></Page>
     </div>
   </div>
 </template>
@@ -28,7 +25,9 @@ export default {
     return {
       articleList: [
         { type: '公告', summary: '微分享重磅登场......', created_at: '2018-04-12', _id: '123113213' },
-      ]
+      ],
+      total: 100,
+      currentPage: 1
     }
   }
 }
@@ -36,6 +35,9 @@ export default {
 
 <style lang="scss">
 .newsp{
+  .newsp-pageBox {
+    padding: 20px;
+  }
   display: flex;
   flex-direction: column;
   &__list{

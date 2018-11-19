@@ -41,4 +41,8 @@ export default {
         break;
     }
   },
+  async uploadAvatar(data) {
+    console.log(data)
+    // return axios.post("/api/user/edit_user_info", data);
+  }
 };
