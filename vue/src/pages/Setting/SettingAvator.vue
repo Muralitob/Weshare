@@ -19,6 +19,7 @@
       @crop-upload-fail.native="cropUploadFail"
       v-model="show"
       img-format="png"
+      :params="params"
       url="/api/user/save_user_avatar"
       method="post"
     >
@@ -33,6 +34,10 @@ export default {
   data() {
     return {
       show: false,
+      params: {
+        uid: this.$cookie.get('uid'),
+        token: localStorage.getItem('jwt') || this.$cookie.get('jwt')
+      }
     }
   },
   methods: {
