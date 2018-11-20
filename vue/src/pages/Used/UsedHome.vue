@@ -76,18 +76,7 @@ export default {
       type: "",
       oldandnew: "",
       used_info: [
-        {
-          release_time: "10月21号",
-          release_thingname: "自用九成新ipad",
-          user_name: "张三",
-          price: 42
-        },
-        {
-          release_time: "10月21号",
-          release_thingname: "自用九成新ipad",
-          user_name: "张三",
-          price: 42
-        }
+       
       ],
       total: 0
     };
@@ -96,6 +85,7 @@ export default {
     changepage() {},
     async fetchResult(page) {
       api.getUsedList(page, 10).then(({ data }) => {
+        console.log(data);
         let result = Object.values(data.goods).map(item => ({
           release_time: item.release_time,
           nickname: item.user.nickname,
@@ -104,7 +94,7 @@ export default {
         }));
         this.used_info = result;
         this.total = data.total;
-        console.log(data);
+        
       });
     }
   },

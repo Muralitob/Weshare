@@ -33,8 +33,7 @@
           </div>
            <Upload
             ref="upload"
-            :show-upload-list="true"
-            :default-file-list="defaultList"
+            :show-upload-list="false"
             :on-success="handleSuccess"
             :data="imgdata"
             :format="['jpg','jpeg','png']"
@@ -182,7 +181,9 @@ export default {
       this.visible = true;
     },
     handleRemove(file) {
+      console.log(file);
       const fileList = this.$refs.upload.fileList;
+      console.log('fileList', fileList);
       this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
     },
     handleSubmit(name) {
@@ -200,7 +201,7 @@ export default {
         } else {
           this.$Message.error("请你检查应填信息");
         }
-      });
+      });oik59io
     },
     handleReset(name) {
       this.$refs[name].resetFields();
@@ -214,9 +215,8 @@ export default {
       this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
     },
     handleSuccess(res, file) {
-      file.url =
-        "https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/avatar";
-      file.name = "7eb99afb9d5f317c912f08b5212fd69a";
+      console.log('uploadList',this.uploadList);
+      this.usedGoods.good_id = res.good_id
     },
     handleFormatError(file) {
       this.$Notice.warning({
