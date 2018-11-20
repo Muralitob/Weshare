@@ -24,9 +24,7 @@ def add_send_good(uid, data):
     data['user'] = user
     data['uid'] = uid
     data['release_time'] = datetime.now()
-    good_id = data.pop("good_id")
-    return mongo_manager.update_one(goods_collection, {"_id": ObjectId(good_id)}, {"$set": data},
-                                    upsert=True).acknowledged
+    return mongo_manager.save_one(goods_collection, data).acknowledged
 
 
 def delete_send_goods(goods_list):

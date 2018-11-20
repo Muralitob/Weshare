@@ -3,6 +3,7 @@
 __author__:cjhcw
 """
 import os
+from bson import ObjectId
 from flask import Blueprint, request, jsonify, make_response
 from core_manager.mongo_manager import mongo_manager
 from werkzeug.utils import secure_filename
@@ -102,9 +103,5 @@ def save_good_photo():
 
     import base64
     # 将文件名信息保存到数据库中
-    r = mongo_manager.save_one("goods", {"uid": int(uid), "good_base64": base64.b64encode(image_file.read())})
-    if not r:
-        return make_response(jsonify({"message": "保存商品照片失败", "code": 408}), 404)
-
-    return make_response(jsonify({"message": "保存商品照片成功", "good_id": str(r.inserted_id),
-                                  "good_base64": base64.b64encode(image_file.read())}), 200)
+    bs4 = base64.b64encode(image_file.read())
+    return make_response(jsonify({"message": "图片信息", "good_base64": bs4}), 200)
