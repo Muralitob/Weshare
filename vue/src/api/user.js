@@ -41,8 +41,23 @@ export default {
         break;
     }
   },
-  async uploadAvatar(data) {
-    console.log(data)
-    // return axios.post("/api/user/edit_user_info", data);
+  async followAttention(type, uid, page, limit=10) {
+    switch (type) {
+      case 'post':
+        return axios.post('/api/user/attention', {
+          attention_uid: uid
+        })
+      case 'delete':
+      return axios.delete('/api/user/attention', {
+        attention_uid: uid
+      })
+      case 'get':
+      return axios.get('/api/user/attention', {
+        page,
+        limit,
+      })
+      default:
+        break;
+    }
   }
 };

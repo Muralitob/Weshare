@@ -7,13 +7,13 @@ import NewsHome from "@pages/News/NewsHome";
 import NewsArticle from "@pages/News/NewsArticle";
 import UsedPage from "@pages/Used/UsedPage";
 import UsedHome from "@pages/Used/UsedHome";
-import UsedDetail from '@pages/Used/UsedDetail'
-import UsedRelease from '@pages/Used/UsedRelease.vue'
+import UsedDetail from "@pages/Used/UsedDetail";
+import UsedRelease from "@pages/Used/UsedRelease.vue";
 import CommentPage from "@pages/Comment/CommentPage";
 import SpacePage from "@pages/SpacePage";
 import SpaceIndex from "@pages/SpacePage/SpaceIndex";
 import SpaceArticle from "@pages/SpacePage/SpaceArticle";
-import SpaceUsed from '@pages/SpacePage/SpaceUsed'
+import SpaceUsed from "@pages/SpacePage/SpaceUsed";
 import SpaceCollection from "@pages/SpacePage/SpaceCollection";
 import SpaceHistory from "@pages/SpacePage/SpaceHistory";
 import SpaceFan from "@pages/SpacePage/SpaceFan";
@@ -29,7 +29,7 @@ import NotFound from "@components/NotFound";
 import { Message } from "iview";
 import store from "../store/index";
 import article from "../api/article";
-import api from '../api';
+import api from "../api";
 Vue.use(Router);
 
 const router = new Router({
@@ -50,7 +50,7 @@ const router = new Router({
         requiresAuth: false
       },
       redirect: {
-        name: 'commentPage'
+        name: "commentPage"
       },
       children: [
         {
@@ -288,7 +288,7 @@ const router = new Router({
             requiresAuth: false
           },
           component: UsedDetail
-        },
+        }
       ]
     },
     // {
@@ -310,28 +310,36 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   let token = store.state.UserSetting.token;
   const uid = VueCookie.get("uid");
-  if(to.params.com_id) {
+  if (to.params.com_id) {
     //说明访问了文章
     // console.log(to.params.com_id);
-    api.historyFunction('post',to.params.com_id).then(({data})=> {
-      console.log(data)
-    })
+    api.historyFunction("post", to.params.com_id).then(({ data }) => {
+      console.log(data);
+    });
   }
-  if(to.params.userId) {
-    if(VueCookie.get('uid') == to.params.userId) {
-      console.log('相同啊')
-      store.commit('CURRENT_COMP', 'MyIndex')
-    }else {
-      if(to.matched[0].name === 'setting') {
-        next('/')
+  if (to.params.userId) {
+    if (VueCookie.get("uid") == to.params.userId) {
+      store.commit("CURRENT_COMP", "MyIndex");
+    } else {
+      if (to.matched[0].name === "setting") {
+        next("/");
       }
-      console.log('不相同啊')
-      store.commit('CURRENT_COMP', 'OtherIndex')
+      store.commit("CURRENT_COMP", "OtherIndex");
     }
   }
-  console.log('to', to)
-  if(to.path === '/') {
-    next('/timeline')
+  console.log("to", to);
+  if (to.path === "/") {
+    next("/timeline");
+  }
+  if (to.matched[0].name === "setting") {
+    api
+      .getUserInfo(to.params.userId)
+      .then(({ data }) => {
+        store.commit('USER_INFO', data)
+      })
+      .catch(err => {
+        console.log("err", err);
+      });
   }
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (token) {

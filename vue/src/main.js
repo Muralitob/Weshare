@@ -8,6 +8,7 @@ import axios from "axios";
 import VueCookie from "vue-cookie";
 import VueQuillEditor from "vue-quill-editor";
 import VueStar from "vue-star";
+import MyMessage from './general/js/MyMessage'
 Vue.config.productionTip = false;
 
 import "iview/dist/styles/iview.css";
@@ -53,7 +54,7 @@ const options = {
   show: true,
   height: "3px"
 };
-
+Vue.prototype.mymessage = new MyMessage()
 Vue.component("VueStar", VueStar);
 Vue.use(VueInsProgressBar, options);
 Vue.use(iView);

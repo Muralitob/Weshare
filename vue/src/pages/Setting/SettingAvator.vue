@@ -5,7 +5,7 @@
     </div>
     <div class="center">
       <div class="pre-container">
-        <img src="../../assets/avator.jpeg" alt="">
+        <img  :src="imgDataUrl" alt="">
       </div>
       <div style="margin-top: 20px">
         <Icon type="md-refresh" />
@@ -15,8 +15,8 @@
     <my-upload
       field="upload-avator"
       @crop-success="cropSuccess"
-      @crop-upload-success.native="cropUploadSuccess"
-      @crop-upload-fail.native="cropUploadFail"
+      @crop-upload-success="cropUploadSuccess"
+      @crop-upload-fail="cropUploadFail"
       v-model="show"
       img-format="png"
       :params="params"
@@ -37,12 +37,14 @@ export default {
       params: {
         uid: this.$cookie.get('uid'),
         token: localStorage.getItem('jwt') || this.$cookie.get('jwt')
-      }
+      },
+      imgDataUrl : ''
     }
   },
   methods: {
     cropSuccess(imageDataUrl, field ) {
-      
+      this.imgDataUrl  = imageDataUrl
+      console.log(this.imgDataUrl)
     },
     cropUploadSuccess(jsonData, field){
       console.log('-------- upload success --------');
@@ -54,6 +56,10 @@ export default {
       console.log(status);
       console.log('field: ' + field);
     }
+  },
+  mounted () {
+    let userInfo = this.$store.state.UserSetting.userInfo;
+    console.log(userInfo)
   }
 }
 </script>
@@ -80,5 +86,10 @@ export default {
   }
   .show {
     padding-left: 0;
+  }
+  img {
+    width: 96px;
+    height: 96px;
+    vertical-align: middle;
   }
 </style>
