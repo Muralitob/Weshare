@@ -5,10 +5,9 @@
         <div class="h-gradient"></div>
         <div class="h-user">
           <div class="h-info">
-            <router-link v-if="IsSelf" :to="{name: 'setting' }">
+            <router-link :to="{name: 'setting' }">
               <Avatar :src='user_info.avatar_url' class="avatar" />
             </router-link>
-            <Avatar v-else :src='user_info.avatar_url' class="avatar" />
             <div class="h-basic">
               <div class="h-name">
                 {{user_info.nickname}}
@@ -58,7 +57,7 @@
       </div>
     </div>
   </div>
-</template>
+</template>  
 
 <script>
 import api from "../../api";
@@ -87,7 +86,7 @@ export default {
         let result = {
           nickname: data.nickname,
           sign: data.sign,
-          // avatar_url: data.avatar_url || ""
+          avatar_url: data.avatar_url || ""
         };
         this.user_info = result;
         console.log("用户信息", data);

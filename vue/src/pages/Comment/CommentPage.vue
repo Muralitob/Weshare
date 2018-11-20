@@ -9,7 +9,7 @@
           <span class="shortcut" @click="showSearch"><Icon size="38" type="md-search" />搜索</span>
         </section>
         <section id="search" ref="ss" v-if="searhIf">
-          <Input element-id="search-form" @on-blur="searhIf= false" autofocus="autofocus" size="large"  search placeholder="在这里搜索吧~" />
+          <Input v-model="keyword" @on-enter="search" element-id="search-form" @on-blur="searhIf= false" autofocus="autofocus" size="large"  search placeholder="在这里搜索吧~" />
         </section>
       </div>
       <ul class="a_list">
@@ -80,7 +80,9 @@ export default {
       uid: this.$cookie.get("uid"),
       token: this.$store.state.UserSetting.token,
       searhIf: false,
-      currentPage: this.$route.query.page || 1
+      currentPage: this.$route.query.page || 1,
+      search_page: 1,
+      keyword: this.$route.query.keyword || '',
     };
   },
   watch: {},
@@ -91,7 +93,7 @@ export default {
   },
   updated() {},
   mounted() {
-    this.fetchResult(this.currentPage);
+    this.fetchResult(this.currentPage, 10, this.keyword);
   },
   methods: {
     changepage(index) {
@@ -109,11 +111,19 @@ export default {
         document.getElementById("search-form").focus();
       });
     },
-    async fetchResult(page) {
-      this.$router.push({ path: "/timeline", query: { page } });
+    search() {
+      this.fetchResult(this.search_page, 10, this.keyword)
+      this.searhIf = !this.searhIf;
+    },
+    async fetchResult(page, limit, keyword, tags) {
+      if( keyword ) {
+        this.$router.push({ path: "/timeline", query: { page, keyword } });
+      }else {
+        this.$router.push({ path: "/timeline", query: { page } });
+      }
       this.spinShow = true;
       try {
-        let { data } = await api.getAllArticles(page);
+        let { data } = await api.getAllArticles(page, limit, keyword, tags);
         this.articles = data.result;
         let obj = {};
         this.articles = Object.values(data)[0].map(value => ({

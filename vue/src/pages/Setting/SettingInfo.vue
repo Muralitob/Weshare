@@ -56,29 +56,25 @@ export default {
       this.formItem.birth_day = pre;
     },
     fetchUserInfo() {
-      api
-        .getUserInfo()
-        .then(({ data }) => {
-          console.log("用户信息", data);
-          let result = {
-            nickname: data.nickname,
-            sex: data.sex || "secret",
-            birth_day: data.birth_day || "",
-            sign: data.sign || "你怎么这么懒,签名都不写"
-          };
-          this.formItem = result;
-        })
-        .catch(err => {
-          console.log("err", err);
-        });
+      let data = this.$store.state.UserSetting.userInfo
+      let result = {
+        nickname: data.nickname,
+        sex: data.sex || "secret",
+        birth_day: data.birth_day || "",
+        sign: data.sign || "你怎么这么懒,签名都不写",
+        branch: data.branch
+      };
+      this.formItem = result;
     },
     handleUserInfo() {
-      console.log(this.formItem);
       api.editUserInfo(this.formItem).then(({ data }) => {
-        this.$Notice.success({
-          title: "用户信息更新",
-          desc: data.message
-        });
+        let message = new general.MyMessage(data.code, data.message)
+        message.successnotice()
+        // this.mymessage().successnotice(data.code, data.message)
+        // this.$Notice.success({
+        //   title: "用户信息更新",
+        //   desc: data.message
+        // });
       });
     }
   },

@@ -8,7 +8,7 @@
             <span>收藏</span>
           </div>
           <Col>
-            <router-link to="/" class="author">
+            <router-link :to="{name:'Space', params: {userId: item.article.uid}}" class="author">
               {{item.article.nickname}}
             </router-link>
             <span>
