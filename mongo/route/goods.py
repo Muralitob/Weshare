@@ -106,4 +106,5 @@ def save_good_photo():
     if not r:
         return make_response(jsonify({"message": "保存商品照片失败", "code": 408}), 404)
 
-    return make_response(jsonify({"message": "保存商品照片成功", "good_id": str(r.inserted_id)}), 200)
+    return make_response(jsonify({"message": "保存商品照片成功", "good_id": str(r.inserted_id),
+                                  "good_base64": base64.b64encode(image_file.read())}), 200)

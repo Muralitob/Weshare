@@ -226,4 +226,4 @@ def save_user_avatar():
     if not r:
         return make_response(jsonify({"message": "保存头像信息失败", "code": 216}), 404)
 
-    return make_response(jsonify({"message": "保存头像成功"}), 200)
+    return make_response(jsonify({"message": "保存头像成功", "avatar_base64": base64.b64encode(image_file.read())}), 200)
