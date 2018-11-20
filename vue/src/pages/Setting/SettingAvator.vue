@@ -38,7 +38,7 @@ export default {
         uid: this.$cookie.get('uid'),
         token: localStorage.getItem('jwt') || this.$cookie.get('jwt')
       },
-      imgDataUrl : ''
+      imgDataUrl : `data:image/png;base64,${this.$store.state.UserSetting.userInfo.avatar_base64}`
     }
   },
   methods: {
@@ -59,7 +59,6 @@ export default {
   },
   mounted () {
     let userInfo = this.$store.state.UserSetting.userInfo;
-    console.log(userInfo)
   }
 }
 </script>
