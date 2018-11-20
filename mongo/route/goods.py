@@ -80,7 +80,7 @@ def get_goods():
 @requires_auth
 def save_good_photo():
     """
-
+    保存商品图片
     :return:
     """
     token = request.headers.get('Authorization')
