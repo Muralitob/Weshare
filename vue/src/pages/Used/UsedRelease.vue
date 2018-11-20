@@ -19,7 +19,7 @@
             </Select>
         </FormItem>
         <FormItem label="物品照片" prop="pic">
-          <div class="demo-upload-list" v-for="item in uploadList" :key="item">
+          <div class="demo-upload-list" v-for="(item,index) in uploadList" :key="index">
             <template v-if="item.status === 'finished'">
               <img :src="item.url">
               <div class="demo-upload-list-cover">
@@ -36,6 +36,7 @@
             :show-upload-list="true"
             :default-file-list="defaultList"
             :on-success="handleSuccess"
+            :data="imgdata"
             :format="['jpg','jpeg','png']"
             :max-size="2048"
             :on-format-error="handleFormatError"
@@ -44,7 +45,7 @@
             :on-progress="handleProgress"
             multiple
             type="drag"
-            action="//jsonplaceholder.typicode.com/posts/"
+            action="/api/goods/save_good_photo"
             style="display: inline-block;width:58px;">
             <div style="width: 58px;height:58px;line-height: 58px;">
               <Icon type="ios-camera" size="20"></Icon>
@@ -169,7 +170,10 @@ export default {
       visible: false,
       uploadList: [],
       usedtypes: used.usedType,
-      defaultList: []
+      defaultList: [],
+      imgdata: {
+        uid: this.$cookie.get('uid')
+      }
     };
   },
   methods: {

@@ -28,10 +28,10 @@
           <article>
             <Time class="u_time" :time="item.release_time" type="date"></Time>
             <router-link :to="{path: `/used/${item._id}`}"><p class="u_tname">{{item.title}}</p></router-link>
-            <p class="u_name">{{item.user.nickname || '0'}}<span> - ￥{{item.price}}</span></p>
+            <p class="u_name">{{item.nickname || '0'}}<span> - ￥{{item.price}}</span></p>
           </article>
         </li>
-      <Page prev-text="上一页" next-text="下一页" @on-change="changepage" :total="40" show-elevator class-name="used-pageBox"></Page>
+      <Page prev-text="上一页" next-text="下一页" @on-change="changepage" :total="total" show-elevator class-name="used-pageBox"></Page>
       </ul>
       <section>
         最新成交
@@ -41,16 +41,16 @@
 </template>
 
 <script>
-import used from '../../constants/usedType.js'
-import api from '../../api';
+import used from "../../constants/usedType.js";
+import api from "../../api";
 export default {
   data() {
     return {
       usedType: used.usedType,
       degree: [
         {
-          value: '0',
-          label: '全新',
+          value: "0",
+          label: "全新"
         },
         {
           value: "9",
@@ -88,24 +88,29 @@ export default {
           user_name: "张三",
           price: 42
         }
-      ]
+      ],
+      total: 0
     };
   },
   methods: {
     changepage() {},
     async fetchResult(page) {
-      try {
-        let {data} = await api.getUsedList(page, 10)
-        this.used_info = data.goods
-        console.log(data)
-      } catch (error) {
-        console.log(error)
-      }
+      api.getUsedList(page, 10).then(({ data }) => {
+        let result = Object.values(data.goods).map(item => ({
+          release_time: item.release_time,
+          nickname: item.user.nickname,
+          title: item.title,
+          price: item.price
+        }));
+        this.used_info = result;
+        this.total = data.total;
+        console.log(data);
+      });
     }
   },
   mounted() {
-    this.fetchResult(1)
-  },
+    this.fetchResult(1);
+  }
 };
 </script>
 
@@ -169,8 +174,8 @@ export default {
     article {
       display: flex;
       line-height: 3rem;
-      * {
-        margin-right: 2rem;
+      a {
+        margin-left: 2rem;
       }
     }
   }
@@ -195,6 +200,7 @@ export default {
     color: #707070;
     position: absolute;
     right: 0;
+    margin-right: 20px;
   }
 }
 .used-pageBox {

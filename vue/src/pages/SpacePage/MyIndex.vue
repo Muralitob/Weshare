@@ -86,7 +86,7 @@ export default {
         let result = {
           nickname: data.nickname,
           sign: data.sign,
-          avatar_url: data.avatar_url || ""
+          avatar_url: `data:image/png;base64,${data.avatar_base64}`
         };
         this.user_info = result;
         console.log("用户信息", data);
