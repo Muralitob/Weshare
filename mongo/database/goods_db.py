@@ -62,10 +62,10 @@ def get_goods(uid, page, limit):
     if uid:
         query = {"uid": uid}
     goods = list(mongo_manager.find(goods_collection, query).skip(skip).limit(limit))
-    for good in goods:
-        if 'good_url' in good:
-            basepath = os.path.dirname(__file__)  # 当前文件所在路径
-            good_url = basepath + 'static/uploads_goods_photo/' + good['good_url']
-            good["good_url"] = good_url
+    # for good in goods:
+    #     if 'good_url' in good:
+    #         basepath = os.path.dirname(__file__)  # 当前文件所在路径
+    #         good_url = basepath + 'static/uploads_goods_photo/' + good['good_url']
+    #         good["good_url"] = good_url
     length = mongo_manager.find_count(goods_collection, {"uid": uid})
     return goods, length

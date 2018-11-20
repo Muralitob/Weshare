@@ -72,10 +72,10 @@ def requires_auth(f):
 def get_user_info(uid):
     query = {'uid': uid}
     one = mongo_manager.find_one(users_collection, query)
-    if 'avatar_url' in one:
-        basepath = os.path.dirname(__file__)  # 当前文件所在路径
-        avatar_url = basepath + 'static/uploads_user_photos/' + one['avatar_url']
-        one["avatar_url"] = avatar_url
+    # if 'avatar_url' in one:
+    #     basepath = os.path.dirname(__file__)  # 当前文件所在路径
+    #     avatar_url = basepath + 'static/uploads_user_photos/' + one['avatar_url']
+    #     one["avatar_url"] = avatar_url
     return one
 
 

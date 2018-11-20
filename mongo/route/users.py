@@ -214,14 +214,15 @@ def save_user_avatar():
         # 表示用户没有上传头像
         return make_response(jsonify({"message": "未上传头像", "code": 215}), 404)
 
-    basepath = os.path.dirname(__file__)  # 当前文件所在路径
-    upload_path = os.path.join(basepath, 'static/uploads_user_photos',
-                               uid + "_" + secure_filename(image_file.filename))
-    image_file.save(upload_path)
+    # basepath = os.path.dirname(__file__)  # 当前文件所在路径
+    # upload_path = os.path.join(basepath, 'static/uploads_user_photos',
+    #                            uid + "_" + secure_filename(image_file.filename))
+    # image_file.save(upload_path)
 
+    import base64
     # 将文件名信息保存到数据库中
     r = mongo_manager.update_one("users", {"uid": int(uid)},
-                                 {"$set": {"avatar_url": uid + "_" + image_file.filename}}).acknowledged
+                                 {"$set": {"avatar_base64": base64.b64encode(image_file.read())}}).acknowledged
     if not r:
         return make_response(jsonify({"message": "保存头像信息失败", "code": 216}), 404)
 
