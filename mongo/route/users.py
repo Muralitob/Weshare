@@ -208,7 +208,7 @@ def save_user_avatar():
         uid = token['uid']
     else:
         uid = request.cookies.get('uid')
-    image_file = request.files.get("avatar")
+    image_file = request.files.get("upload-avator")
     # 校验参数
     if image_file is None:
         # 表示用户没有上传头像

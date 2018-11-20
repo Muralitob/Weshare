@@ -4,6 +4,8 @@
     <list default="true" id="5e9a0fd0-261a-4c9f-84b5-3ffa10777b6c" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/mongo/code.txt" afterPath="$PROJECT_DIR$/mongo/code.txt" />
+      <change beforePath="$PROJECT_DIR$/mongo/database/users_db.py" afterPath="$PROJECT_DIR$/mongo/database/users_db.py" />
+      <change beforePath="$PROJECT_DIR$/mongo/route/goods.py" afterPath="$PROJECT_DIR$/mongo/route/goods.py" />
       <change beforePath="$PROJECT_DIR$/mongo/route/users.py" afterPath="$PROJECT_DIR$/mongo/route/users.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -27,18 +29,18 @@
       <file leaf-file-name="articles.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mongo/route/articles.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1810">
-              <caret line="126" column="0" lean-forward="false" selection-start-line="126" selection-start-column="0" selection-end-line="126" selection-end-column="0" />
+            <state relative-caret-position="276">
+              <caret line="254" column="7" lean-forward="false" selection-start-line="254" selection-start-column="7" selection-end-line="254" selection-end-column="7" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="users.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="users.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mongo/route/users.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="349">
-              <caret line="228" column="0" lean-forward="true" selection-start-line="228" selection-start-column="0" selection-end-line="228" selection-end-column="0" />
+            <state relative-caret-position="3165">
+              <caret line="211" column="10" lean-forward="true" selection-start-line="211" selection-start-column="10" selection-end-line="211" selection-end-column="10" />
               <folding>
                 <element signature="e#43#103#0" expanded="true" />
               </folding>
@@ -46,12 +48,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="goods.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="goods.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mongo/route/goods.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1020">
-              <caret line="76" column="0" lean-forward="false" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="329">
+              <caret line="105" column="39" lean-forward="true" selection-start-line="105" selection-start-column="39" selection-end-line="105" selection-end-column="39" />
+              <folding>
+                <element signature="e#43#52#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -79,8 +83,8 @@
       <file leaf-file-name="users_db.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mongo/database/users_db.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1374">
-              <caret line="120" column="17" lean-forward="false" selection-start-line="120" selection-start-column="4" selection-end-line="120" selection-end-column="17" />
+            <state relative-caret-position="36">
+              <caret line="7" column="25" lean-forward="false" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -152,12 +156,12 @@
         <option value="$PROJECT_DIR$/mongo/utility.py" />
         <option value="$PROJECT_DIR$/mongo/database/articles_db.py" />
         <option value="$PROJECT_DIR$/mongo/route/news.py" />
-        <option value="$PROJECT_DIR$/mongo/database/users_db.py" />
         <option value="$PROJECT_DIR$/mongo/route/articles.py" />
         <option value="$PROJECT_DIR$/mongo/database/goods_db.py" />
-        <option value="$PROJECT_DIR$/mongo/route/goods.py" />
-        <option value="$PROJECT_DIR$/mongo/route/users.py" />
         <option value="$PROJECT_DIR$/mongo/code.txt" />
+        <option value="$PROJECT_DIR$/mongo/route/users.py" />
+        <option value="$PROJECT_DIR$/mongo/database/users_db.py" />
+        <option value="$PROJECT_DIR$/mongo/route/goods.py" />
       </list>
     </option>
   </component>
@@ -170,7 +174,7 @@
   <component name="NodeModulesDirectoryManager">
     <handled-path value="$PROJECT_DIR$/vue/node_modules" />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds">
     <option name="x" value="44" />
     <option name="width" value="1396" />
     <option name="height" value="900" />
@@ -306,6 +310,29 @@
               <item name="Weshare" type="462c0819:PsiDirectoryNode" />
               <item name="mongo" type="462c0819:PsiDirectoryNode" />
               <item name="route" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Weshare" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Weshare" type="462c0819:PsiDirectoryNode" />
+              <item name="mongo" type="462c0819:PsiDirectoryNode" />
+              <item name="route" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Weshare" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Weshare" type="462c0819:PsiDirectoryNode" />
+              <item name="mongo" type="462c0819:PsiDirectoryNode" />
+              <item name="route" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="uploads_goods_photo" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Weshare" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Weshare" type="462c0819:PsiDirectoryNode" />
+              <item name="mongo" type="462c0819:PsiDirectoryNode" />
+              <item name="route" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="uploads_user_photos" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Weshare" type="b2602c69:ProjectViewProjectNode" />
@@ -515,13 +542,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1536149181780</updated>
-    </task>
-    <task id="LOCAL-00026" summary="code 和翻译">
-      <created>1539664161287</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1539664161287</updated>
     </task>
     <task id="LOCAL-00027" summary="get 文章">
       <created>1539764751708</created>
@@ -859,7 +879,14 @@
       <option name="project" value="LOCAL" />
       <updated>1542681095722</updated>
     </task>
-    <option name="localTasksCounter" value="75" />
+    <task id="LOCAL-00075" summary="用户头像问题">
+      <created>1542691668439</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1542691668439</updated>
+    </task>
+    <option name="localTasksCounter" value="76" />
     <servers />
   </component>
   <component name="TodoView">
@@ -872,7 +899,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="44" y="0" width="1396" height="900" extended-state="6" />
+    <frame x="44" y="0" width="1396" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -973,7 +1000,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="edit_user_info fix" />
     <MESSAGE value="二级评论完成" />
     <MESSAGE value="delete bug fix" />
     <MESSAGE value="获取文章 点赞和收藏字段" />
@@ -998,7 +1024,8 @@
     <MESSAGE value="get_user_info加一层头像的判断" />
     <MESSAGE value="cookie里面拿uid" />
     <MESSAGE value="二手商城" />
-    <option name="LAST_COMMIT_MESSAGE" value="二手商城" />
+    <MESSAGE value="用户头像问题" />
+    <option name="LAST_COMMIT_MESSAGE" value="用户头像问题" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1009,12 +1036,12 @@
           <option name="timeStamp" value="50" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/mongo/route/articles.py</url>
-          <line>126</line>
-          <option name="timeStamp" value="90" />
+          <url>file://$PROJECT_DIR$/mongo/route/users.py</url>
+          <line>204</line>
+          <option name="timeStamp" value="105" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="102" />
+      <option name="time" value="106" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1245,13 +1272,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///Library/Python/2.7/site-packages/werkzeug/debug/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="289" column="0" lean-forward="false" selection-start-line="289" selection-start-column="0" selection-end-line="289" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mongo/run.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -1281,38 +1301,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mongo/route/goods.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1020">
-          <caret line="76" column="0" lean-forward="false" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mongo/route/articles.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1810">
-          <caret line="126" column="0" lean-forward="false" selection-start-line="126" selection-start-column="0" selection-end-line="126" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Library/Python/2.7/site-packages/flask/app.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="1611" column="0" lean-forward="false" selection-start-line="1611" selection-start-column="0" selection-end-line="1611" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mongo/database/users_db.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1374">
-          <caret line="120" column="17" lean-forward="false" selection-start-line="120" selection-start-column="4" selection-end-line="120" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mongo/database/goods_db.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
@@ -1329,12 +1317,54 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/mongo/route/articles.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="254" column="7" lean-forward="false" selection-start-line="254" selection-start-column="7" selection-end-line="254" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/werkzeug/debug/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="291" column="0" lean-forward="false" selection-start-line="291" selection-start-column="0" selection-end-line="291" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/flask/app.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="371">
+          <caret line="1996" column="0" lean-forward="false" selection-start-line="1996" selection-start-column="0" selection-end-line="1996" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mongo/database/users_db.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="7" column="25" lean-forward="false" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/mongo/route/users.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="349">
-          <caret line="228" column="0" lean-forward="true" selection-start-line="228" selection-start-column="0" selection-end-line="228" selection-end-column="0" />
+        <state relative-caret-position="3165">
+          <caret line="211" column="10" lean-forward="true" selection-start-line="211" selection-start-column="10" selection-end-line="211" selection-end-column="10" />
           <folding>
             <element signature="e#43#103#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mongo/route/goods.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="329">
+          <caret line="105" column="39" lean-forward="true" selection-start-line="105" selection-start-column="39" selection-end-line="105" selection-end-column="39" />
+          <folding>
+            <element signature="e#43#52#0" expanded="true" />
           </folding>
         </state>
       </provider>

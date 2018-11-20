@@ -3,7 +3,7 @@
 __author__:cjhcw
 """
 import os
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, make_response
 from core_manager.mongo_manager import mongo_manager
 from werkzeug.utils import secure_filename
 
@@ -93,7 +93,7 @@ def save_good_photo():
     # 校验参数
     if image_file is None:
         # 表示用户没有上传商品照片
-        return jsonify({"message": "未上传商品照片", "code": 407}), 404
+        return make_response(jsonify({"message": "未上传商品照片", "code": 407}), 404)
 
     basepath = os.path.dirname(__file__)  # 当前文件所在路径
     upload_path = os.path.join(basepath, 'static/uploads_goods_photo',
@@ -103,6 +103,6 @@ def save_good_photo():
     # 将文件名信息保存到数据库中
     r = mongo_manager.save_one("goods", {"uid": int(uid), "good_url": uid + "_" + image_file.filename})
     if not r:
-        return jsonify({"message": "保存商品照片失败", "code": 408}), 404
+        return make_response(jsonify({"message": "保存商品照片失败", "code": 408}), 404)
 
-    return jsonify({"message": "保存商品照片成功", "good_id": str(r.inserted_id)}), 200
+    return make_response(jsonify({"message": "保存商品照片成功", "good_id": str(r.inserted_id)}), 200)
