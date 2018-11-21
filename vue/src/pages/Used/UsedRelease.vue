@@ -21,7 +21,7 @@
         <FormItem label="物品照片" prop="pic">
           <div class="demo-upload-list" v-for="(item,index) in uploadList" :key="index">
             <template v-if="item.status === 'finished'">
-              <img :src="item.url">
+              <img :src="'data:image/png;base64,'+item.response.good_base64">
               <div class="demo-upload-list-cover">
                 <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
                 <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
@@ -80,7 +80,8 @@ export default {
         price: "",
         mode: ["face"],
         desc: "",
-        degree: ''
+        degree: '',
+        good_id: '',
       },
       degree: [
         {
@@ -201,7 +202,7 @@ export default {
         } else {
           this.$Message.error("请你检查应填信息");
         }
-      });oik59io
+      });
     },
     handleReset(name) {
       this.$refs[name].resetFields();
@@ -215,8 +216,8 @@ export default {
       this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
     },
     handleSuccess(res, file) {
-      console.log('uploadList',this.uploadList);
-      this.usedGoods.good_id = res.good_id
+      this.usedGoods.good_id = res.response.good_id
+      
     },
     handleFormatError(file) {
       this.$Notice.warning({
@@ -232,6 +233,7 @@ export default {
     },
     handleBeforeUpload() {
       const check = this.uploadList.length < 5;
+      this.usedGoods.pic = this.uploadList
       console.log("上传前");
       if (!check) {
         this.$Notice.warning({
@@ -260,5 +262,9 @@ export default {
   h3 {
     margin-bottom: 20px;
   }
+}
+img {
+  width: 64px;
+  height: 64px;
 }
 </style>

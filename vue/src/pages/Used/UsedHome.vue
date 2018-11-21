@@ -75,15 +75,13 @@ export default {
       ],
       type: "",
       oldandnew: "",
-      used_info: [
-       
-      ],
+      used_info: [],
       total: 0
     };
   },
   methods: {
     changepage() {},
-    async fetchResult(page) {
+    fetchResult(page) {
       api.getUsedList(page, 10).then(({ data }) => {
         console.log(data);
         let result = Object.values(data.goods).map(item => ({
@@ -94,7 +92,6 @@ export default {
         }));
         this.used_info = result;
         this.total = data.total;
-        
       });
     }
   },
