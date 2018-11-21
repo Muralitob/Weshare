@@ -2,14 +2,15 @@
 """
 __author__:cjhcw
 """
-from flask import Blueprint, jsonify, request, make_response
-import jwt
 import os
+import jwt
 from werkzeug.utils import secure_filename
+from flask import Blueprint, jsonify, request, make_response
 
 from database import users_db
 from core_manager.mongo_manager import mongo_manager
-import utility
+
+from utility import convert_to_json
 
 users = Blueprint("user", __name__, url_prefix='/api/user')
 
@@ -68,7 +69,7 @@ def get_user_info():
                 return make_response(jsonify({"message": "获取用户信息失败", "code": 204}), 404)
     result = users_db.get_user_info(int(uid))
     if result:
-        return jsonify(utility.convert_to_json(result)), 200
+        return jsonify(convert_to_json(result)), 200
     else:
         return jsonify({"message": "获取用户信息失败", "code": 204}), 404
 
@@ -117,7 +118,7 @@ def collections_functions():
         page = request.args.get('page')
         limit = request.args.get('limit')
         result, length = users_db.get_collections_by_uid(int(uid), page, int(limit))
-        return jsonify({"collections": utility.convert_to_json(result), "total": length}), 200
+        return jsonify({"collections": convert_to_json(result), "total": length}), 200
     elif request.method == 'POST':
         data = request.get_json()
         token = request.headers.get('Authorization')
@@ -191,7 +192,7 @@ def attention():
         page = request.args.get("page")
         limit = request.args.get("limit")
         result, length = users_db.get_attentions(int(uid), int(page), int(limit))
-        return jsonify({"attentions": utility.convert_to_json(result), "total": length}), 200
+        return jsonify({"attentions": convert_to_json(result), "total": length}), 200
 
 
 @users.route('/save_user_avatar', methods=["POST"])

@@ -6,7 +6,8 @@ from flask import Blueprint, request, jsonify
 
 from database.users_db import requires_auth
 from database import news_db
-import utility
+
+from utility import convert_to_json
 
 news = Blueprint("news", __name__, url_prefix='/api/news')
 
@@ -33,7 +34,7 @@ def news_functions():
         page = request.args.get('page')
         limit = request.args.get('limit')
         result, length = news_db.get_all_news(page, int(limit))
-        return jsonify({"news": utility.convert_to_json(result), "total": length}), 200
+        return jsonify({"news": convert_to_json(result), "total": length}), 200
     elif request.method == 'DELETE':
         data = request.get_json()
         news_ids = data['ids']

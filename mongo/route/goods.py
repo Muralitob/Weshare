@@ -3,15 +3,16 @@
 __author__:cjhcw
 """
 import os
+import jwt
 from bson import ObjectId
-from flask import Blueprint, request, jsonify, make_response
-from core_manager.mongo_manager import mongo_manager
 from werkzeug.utils import secure_filename
+from flask import Blueprint, request, jsonify, make_response
 
+from core_manager.mongo_manager import mongo_manager
 from database.users_db import requires_auth
 from database import goods_db
-import jwt
-import utility
+
+from utility import convert_to_json
 
 goods = Blueprint("goods", __name__, url_prefix='/api/goods')
 
@@ -74,7 +75,7 @@ def get_goods():
             if not uid:
                 uid = None
     goods, length = goods_db.get_goods(int(uid), page, int(limit))
-    return jsonify({"goods": utility.convert_to_json(goods), "total": length}), 200
+    return jsonify({"goods": convert_to_json(goods), "total": length}), 200
 
 
 @goods.route('/save_good_photo', methods=['POST'])

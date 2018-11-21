@@ -2,12 +2,13 @@
 """
 __author__:cjhcw
 """
+import jwt
 from flask import Blueprint, request, jsonify
 
 from database.users_db import requires_auth
 from database import articles_db
-import utility
-import jwt
+
+from utility import convert_to_json
 
 articles = Blueprint("article", __name__, url_prefix='/api/article')
 
@@ -57,7 +58,7 @@ def get_articles_by_uid():
     page = request.args.get('page')
     limit = request.args.get('limit')
     result, length = articles_db.get_articles_by_uid(int(uid), category, page, int(limit))
-    return jsonify({"articles": utility.convert_to_json(result), "total": length}), 200
+    return jsonify({"articles": convert_to_json(result), "total": length}), 200
 
 
 @articles.route('/get_articles_by_id', methods=['GET'])
@@ -78,7 +79,7 @@ def get_articles_by_id():
     article_id = request.args.get('_id')
     result = articles_db.get_articles_by_id(article_id, uid)
     if result:
-        return jsonify({"articles": utility.convert_to_json(result)}), 200
+        return jsonify({"articles": convert_to_json(result)}), 200
     else:
         return jsonify({"message": "获取文章失败", "code": 105}), 404
 
@@ -136,7 +137,7 @@ def get_real_articles():
             else:
                 uid = int(uid)
     result, length = articles_db.get_real_articles(tag, keyword, page, int(limit), uid)
-    return jsonify({"articles": utility.convert_to_json(result), "total": length}), 200
+    return jsonify({"articles": convert_to_json(result), "total": length}), 200
 
 
 @articles.route('/comment', methods=['POST', 'DELETE', 'PUT', 'GET'])
@@ -194,7 +195,7 @@ def comments_functions():
         limit = request.args.get('limit')
         article_id = request.args.get('article_id')
         result, length = articles_db.get_comments(article_id, page, int(limit), uid)
-        return jsonify({"comments": utility.convert_to_json(result), "total": length}), 200
+        return jsonify({"comments": convert_to_json(result), "total": length}), 200
 
 
 @articles.route('/like_comment', methods=['POST'])
@@ -296,4 +297,4 @@ def article_history():
         page = request.args.get('page')
         limit = request.args.get('limit')
         result, length = articles_db.get_article_history(page, int(limit), int(uid))
-        return jsonify({"article_history": utility.convert_to_json(result), "total": length}), 200
+        return jsonify({"article_history": convert_to_json(result), "total": length}), 200
