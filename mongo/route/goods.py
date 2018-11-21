@@ -84,12 +84,6 @@ def save_good_photo():
     保存商品图片
     :return:
     """
-    token = request.headers.get('Authorization')
-    if token:
-        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
-        uid = token['uid']
-    else:
-        uid = request.cookies.get('uid')
     image_file = request.files.get("file")
     # 校验参数
     if image_file is None:

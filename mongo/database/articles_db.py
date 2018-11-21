@@ -46,7 +46,7 @@ def get_articles_by_uid(uid, category, page, limit):
     """
     skip = page_limit_skip(limit, page)
     query = {'article.uid': uid, 'category': category}
-    result = list(mongo_manager.find(articles_collection, query).skip(skip).limit(limit))
+    result = list(mongo_manager.find(articles_collection, query).skip(skip).limit(limit).sort([("update_time", -1)]))
     length = mongo_manager.find_count(articles_collection, query)
     return result, length
 
