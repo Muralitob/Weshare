@@ -70,13 +70,31 @@ def requires_auth(f):
     return decorated
 
 
-def get_user_info(uid):
-    query = {'uid': uid}
+def get_user_info(other_id, uid):
+    query = {'uid': other_id}
     one = mongo_manager.find_one(users_collection, query)
     # if 'avatar_url' in one:
     #     basepath = os.path.dirname(__file__)  # 当前文件所在路径
     #     avatar_url = basepath + 'static/uploads_user_photos/' + one['avatar_url']
     #     one["avatar_url"] = avatar_url
+    if uid:
+        attention = mongo_manager.find_one(attention_collection, {"uid": uid, "attention_uid": other_id})
+        if attention:
+            one["attentioned"] = True
+        else:
+            one["attentioned"] = False
+    return one
+
+
+def get_me_info(uid):
+    attention_uids = []
+    query = {'uid': uid}
+    one = mongo_manager.find_one(users_collection, query)
+    attentions = list(mongo_manager.find(attention_collection, query))
+    if attentions:
+        for att in attentions:
+            attention_uids.append(att["attention_uid"])
+    one["attention_uids"] = attention_uids
     return one
 
 

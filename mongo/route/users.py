@@ -51,27 +51,38 @@ def login():
 
 
 @users.route('/get_user_info', methods=['GET'])
-# @users_db.requires_auth
 def get_user_info():
     """
     获取用户信息
     :return:
     """
-    uid = request.args.get("uid")
-    if not uid:
-        token = request.headers.get('Authorization')
-        if token:
-            token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
-            uid = token['uid']
-        else:
-            uid = request.cookies.get('uid')
-            if not uid:
-                return make_response(jsonify({"message": "获取用户信息失败", "code": 204}), 404)
-    result = users_db.get_user_info(int(uid))
-    if result:
-        return jsonify(convert_to_json(result)), 200
+    other_uid = request.args.get("uid")
+    token = request.headers.get('Authorization')
+    if token:
+        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+        uid = token['uid']
     else:
-        return jsonify({"message": "获取用户信息失败", "code": 204}), 404
+        uid = request.cookies.get('uid')
+        if not uid:
+            uid = None
+    result = users_db.get_user_info(int(other_uid), int(uid))
+    return jsonify(convert_to_json(result)), 200
+
+
+@users.route('/get_me_info', methods=['GET'])
+def get_me_info():
+    """
+    获取用户自己信息
+    :return:
+    """
+    token = request.headers.get('Authorization')
+    if token:
+        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+        uid = token["uid"]
+    else:
+        uid = request.cookies.get('uid')
+    result = users_db.get_me_info(int(uid))
+    return jsonify(convert_to_json(result)), 200
 
 
 @users.route('/edit_user_info', methods=['POST'])
