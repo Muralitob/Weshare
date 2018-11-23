@@ -70,7 +70,7 @@ export default {
     }
   },
   mounted () {
-    api.getUserInfo().then(({data})=> {
+    api.getMyUserInfo().then(({data})=> {
       this.user_info = data
     }).catch(err => {
       console.log(err)

@@ -22,8 +22,8 @@
     </div>
     <div class="c">
       <Tabs value="article" @on-click="fetch" class="tab" :animated="false">
-          <Button icon="ios-close" slot="extra" >取消关注</Button>
-          <Button @click="follow(user_info.uid)" icon="md-add" slot="extra" type="primary">关注他</Button>
+          <Button @click="cancelfollow(user_info.uid)" icon="ios-close" slot="extra" v-if="user_info.attentioned" >取消关注</Button>
+          <Button @click="follow(user_info.uid)" v-else icon="md-add" slot="extra" type="primary">关注他</Button>
           <TabPane name="article" label="文章">
             <Card class="art_item" v-for="(item, idx) in articles" :key="idx">
               <router-link class="title" :to="{name: 'commentArticle', params: {com_id: item._id}}">
@@ -179,7 +179,8 @@ export default {
             sign: data.sign,
             uid: data.uid,
             avatar_url: data.avatar_url || "",
-            branch: data.branch
+            branch: data.branch,
+            attentioned: data.attentioned
           };
           this.user_info = result;
           console.log("用户信息", data);
@@ -309,6 +310,23 @@ export default {
           this.$Notice.success({
             title: data.message
           });
+          this.user_info.attentioned = true
+        })
+        .catch(err => {
+          // this.mymessage().notice()
+          this.$Notice.error({
+            title: err.message
+          });
+        });
+    },
+    cancelfollow(uid) {
+      api
+        .followAttention("delete", uid)
+        .then(({ data }) => {
+          this.$Notice.success({
+            title: data.message
+          });
+          this.user_info.attentioned = false
         })
         .catch(err => {
           // this.mymessage().notice()
