@@ -160,7 +160,7 @@ def check_contain_chinese(check_str):
 def get_this_time():
     # this_time = datetime.now().strftime("%Y%m%d %H:%M:%S")
     # 获取当前的 UTC时间 -- datetime类型值
-    return datetime.utcnow()
+    return datetime.now()
 
 
 def datetime_to_format_str(timestamp):

@@ -3,7 +3,7 @@
 __author__:cjhcw
 """
 import jwt
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, make_response
 
 from database.users_db import requires_auth
 from database import articles_db
@@ -298,3 +298,61 @@ def article_history():
         limit = request.args.get('limit')
         result, length = articles_db.get_article_history(page, int(limit), int(uid))
         return jsonify({"article_history": convert_to_json(result), "total": length}), 200
+
+
+@articles.route('/announcements', methods=["POST", "PUT", "DELETE", "GET"])
+@requires_auth
+def announcements():
+    """
+
+    :return:
+    """
+    if request.method == "GET":
+        page = request.args.get("page")
+        limit = request.args.get("limit")
+        announcements, total = articles_db.get_announcements(int(page), int(limit))
+        return make_response(jsonify({"announcements": convert_to_json(announcements), "total": total}), 200)
+    elif request.method == "PUT":
+        data = request.get_json()
+        result = articles_db.edit_announcement(data)
+        if result:
+            return make_response(jsonify({"message": "修改公告成功", "code": 123}), 200)
+        else:
+            return make_response(jsonify({"message": "修改公告失败", "code": 124}), 404)
+    elif request.method == "DELETE":
+        data = request.get_json()
+        _ids = data["_ids"]
+        result = articles_db.delete_announcements(_ids)
+        if result:
+            return make_response(jsonify({"message": "删除公告成功", "code": 125}), 200)
+        else:
+            return make_response(jsonify({"message": "删除公告失败", "code": 126}), 404)
+    elif request.method == "POST":
+        data = request.get_json()
+        result = articles_db.add_announcement(data)
+        if result:
+            return make_response(jsonify({"message": "新增公告成功", "code": 127}), 200)
+        else:
+            return make_response(jsonify({"message": "新增公告失败", "code": 128}), 404)
+
+
+@articles.route('/get_hot_articles', methods=["GET"])
+def get_hot_articles():
+    """
+
+    :return:
+    """
+    uid = request.args.get('uid')
+    if not uid:
+        token = request.headers.get('Authorization')
+        if token:
+            token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+            uid = int(token['uid'])
+        else:
+            uid = request.cookies.get('uid')
+            if not uid:
+                uid = None
+            else:
+                uid = int(uid)
+    result = articles_db.get_hot_articles(uid)
+    return jsonify({"articles": convert_to_json(result)}), 200

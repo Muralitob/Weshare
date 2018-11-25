@@ -100,3 +100,17 @@ def save_good_photo():
     # 将文件名信息保存到数据库中
     bs4 = base64.b64encode(image_file.read())
     return make_response(jsonify({"message": "图片信息", "good_base64": bs4}), 200)
+
+
+@goods.route('/get_good_by_id', methods=["GET"])
+def get_good_by_id():
+    """
+    通过id返回商品信息
+    :return:
+    """
+    good_id = request.args.get("good_id")
+    result = goods_db.get_good_by_id(good_id)
+    if result:
+        return make_response(jsonify({"message": "获取商品成功", "good": convert_to_json(result)}), 200)
+    else:
+        return make_response(jsonify({"message": "获取商品失败"}), 200)

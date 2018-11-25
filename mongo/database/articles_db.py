@@ -7,7 +7,7 @@ from datetime import datetime
 
 from core_manager.mongo_manager import mongo_manager
 
-from utility import page_limit_skip
+from utility import page_limit_skip, get_this_time
 
 articles_collection = 'articles'
 comments_collection = 'comments'
@@ -16,6 +16,7 @@ collcetions_collection = 'collections'
 like_collection = 'like_articles'
 like_comment_collection = 'like_comments'
 article_history_collection = 'article_history'
+announcements_collection = 'announcements'
 
 
 def create_new_article(data):
@@ -24,8 +25,8 @@ def create_new_article(data):
     :param data:
     :return:
     """
-    data['create_time'] = datetime.now()
-    data['update_time'] = datetime.now()
+    data['create_time'] = get_this_time()
+    data['update_time'] = get_this_time()
     data['like_num'] = 0
     data['read_num'] = 0
     user = mongo_manager.find_one(users_collection, {"uid": data["article"]["uid"]})
@@ -87,6 +88,7 @@ def edit_article_by_id(article):
     :return:
     """
     _id = article.get('_id')
+    article['update_time'] = get_this_time()
     if _id:
         return mongo_manager.update_one(articles_collection, {'_id': _id}, {'$set': article}).acknowledged
     return False
@@ -196,7 +198,7 @@ def add_comment(parent_id, uid, content):
         is_first_comment = False
     user = mongo_manager.find_one(users_collection, {'uid': uid})
     comment = {'parent_id': ObjectId(parent_id), 'name': user['nickname'], 'content': content,
-               'comment_time': datetime.now(),
+               'comment_time': get_this_time(),
                'is_first_comment': is_first_comment, 'like_num': 0}
     return mongo_manager.save_one(comments_collection, comment).acknowledged
 
@@ -258,7 +260,7 @@ def edit_comment(_id, content):
     """
     query = {'_id': ObjectId(_id)}
     old_comment = mongo_manager.find_one(comments_collection, query)
-    comment = {"$set": {'content': content, 'comment_time': datetime.now(), 'like_num': old_comment['like_num']}}
+    comment = {"$set": {'content': content, 'comment_time': get_this_time(), 'like_num': old_comment['like_num']}}
     return mongo_manager.update_one(comments_collection, query, comment).acknowledged
 
 
@@ -295,7 +297,7 @@ def add_article_history(article_id, uid):
     """
     return mongo_manager.save_one(article_history_collection,
                                   {"article_id": ObjectId(article_id), "uid": uid,
-                                   "create_time": datetime.now()}).acknowledged
+                                   "create_time": get_this_time()}).acknowledged
 
 
 def get_article_history(page, limit, uid):
@@ -316,3 +318,80 @@ def get_article_history(page, limit, uid):
             articles_history.append(article)
     length = mongo_manager.find_count(article_history_collection, {"uid": uid})
     return articles_history, length
+
+
+def get_announcements(page, limit):
+    """
+    获取公告
+    :param page:
+    :param limit:
+    :return:
+    """
+    skip = page_limit_skip(limit, page)
+    announcements = list(mongo_manager.find_skip_limit(announcements_collection, {}, skip, limit))
+    count = mongo_manager.find_count(announcements_collection, {})
+    return announcements, count
+
+
+def edit_announcement(data):
+    """
+    编辑公告
+    :param data:
+    :return:
+    """
+    data["update_time"] = get_this_time()
+    return mongo_manager.update_one(announcements_collection, {"_id": ObjectId(data.pop("_id"))},
+                                    {"$set": data}).acknowledged
+
+
+def delete_announcements(_ids):
+    """
+    批量删除公告
+    :param _ids:
+    :return:
+    """
+    return mongo_manager.remove_many(announcements_collection, {"_id": ObjectId(_id) for _id in _ids}).acknowledged
+
+
+def add_announcement(data):
+    """
+    新增公告
+    :param data:
+    :return:
+    """
+    data["update_time"] = get_this_time()
+    data["create_time"] = get_this_time()
+    return mongo_manager.save_one(announcements_collection, data).acknowledged
+
+
+def get_hot_articles(uid):
+    """
+    获取热门文章top10
+    :param uid:
+    :return:
+    """
+    query = {"category": "real"}
+    result = list(
+        mongo_manager.find(articles_collection, query).sort([("like_num", -1)]).limit(10))
+    if uid:
+        for article in result:
+            collection_length = list(
+                mongo_manager.find(collcetions_collection, {'uid': uid, 'article_id': article['_id']}))
+            if collection_length:
+                article['is_collection'] = True
+            else:
+                article['is_collection'] = False
+            like_length = list(mongo_manager.find(like_collection, {'uid': uid, 'article_id': article['_id']}))
+            if like_length:
+                article['is_like'] = True
+            else:
+                article['is_like'] = False
+            article["col_num"] = mongo_manager.find_count(collcetions_collection, {"article_id": article['_id']})
+            article["like_num"] = mongo_manager.find_count(like_collection, {"article_id": article['_id']})
+    else:
+        for article in result:
+            article['is_like'] = False
+            article['is_collection'] = False
+            article["col_num"] = mongo_manager.find_count(collcetions_collection, {"article_id": article['_id']})
+            article["like_num"] = mongo_manager.find_count(like_collection, {"article_id": article['_id']})
+    return result

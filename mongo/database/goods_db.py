@@ -60,7 +60,7 @@ def get_goods(uid, page, limit):
     skip = page_limit_skip(limit, page)
     if uid:
         query = {"uid": uid}
-    goods = list(mongo_manager.find(goods_collection, query).skip(skip).limit(limit))
+    goods = list(mongo_manager.find_select(goods_collection, query, {"pic": 0}).skip(skip).limit(limit))
     # for good in goods:
     #     if 'good_url' in good:
     #         basepath = os.path.dirname(__file__)  # 当前文件所在路径
@@ -68,3 +68,12 @@ def get_goods(uid, page, limit):
     #         good["good_url"] = good_url
     length = mongo_manager.find_count(goods_collection, {"uid": uid})
     return goods, length
+
+
+def get_good_by_id(good_id):
+    """
+    获取当个商品的信息
+    :param good_id: 商品id
+    :return:
+    """
+    return mongo_manager.find_one(goods_collection, {"_id": ObjectId(good_id)})
