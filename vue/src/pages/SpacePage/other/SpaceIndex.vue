@@ -95,7 +95,7 @@
                     </Col>
                   </section>
                 </Row>
-                <InfiniteLoading  direction="bottom" @infinite="handleCollectionBottom" spinner="waveDots">
+                <InfiniteLoading  direction="bottom" @infinite="handleReachBottom" spinner="waveDots">
                   <span slot="no-more">
                     没有更多数据了:)
                   </span>
@@ -140,7 +140,7 @@
         </Row>
         <Row>
           <Icon type="md-star" />
-          收藏内容2个
+          收藏内容{{col_total}}个
         </Row>
       </Card>
     </div>
@@ -164,6 +164,7 @@ export default {
       art_page: 1,
       article_total: 0,
       col_page: 1,
+      col_total: 0,
       used_page: 1,
       used_total: 0,
       goodsList: []
@@ -220,6 +221,7 @@ export default {
           .collectionFun("get", 1, page, limit, this.uid)
           .then(({ data }) => {
             console.log(data);
+            this.col_total = data.total
             this.collection_Array = data.collections;
           })
           .catch(err => {

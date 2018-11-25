@@ -57,9 +57,12 @@ export default {
         }
       })
       case 'get':
+      console.log('page', page);
       return axios.get('/api/user/attention', {
-        page,
-        limit,
+        params: {
+          page,
+          limit,
+        }
       })
       default:
         break;

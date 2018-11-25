@@ -1,27 +1,24 @@
 <template>
   <div class="follow">
-    <ul class="relation-list">
+    <span v-if="result.length <= 0">暂无关注,赶快去关注吧！</span>
+    <ul v-else class="relation-list">
       <li class="list-item" v-for="(item, idx) in result" :key="idx">
           <Avatar class="avatar" @click.native="routeTo(item.uid)" />
         <div class="content" >
           <div class="fan-name" @click="routeTo(item.uid)">
-            {{item.user_name}}
+            {{item.nickname}}
           </div>
           <p class="desc">
-            {{item.user_desc}}
-            <span v-if="!item.user_desc">
-              我就是我~~~
-            </span>
+              {{item.sign|| ''}}
           </p>
         </div>
-        <Dropdown trigger="click" class="fan-dropdown" @on-click="function(name){return fanEdit(name, item.uid)}">
+        <Dropdown trigger="click" class="fan-dropdown" @on-click="function(name){fanEdit(name, item.uid)}">
           <Button type="primary">
             已关注
             <Icon type="ios-arrow-down"></Icon>
           </Button>
           <DropdownMenu slot="list" >
-            <DropdownItem name="group" >编辑分组</DropdownItem>
-            <DropdownItem name="unfollow">取消关注</DropdownItem>
+            <DropdownItem name="unfollow" @click="cancelFollow(item._id)">取消关注</DropdownItem>
           </DropdownMenu>
         </Dropdown>
       </li>
@@ -31,48 +28,50 @@
 
 <script>
 let lodash = require('lodash')
+import api from '../../api'
 export default {
   props: [ 'type' ],
   data() {
     return {
       result: [
-        {
-          uid: '01',
-          user_name: 'Mura',
-          user_desc: '我爱吃柚子'
-        },
-        {
-          uid: '02',
-          user_name: '村人B',
-          user_desc: '我爱吃柚子'
-        },
-      ]
+      ],
     }
   },
-  created: function () {
-    //控制watch请求频率,减轻压力 防抖动
-    this.debouncedFetchResult = lodash.debounce(this.fetchReult, 500)
-    this.debouncedFetchResult()
+  mounted () {
+    this.fetchReult(1)
   },
   methods: {
-    fetchReult() {
-      console.log('开始获取数据')
+    fetchReult(page) {
+      console.log(page)
+      api.followAttention('get', 1, page).then(({data}) => {
+        this.result = data.attentions
+      })
     },
     fanEdit(name,uid) {
       //根据
-      console.log(name, uid)
+      if(name==='unfollow') {
+        this.cancelFollow(uid)
+      }
     },
     routeTo(uid) {
       this.$router.push({
         path: `/space/${uid}`
       });
     },
+    cancelFollow(_id) {
+      console.log(_id)
+      api.followAttention('delete', _id).then(({data}) => {
+        if(data.code === 213) {
+          this.fetchReult(1)
+        }
+      })
+    }
   },
   watch: {
     type() {
       this.debouncedFetchResult()
     }
-  }
+  },
 }
 </script>
 
