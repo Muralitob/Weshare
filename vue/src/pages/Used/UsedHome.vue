@@ -88,7 +88,8 @@ export default {
           release_time: item.release_time,
           nickname: item.user.nickname,
           title: item.title,
-          price: item.price
+          price: item.price,
+          _id: item._id
         }));
         this.used_info = result;
         this.total = data.total;

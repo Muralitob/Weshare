@@ -81,7 +81,6 @@ export default {
         mode: ["face"],
         desc: "",
         degree: '',
-        good_id: '',
       },
       degree: [
         {
@@ -216,8 +215,6 @@ export default {
       this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
     },
     handleSuccess(res, file) {
-      this.usedGoods.good_id = res.response.good_id
-      
     },
     handleFormatError(file) {
       this.$Notice.warning({
