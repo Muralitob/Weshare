@@ -14,6 +14,9 @@ export default {
       }
     });
   },
+  async getMyUserInfo() {
+    return axios.get("/api/user/get_me_info");
+  },
   async editUserInfo(data) {
     return axios.post("/api/user/edit_user_info", data);
   },
@@ -49,12 +52,17 @@ export default {
         })
       case 'delete':
       return axios.delete('/api/user/attention', {
-        attention_uid: uid
+        data: {
+          attention_uid: uid
+        }
       })
       case 'get':
+      console.log('page', page);
       return axios.get('/api/user/attention', {
-        page,
-        limit,
+        params: {
+          page,
+          limit,
+        }
       })
       default:
         break;

@@ -26,7 +26,7 @@ export default {
             VueCookie.set("uid", data.uid, "0");
           }
           that.$Spin.show();
-          api.getUserInfo(data.uid).then(({ data }) => {
+          api.getMyUserInfo(data.uid).then(({ data }) => {
             commit(types.USER_INFO, data);
           });
           setTimeout(() => {

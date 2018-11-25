@@ -22,8 +22,8 @@
     </div>
     <div class="c">
       <Tabs value="article" @on-click="fetch" class="tab" :animated="false">
-          <Button icon="ios-close" slot="extra" >取消关注</Button>
-          <Button @click="follow(user_info.uid)" icon="md-add" slot="extra" type="primary">关注他</Button>
+          <Button @click="cancelfollow(user_info.uid)" icon="ios-close" slot="extra" v-if="user_info.attentioned" >取消关注</Button>
+          <Button @click="follow(user_info.uid)" v-else icon="md-add" slot="extra" type="primary">关注他</Button>
           <TabPane name="article" label="文章">
             <Card class="art_item" v-for="(item, idx) in articles" :key="idx">
               <router-link class="title" :to="{name: 'commentArticle', params: {com_id: item._id}}">
@@ -95,7 +95,7 @@
                     </Col>
                   </section>
                 </Row>
-                <InfiniteLoading  direction="bottom" @infinite="handleCollectionBottom" spinner="waveDots">
+                <InfiniteLoading  direction="bottom" @infinite="handleReachBottom" spinner="waveDots">
                   <span slot="no-more">
                     没有更多数据了:)
                   </span>
@@ -140,7 +140,7 @@
         </Row>
         <Row>
           <Icon type="md-star" />
-          收藏内容2个
+          收藏内容{{col_total}}个
         </Row>
       </Card>
     </div>
@@ -164,6 +164,7 @@ export default {
       art_page: 1,
       article_total: 0,
       col_page: 1,
+      col_total: 0,
       used_page: 1,
       used_total: 0,
       goodsList: []
@@ -179,7 +180,8 @@ export default {
             sign: data.sign,
             uid: data.uid,
             avatar_url: data.avatar_url || "",
-            branch: data.branch
+            branch: data.branch,
+            attentioned: data.attentioned
           };
           this.user_info = result;
           console.log("用户信息", data);
@@ -219,6 +221,7 @@ export default {
           .collectionFun("get", 1, page, limit, this.uid)
           .then(({ data }) => {
             console.log(data);
+            this.col_total = data.total
             this.collection_Array = data.collections;
           })
           .catch(err => {
@@ -309,6 +312,23 @@ export default {
           this.$Notice.success({
             title: data.message
           });
+          this.user_info.attentioned = true
+        })
+        .catch(err => {
+          // this.mymessage().notice()
+          this.$Notice.error({
+            title: err.message
+          });
+        });
+    },
+    cancelfollow(uid) {
+      api
+        .followAttention("delete", uid)
+        .then(({ data }) => {
+          this.$Notice.success({
+            title: data.message
+          });
+          this.user_info.attentioned = false
         })
         .catch(err => {
           // this.mymessage().notice()

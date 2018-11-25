@@ -82,7 +82,7 @@ export default {
       this.$store.commit("Menu_SELECT", "index");
     },
     getUserInfo() {
-      api.getUserInfo().then(({ data }) => {
+      api.getMyUserInfo().then(({ data }) => {
         let result = {
           nickname: data.nickname,
           sign: data.sign,

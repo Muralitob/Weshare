@@ -10,7 +10,7 @@
             </div>
             <span class="num">20</span>
         </MenuItem>
-        <MenuItem name="01" class="between">
+        <!-- <MenuItem name="01" class="between">
           <div>
             <Icon type="md-person" />
             特别关注
@@ -30,7 +30,7 @@
             默认关注
           </div>
           <span class="num">20</span>
-        </MenuItem>
+        </MenuItem> -->
         <MenuItem v-for="(item, idx) in my_group" :key="idx" :name="item.id" class="between" >
           <div>
             <Icon type="md-outlet" />
