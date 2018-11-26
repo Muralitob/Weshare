@@ -23,5 +23,12 @@ export default {
         limit
       }
     })
+  },
+  async getGoodContent(good_id) {
+    return axios.get("/api/goods/get_good_by_id", {
+      params: {
+        good_id
+      }
+    })
   }
 };
