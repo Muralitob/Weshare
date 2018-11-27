@@ -40,11 +40,12 @@
     </div>
     <Card dis-hover :bordered="false">
       <p slot="title">本周最热</p>
-      <div class="hot-item">
-        <router-link to="/">
-          <span>23333333</span>
+      <div class="hot-item" v-for="(item, index) in hot" :key="index">
+        <router-link :to="{path: `/timeline/${item._id}`}">
+          <span>{{item.article.title}}11</span>
         </router-link>
-        <Time :time="time2" type="date" />
+        <!-- <Time :time="item.create_time" type="date" /> -->
+        <span>{{item.article.nickname}}</span>
       </div>
     </Card>
   </div>  
@@ -61,7 +62,8 @@ export default {
       article_data: {},
       com_id: this.$route.params["com_id"],
       spinShow: false,
-      time2: new Date().getTime() - 86400 * 3 * 1000
+      time2: new Date().getTime() - 86400 * 3 * 1000,
+      hot: []
     };
   },
   methods: {
@@ -101,11 +103,21 @@ export default {
         this.article_data.is_like = false;
       }
       api.addLikeArticle(add, this.com_id);
+    },
+    async getHot() {
+      try {
+        let {data} = await api.getHotArticles()
+        this.hot = data.articles
+        console.log(this.hot);
+      } catch (error) {
+        
+      }
     }
   },
   mounted() {
     this.fetchData();
     this.readArticle();
+    this.getHot()
   }
 };
 </script>
@@ -195,9 +207,19 @@ export default {
   .hot-item {
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
     a {
       span {
-        font-size: 16px;
+        width: 150px;
+        display: inline-block;
+        font-size: 14px;
+        overflow: hidden;
+        -webkit-line-clamp: 2;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
       }
     }
   }

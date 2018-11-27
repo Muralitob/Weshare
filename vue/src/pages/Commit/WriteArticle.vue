@@ -155,8 +155,7 @@ export default {
       }
     }
   },
-  updated() {
-    // console.log(this.article)
+  mounted () {
   }
 };
 </script>

@@ -98,5 +98,8 @@ export default {
         }
       });
     }
+  },
+  async getHotArticles() {
+    return axios.get('/api/article/get_hot_articles')
   }
 };
