@@ -28,5 +28,8 @@ export default{
     },
     [types.CURRENT_COMP](state,data) {
         state.currentComponent = data
-    }
+    },
+    ['TOTAL_WATCH'](state, data) {
+        state.total_watch = data
+    },
 }

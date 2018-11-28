@@ -63,6 +63,7 @@
             <Button type="primary" @click="handleSubmit('usedGoods')">发布</Button>
             <Button @click="handleReset('usedGoods')" style="margin-left: 8px">重置</Button>
         </FormItem>
+        
     </Form>
   </div>
 </template>

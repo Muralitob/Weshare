@@ -10,6 +10,7 @@ export default {
   LoginShow: false,
   userInfo: {},
   currentComponent: '',
+  total_watch: 0
 };
 
 function isLoggedIn() {

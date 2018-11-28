@@ -42,8 +42,8 @@ export default {
   },
   methods: {
     fetchReult(page) {
-      console.log(page)
       api.followAttention('get', 1, page).then(({data}) => {
+        this.$store.commit('TOTAL_WATCH', data.total)
         this.result = data.attentions
       })
     },
@@ -59,7 +59,6 @@ export default {
       });
     },
     cancelFollow(_id) {
-      console.log(_id)
       api.followAttention('delete', _id).then(({data}) => {
         if(data.code === 213) {
           this.fetchReult(1)
@@ -69,7 +68,11 @@ export default {
   },
   watch: {
     type() {
-      this.debouncedFetchResult()
+      if(this.type === '00') {
+        this.fetchReult(1)
+      }else {
+        this.result = []
+      }
     }
   },
 }

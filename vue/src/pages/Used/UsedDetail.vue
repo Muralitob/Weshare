@@ -36,15 +36,15 @@
             类型: 食品
           </span>
           <span>
-            现价: ￥50
+            现价: ￥{{good.price}}
           </span>
           <span>
-            交易区域: 图书馆门口
+            交易区域: {{good.place || '面议'}}
           </span>
           <span>
-            联系方式: 110
+            联系方式: {{good.phone || '110'}}
           </span>
-          <Button type="success" long>立即发出订单</Button>
+          <!-- <Button type="success" long>立即发出订单</Button> -->
         </div>
       </section>
       <section>
@@ -78,7 +78,15 @@ export default {
   methods: {
     fetchData(good_id) {
       api.getGoodContent(good_id).then(({data}) => {
-        this.good = data.good
+        console.log(data.good)
+        this.good = {
+          price: data.good.price,
+          place: data.good.place || '面议',
+          desc: data.good.desc,
+          pic: data.good.pic,
+          user: data.good.user,
+          release_time: data.good.release_time
+        }
       })
     }
   },

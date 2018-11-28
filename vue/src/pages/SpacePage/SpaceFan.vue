@@ -8,7 +8,7 @@
               <Icon type="md-people" />
               全部关注
             </div>
-            <span class="num">20</span>
+            <span class="num">{{watchNum}}</span>
         </MenuItem>
         <!-- <MenuItem name="01" class="between">
           <div>
@@ -86,15 +86,21 @@ export default {
       }else {
         return 'fans'
       }
+    },
+    current() {
+      return this.$store.state.UserSetting.currentComponent;
+    },
+    watchNum() {
+      return this.$store.state.UserSetting.total_watch
     }
   },
   mounted() {
     // this.$nextTick(function() {
     //     this.$refs.fanMenu.updateActiveName();
     //     console.log(this.$refs.fanMenu);
-    //   })
-    
   },
+  updated () {
+  }
 };
 </script>
 
