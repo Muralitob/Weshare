@@ -74,7 +74,7 @@ def get_goods():
             uid = request.cookies.get('uid')
             if not uid:
                 uid = None
-    goods, length = goods_db.get_goods(int(uid), page, int(limit))
+    goods, length = goods_db.get_goods(int(uid), page, limit)
     return jsonify({"goods": convert_to_json(goods), "total": length}), 200
 
 

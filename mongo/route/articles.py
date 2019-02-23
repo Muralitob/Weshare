@@ -57,7 +57,7 @@ def get_articles_by_uid():
     category = request.args.get('category')
     page = request.args.get('page')
     limit = request.args.get('limit')
-    result, length = articles_db.get_articles_by_uid(int(uid), category, page, int(limit))
+    result, length = articles_db.get_articles_by_uid(int(uid), category, page, limit)
     return jsonify({"articles": convert_to_json(result), "total": length}), 200
 
 
@@ -136,7 +136,7 @@ def get_real_articles():
                 uid = None
             else:
                 uid = int(uid)
-    result, length = articles_db.get_real_articles(tag, keyword, page, int(limit), uid)
+    result, length = articles_db.get_real_articles(tag, keyword, page, limit, uid)
     return jsonify({"articles": convert_to_json(result), "total": length}), 200
 
 
@@ -194,7 +194,7 @@ def comments_functions():
         page = request.args.get('page')
         limit = request.args.get('limit')
         article_id = request.args.get('article_id')
-        result, length = articles_db.get_comments(article_id, page, int(limit), uid)
+        result, length = articles_db.get_comments(article_id, page, limit, uid)
         return jsonify({"comments": convert_to_json(result), "total": length}), 200
 
 
@@ -296,7 +296,7 @@ def article_history():
             uid = request.cookies.get('uid')
         page = request.args.get('page')
         limit = request.args.get('limit')
-        result, length = articles_db.get_article_history(page, int(limit), int(uid))
+        result, length = articles_db.get_article_history(page, limit, int(uid))
         return jsonify({"article_history": convert_to_json(result), "total": length}), 200
 
 
@@ -310,7 +310,7 @@ def announcements():
     if request.method == "GET":
         page = request.args.get("page")
         limit = request.args.get("limit")
-        announcements, total = articles_db.get_announcements(int(page), int(limit))
+        announcements, total = articles_db.get_announcements(page, limit)
         return make_response(jsonify({"announcements": convert_to_json(announcements), "total": total}), 200)
     elif request.method == "PUT":
         data = request.get_json()

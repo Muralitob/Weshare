@@ -10,7 +10,6 @@ from flask import request
 from datetime import datetime, timedelta
 from core_manager.mongo_manager import mongo_manager
 
-
 ts = time.time()
 utc_offset = (datetime.fromtimestamp(ts) -
               datetime.utcfromtimestamp(ts)).total_seconds()
@@ -277,10 +276,12 @@ def null_device_type_zero_count(device_type_counts):
 def page_limit_skip(limit=None, page=None):
     if not limit or limit == '':
         limit = 10
+    else:
+        limit = int(limit)
     if not page or page == '':
         page = 1
-    skip_d = (int(page) - 1) * int(limit)
-    return skip_d
+    skip = (int(page) - 1) * limit
+    return skip, limit
 
 
 def percentage_calculate(divisor_a, divisor_b, bit=None):

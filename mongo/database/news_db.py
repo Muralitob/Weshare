@@ -28,7 +28,7 @@ def get_all_news(page, limit):
     获取所有新闻
     :return:
     """
-    skip = page_limit_skip(limit, page)
+    skip, limit = page_limit_skip(limit, page)
     news_list = list(mongo_manager.find(news_collection, {}).skip(skip).limit(limit))
     length = mongo_manager.find_count(news_collection, {})
     return news_list, length

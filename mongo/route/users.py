@@ -128,7 +128,7 @@ def collections_functions():
                 uid = request.cookies.get('uid')
         page = request.args.get('page')
         limit = request.args.get('limit')
-        result, length = users_db.get_collections_by_uid(int(uid), page, int(limit))
+        result, length = users_db.get_collections_by_uid(int(uid), page, limit)
         return jsonify({"collections": convert_to_json(result), "total": length}), 200
     elif request.method == 'POST':
         data = request.get_json()
@@ -202,7 +202,7 @@ def attention():
             uid = request.cookies.get('uid')
         page = request.args.get("page")
         limit = request.args.get("limit")
-        result, length = users_db.get_attentions(int(uid), int(page), int(limit))
+        result, length = users_db.get_attentions(int(uid), page, limit)
         return jsonify({"attentions": convert_to_json(result), "total": length}), 200
 
 

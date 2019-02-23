@@ -46,7 +46,7 @@ def get_articles_by_uid(uid, category, page, limit):
     :param limit:
     :return:
     """
-    skip = page_limit_skip(limit, page)
+    skip, limit = page_limit_skip(limit, page)
     query = {'article.uid': uid, 'category': category}
     result = list(mongo_manager.find(articles_collection, query).skip(skip).limit(limit).sort([("update_time", -1)]))
     length = mongo_manager.find_count(articles_collection, query)
@@ -156,7 +156,7 @@ def get_real_articles(tag, keyword, page, limit, uid):
         query["tagLists"] = tag
     if keyword:
         query['article.title'] = {'$regex': keyword}
-    skip = page_limit_skip(limit, page)
+    skip, limit = page_limit_skip(limit, page)
     result = list(mongo_manager.find(articles_collection, query).skip(skip).limit(limit).sort([("create_time", -1)]))
     if uid:
         for article in result:
@@ -212,7 +212,7 @@ def get_comments(article_id, page, limit, uid):
     :param uid:
     :return:
     """
-    skip = page_limit_skip(limit, page)
+    skip, limit = page_limit_skip(limit, page)
     result = list(
         mongo_manager.find(comments_collection, {'parent_id': ObjectId(article_id)}).skip(skip).limit(limit).sort(
             [("comment_time", -1)]))
@@ -308,7 +308,7 @@ def get_article_history(page, limit, uid):
     :param uid:
     :return:
     """
-    skip = page_limit_skip(limit, page)
+    skip, limit = page_limit_skip(limit, page)
     result = list(mongo_manager.find(article_history_collection, {"uid": uid}).skip(skip).limit(limit).sort(
         [("create_time", -1)]))
     articles_history = []
@@ -327,7 +327,7 @@ def get_announcements(page, limit):
     :param limit:
     :return:
     """
-    skip = page_limit_skip(limit, page)
+    skip, limit = page_limit_skip(limit, page)
     announcements = list(mongo_manager.find_skip_limit(announcements_collection, {}, skip, limit))
     count = mongo_manager.find_count(announcements_collection, {})
     return announcements, count

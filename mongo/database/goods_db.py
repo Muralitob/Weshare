@@ -57,7 +57,7 @@ def get_goods(uid, page, limit):
     :return:
     """
     query = {}
-    skip = page_limit_skip(limit, page)
+    skip, limit = page_limit_skip(limit, page)
     if uid:
         query = {"uid": uid}
     goods = list(mongo_manager.find_select(goods_collection, query, {"pic": 0}).skip(skip).limit(limit))

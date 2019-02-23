@@ -104,7 +104,7 @@ def edit_user_info(uid, data):
 
 
 def get_collections_by_uid(uid, page, limit):
-    skip = page_limit_skip(limit, page)
+    skip, limit = page_limit_skip(limit, page)
     result = list(
         mongo_manager.find(collcetions_collection, {'uid': uid}).skip(skip).limit(limit).sort([('create_time', -1)]))
     articles = []
@@ -154,7 +154,7 @@ def delete_attention(uid, attention_uid):
 
 
 def get_attentions(uid, page, limit):
-    skip = page_limit_skip(limit, page)
+    skip, limit = page_limit_skip(limit, page)
     attentions = list(mongo_manager.find(attention_collection, {'uid': uid}).skip(skip).limit(limit))
     users = []
     for attention in attentions:
