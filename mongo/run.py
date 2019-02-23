@@ -15,14 +15,14 @@ from route.goods import goods
 
 sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 
-program = Flask(__name__, static_url_path='', static_folder='../uploads')
-api = Api(program)
-CORS(program, supports_credentials=True)
+app = Flask(__name__, static_url_path='', static_folder='../uploads')
+api = Api(app)
+CORS(app, supports_credentials=True)
 
-program.register_blueprint(users)
-program.register_blueprint(articles)
-program.register_blueprint(news)
-program.register_blueprint(goods)
+app.register_blueprint(users)
+app.register_blueprint(articles)
+app.register_blueprint(news)
+app.register_blueprint(goods)
 
 if __name__ == '__main__':
-    program.run(host='0.0.0.0', port=3090, debug=True, threaded=True)
+    app.run(host='0.0.0.0', port=3090, debug=True, threaded=True)

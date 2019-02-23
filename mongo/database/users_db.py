@@ -10,6 +10,7 @@ from datetime import datetime
 from bson import ObjectId
 
 from core_manager.mongo_manager import mongo_manager
+from models.User import User
 
 from utility import page_limit_skip
 
@@ -21,16 +22,17 @@ attention_collection = 'attentions'
 
 
 def register(data):
-    data['register_time'] = datetime.now()
-    data['login_time'] = datetime.now()
     data['level'] = '0002'
-    if 'nickname' not in data:
-        data['nickname'] = ''
+    data['uid'] = list(mongo_manager.find_select_sort_limit('users', {}, {'uid': 1}, [('uid', -1)], 1))[0]['uid'] + 1
+    data['major'] = ''
+    data['nickname'] = data['account']
     data['birthday'] = ''
     data['sign'] = ''
+    data['branch'] = ''
     data['sex'] = ''
-    data['uid'] = max(list(mongo_manager.find_projection(users_collection, {}, {'uid': 1, '_id': 0})))['uid'] + 1
-    user = mongo_manager.find_one(users_collection, {'account': data['account']})
+    data['register_time'] = datetime.now()
+    data['login_time'] = None
+    user = User.query_one(data['account'])
     if user:
         return False
     else:
@@ -38,10 +40,9 @@ def register(data):
 
 
 def login(data):
-    user = mongo_manager.find_one(users_collection, {'account': data['account']})
+    user = User.query_one(data['account'])
     if user and user['pwd'] == data['pwd']:
-        mongo_manager.update_one(users_collection, {'account': data['account']},
-                                 {"$set": {'login_time': datetime.now()}})
+        User.update_one(data['account'], {'login_time': datetime.now()})
         encoded = jwt.encode(
             {'account': user['account'], 'uid': str(user['uid']), 'organization': str(user['level']),
              'update_time': str(datetime.now())}, 'secret', algorithm='HS256')
@@ -58,12 +59,12 @@ def requires_auth(f):
         token = request.headers.get('Authorization')
         if token:
             payload = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
-            right = mongo_manager.find_one(users_collection, {'uid': int(payload['uid'])})
-            if right:
+            user = User.query_one_by_uid(int(payload['uid']))
+            if user:
                 return f(*args, **kwargs)
         else:
-            cookie_uid = request.cookies.get("uid")
-            cookie_user = mongo_manager.find_one(users_collection, {'uid': int(cookie_uid)})
+            cookie_uid = request.cookies.get('uid')
+            cookie_user = User.query_one_by_uid(int(cookie_uid))
             if cookie_user:
                 return f(*args, **kwargs)
 
@@ -71,48 +72,46 @@ def requires_auth(f):
 
 
 def get_user_info(other_id, uid):
-    query = {'uid': other_id}
-    one = mongo_manager.find_one(users_collection, query)
+    one = User.query_one_by_uid({'uid': other_id})
     # if 'avatar_url' in one:
     #     basepath = os.path.dirname(__file__)  # 当前文件所在路径
     #     avatar_url = basepath + 'static/uploads_user_photos/' + one['avatar_url']
-    #     one["avatar_url"] = avatar_url
+    #     one['avatar_url'] = avatar_url
     if uid:
-        attention = mongo_manager.find_one(attention_collection, {"uid": uid, "attention_uid": other_id})
+        attention = mongo_manager.find_one(attention_collection, {'uid': uid, 'attention_uid': other_id})
         if attention:
-            one["attentioned"] = True
+            one['attentioned'] = True
         else:
-            one["attentioned"] = False
+            one['attentioned'] = False
     return one
 
 
 def get_me_info(uid):
-    attention_uids = []
-    query = {'uid': uid}
-    one = mongo_manager.find_one(users_collection, query)
-    attentions = list(mongo_manager.find(attention_collection, query))
+    one = User.query_one_by_uid(uid)
+    attentions = list(mongo_manager.find(attention_collection, {'uid': uid}))
     if attentions:
-        for att in attentions:
-            attention_uids.append(att["attention_uid"])
-    one["attention_uids"] = attention_uids
+        attention_uids = [att['attention_uid'] for att in attentions]
+    else:
+        attention_uids = []
+    one['attention_uids'] = attention_uids
     return one
 
 
 def edit_user_info(uid, data):
     if '_id' in data:
         data.pop('_id')
-    return mongo_manager.update_one(users_collection, {'uid': uid}, {"$set": data}).acknowledged
+    return User.update_one(uid, data)
 
 
 def get_collections_by_uid(uid, page, limit):
     skip = page_limit_skip(limit, page)
     result = list(
-        mongo_manager.find(collcetions_collection, {'uid': uid}).skip(skip).limit(limit).sort([("create_time", -1)]))
+        mongo_manager.find(collcetions_collection, {'uid': uid}).skip(skip).limit(limit).sort([('create_time', -1)]))
     articles = []
     for item in result:
         article = mongo_manager.find_one(articles_collection, {'_id': ObjectId(item['article_id'])})
-        article['col_num'] = mongo_manager.find_count(collcetions_collection, {"article_id": article["_id"]})
-        article['like_num'] = mongo_manager.find_count(like_collection, {"article_id": article["_id"]})
+        article['col_num'] = mongo_manager.find_count(collcetions_collection, {'article_id': article['_id']})
+        article['like_num'] = mongo_manager.find_count(like_collection, {'article_id': article['_id']})
         articles.append(article)
     length = mongo_manager.find_count(collcetions_collection, {'uid': uid})
     return articles, length
@@ -139,27 +138,28 @@ def delete_collections(uid, article_ids):
 
 
 def add_attention(uid, attention_uid):
-    is_attentions = mongo_manager.find_one(attention_collection, {"uid": uid, "attention_uid": attention_uid})
+    is_attentions = mongo_manager.find_one(attention_collection, {'uid': uid, 'attention_uid': attention_uid})
     if is_attentions:
         return False
     else:
-        return mongo_manager.save_one(attention_collection, {"uid": uid, "attention_uid": attention_uid}).acknowledged
+        return mongo_manager.save_one(attention_collection, {'uid': uid, 'attention_uid': attention_uid}).acknowledged
 
 
 def delete_attention(uid, attention_uid):
-    is_attentions = mongo_manager.find_one(attention_collection, {"uid": uid, "attention_uid": attention_uid})
+    is_attentions = mongo_manager.find_one(attention_collection, {'uid': uid, 'attention_uid': attention_uid})
     if not is_attentions:
         return False
     else:
-        return mongo_manager.remove_one(attention_collection, {"uid": uid, "attention_uid": attention_uid}).acknowledged
+        return mongo_manager.remove_one(attention_collection, {'uid': uid, 'attention_uid': attention_uid}).acknowledged
 
 
 def get_attentions(uid, page, limit):
     skip = page_limit_skip(limit, page)
-    attentions = list(mongo_manager.find(attention_collection, {"uid": uid}).skip(skip).limit(limit))
+    attentions = list(mongo_manager.find(attention_collection, {'uid': uid}).skip(skip).limit(limit))
     users = []
     for attention in attentions:
-        user = mongo_manager.find_one(users_collection, {"uid": attention["attention_uid"]})
-        users.append(user)
-    count = mongo_manager.find_count(attention_collection, {"uid": uid})
+        user = User.query_one(attention['attention_uid'])
+        if user:
+            users.append(user)
+    count = mongo_manager.find_count(attention_collection, {'uid': uid})
     return users, count

@@ -24,7 +24,7 @@
             </RadioGroup>
         </FormItem>
         <FormItem label="出生年月:">
-          <DatePicker :value="formItem.birth_day" @on-change="test" type="date" placeholder="选择出生日期" style="width: 200px"></DatePicker>
+          <DatePicker :value="formItem.birthday" @on-change="test" type="date" placeholder="选择出生日期" style="width: 200px"></DatePicker>
         </FormItem>
         <FormItem>
             <Button style="width: 110px" type="primary" @click="handleUserInfo">保存</Button>
@@ -45,7 +45,7 @@ export default {
         nickname: "",
         sign: "",
         sex: "",
-        birth_day: "",
+        birthday: "",
         branch: '',
       },
       majorList: major
@@ -53,14 +53,14 @@ export default {
   },
   methods: {
     test(pre, next) {
-      this.formItem.birth_day = pre;
+      this.formItem.birthday = pre;
     },
     fetchUserInfo() {
       let data = this.$store.state.UserSetting.userInfo
       let result = {
         nickname: data.nickname,
         sex: data.sex || "secret",
-        birth_day: data.birth_day || "",
+        birthday: data.birthday || "",
         sign: data.sign || "你怎么这么懒,签名都不写",
         branch: data.branch
       };
