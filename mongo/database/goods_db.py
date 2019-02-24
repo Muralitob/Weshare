@@ -4,13 +4,12 @@ __author__:cjhcw
 """
 import os
 from bson import ObjectId
-from datetime import datetime
 
 from core_manager.mongo_manager import mongo_manager
+from models.User import User
 
-from utility import page_limit_skip
+from utility import page_limit_skip, get_this_time, get_object
 
-users_collection = "users"
 goods_collection = "goods"
 
 
@@ -21,10 +20,10 @@ def add_send_good(uid, data):
     :param data:
     :return:
     """
-    user = mongo_manager.find_one(users_collection, {"uid": uid})
+    user = User.query_one_by_uid(uid)
     data['user'] = user
     data['uid'] = uid
-    data['release_time'] = datetime.now()
+    data['release_time'] = get_this_time()
     return mongo_manager.save_one(goods_collection, data).acknowledged
 
 
@@ -76,4 +75,4 @@ def get_good_by_id(good_id):
     :param good_id: 商品id
     :return:
     """
-    return mongo_manager.find_one(goods_collection, {"_id": ObjectId(good_id)})
+    return get_object(goods_collection, good_id)

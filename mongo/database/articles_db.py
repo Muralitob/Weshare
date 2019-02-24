@@ -3,15 +3,14 @@
 __author__:cjhcw
 """
 from bson import ObjectId
-from datetime import datetime
 
 from core_manager.mongo_manager import mongo_manager
+from models.User import User
 
 from utility import page_limit_skip, get_this_time
 
 articles_collection = 'articles'
 comments_collection = 'comments'
-users_collection = 'users'
 collcetions_collection = 'collections'
 like_collection = 'like_articles'
 like_comment_collection = 'like_comments'
@@ -29,7 +28,7 @@ def create_new_article(data):
     data['update_time'] = get_this_time()
     data['like_num'] = 0
     data['read_num'] = 0
-    user = mongo_manager.find_one(users_collection, {"uid": data["article"]["uid"]})
+    user = User.query_one_by_uid(data["article"]["uid"])
     data['article']['nickname'] = user['nickname']
     # if not data['article']['nickname']:
     #     data['article']['nickname'] = user["account"]
@@ -196,7 +195,7 @@ def add_comment(parent_id, uid, content):
         is_first_comment = True
     else:
         is_first_comment = False
-    user = mongo_manager.find_one(users_collection, {'uid': uid})
+    user = User.query_one_by_uid(uid)
     comment = {'parent_id': ObjectId(parent_id), 'name': user['nickname'], 'content': content,
                'comment_time': get_this_time(),
                'is_first_comment': is_first_comment, 'like_num': 0}
