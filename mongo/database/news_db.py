@@ -3,11 +3,10 @@
 __author__:cjhcw
 """
 from bson import ObjectId
-from datetime import datetime
 
 from core_manager.mongo_manager import mongo_manager
 
-from utility import page_limit_skip
+from utility import page_limit_skip, get_this_time
 
 news_collection = 'news'
 
@@ -18,8 +17,8 @@ def create_new_news(data):
     :param data:
     :return:
     """
-    data['create_time'] = datetime.now()
-    data['update_time'] = datetime.now()
+    data['create_time'] = get_this_time()
+    data['update_time'] = get_this_time()
     return mongo_manager.save_one(news_collection, data).acknowledged
 
 
@@ -51,5 +50,5 @@ def edit_one_new(new_id, data):
     :return:
     """
     data.pop('_id')
-    data['update_time'] = datetime.now()
+    data['update_time'] = get_this_time()
     return mongo_manager.update_one(news_collection, {'_id': ObjectId(new_id)}, {"$set": data}).acknowledged

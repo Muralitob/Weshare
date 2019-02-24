@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5e9a0fd0-261a-4c9f-84b5-3ffa10777b6c" name="Default" comment="add comments">
+    <list default="true" id="5e9a0fd0-261a-4c9f-84b5-3ffa10777b6c" name="Default" comment="add comments and optimization func">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mongo/database/articles_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/mongo/database/articles_db.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mongo/database/goods_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/mongo/database/goods_db.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mongo/database/users_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/mongo/database/users_db.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mongo/database/news_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/mongo/database/news_db.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -25,11 +23,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mongo/database/users_db.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="268">
-              <caret line="164" column="65" selection-start-line="164" selection-start-column="65" selection-end-line="164" selection-end-column="65" />
+            <state relative-caret-position="270">
+              <caret line="18" column="35" lean-forward="true" selection-start-line="18" selection-start-column="35" selection-end-line="18" selection-end-column="35" />
               <folding>
                 <element signature="e#43#52#0" expanded="true" />
               </folding>
@@ -58,11 +56,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mongo/database/news_db.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+            <state relative-caret-position="347">
+              <caret line="50" column="7" lean-forward="true" selection-start-line="50" selection-start-column="7" selection-end-line="50" selection-end-column="7" />
               <folding>
                 <element signature="e#43#68#0" expanded="true" />
               </folding>
@@ -94,7 +92,6 @@
       <find>set</find>
       <find>get_articles_by_uid</find>
       <find>page</find>
-      <find>datetime</find>
       <find>utc</find>
       <find>收藏</find>
       <find>sort</find>
@@ -104,6 +101,7 @@
       <find>remove</find>
       <find>birth_day</find>
       <find>page_limit_skip</find>
+      <find>datetime</find>
     </findStrings>
     <replaceStrings>
       <replace>200</replace>
@@ -144,12 +142,12 @@
         <option value="$PROJECT_DIR$/mongo/utility.py" />
         <option value="$PROJECT_DIR$/mongo/route/goods.py" />
         <option value="$PROJECT_DIR$/mongo/route/articles.py" />
-        <option value="$PROJECT_DIR$/mongo/database/news_db.py" />
         <option value="$PROJECT_DIR$/mongo/route/news.py" />
         <option value="$PROJECT_DIR$/mongo/route/users.py" />
         <option value="$PROJECT_DIR$/mongo/database/articles_db.py" />
         <option value="$PROJECT_DIR$/mongo/database/goods_db.py" />
         <option value="$PROJECT_DIR$/mongo/database/users_db.py" />
+        <option value="$PROJECT_DIR$/mongo/database/news_db.py" />
       </list>
     </option>
   </component>
@@ -455,14 +453,7 @@
       <workItem from="1547526183170" duration="970000" />
       <workItem from="1548157405822" duration="1442000" />
       <workItem from="1548382130259" duration="5000" />
-      <workItem from="1550823751392" duration="11116000" />
-    </task>
-    <task id="LOCAL-00041" summary="北京时间">
-      <created>1540104596207</created>
-      <option name="number" value="00041" />
-      <option name="presentableId" value="LOCAL-00041" />
-      <option name="project" value="LOCAL" />
-      <updated>1540104596207</updated>
+      <workItem from="1550823751392" duration="11383000" />
     </task>
     <task id="LOCAL-00042" summary="只做了一级评论">
       <created>1540108949644</created>
@@ -800,11 +791,18 @@
       <option name="project" value="LOCAL" />
       <updated>1550934844984</updated>
     </task>
-    <option name="localTasksCounter" value="90" />
+    <task id="LOCAL-00090" summary="add comments and optimization func">
+      <created>1551008353939</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1551008353939</updated>
+    </task>
+    <option name="localTasksCounter" value="91" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13986000" />
+    <option name="totallyTimeSpent" value="14253000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -928,7 +926,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="优化" />
     <MESSAGE value="二手市场" />
     <MESSAGE value="发布时间" />
     <MESSAGE value="goods" />
@@ -953,7 +950,8 @@
     <MESSAGE value="task" />
     <MESSAGE value="增加User类，封装了一些类方法，简化了user_db中的对user的操作" />
     <MESSAGE value="统一修改page_limit_skip()返回参数" />
-    <option name="LAST_COMMIT_MESSAGE" value="统一修改page_limit_skip()返回参数" />
+    <MESSAGE value="add comments and optimization func" />
+    <option name="LAST_COMMIT_MESSAGE" value="add comments and optimization func" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/Django" />
@@ -1233,16 +1231,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mongo/database/news_db.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
-          <folding>
-            <element signature="e#43#68#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mongo/utility.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="173">
@@ -1262,10 +1250,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mongo/database/users_db.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="268">
-          <caret line="164" column="65" selection-start-line="164" selection-start-column="65" selection-end-line="164" selection-end-column="65" />
+        <state relative-caret-position="270">
+          <caret line="18" column="35" lean-forward="true" selection-start-line="18" selection-start-column="35" selection-end-line="18" selection-end-column="35" />
           <folding>
             <element signature="e#43#52#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mongo/database/news_db.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="347">
+          <caret line="50" column="7" lean-forward="true" selection-start-line="50" selection-start-column="7" selection-end-line="50" selection-end-column="7" />
+          <folding>
+            <element signature="e#43#68#0" expanded="true" />
           </folding>
         </state>
       </provider>
