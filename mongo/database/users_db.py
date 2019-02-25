@@ -10,11 +10,11 @@ from bson import ObjectId
 
 from core_manager.mongo_manager import mongo_manager
 from models.User import User
+from models.Article import Article
 
-from utility import page_limit_skip, get_this_time, get_object
+from utility import page_limit_skip, get_this_time
 
 collcetions_collection = 'collections'
-articles_collection = 'articles'
 like_collection = 'like_articles'
 attention_collection = 'attentions'
 
@@ -141,7 +141,7 @@ def get_collections_by_uid(uid, page, limit):
         mongo_manager.find(collcetions_collection, {'uid': uid}).skip(skip).limit(limit).sort([('create_time', -1)]))
     articles = []
     for item in result:
-        article = get_object(articles_collection, item['article_id'])
+        article = Article.query(item['article_id'])
         article['col_num'] = mongo_manager.find_count(collcetions_collection, {'article_id': article['_id']})
         article['like_num'] = mongo_manager.find_count(like_collection, {'article_id': article['_id']})
         articles.append(article)
