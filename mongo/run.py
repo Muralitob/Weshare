@@ -12,6 +12,7 @@ from route.users import users
 from route.articles import articles
 from route.news import news
 from route.goods import goods
+from route.chats import chats
 
 sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 
@@ -23,6 +24,8 @@ app.register_blueprint(users)
 app.register_blueprint(articles)
 app.register_blueprint(news)
 app.register_blueprint(goods)
+
+api.add_namespace(chats)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3090, debug=True, threaded=True)
