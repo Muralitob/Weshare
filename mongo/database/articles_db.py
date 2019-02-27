@@ -7,6 +7,8 @@ from bson import ObjectId
 from core_manager.mongo_manager import mongo_manager
 from models.User import User
 from models.Article import Article
+from models.Collection import Collection
+from models.Like import Like
 
 from utility import page_limit_skip, get_this_time
 
@@ -49,7 +51,7 @@ def get_articles_by_uid(uid, category, page, limit):
     query = {'article.uid': uid, 'category': category}
     result = list(
         mongo_manager.find(articles_collection, query).skip(skip).limit(limit).sort([("update_time", -1)]))
-    length = mongo_manager.find_count(articles_collection, query)
+    length = Article.find_count(query)
     return result, length
 
 
@@ -62,26 +64,13 @@ def get_articles_by_id(article_id, uid):
     """
     article = Article.query_by_id(article_id)
     if uid:
-        collection_length = list(
-            mongo_manager.find(collcetions_collection,
-                               {'uid': uid, 'article_id': ObjectId(article_id)}))
-        if collection_length:
-            article['is_collection'] = True
-        else:
-            article['is_collection'] = False
-        like_length = list(mongo_manager.find(like_collection,
-                                              {'uid': uid, 'article_id': article['_id']}))
-        if like_length:
-            article['is_like'] = True
-        else:
-            article['is_like'] = False
+        article['is_collection'] = Collection.query_collection_by_uid_and_aid(uid, article_id)
+        article['is_like'] = Like.query_like_article_by_uid_and_aid(uid, article_id)
     else:
         article['is_like'] = False
         article['is_collection'] = False
-    article["col_num"] = mongo_manager.find_count(collcetions_collection,
-                                                  {"article_id": ObjectId(article_id)})
-    article["like_num"] = mongo_manager.find_count(like_collection,
-                                                   {"article_id": ObjectId(article_id)})
+    article["col_num"] = Collection.find_count_collection(article_id)
+    article["like_num"] = Like.find_count_like_article(article_id)
     return article
 
 
@@ -161,31 +150,21 @@ def get_real_articles(tag, keyword, page, limit, uid):
                                      query).skip(skip).limit(limit).sort([("create_time", -1)]))
     if uid:
         for article in result:
-            collection_length = list(
-                mongo_manager.find(collcetions_collection, {'uid': uid, 'article_id': article['_id']}))
-            if collection_length:
-                article['is_collection'] = True
-            else:
-                article['is_collection'] = False
-            like_length = list(mongo_manager.find(like_collection,
-                                                  {'uid': uid, 'article_id': article['_id']}))
-            if like_length:
-                article['is_like'] = True
+            if uid:
+                article['is_collection'] = Collection.query_collection_by_uid_and_aid(uid, article["_id"])
+                article['is_like'] = Like.query_like_article_by_uid_and_aid(uid, article["_id"])
             else:
                 article['is_like'] = False
-            article["col_num"] = mongo_manager.find_count(collcetions_collection,
-                                                          {"article_id": article['_id']})
-            article["like_num"] = mongo_manager.find_count(like_collection,
-                                                           {"article_id": article['_id']})
+                article['is_collection'] = False
+            article["col_num"] = Collection.find_count_collection(article["_id"])
+            article["like_num"] = Like.find_count_like_article(article["_id"])
     else:
         for article in result:
             article['is_like'] = False
             article['is_collection'] = False
-            article["col_num"] = mongo_manager.find_count(collcetions_collection,
-                                                          {"article_id": article['_id']})
-            article["like_num"] = mongo_manager.find_count(like_collection,
-                                                           {"article_id": article['_id']})
-    length = mongo_manager.find_count(articles_collection, query)
+            article["col_num"] = Collection.find_count_collection(article["_id"])
+            article["like_num"] = Like.find_count_like_article(article["_id"])
+    length = Article.find_count(query)
     return result, length
 
 
@@ -226,29 +205,28 @@ def get_comments(article_id, page, limit, uid):
         mongo_manager.find(comments_collection, {'parent_id': ObjectId(article_id)}).skip(skip).limit(limit).sort(
             [("comment_time", -1)]))
     for item in result:
-        if uid:
-            like_comment_length = list(
-                mongo_manager.find(like_comment_collection, {"uid": uid, "comment": item['_id']}))
-            if len(like_comment_length) == 1:
-                item['is_like'] = True
-            else:
-                item['is_like'] = False
-        else:
-            item['is_like'] = False
-        comments = list(mongo_manager.find(comments_collection, {'parent_id': item['_id']}))
-        for comment in comments:
-            if uid:
-                like_next_comment_length = list(
-                    mongo_manager.find(like_comment_collection, {"uid": uid, "comment": comment['_id']}))
-                if len(like_next_comment_length) == 1:
-                    comment['is_like'] = True
-                else:
-                    comment['is_like'] = False
-            else:
-                comment['is_like'] = False
-        item['comments'] = comments
+        item["comments"] = get_comments_from_front(uid, item["_id"])
     length = mongo_manager.find_count(comments_collection, {'parent_id': ObjectId(article_id)})
     return result, length
+
+
+def get_comments_from_front(uid, comment_id):
+    """
+    递归获取所有相关评论
+    :param uid:
+    :param comment_id:
+    :return:
+    """
+    next_comments = list(mongo_manager.find(comments_collection, {"parent_id": comment_id}))
+    if next_comments:
+        for item in next_comments:
+            if uid:
+                item['is_like'] = Like.query_like_comment_by_uid_and_comment(uid, item["_id"])
+            else:
+                item['is_like'] = False
+            item["comments"] = get_comments_from_front(uid, item["_id"])
+        return next_comments
+    return []
 
 
 def delete_comment(_id):
@@ -388,29 +366,18 @@ def get_hot_articles(uid):
         mongo_manager.find(articles_collection, query).sort([("like_num", -1)]).limit(10))
     if uid:
         for article in result:
-            collection_length = list(
-                mongo_manager.find(collcetions_collection,
-                                   {'uid': uid, 'article_id': article['_id']}))
-            if collection_length:
-                article['is_collection'] = True
-            else:
-                article['is_collection'] = False
-            like_length = list(mongo_manager.find(like_collection,
-                                                  {'uid': uid, 'article_id': article['_id']}))
-            if like_length:
-                article['is_like'] = True
+            if uid:
+                article['is_collection'] = Collection.query_collection_by_uid_and_aid(uid, article["_id"])
+                article['is_like'] = Like.query_like_article_by_uid_and_aid(uid, article["_id"])
             else:
                 article['is_like'] = False
-            article["col_num"] = mongo_manager.find_count(collcetions_collection,
-                                                          {"article_id": article['_id']})
-            article["like_num"] = mongo_manager.find_count(like_collection,
-                                                           {"article_id": article['_id']})
+                article['is_collection'] = False
+            article["col_num"] = Collection.find_count_collection(article["_id"])
+            article["like_num"] = Like.find_count_like_article(article['_id'])
     else:
         for article in result:
             article['is_like'] = False
             article['is_collection'] = False
-            article["col_num"] = mongo_manager.find_count(collcetions_collection,
-                                                          {"article_id": article['_id']})
-            article["like_num"] = mongo_manager.find_count(like_collection,
-                                                           {"article_id": article['_id']})
+            article["col_num"] = Collection.find_count_collection(article["_id"])
+            article["like_num"] = Like.find_count_like_article(article['_id'])
     return result

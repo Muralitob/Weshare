@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5e9a0fd0-261a-4c9f-84b5-3ffa10777b6c" name="Default" comment="^_^">
+    <list default="true" id="5e9a0fd0-261a-4c9f-84b5-3ffa10777b6c" name="Default" comment="增加换行，uid自增">
+      <change afterPath="$PROJECT_DIR$/mongo/models/Collection.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mongo/models/Like.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mongo/database/articles_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/mongo/database/articles_db.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mongo/database/goods_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/mongo/database/goods_db.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mongo/database/news_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/mongo/database/news_db.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mongo/database/users_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/mongo/database/users_db.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mongo/utility.py" beforeDir="false" afterPath="$PROJECT_DIR$/mongo/utility.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mongo/models/Article.py" beforeDir="false" afterPath="$PROJECT_DIR$/mongo/models/Article.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mongo/route/articles.py" beforeDir="false" afterPath="$PROJECT_DIR$/mongo/route/articles.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,99 +17,75 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/Weshare$test.coverage" NAME="test Coverage Results" MODIFIED="1551232907744" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo" />
-    <SUITE FILE_PATH="coverage/Weshare$test1.coverage" NAME="test1 Coverage Results" MODIFIED="1551233295604" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo" />
-    <SUITE FILE_PATH="coverage/Weshare$Unnamed.coverage" NAME="Unnamed Coverage Results" MODIFIED="1537187267460" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo" />
     <SUITE FILE_PATH="coverage/Weshare$tcpserver.coverage" NAME="tcpserver Coverage Results" MODIFIED="1551186734529" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo" />
-    <SUITE FILE_PATH="coverage/Weshare$articles_db.coverage" NAME="articles_db Coverage Results" MODIFIED="1541342838051" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo/database" />
+    <SUITE FILE_PATH="coverage/Weshare$Collection.coverage" NAME="Collection Coverage Results" MODIFIED="1551276807474" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo/models" />
     <SUITE FILE_PATH="coverage/Weshare$user_db.coverage" NAME="user_db Coverage Results" MODIFIED="1550827791051" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo/database" />
     <SUITE FILE_PATH="coverage/Weshare$config.coverage" NAME="config Coverage Results" MODIFIED="1536639551076" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo/core_manager/mongo_manager" />
-    <SUITE FILE_PATH="coverage/Weshare$mongo_manager.coverage" NAME="mongo_manager Coverage Results" MODIFIED="1536755314128" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo/core_manager/mongo_manager" />
     <SUITE FILE_PATH="coverage/Weshare$goods_db.coverage" NAME="goods_db Coverage Results" MODIFIED="1543144519675" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo/database" />
-    <SUITE FILE_PATH="coverage/Weshare$tcpclient.coverage" NAME="tcpclient Coverage Results" MODIFIED="1551186739355" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo" />
     <SUITE FILE_PATH="coverage/Weshare$utility.coverage" NAME="utility Coverage Results" MODIFIED="1551269726523" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo" />
-    <SUITE FILE_PATH="coverage/Weshare$run.coverage" NAME="run Coverage Results" MODIFIED="1551194395902" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo" />
+    <SUITE FILE_PATH="coverage/Weshare$run.coverage" NAME="run Coverage Results" MODIFIED="1551272839812" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo" />
+    <SUITE FILE_PATH="coverage/Weshare$test1.coverage" NAME="test1 Coverage Results" MODIFIED="1551233295604" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo" />
+    <SUITE FILE_PATH="coverage/Weshare$Unnamed.coverage" NAME="Unnamed Coverage Results" MODIFIED="1537187267460" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo" />
+    <SUITE FILE_PATH="coverage/Weshare$articles_db.coverage" NAME="articles_db Coverage Results" MODIFIED="1541342838051" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo/database" />
+    <SUITE FILE_PATH="coverage/Weshare$mongo_manager.coverage" NAME="mongo_manager Coverage Results" MODIFIED="1536755314128" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo/core_manager/mongo_manager" />
+    <SUITE FILE_PATH="coverage/Weshare$tcpclient.coverage" NAME="tcpclient Coverage Results" MODIFIED="1551186739355" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/mongo/database/articles_db.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="468">
-              <caret line="401" column="17" lean-forward="true" selection-start-line="401" selection-start-column="17" selection-end-line="401" selection-end-column="17" />
-              <folding>
-                <element signature="e#43#68#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mongo/database/chats_db.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="309">
-              <caret line="27" column="7" selection-start-line="27" selection-start-column="7" selection-end-line="27" selection-end-column="7" />
-              <folding>
-                <element signature="e#43#95#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mongo/database/goods_db.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="66" column="32" selection-start-line="66" selection-start-column="32" selection-end-line="66" selection-end-column="32" />
-              <folding>
-                <element signature="e#43#52#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mongo/database/news_db.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="448">
-              <caret line="53" column="41" lean-forward="true" selection-start-line="53" selection-start-column="41" selection-end-line="53" selection-end-column="41" />
-              <folding>
-                <element signature="e#43#68#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mongo/database/users_db.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1545">
-              <caret line="103" column="43" selection-start-line="103" selection-start-column="43" selection-end-line="103" selection-end-column="43" />
-              <folding>
-                <element signature="e#43#52#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mongo/models/Article.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="17" lean-forward="true" selection-start-column="17" selection-end-column="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mongo/models/User.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="78">
-              <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="horizontal" split-proportion="0.4985694">
+      <split-first>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/mongo/database/articles_db.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="413">
+                  <caret line="383" column="9" selection-start-line="383" selection-start-column="9" selection-end-line="383" selection-end-column="9" />
+                  <folding>
+                    <element signature="e#43#68#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/mongo/models/Article.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="678">
+                  <caret line="66" column="54" selection-start-line="66" selection-start-column="54" selection-end-line="66" selection-end-column="54" />
+                  <folding>
+                    <element signature="e#43#68#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/mongo/models/Collection.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="463">
+                  <caret line="37" selection-start-line="37" selection-end-line="37" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/mongo/models/Like.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="313">
+                  <caret line="42" lean-forward="true" selection-start-line="42" selection-end-line="42" />
+                  <folding>
+                    <element signature="e#43#68#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -136,6 +112,8 @@
       <find>datetime</find>
       <find>'articles</find>
       <find>+ 1</find>
+      <find>find_count</find>
+      <find>like_num</find>
     </findStrings>
     <replaceStrings>
       <replace>200</replace>
@@ -171,9 +149,7 @@
         <option value="$PROJECT_DIR$/vue/src/pages/Setting/SettingInfo.vue" />
         <option value="$PROJECT_DIR$/mongo/models/User.py" />
         <option value="$PROJECT_DIR$/mongo/route/goods.py" />
-        <option value="$PROJECT_DIR$/mongo/route/articles.py" />
         <option value="$PROJECT_DIR$/mongo/route/news.py" />
-        <option value="$PROJECT_DIR$/mongo/models/Article.py" />
         <option value="$PROJECT_DIR$/mongo/route/users.py" />
         <option value="$PROJECT_DIR$/mongo/tcpclient.py" />
         <option value="$PROJECT_DIR$/mongo/tcpserver.py" />
@@ -188,6 +164,10 @@
         <option value="$PROJECT_DIR$/mongo/database/goods_db.py" />
         <option value="$PROJECT_DIR$/mongo/database/news_db.py" />
         <option value="$PROJECT_DIR$/mongo/database/users_db.py" />
+        <option value="$PROJECT_DIR$/mongo/route/articles.py" />
+        <option value="$PROJECT_DIR$/mongo/models/Article.py" />
+        <option value="$PROJECT_DIR$/mongo/models/Like.py" />
+        <option value="$PROJECT_DIR$/mongo/models/Collection.py" />
         <option value="$PROJECT_DIR$/mongo/database/articles_db.py" />
       </list>
     </option>
@@ -358,7 +338,29 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.utility">
+  <component name="RunManager" selected="Python.Collection">
+    <configuration name="Collection" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Weshare" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/mongo/models" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/mongo/models/Collection.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="run" type="PythonConfigurationType" factoryName="Python">
       <module name="Weshare" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -395,28 +397,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/mongo/tcpclient.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="tcpserver" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="Weshare" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/mongo" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/mongo/tcpserver.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -494,18 +474,18 @@
     <list>
       <item itemvalue="Python.run" />
       <item itemvalue="Python.test" />
-      <item itemvalue="Python.tcpserver" />
       <item itemvalue="Python.tcpclient" />
       <item itemvalue="Python.test1" />
       <item itemvalue="Python.utility" />
+      <item itemvalue="Python.Collection" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.Collection" />
         <item itemvalue="Python.utility" />
         <item itemvalue="Python.test1" />
         <item itemvalue="Python.test" />
         <item itemvalue="Python.tcpclient" />
-        <item itemvalue="Python.tcpserver" />
       </list>
     </recent_temporary>
   </component>
@@ -528,14 +508,7 @@
       <workItem from="1551176602312" duration="7940000" />
       <workItem from="1551232722953" duration="1103000" />
       <workItem from="1551248291252" duration="114000" />
-      <workItem from="1551267756176" duration="2958000" />
-    </task>
-    <task id="LOCAL-00046" summary="delete bug fix">
-      <created>1540911968262</created>
-      <option name="number" value="00046" />
-      <option name="presentableId" value="LOCAL-00046" />
-      <option name="project" value="LOCAL" />
-      <updated>1540911968262</updated>
+      <workItem from="1551267756176" duration="7744000" />
     </task>
     <task id="LOCAL-00047" summary="delete bug fix">
       <created>1540985797954</created>
@@ -873,11 +846,18 @@
       <option name="project" value="LOCAL" />
       <updated>1551248417592</updated>
     </task>
-    <option name="localTasksCounter" value="95" />
+    <task id="LOCAL-00095" summary="增加换行，uid自增">
+      <created>1551271568598</created>
+      <option name="number" value="00095" />
+      <option name="presentableId" value="LOCAL-00095" />
+      <option name="project" value="LOCAL" />
+      <updated>1551271568599</updated>
+    </task>
+    <option name="localTasksCounter" value="96" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="29746000" />
+    <option name="totallyTimeSpent" value="34532000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -892,12 +872,12 @@
     <frame x="0" y="0" width="1440" height="900" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16309012" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.16309012" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49426112" weight="0.27710843" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49426112" visible="true" weight="0.27710843" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3759036" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -1001,7 +981,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="文章支持tag搜索" />
     <MESSAGE value="图片上传搞定了" />
     <MESSAGE value="单个tag查询" />
     <MESSAGE value="get_user_info加一层头像的判断" />
@@ -1026,7 +1005,8 @@
     <MESSAGE value="创建Article类，实现以下类的方法，优化代码" />
     <MESSAGE value="初步完成聊天功能， 用restful形式编写接口" />
     <MESSAGE value="^_^" />
-    <option name="LAST_COMMIT_MESSAGE" value="^_^" />
+    <MESSAGE value="增加换行，uid自增" />
+    <option name="LAST_COMMIT_MESSAGE" value="增加换行，uid自增" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1037,23 +1017,16 @@
           <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/vue/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" selection-start-line="17" selection-end-line="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/functools.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="74" column="18" selection-start-line="74" selection-start-column="10" selection-end-line="74" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mongo/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -1344,16 +1317,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mongo/route/articles.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4500">
-          <caret line="306" selection-start-line="306" selection-end-line="306" />
-          <folding>
-            <element signature="e#43#53#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mongo/database/goods_db.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
@@ -1394,13 +1357,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mongo/models/Article.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="17" lean-forward="true" selection-start-column="17" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mongo/utility.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1573">
@@ -1418,10 +1374,47 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/mongo/route/articles.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2304">
+          <caret line="193" column="39" lean-forward="true" selection-start-line="193" selection-start-column="39" selection-end-line="193" selection-end-column="39" />
+          <folding>
+            <element signature="e#43#53#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mongo/models/Article.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="678">
+          <caret line="66" column="54" selection-start-line="66" selection-start-column="54" selection-end-line="66" selection-end-column="54" />
+          <folding>
+            <element signature="e#43#68#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mongo/models/Collection.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="463">
+          <caret line="37" selection-start-line="37" selection-end-line="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mongo/models/Like.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="313">
+          <caret line="42" lean-forward="true" selection-start-line="42" selection-end-line="42" />
+          <folding>
+            <element signature="e#43#68#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/mongo/database/articles_db.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
-          <caret line="401" column="17" lean-forward="true" selection-start-line="401" selection-start-column="17" selection-end-line="401" selection-end-column="17" />
+        <state relative-caret-position="413">
+          <caret line="383" column="9" selection-start-line="383" selection-start-column="9" selection-end-line="383" selection-end-column="9" />
           <folding>
             <element signature="e#43#68#0" expanded="true" />
           </folding>

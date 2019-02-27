@@ -194,7 +194,7 @@ def comments_functions():
         page = request.args.get('page')
         limit = request.args.get('limit')
         article_id = request.args.get('article_id')
-        result, length = articles_db.get_comments(article_id, page, limit, uid)
+        result, length = articles_db.get_comments(article_id, page, limit, int(uid))
         return jsonify({"comments": convert_to_json(result), "total": length}), 200
 
 

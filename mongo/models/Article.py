@@ -56,3 +56,12 @@ class Article:
         """
         return mongo_manager.remove_many(cls.collection,
                                          {'_id': ObjectId(_id) for _id in ids}).acknowledged
+
+    @classmethod
+    def find_count(cls, query):
+        """
+        查询满足条件的文章数量
+        :param query:
+        :return:
+        """
+        return mongo_manager.find_count(cls.collection, query)
