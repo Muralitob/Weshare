@@ -39,7 +39,8 @@ def delete_news_by_id(news_ids):
     :param news_ids:
     :return:
     """
-    return mongo_manager.remove_many(news_collection, {'_id': ObjectId(_id) for _id in news_ids}).acknowledged
+    return mongo_manager.remove_many(news_collection,
+                                     {'_id': ObjectId(_id) for _id in news_ids}).acknowledged
 
 
 def edit_one_new(new_id, data):
@@ -51,4 +52,5 @@ def edit_one_new(new_id, data):
     """
     data.pop('_id')
     data['update_time'] = get_this_time()
-    return mongo_manager.update_one(news_collection, {'_id': ObjectId(new_id)}, {"$set": data}).acknowledged
+    return mongo_manager.update_one(news_collection,
+                                    {'_id': ObjectId(new_id)}, {"$set": data}).acknowledged

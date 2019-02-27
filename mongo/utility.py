@@ -9,6 +9,7 @@ from bson import ObjectId
 from flask import request
 from datetime import datetime, timedelta
 from core_manager.mongo_manager import mongo_manager
+from pymongo import ReturnDocument
 
 ts = time.time()
 utc_offset = (datetime.fromtimestamp(ts) -
@@ -301,3 +302,46 @@ def percentage_calculate(divisor_a, divisor_b, bit=None):
     else:
         value = round(float(divisor_a) / divisor_b, bit) * 100
         return str(value) + '%'
+
+
+def get_next_id_sequence(table_type):
+    """
+    按表类型获取需要添加的ID
+    :param table_type:
+    :return:
+    """
+    type_result_dict = {
+        0: {'collection_name': "users",
+            'json_str': {},
+            'sort_str': [('uid', -1)],
+            'result': 'uid'}
+    }
+
+    type_dict = type_result_dict[table_type]
+    result = None
+    if type_dict:
+        try:
+            seq = 'seq'
+            if table_type in [0, 1, 2, 3, 4]:
+                seq = type_dict['result']
+            rtn = mongo_manager.find_one_and_update(
+                "seqs",
+                {'collection_name': type_dict['collection_name']},
+                {'$inc': {seq: 1}},
+                ReturnDocument.AFTER)
+            return rtn[seq]
+        except TypeError:
+            result = 1
+            one = list(mongo_manager.find_select_sort_limit(
+                type_dict['collection_name'], {}, {type_dict['result']: 1},
+                type_dict['sort_str'], 1))
+            if one:
+                for item in one:
+                    if item and item.get(type_dict['result']):
+                        result = int(item[type_dict['result']]) + 1
+
+            mongo_manager.save_one("seqs", {
+                'collection_name': type_dict['collection_name'],
+                'seq': result
+            })
+    return result

@@ -33,7 +33,8 @@ def delete_send_goods(goods_list):
     :param goods_list:
     :return:
     """
-    return mongo_manager.remove_many(goods_collection, {"_id": ObjectId(_id) for _id in goods_list})
+    return mongo_manager.remove_many(goods_collection,
+                                     {"_id": ObjectId(_id) for _id in goods_list})
 
 
 def edit_send_goods(data):
@@ -44,7 +45,8 @@ def edit_send_goods(data):
     """
     _id = data['_id']
     data.pop('_id')
-    return mongo_manager.update_one(goods_collection, {"_id": _id}, {"$set": data})
+    return mongo_manager.update_one(goods_collection,
+                                    {"_id": _id}, {"$set": data})
 
 
 def get_goods(uid, page, limit):
@@ -59,7 +61,8 @@ def get_goods(uid, page, limit):
     skip, limit = page_limit_skip(limit, page)
     if uid:
         query = {"uid": uid}
-    goods = list(mongo_manager.find_select(goods_collection, query, {"pic": 0}).skip(skip).limit(limit))
+    goods = list(mongo_manager.find_select(goods_collection, query,
+                                           {"pic": 0}).skip(skip).limit(limit))
     # for good in goods:
     #     if 'good_url' in good:
     #         basepath = os.path.dirname(__file__)  # 当前文件所在路径

@@ -12,7 +12,7 @@ from core_manager.mongo_manager import mongo_manager
 from models.User import User
 from models.Article import Article
 
-from utility import page_limit_skip, get_this_time
+from utility import page_limit_skip, get_this_time, get_next_id_sequence
 
 collcetions_collection = 'collections'
 like_collection = 'like_articles'
@@ -26,7 +26,7 @@ def register(data):
     :return:
     """
     data['level'] = '0002'
-    data['uid'] = list(mongo_manager.find_select_sort_limit('users', {}, {'uid': 1}, [('uid', -1)], 1))[0]['uid'] + 1
+    data['uid'] = get_next_id_sequence(0)
     data['major'] = ''
     data['nickname'] = data['account']
     data['birthday'] = ''
@@ -51,11 +51,19 @@ def login(data):
     user = User.query_one(data['account'])
     if user and user['pwd'] == data['pwd']:
         User.update_one(data['account'], {'login_time': get_this_time()})
-        encoded = jwt.encode(
-            {'account': user['account'], 'uid': str(user['uid']), 'organization': str(user['level']),
-             'update_time': str(get_this_time())}, 'secret', algorithm='HS256')
-        return_object = {'status': 'login success', 'code': 200, 'token': encoded,
-                         'account': user['account'], 'org': str(user['level']), 'uid': str(user['uid'])}
+        encoded = jwt.encode({
+            'account': user['account'],
+            'uid': str(user['uid']),
+            'organization': str(user['level']),
+            'update_time': str(get_this_time())},'secret', algorithm='HS256')
+        return_object = {
+            'status': 'login success',
+            'code': 200,
+            'token': encoded,
+            'account': user['account'],
+            'org': str(user['level']),
+            'uid': str(user['uid'])
+        }
         return return_object
     else:
         return False
@@ -92,7 +100,8 @@ def get_user_info(other_id, uid):
     #     avatar_url = basepath + 'static/uploads_user_photos/' + one['avatar_url']
     #     one['avatar_url'] = avatar_url
     if uid:
-        attention = mongo_manager.find_one(attention_collection, {'uid': uid, 'attention_uid': other_id})
+        attention = mongo_manager.find_one(attention_collection,
+                                           {'uid': uid, 'attention_uid': other_id})
         if attention:
             one['attentioned'] = True
         else:
@@ -138,14 +147,18 @@ def get_collections_by_uid(uid, page, limit):
     """
     skip, limit = page_limit_skip(limit, page)
     result = list(
-        mongo_manager.find(collcetions_collection, {'uid': uid}).skip(skip).limit(limit).sort([('create_time', -1)]))
+        mongo_manager.find(collcetions_collection,
+                           {'uid': uid}).skip(skip).limit(limit).sort([('create_time', -1)]))
     articles = []
     for item in result:
-        article = Article.query(item['article_id'])
-        article['col_num'] = mongo_manager.find_count(collcetions_collection, {'article_id': article['_id']})
-        article['like_num'] = mongo_manager.find_count(like_collection, {'article_id': article['_id']})
+        article = Article.query_by_id(item['article_id'])
+        article['col_num'] = mongo_manager.find_count(collcetions_collection,
+                                                      {'article_id': article['_id']})
+        article['like_num'] = mongo_manager.find_count(like_collection,
+                                                       {'article_id': article['_id']})
         articles.append(article)
-    length = mongo_manager.find_count(collcetions_collection, {'uid': uid})
+    length = mongo_manager.find_count(collcetions_collection,
+                                      {'uid': uid})
     return articles, length
 
 
@@ -161,7 +174,9 @@ def save_collection(uid, article_id):
     if collcetion:
         return False
     return mongo_manager.save_one(collcetions_collection,
-                                  {'uid': uid, 'article_id': ObjectId(article_id), 'create_time': get_this_time(),
+                                  {'uid': uid,
+                                   'article_id': ObjectId(article_id),
+                                   'create_time': get_this_time(),
                                    'update_time': get_this_time()}).acknowledged
 
 
@@ -173,9 +188,11 @@ def delete_collections(uid, article_ids):
     :return:
     """
     for article_id in article_ids:
-        article = mongo_manager.find_one(collcetions_collection, {'uid': uid, 'article_id': ObjectId(article_id)})
+        article = mongo_manager.find_one(collcetions_collection,
+                                         {'uid': uid, 'article_id': ObjectId(article_id)})
         if article:
-            mongo_manager.remove_one(collcetions_collection, {'uid': uid, 'article_id': ObjectId(article_id)})
+            mongo_manager.remove_one(collcetions_collection,
+                                     {'uid': uid, 'article_id': ObjectId(article_id)})
         else:
             return False
     return True
@@ -188,11 +205,13 @@ def add_attention(uid, attention_uid):
     :param attention_uid: 关注者id
     :return:
     """
-    is_attentions = mongo_manager.find_one(attention_collection, {'uid': uid, 'attention_uid': attention_uid})
+    is_attentions = mongo_manager.find_one(attention_collection,
+                                           {'uid': uid, 'attention_uid': attention_uid})
     if is_attentions:
         return False
     else:
-        return mongo_manager.save_one(attention_collection, {'uid': uid, 'attention_uid': attention_uid}).acknowledged
+        return mongo_manager.save_one(attention_collection,
+                                      {'uid': uid, 'attention_uid': attention_uid}).acknowledged
 
 
 def delete_attention(uid, attention_uid):
@@ -202,11 +221,13 @@ def delete_attention(uid, attention_uid):
     :param attention_uid: 关注者id
     :return:
     """
-    is_attentions = mongo_manager.find_one(attention_collection, {'uid': uid, 'attention_uid': attention_uid})
+    is_attentions = mongo_manager.find_one(attention_collection,
+                                           {'uid': uid, 'attention_uid': attention_uid})
     if not is_attentions:
         return False
     else:
-        return mongo_manager.remove_one(attention_collection, {'uid': uid, 'attention_uid': attention_uid}).acknowledged
+        return mongo_manager.remove_one(attention_collection,
+                                        {'uid': uid, 'attention_uid': attention_uid}).acknowledged
 
 
 def get_attentions(uid, page, limit):
@@ -218,7 +239,8 @@ def get_attentions(uid, page, limit):
     :return:
     """
     skip, limit = page_limit_skip(limit, page)
-    attentions = list(mongo_manager.find(attention_collection, {'uid': uid}).skip(skip).limit(limit))
+    attentions = list(mongo_manager.find(attention_collection,
+                                         {'uid': uid}).skip(skip).limit(limit))
     users = []
     for attention in attentions:
         user = User.query_one(attention['attention_uid'])
