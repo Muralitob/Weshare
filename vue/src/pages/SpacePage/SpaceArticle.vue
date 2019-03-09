@@ -9,7 +9,7 @@
           </div>
           <Col>
             <router-link to="/" class="author">
-              {{item.author || 'Mura'}}
+              {{item.article.nickname}}
             </router-link>
             <span>{{item.update_time}}</span>
           </Col>

@@ -285,9 +285,13 @@ def add_article_history(article_id, uid):
     :param uid:
     :return:
     """
-    return mongo_manager.save_one(article_history_collection,
-                                  {"article_id": ObjectId(article_id), "uid": uid,
-                                   "create_time": get_this_time()}).acknowledged
+    top_history = list(mongo_manager.find(article_history_collection, {"uid": uid}).sort([("create_time", -1)]))
+    if top_history and top_history[0].get("article_id") == ObjectId(article_id):
+        return True
+    else:
+        return mongo_manager.save_one(article_history_collection,
+                                      {"article_id": ObjectId(article_id), "uid": uid,
+                                       "create_time": get_this_time()}).acknowledged
 
 
 def get_article_history(page, limit, uid):
