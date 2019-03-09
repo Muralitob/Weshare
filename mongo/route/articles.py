@@ -62,7 +62,6 @@ def get_articles_by_uid():
 
 
 @articles.route('/get_articles_by_id', methods=['GET'])
-# @requires_auth
 def get_articles_by_id():
     """
     根据_id获取文章
@@ -71,11 +70,13 @@ def get_articles_by_id():
     token = request.headers.get('Authorization')
     if token:
         token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
-        uid = token['uid']
+        uid = int(token['uid'])
     else:
         uid = request.cookies.get('uid')
         if not uid:
             uid = None
+        else:
+            uid = int(uid)
     article_id = request.args.get('_id')
     result = articles_db.get_articles_by_id(article_id, uid)
     if result:
