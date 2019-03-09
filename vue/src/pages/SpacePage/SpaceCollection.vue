@@ -4,7 +4,7 @@
       <Row v-for="(item, index) in collection_Array" :key="index"  class="steam-list">
         <section>
           <div class="favs bookmark-rank">
-            0
+            {{item.col_num}}
             <span>收藏</span>
           </div>
           <Col>
