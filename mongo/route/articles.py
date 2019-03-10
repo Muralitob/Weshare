@@ -61,8 +61,8 @@ def get_articles_by_uid():
     return jsonify({"articles": convert_to_json(result), "total": length}), 200
 
 
-@articles.route('/get_articles_by_id', methods=['GET'])
-def get_articles_by_id():
+@articles.route('/get_article_by_id', methods=['GET'])
+def get_article_by_id():
     """
     根据_id获取文章
     :return:
@@ -78,11 +78,8 @@ def get_articles_by_id():
         else:
             uid = int(uid)
     article_id = request.args.get('_id')
-    result = articles_db.get_articles_by_id(article_id, uid)
-    if result:
-        return jsonify({"articles": convert_to_json(result)}), 200
-    else:
-        return jsonify({"message": "获取文章失败", "code": 105}), 404
+    result = articles_db.get_article_by_id(article_id, uid)
+    return jsonify({"articles": convert_to_json(result)}), 200
 
 
 @articles.route('/edit_article_by_id', methods=['POST'])
@@ -311,8 +308,9 @@ def announcements():
     if request.method == "GET":
         page = request.args.get("page")
         limit = request.args.get("limit")
-        announcements, total = articles_db.get_announcements(page, limit)
-        return make_response(jsonify({"announcements": convert_to_json(announcements), "total": total}), 200)
+        announcements_list, total = articles_db.get_announcements(page, limit)
+        return make_response(jsonify({"announcements": convert_to_json(announcements_list),
+                                      "total": total}), 200)
     elif request.method == "PUT":
         data = request.get_json()
         result = articles_db.edit_announcement(data)

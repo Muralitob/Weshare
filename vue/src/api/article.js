@@ -34,7 +34,7 @@ export default {
   },
   /**根据文章id获取文章详情 */
   async getArticleById(_id) {
-    return axios.get("/api/article/get_articles_by_id", {
+    return axios.get("/api/article/get_article_by_id", {
       params: {
         _id
       }
@@ -51,7 +51,7 @@ export default {
           data
         });
       case "put":
-        // return axios.put("/api/article/get_articles_by_id")
+        // return axios.put("/api/article/get_article_by_id")
         break;
       case "get": //获取评论
         return axios.get("/api/article/comment", {

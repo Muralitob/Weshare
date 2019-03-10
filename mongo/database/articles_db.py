@@ -55,7 +55,7 @@ def get_articles_by_uid(uid, category, page, limit):
     return result, length
 
 
-def get_articles_by_id(article_id, uid):
+def get_article_by_id(article_id, uid):
     """
     根据_id获取文章
     :param article_id:

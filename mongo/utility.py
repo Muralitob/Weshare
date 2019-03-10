@@ -345,3 +345,22 @@ def get_next_id_sequence(table_type):
                 'seq': result
             })
     return result
+
+
+def get_word_escape(keyword):
+    # #转义正则表达式特殊字符（$()*+.[]?\^{},|）
+    # fbsArr = [ "\\", "$", "(", ")", "*", "+", ".", "[", "]", "?", "^", "{", "}", "|"]
+    # for key in fbsArr:
+    #     if keyword.find(key)>=0:
+    #         keyword = keyword.replace(key, "\\"+key)
+    # return keyword
+    new_keyword = []
+    for item in keyword:
+        if item in ['*', '.', '?', '#', '+', '$', '^', '[', ']', '(', ')', '{',
+                    '}', '|', '\\', '/']:
+            item = '\\' + item
+            new_keyword.append(item)
+        else:
+            new_keyword.append(item)
+    keyword = ''.join(new_keyword)
+    return keyword

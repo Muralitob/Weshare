@@ -4,7 +4,6 @@ __author__:cjhcw
 """
 from flask import Blueprint, request, jsonify
 
-from database.users_db import requires_auth
 from database import news_db
 
 from utility import convert_to_json
@@ -12,9 +11,7 @@ from utility import convert_to_json
 news = Blueprint("news", __name__, url_prefix='/api/news')
 
 
-# restful-API
 @news.route('/news', methods=['POST', 'GET', 'DELETE', 'PUT'])
-# @requires_auth
 def news_functions():
     """
     POST创建一条新闻,
