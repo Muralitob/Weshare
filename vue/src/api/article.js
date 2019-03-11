@@ -17,7 +17,7 @@ export default {
   },
   /**删除文章 data为文章_id数组 */
   async deleteArticles(data) {
-    return axios.delete("/api/article/delete_article_by_id", {
+    return axios.delete("/api/article/delete_article_by_ids", {
       data
     });
   },

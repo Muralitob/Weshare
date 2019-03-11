@@ -34,7 +34,7 @@ def delete_send_goods(goods_list):
     :return:
     """
     return mongo_manager.remove_many(goods_collection,
-                                     {"_id": ObjectId(_id) for _id in goods_list})
+                                     {"_id": {"$in": [ObjectId(_id) for _id in goods_list]}}).acknowledged
 
 
 def edit_send_goods(data):
@@ -46,7 +46,7 @@ def edit_send_goods(data):
     _id = data['_id']
     data.pop('_id')
     return mongo_manager.update_one(goods_collection,
-                                    {"_id": _id}, {"$set": data})
+                                    {"_id": _id}, {"$set": data}).acknowledged
 
 
 def get_goods(uid, page, limit):
@@ -63,11 +63,6 @@ def get_goods(uid, page, limit):
         query = {"uid": uid}
     goods = list(mongo_manager.find_select(goods_collection, query,
                                            {"pic": 0}).skip(skip).limit(limit))
-    # for good in goods:
-    #     if 'good_url' in good:
-    #         basepath = os.path.dirname(__file__)  # 当前文件所在路径
-    #         good_url = basepath + 'static/uploads_goods_photo/' + good['good_url']
-    #         good["good_url"] = good_url
     length = mongo_manager.find_count(goods_collection, {"uid": uid})
     return goods, length
 
@@ -78,4 +73,7 @@ def get_good_by_id(good_id):
     :param good_id: 商品id
     :return:
     """
-    return get_object(goods_collection, good_id)
+    good = get_object(goods_collection, good_id)
+    user = User.query_one_by_uid(good["uid"])
+    good["user"] = user
+    return good

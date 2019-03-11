@@ -2,19 +2,37 @@
 """
 __author__:cjhcw
 """
-import os
+import hashlib
 import jwt
-from bson import ObjectId
-from werkzeug.utils import secure_filename
-from flask import Blueprint, request, jsonify, make_response
+import bson.binary
+import bson.errors
+import bson.objectid
+from pymongo import errors
+
+from flask import Blueprint, request, jsonify, make_response, abort
 
 from core_manager.mongo_manager import mongo_manager
 from database.users_db import requires_auth
 from database import goods_db
 
-from utility import convert_to_json
+from utility import convert_to_json, get_this_time
 
 goods = Blueprint("goods", __name__, url_prefix='/api/goods')
+
+
+def save_file_base64(base64_f):
+    sha1 = hashlib.sha1(base64_f).hexdigest()
+    c = dict(
+        content=base64_f,
+        mime="png",
+        time=get_this_time(),
+        sha1=sha1,
+    )
+    try:
+        mongo_manager.save('files', c)
+    except errors.DuplicateKeyError:
+        pass
+    return sha1
 
 
 @goods.route('/send_goods', methods=['POST', 'DELETE', 'PUT'])
@@ -74,8 +92,8 @@ def get_goods():
             uid = request.cookies.get('uid')
             if not uid:
                 uid = None
-    goods, length = goods_db.get_goods(int(uid), page, limit)
-    return jsonify({"goods": convert_to_json(goods), "total": length}), 200
+    goods_list, length = goods_db.get_goods(int(uid), page, limit)
+    return jsonify({"goods": convert_to_json(goods_list), "total": length}), 200
 
 
 @goods.route('/save_good_photo', methods=['POST'])
@@ -91,15 +109,11 @@ def save_good_photo():
         # 表示用户没有上传商品照片
         return make_response(jsonify({"message": "未上传商品照片", "code": 407}), 404)
 
-    # basepath = os.path.dirname(__file__)  # 当前文件所在路径
-    # upload_path = os.path.join(basepath, 'static/uploads_goods_photo',
-    #                            uid + "_" + secure_filename(image_file.filename))
-    # image_file.save(upload_path)
-
     import base64
     # 将文件名信息保存到数据库中
     bs4 = base64.b64encode(image_file.read())
-    return make_response(jsonify({"message": "图片信息", "code": 408, "good_base64": bs4}), 200)
+    sha1 = save_file_base64(bs4)
+    return make_response(jsonify({"message": "图片信息", "code": 408, "good_base64": bs4, "sha1": sha1}), 200)
 
 
 @goods.route('/get_good_by_id', methods=["GET"])
@@ -111,3 +125,12 @@ def get_good_by_id():
     good_id = request.args.get("good_id")
     result = goods_db.get_good_by_id(good_id)
     return make_response(jsonify({"good": convert_to_json(result)}), 200)
+
+
+@goods.route('/f_base64/<sha1>', methods=['GET'])
+def serve_file_base64(sha1):
+    try:
+        f = mongo_manager.find_one('files', {'sha1': sha1})
+        return make_response(jsonify({'response': f["content"]}), 200)
+    except bson.errors.InvalidId:
+        abort(404)

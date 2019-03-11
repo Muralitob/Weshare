@@ -97,15 +97,15 @@ def edit_article_by_id():
         return jsonify({"message": "保存文章失败", "code": 107}), 404
 
 
-@articles.route('/delete_article_by_id', methods=['DELETE'])
+@articles.route('/delete_article_by_ids', methods=['DELETE'])
 @requires_auth
-def delete_article_by_id():
+def delete_article_by_ids():
     """
     批量删除文章
     :return:
     """
     data = request.get_json()
-    result = articles_db.delete_article_by_id(data)
+    result = articles_db.delete_article_by_ids(data)
     if result:
         return jsonify({"message": "删除文章成功", "code": 108}), 200
     else:
@@ -338,7 +338,7 @@ def announcements():
 @articles.route('/get_hot_articles', methods=["GET"])
 def get_hot_articles():
     """
-
+    获取最热门的top10文章
     :return:
     """
     uid = request.args.get('uid')

@@ -17,6 +17,7 @@ from route.chats import chats
 sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 
 app = Flask(__name__, static_url_path='', static_folder='../uploads')
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 api = Api(app)
 CORS(app, supports_credentials=True)
 
