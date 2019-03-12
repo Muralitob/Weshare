@@ -85,27 +85,27 @@ export default {
       },
       degree: [
         {
-          value: '0',
+          value: 10,
           label: '全新',
         },
         {
-          value: "9",
+          value: 9,
           label: "九成新"
         },
         {
-          value: "8",
+          value: 8,
           label: "八成新"
         },
         {
-          value: "7",
+          value: 7,
           label: "七成新"
         },
         {
-          value: "6",
+          value: 6,
           label: "六成新"
         },
         {
-          value: "5",
+          value: 5,
           label: "五成新及以下"
         }
       ],

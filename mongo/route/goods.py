@@ -77,11 +77,30 @@ def send_goods():
 @goods.route('/get_goods', methods=["GET"])
 def get_goods():
     """
-
+    获取商品列表
     :return:
     """
     page = request.args.get("page")
     limit = request.args.get("limit")
+    keyword = request.args.get("keyword")
+    good_type = request.args.get("type")
+    degree = request.args.get("degree")
+    goods_list, length = goods_db.get_goods(keyword, good_type, degree, page, limit)
+    return jsonify({"goods": convert_to_json(goods_list), "total": length}), 200
+
+
+@goods.route('/get_goods_by_uid', methods=["GET"])
+@requires_auth
+def get_goods_by_uid():
+    """
+    获取用户自己的商品列表
+    :return:
+    """
+    page = request.args.get("page")
+    limit = request.args.get("limit")
+    keyword = request.args.get("keyword")
+    good_type = request.args.get("type")
+    degree = request.args.get("degree")
     uid = request.args.get("uid")
     if not uid:
         token = request.headers.get('Authorization')
@@ -92,7 +111,7 @@ def get_goods():
             uid = request.cookies.get('uid')
             if not uid:
                 uid = None
-    goods_list, length = goods_db.get_goods(int(uid), page, limit)
+    goods_list, length = goods_db.get_goods_by_uid(int(uid), keyword, good_type, degree, page, limit)
     return jsonify({"goods": convert_to_json(goods_list), "total": length}), 200
 
 
