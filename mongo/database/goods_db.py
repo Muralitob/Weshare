@@ -7,7 +7,7 @@ from bson import ObjectId
 
 from core_manager.mongo_manager import mongo_manager
 from models.User import User
-from models.redis_cache import redis_cache
+# from models.redis_cache import redis_cache
 
 from utility import page_limit_skip, get_this_time, get_object, get_word_escape
 
