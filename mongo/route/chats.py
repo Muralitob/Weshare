@@ -13,7 +13,7 @@ from database import chats_db
 
 from utility import convert_to_json
 
-chats = api.namespace('chat', description="chat with somebody")
+chats = api.namespace('api/chat', description="chat with somebody")
 
 
 @chats.route('/chat')

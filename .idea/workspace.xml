@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5e9a0fd0-261a-4c9f-84b5-3ffa10777b6c" name="Default" comment="聊天 增加无聊天记录的判断">
+    <list default="true" id="5e9a0fd0-261a-4c9f-84b5-3ffa10777b6c" name="Default" comment="去掉redis">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mongo/database/goods_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/mongo/database/goods_db.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mongo/route/chats.py" beforeDir="false" afterPath="$PROJECT_DIR$/mongo/route/chats.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -21,7 +21,7 @@
     <SUITE FILE_PATH="coverage/Weshare$config.coverage" NAME="config Coverage Results" MODIFIED="1536639551076" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo/core_manager/mongo_manager" />
     <SUITE FILE_PATH="coverage/Weshare$goods_db.coverage" NAME="goods_db Coverage Results" MODIFIED="1543144519675" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo/database" />
     <SUITE FILE_PATH="coverage/Weshare$utility.coverage" NAME="utility Coverage Results" MODIFIED="1551269726523" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo" />
-    <SUITE FILE_PATH="coverage/Weshare$run.coverage" NAME="run Coverage Results" MODIFIED="1552889857424" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo" />
+    <SUITE FILE_PATH="coverage/Weshare$run.coverage" NAME="run Coverage Results" MODIFIED="1552890656437" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo" />
     <SUITE FILE_PATH="coverage/Weshare$test1.coverage" NAME="test1 Coverage Results" MODIFIED="1552230713882" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo" />
     <SUITE FILE_PATH="coverage/Weshare$Unnamed.coverage" NAME="Unnamed Coverage Results" MODIFIED="1537187267460" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo" />
     <SUITE FILE_PATH="coverage/Weshare$articles_db.coverage" NAME="articles_db Coverage Results" MODIFIED="1541342838051" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo/database" />
@@ -51,7 +51,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mongo/route/goods.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2130">
+            <state relative-caret-position="468">
               <caret line="155" selection-start-line="155" selection-end-line="155" />
               <folding>
                 <element signature="e#43#57#0" expanded="true" />
@@ -60,32 +60,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/mongo/database/goods_db.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="319">
-              <caret line="117" column="23" lean-forward="true" selection-start-line="117" selection-start-column="23" selection-end-line="117" selection-end-column="23" />
-              <folding>
-                <element signature="e#43#52#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mongo/models/redis_cache.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1140">
-              <caret line="80" lean-forward="true" selection-start-line="80" selection-end-line="80" />
+            <state relative-caret-position="362">
+              <caret line="81" column="32" lean-forward="true" selection-start-line="81" selection-start-column="32" selection-end-line="81" selection-end-column="32" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mongo/route/chats.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="273">
-              <caret line="61" column="30" lean-forward="true" selection-start-line="61" selection-start-column="30" selection-end-line="61" selection-end-column="30" />
+            <state relative-caret-position="300">
+              <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
               <folding>
                 <element signature="e#43#78#0" expanded="true" />
               </folding>
@@ -221,10 +209,10 @@
         <option value="$PROJECT_DIR$/vue/src/pages/Used/UsedRelease.vue" />
         <option value="$PROJECT_DIR$/mongo/core_manager/mongo_manager/config.ini" />
         <option value="$PROJECT_DIR$/mongo/core_manager/mongo_manager/config.py" />
-        <option value="$PROJECT_DIR$/mongo/models/redis_cache.py" />
-        <option value="$PROJECT_DIR$/mongo/route/chats.py" />
         <option value="$PROJECT_DIR$/mongo/database/chats_db.py" />
+        <option value="$PROJECT_DIR$/mongo/models/redis_cache.py" />
         <option value="$PROJECT_DIR$/mongo/database/goods_db.py" />
+        <option value="$PROJECT_DIR$/mongo/route/chats.py" />
       </list>
     </option>
   </component>
@@ -589,21 +577,7 @@
       <workItem from="1552271592093" duration="12744000" />
       <workItem from="1552382329972" duration="2624000" />
       <workItem from="1552444311547" duration="4338000" />
-      <workItem from="1552889198092" duration="961000" />
-    </task>
-    <task id="LOCAL-00059" summary="history fix">
-      <created>1541342864952</created>
-      <option name="number" value="00059" />
-      <option name="presentableId" value="LOCAL-00059" />
-      <option name="project" value="LOCAL" />
-      <updated>1541342864952</updated>
-    </task>
-    <task id="LOCAL-00060" summary="获取用户信息">
-      <created>1541429140611</created>
-      <option name="number" value="00060" />
-      <option name="presentableId" value="LOCAL-00060" />
-      <option name="project" value="LOCAL" />
-      <updated>1541429140611</updated>
+      <workItem from="1552889198092" duration="1562000" />
     </task>
     <task id="LOCAL-00061" summary="获取用户信息">
       <created>1541479441839</created>
@@ -934,11 +908,25 @@
       <option name="project" value="LOCAL" />
       <updated>1552889926685</updated>
     </task>
-    <option name="localTasksCounter" value="108" />
+    <task id="LOCAL-00108" summary="去掉redis">
+      <created>1552890390779</created>
+      <option name="number" value="00108" />
+      <option name="presentableId" value="LOCAL-00108" />
+      <option name="project" value="LOCAL" />
+      <updated>1552890390780</updated>
+    </task>
+    <task id="LOCAL-00109" summary="去掉redis">
+      <created>1552890670681</created>
+      <option name="number" value="00109" />
+      <option name="presentableId" value="LOCAL-00109" />
+      <option name="project" value="LOCAL" />
+      <updated>1552890670681</updated>
+    </task>
+    <option name="localTasksCounter" value="110" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="74054000" />
+    <option name="totallyTimeSpent" value="74655000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -953,22 +941,22 @@
     <frame x="0" y="0" width="1440" height="900" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18597998" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18597998" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.48426324" visible="true" weight="0.38072288" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.48426324" weight="0.38072288" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49928468" weight="0.3746988" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32889965" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.50500715" side_tool="true" weight="0.3698795" />
       <window_info anchor="bottom" id="Python Console" order="8" weight="0.32889965" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49499285" weight="0.11686747" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49499285" weight="0.6759036" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="CSS-X-Fire" order="11" weight="0.32889965" />
-      <window_info anchor="bottom" id="Version Control" order="12" sideWeight="0.47496423" weight="0.3433735" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="12" sideWeight="0.47496423" visible="true" weight="0.3433735" />
       <window_info anchor="bottom" id="Database Changes" order="13" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -1073,7 +1061,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="上传完照片返回base64" />
     <MESSAGE value="完成商品多张图片上传" />
     <MESSAGE value="自己的文章倒序排列" />
     <MESSAGE value="package 顺序调整" />
@@ -1098,7 +1085,8 @@
     <MESSAGE value="商品增加过来条件，增加获取用户自己发布的商品" />
     <MESSAGE value="redis+聊天" />
     <MESSAGE value="聊天 增加无聊天记录的判断" />
-    <option name="LAST_COMMIT_MESSAGE" value="聊天 增加无聊天记录的判断" />
+    <MESSAGE value="去掉redis" />
+    <option name="LAST_COMMIT_MESSAGE" value="去掉redis" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1481,16 +1469,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mongo/route/goods.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2130">
-          <caret line="155" selection-start-line="155" selection-end-line="155" />
-          <folding>
-            <element signature="e#43#57#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mongo/database/chats_db.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="690">
@@ -1501,29 +1479,39 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mongo/route/chats.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="61" column="30" lean-forward="true" selection-start-line="61" selection-start-column="30" selection-end-line="61" selection-end-column="30" />
-          <folding>
-            <element signature="e#43#78#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mongo/models/redis_cache.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1140">
-          <caret line="80" lean-forward="true" selection-start-line="80" selection-end-line="80" />
+        <state relative-caret-position="362">
+          <caret line="81" column="32" lean-forward="true" selection-start-line="81" selection-start-column="32" selection-end-line="81" selection-end-column="32" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mongo/database/goods_db.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="319">
-          <caret line="117" column="23" lean-forward="true" selection-start-line="117" selection-start-column="23" selection-end-line="117" selection-end-column="23" />
+        <state relative-caret-position="495">
+          <caret line="33" column="34" lean-forward="true" selection-start-line="33" selection-start-column="34" selection-end-line="33" selection-end-column="34" />
           <folding>
             <element signature="e#43#52#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mongo/route/goods.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="468">
+          <caret line="155" selection-start-line="155" selection-end-line="155" />
+          <folding>
+            <element signature="e#43#57#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mongo/route/chats.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
+          <folding>
+            <element signature="e#43#78#0" expanded="true" />
           </folding>
         </state>
       </provider>
