@@ -3,7 +3,7 @@
     <div  class="top__user" v-if="Token">
       <Dropdown trigger="click">
         <div class="user_avator">
-          <Avatar  style="background-color: #87d068" icon="ios-person" />
+          <Avatar :src="user_info.avatar_url"  style="background-color: #87d068" icon="ios-person" />
           <span class="nickname">
             {{user_info.nickname}}
           </span>
@@ -65,13 +65,17 @@ export default {
         return this.$store.state.UserSetting.token;
       },
       set() {
-        
+
       }
     }
   },
   mounted () {
     api.getMyUserInfo().then(({data})=> {
-      this.user_info = data
+      this.user_info =  {
+          nickname: data.nickname,
+          sign: data.sign,
+          avatar_url: `data:image/png;base64,${data.avatar_base64}`
+        };
     }).catch(err => {
       console.log(err)
     })
