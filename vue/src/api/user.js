@@ -18,7 +18,7 @@ export default {
     return axios.get("/api/user/get_me_info");
   },
   async editUserInfo(data) {
-    return axios.post("/api/user/edit_user_info", data);
+    return axios.put("/api/user/user", data);
   },
   /**收藏文章方法 restful-api */
   async collectionFun(types, data, page, limit = 10, uid) {

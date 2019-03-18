@@ -12,8 +12,9 @@ from core_manager.mongo_manager import mongo_manager
 from models.User import User
 from models.Article import Article
 
-from utility import page_limit_skip, get_this_time, get_next_id_sequence
+from utility import page_limit_skip, get_this_time, get_next_id_sequence, get_word_escape
 
+user_collection = 'users'
 collcetions_collection = 'collections'
 like_collection = 'like_articles'
 attention_collection = 'attentions'
@@ -55,7 +56,7 @@ def login(data):
             'account': user['account'],
             'uid': str(user['uid']),
             'organization': str(user['level']),
-            'update_time': str(get_this_time())},'secret', algorithm='HS256')
+            'update_time': str(get_this_time())}, 'secret', algorithm='HS256')
         return_object = {
             'status': 'login success',
             'code': 200,
@@ -248,3 +249,45 @@ def get_attentions(uid, page, limit):
             users.append(user)
     count = mongo_manager.find_count(attention_collection, {'uid': uid})
     return users, count
+
+
+def search_user(keyword):
+    """
+    账号或昵称关键词
+    :param keyword:
+    :return:
+    """
+    if keyword:
+        keyword = get_word_escape(keyword)
+        query = {"$or": [{"account": {"$regex": keyword}},
+                         {"nickname": {"$regex": keyword}}]}
+        user_list = list(mongo_manager.find(user_collection, query))
+        total = mongo_manager.find_count(user_collection, query)
+    else:
+        user_list = list(mongo_manager.find(user_collection, {}))
+        total = mongo_manager.find_count(user_collection, {})
+    return user_list, total
+
+
+def reset_password_from_admin(token, uid, pwd):
+    """
+    管理员重置密码 用于用户找回密码
+    :param token:
+    :param uid: 用户id
+    :param pwd: md5格式的数据
+    :return:
+    """
+    if token:
+        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+        if token["level"] == "0001":
+            return mongo_manager.update_one(user_collection, {"uid": uid}, {"$set": {"pwd": pwd}}).acknowledged
+    return False
+
+
+def delete_users(uids):
+    """
+    要删除的id的list
+    :param uids: 用户id
+    :return:
+    """
+    return mongo_manager.remove_many(user_collection, {"uid": {"$in": uids}}).acknowledged

@@ -19,6 +19,8 @@ def create_new_news(data):
     """
     data['create_time'] = get_this_time()
     data['update_time'] = get_this_time()
+    data['origin'] = "教学在线"
+    data['read_num'] = 0
     return mongo_manager.save_one(news_collection, data).acknowledged
 
 
@@ -28,7 +30,7 @@ def get_all_news(page, limit):
     :return:
     """
     skip, limit = page_limit_skip(limit, page)
-    news_list = list(mongo_manager.find(news_collection, {}).skip(skip).limit(limit))
+    news_list = list(mongo_manager.find(news_collection, {}).sort([("create_time", -1)]).skip(skip).limit(limit))
     length = mongo_manager.find_count(news_collection, {})
     return news_list, length
 
@@ -39,8 +41,9 @@ def delete_news_by_id(news_ids):
     :param news_ids:
     :return:
     """
+    news_ids = [ObjectId(i) for i in news_ids]
     return mongo_manager.remove_many(news_collection,
-                                     {'_id': ObjectId(_id) for _id in news_ids}).acknowledged
+                                     {"_id": {"$in": news_ids}}).acknowledged
 
 
 def edit_one_new(new_id, data):
@@ -54,3 +57,14 @@ def edit_one_new(new_id, data):
     data['update_time'] = get_this_time()
     return mongo_manager.update_one(news_collection,
                                     {'_id': ObjectId(new_id)}, {"$set": data}).acknowledged
+
+
+def get_an_new(_id):
+    """
+    获取单条新闻
+    :param _id:
+    :return:
+    """
+    new = mongo_manager.find_one(news_collection, {"_id": ObjectId(_id)})
+    mongo_manager.update_one(news_collection, {"_id": ObjectId(_id)}, {"$set": {"read_num": new["read_num"] + 1}})
+    return new

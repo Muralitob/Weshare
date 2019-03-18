@@ -33,8 +33,10 @@ def create_new_article(data):
     data['read_num'] = 0
     user = User.query_one_by_uid(data["article"]["uid"])
     data['article']['nickname'] = user['nickname']
-    # if not data['article']['nickname']:
-    #     data['article']['nickname'] = user["account"]
+    if "baiduyun_url" not in data:
+        data["baiduyun_url"] = ""
+    if "baiduyun_pwd" not in data:
+        data["baiduyun_pwd"] = ""
     return Article.save(data)
 
 
@@ -55,7 +57,7 @@ def get_articles_by_uid(uid, category, page, limit):
     return result, length
 
 
-def get_articles_by_id(article_id, uid):
+def get_article_by_id(article_id, uid):
     """
     根据_id获取文章
     :param article_id:
@@ -87,7 +89,7 @@ def edit_article_by_id(article):
     return False
 
 
-def delete_article_by_id(article_ids):
+def delete_article_by_ids(article_ids):
     """
     批量删除文章
     :param article_ids:
@@ -147,7 +149,7 @@ def get_real_articles(tag, keyword, page, limit, uid):
         query['article.title'] = {'$regex': keyword}
     skip, limit = page_limit_skip(limit, page)
     result = list(mongo_manager.find(articles_collection,
-                                     query).skip(skip).limit(limit).sort([("create_time", -1)]))
+                                     query).sort([("create_time", -1)]).skip(skip).limit(limit))
     if uid:
         for article in result:
             if uid:
@@ -202,8 +204,8 @@ def get_comments(article_id, page, limit, uid):
     """
     skip, limit = page_limit_skip(limit, page)
     result = list(
-        mongo_manager.find(comments_collection, {'parent_id': ObjectId(article_id)}).skip(skip).limit(limit).sort(
-            [("comment_time", -1)]))
+        mongo_manager.find(comments_collection, {'parent_id': ObjectId(article_id)}).sort([("comment_time", -1)]).skip(
+            skip).limit(limit))
     for item in result:
         item["comments"] = get_comments_from_front(uid, item["_id"])
     length = mongo_manager.find_count(comments_collection, {'parent_id': ObjectId(article_id)})
@@ -271,9 +273,13 @@ def like_comment(_id, add, uid):
         if not delete:
             return delete
     else:
-        add_add = mongo_manager.save_one(like_comment_collection, {"uid": uid, "comment": ObjectId(_id)})
-        if not add_add:
-            return add_add
+        existed_like = mongo_manager.find_one(like_comment_collection, {"uid": uid, "comment": ObjectId(_id)})
+        if not existed_like:
+            add_add = mongo_manager.save_one(like_comment_collection, {"uid": uid, "comment": ObjectId(_id)})
+            if not add_add:
+                return add_add
+        else:
+            return False
     comment = {"$set": {'like_num': old_comment['like_num'] + add}}
     return mongo_manager.update_one(comments_collection, query, comment).acknowledged
 
@@ -285,9 +291,13 @@ def add_article_history(article_id, uid):
     :param uid:
     :return:
     """
-    return mongo_manager.save_one(article_history_collection,
-                                  {"article_id": ObjectId(article_id), "uid": uid,
-                                   "create_time": get_this_time()}).acknowledged
+    top_history = list(mongo_manager.find(article_history_collection, {"uid": uid}).sort([("create_time", -1)]))
+    if top_history and top_history[0].get("article_id") == ObjectId(article_id):
+        return True
+    else:
+        return mongo_manager.save_one(article_history_collection,
+                                      {"article_id": ObjectId(article_id), "uid": uid,
+                                       "create_time": get_this_time()}).acknowledged
 
 
 def get_article_history(page, limit, uid):
@@ -300,7 +310,7 @@ def get_article_history(page, limit, uid):
     """
     skip, limit = page_limit_skip(limit, page)
     result = list(mongo_manager.find(article_history_collection,
-                                     {"uid": uid}).skip(skip).limit(limit).sort([("create_time", -1)]))
+                                     {"uid": uid}).sort([("create_time", -1)]).skip(skip).limit(limit))
     articles_history = []
     for item in result:
         article = Article.query_by_id(item["article_id"])
@@ -318,7 +328,8 @@ def get_announcements(page, limit):
     :return:
     """
     skip, limit = page_limit_skip(limit, page)
-    announcements = list(mongo_manager.find_skip_limit(announcements_collection, {}, skip, limit))
+    announcements = list(
+        mongo_manager.find_sort_skip_limit(announcements_collection, {}, [("create_time", -1)], skip, limit))
     count = mongo_manager.find_count(announcements_collection, {})
     return announcements, count
 
@@ -341,7 +352,7 @@ def delete_announcements(_ids):
     :return:
     """
     return mongo_manager.remove_many(announcements_collection,
-                                     {"_id": ObjectId(_id) for _id in _ids}).acknowledged
+                                     {"_id": {"$in": [ObjectId(_id) for _id in _ids]}}).acknowledged
 
 
 def add_announcement(data):

@@ -55,7 +55,7 @@ class Article:
         :return:
         """
         return mongo_manager.remove_many(cls.collection,
-                                         {'_id': ObjectId(_id) for _id in ids}).acknowledged
+                                         {'_id': {"$in": [ObjectId(_id) for _id in ids]}}).acknowledged
 
     @classmethod
     def find_count(cls, query):

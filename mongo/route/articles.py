@@ -61,9 +61,8 @@ def get_articles_by_uid():
     return jsonify({"articles": convert_to_json(result), "total": length}), 200
 
 
-@articles.route('/get_articles_by_id', methods=['GET'])
-# @requires_auth
-def get_articles_by_id():
+@articles.route('/get_article_by_id', methods=['GET'])
+def get_article_by_id():
     """
     根据_id获取文章
     :return:
@@ -71,17 +70,16 @@ def get_articles_by_id():
     token = request.headers.get('Authorization')
     if token:
         token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
-        uid = token['uid']
+        uid = int(token['uid'])
     else:
         uid = request.cookies.get('uid')
         if not uid:
             uid = None
+        else:
+            uid = int(uid)
     article_id = request.args.get('_id')
-    result = articles_db.get_articles_by_id(article_id, uid)
-    if result:
-        return jsonify({"articles": convert_to_json(result)}), 200
-    else:
-        return jsonify({"message": "获取文章失败", "code": 105}), 404
+    result = articles_db.get_article_by_id(article_id, uid)
+    return jsonify({"articles": convert_to_json(result)}), 200
 
 
 @articles.route('/edit_article_by_id', methods=['POST'])
@@ -99,15 +97,15 @@ def edit_article_by_id():
         return jsonify({"message": "保存文章失败", "code": 107}), 404
 
 
-@articles.route('/delete_article_by_id', methods=['DELETE'])
+@articles.route('/delete_article_by_ids', methods=['DELETE'])
 @requires_auth
-def delete_article_by_id():
+def delete_article_by_ids():
     """
     批量删除文章
     :return:
     """
     data = request.get_json()
-    result = articles_db.delete_article_by_id(data)
+    result = articles_db.delete_article_by_ids(data)
     if result:
         return jsonify({"message": "删除文章成功", "code": 108}), 200
     else:
@@ -310,8 +308,9 @@ def announcements():
     if request.method == "GET":
         page = request.args.get("page")
         limit = request.args.get("limit")
-        announcements, total = articles_db.get_announcements(page, limit)
-        return make_response(jsonify({"announcements": convert_to_json(announcements), "total": total}), 200)
+        announcements_list, total = articles_db.get_announcements(page, limit)
+        return make_response(jsonify({"announcements": convert_to_json(announcements_list),
+                                      "total": total}), 200)
     elif request.method == "PUT":
         data = request.get_json()
         result = articles_db.edit_announcement(data)
@@ -339,7 +338,7 @@ def announcements():
 @articles.route('/get_hot_articles', methods=["GET"])
 def get_hot_articles():
     """
-
+    获取最热门的top10文章
     :return:
     """
     uid = request.args.get('uid')

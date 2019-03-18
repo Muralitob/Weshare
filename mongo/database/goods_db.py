@@ -8,7 +8,7 @@ from bson import ObjectId
 from core_manager.mongo_manager import mongo_manager
 from models.User import User
 
-from utility import page_limit_skip, get_this_time, get_object
+from utility import page_limit_skip, get_this_time, get_object, get_word_escape
 
 goods_collection = "goods"
 
@@ -34,7 +34,7 @@ def delete_send_goods(goods_list):
     :return:
     """
     return mongo_manager.remove_many(goods_collection,
-                                     {"_id": ObjectId(_id) for _id in goods_list})
+                                     {"_id": {"$in": [ObjectId(_id) for _id in goods_list]}}).acknowledged
 
 
 def edit_send_goods(data):
@@ -46,13 +46,40 @@ def edit_send_goods(data):
     _id = data['_id']
     data.pop('_id')
     return mongo_manager.update_one(goods_collection,
-                                    {"_id": _id}, {"$set": data})
+                                    {"_id": _id}, {"$set": data}).acknowledged
 
 
-def get_goods(uid, page, limit):
+def get_goods(keyword, good_type, degree, page, limit):
     """
     获取商品列表
+    :param keyword:
+    :param good_type:
+    :param degree:
+    :param page:
+    :param limit:
+    :return:
+    """
+    query = {}
+    skip, limit = page_limit_skip(limit, page)
+    if keyword:
+        query["title"] = {"$regex": get_word_escape(keyword)}
+    if good_type:
+        query["type"] = good_type
+    if degree:
+        query["degree"] = int(degree)
+    goods = list(mongo_manager.find_select(goods_collection, query,
+                                           {"pic": 0}).skip(skip).limit(limit))
+    length = mongo_manager.find_count(goods_collection, query)
+    return goods, length
+
+
+def get_goods_by_uid(uid, keyword, good_type, degree, page, limit):
+    """
+    获取用户自己的商品列表
     :param uid:
+    :param keyword:
+    :param good_type:
+    :param degree:
     :param page:
     :param limit:
     :return:
@@ -60,15 +87,16 @@ def get_goods(uid, page, limit):
     query = {}
     skip, limit = page_limit_skip(limit, page)
     if uid:
-        query = {"uid": uid}
+        query["uid"] = uid
+    if keyword:
+        query["title"] = {"$regex": get_word_escape(keyword)}
+    if good_type:
+        query["type"] = good_type
+    if degree:
+        query["degree"] = int(degree)
     goods = list(mongo_manager.find_select(goods_collection, query,
                                            {"pic": 0}).skip(skip).limit(limit))
-    # for good in goods:
-    #     if 'good_url' in good:
-    #         basepath = os.path.dirname(__file__)  # 当前文件所在路径
-    #         good_url = basepath + 'static/uploads_goods_photo/' + good['good_url']
-    #         good["good_url"] = good_url
-    length = mongo_manager.find_count(goods_collection, {"uid": uid})
+    length = mongo_manager.find_count(goods_collection, query)
     return goods, length
 
 
@@ -78,4 +106,7 @@ def get_good_by_id(good_id):
     :param good_id: 商品id
     :return:
     """
-    return get_object(goods_collection, good_id)
+    good = get_object(goods_collection, good_id)
+    user = User.query_one_by_uid(good["uid"])
+    good["user"] = user
+    return good

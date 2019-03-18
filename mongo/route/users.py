@@ -85,29 +85,6 @@ def get_me_info():
     return jsonify(convert_to_json(result)), 200
 
 
-@users.route('/edit_user_info', methods=['POST'])
-@users_db.requires_auth
-def edit_user_info():
-    """
-    修改用户信息
-    :return:
-    """
-    data = request.get_json()
-    token = request.headers.get('Authorization')
-    if token:
-        token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
-        uid = token['uid']
-    else:
-        uid = request.cookies.get('uid')
-    result = users_db.edit_user_info(int(uid), data)
-    if result:
-        return jsonify({"message": "修改用户信息成功", "code": 205}), 200
-    else:
-        return jsonify({"message": "修改用户信息失败", "code": 206}), 404
-
-
-# restful-API
-# 别人也可以看到自己收藏的文章
 @users.route('/collections', methods=['POST', 'DELETE', 'GET'])
 @users_db.requires_auth
 def collections_functions():
@@ -240,3 +217,60 @@ def save_user_avatar():
         return make_response(jsonify({"message": "保存头像信息失败", "code": 216}), 404)
 
     return make_response(jsonify({"message": "保存头像成功", "avatar_base64": bs4}), 200)
+
+
+@users.route('/search_user')
+@users_db.requires_auth
+def search_user():
+    """
+    搜索用户
+    :return:
+    """
+    keyword = request.args.get("keyword")
+    users_list, total = users_db.search_user(keyword)
+    return make_response(jsonify({"users": convert_to_json(users_list), "total": total}), 200)
+
+
+@users.route('/reset_password_from_admin')
+@users_db.requires_auth
+def reset_password_from_admin():
+    """
+    管理员重置密码
+    :return:
+    """
+    token = request.headers.get('Authorization')
+    data = request.get_json()
+    result = users_db.reset_password_from_admin(token, data["uid"], data["pwd"])
+    if result:
+        return jsonify({"message": "重置密码成功", "code": 217}), 200
+    else:
+        return jsonify({"message": "重置密码失败", "code": 218}), 404
+
+
+@users.route('/user')
+@users_db.requires_auth
+def user():
+    """
+    对用户的删除、更新操作
+    :return:
+    """
+    if request.method == "DELETE":
+        data = request.get_json()
+        result = users_db.delete_users(data["user_uids"])
+        if result:
+            return jsonify({"message": "删除用户成功", "code": 219}), 200
+        else:
+            return jsonify({"message": "删除用户失败", "code": 220}), 200
+    elif request.method == "PUT":
+        data = request.get_json()
+        token = request.headers.get('Authorization')
+        if token:
+            token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
+            uid = token['uid']
+        else:
+            uid = request.cookies.get('uid')
+        result = users_db.edit_user_info(int(uid), data)
+        if result:
+            return jsonify({"message": "修改用户信息成功", "code": 205}), 200
+        else:
+            return jsonify({"message": "修改用户信息失败", "code": 206}), 404

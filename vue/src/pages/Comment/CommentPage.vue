@@ -131,7 +131,7 @@ export default {
           title: value.article.title || "233",
           summary: value.article.summary || "233",
           _id: value._id,
-          author: value.author || "Mura",
+          author: value.article.nickname,
           watchNum: general.ToThousand(value.read_num) || 0,
           tagLists: value.tagLists,
           nickname: value.article.nickname
