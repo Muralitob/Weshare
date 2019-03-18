@@ -34,6 +34,16 @@ def get_record_by_uid(uid, target):
     query = {"relations": uid}
     if target:
         query["relations"] = [uid, target]
+        record = mongo_manager.find_one(chats_collection, query)
+        if not record:
+            chat = {
+                "relations": [uid, target],
+                "content": []
+            }
+            _id = mongo_manager.save_one(chats_collection, chat).inserted_id
+            return mongo_manager.find_one(chats_collection, {"_id": _id})
+        else:
+            return record
     records = list(mongo_manager.find(chats_collection, query))
     return records
 
