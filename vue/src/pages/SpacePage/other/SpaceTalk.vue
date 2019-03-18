@@ -1,8 +1,9 @@
 <template>
   <div>
     <div class="talk">
+      <span class="talk_info">与{{nickname}}对话中</span>
       <div class="talk_board">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos totam voluptatibus fugiat corporis repellat facilis aliquid nobis, vero dolor voluptatem. Incidunt excepturi rerum vel explicabo iure, alias laboriosam quaerat. Cumque.
+        <Avatar :src='user_info.avatar_url' class="avatar" />
       </div>
       <div class="input">
         <textarea class="talk_input">
@@ -19,13 +20,35 @@
 </template>
 
 <script>
+import api from '../../../api/index.js'
 export default {
   data() {
     return {
       line: [
-        
-      ]
+
+      ],
+      nickname: this.$route.params.nickname,
+      uid: this.$route.params.userId,
     }
+  },
+  methods: {
+    getUserInfo() {
+      api
+        .getUserInfo(this.uid)
+        .then(({ data }) => {
+            this.user_info =  {
+            nickname: data.nickname,
+            sign: data.sign,
+            avatar_url: `data:image/png;base64,${data.avatar_base64}`
+          };
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+  },
+  mounted() {
+    this.getUserInfo()
   }
 }
 </script>
@@ -34,6 +57,12 @@ export default {
   .talk {
     width: 100%;
     height: 100%;
+    &_info {
+      display: block;
+      font-size: 18px;
+      padding-bottom: 12px;
+      color: black;
+    }
     &_board {
       width: 100%;
       height: 520px;
@@ -43,6 +72,10 @@ export default {
       &::-webkit-scrollbar {
         display: none;
       }
+    }
+    .input {
+      height: 120px;
+      width: 100%;
     }
     &_input {
       border: none;

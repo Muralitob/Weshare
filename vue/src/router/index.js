@@ -177,7 +177,7 @@ const router = new Router({
       ]
     },
     {
-      path: "/talk/:userId",
+      path: "/talk/:userId/:nickname",
       meta: {
         requiresAuth: true
       },
