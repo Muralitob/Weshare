@@ -147,6 +147,7 @@ export default {
         ],
         degree: [
           {
+            type: "number",
             required: true,
             message: "新旧程度不能为空",
             trigger: "change"
