@@ -24,13 +24,17 @@ def add_new_chat(data, uid):
     return mongo_manager.save_one(chats_collection, chat).acknowledged
 
 
-def get_record_by_uid(uid):
+def get_record_by_uid(uid, target):
     """
     用户记录
     :param uid:
+    :param target:
     :return:
     """
-    records = list(mongo_manager.find(chats_collection, {"relations": uid}))
+    query = {"relations": uid}
+    if target:
+        query["relations"] = [uid, target]
+    records = list(mongo_manager.find(chats_collection, query))
     return records
 
 

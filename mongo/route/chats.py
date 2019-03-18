@@ -46,12 +46,13 @@ class Chat(Resource):
         :return:
         """
         token = request.headers.get('Authorization')
+        target = request.args.get("target_uid")
         if token:
             token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
             uid = token['uid']
         else:
             uid = request.cookies.get('uid')
-        result = chats_db.get_record_by_uid(int(uid))
+        result = chats_db.get_record_by_uid(int(uid), int(target))
         return make_response(jsonify(convert_to_json(result)))
 
     @requires_auth

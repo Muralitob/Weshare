@@ -7,6 +7,7 @@ from bson import ObjectId
 
 from core_manager.mongo_manager import mongo_manager
 from models.User import User
+from models.redis_cache import redis_cache
 
 from utility import page_limit_skip, get_this_time, get_object, get_word_escape
 
@@ -24,7 +25,10 @@ def add_send_good(uid, data):
     data['user'] = user
     data['uid'] = uid
     data['release_time'] = get_this_time()
-    return mongo_manager.save_one(goods_collection, data).acknowledged
+    new_good = mongo_manager.save_one(goods_collection, data)
+    if new_good.acknowledged:
+        redis_cache.create_good_info_cache(new_good.inserted_id, data)
+    return new_good.acknowledged
 
 
 def delete_send_goods(goods_list):
@@ -33,6 +37,7 @@ def delete_send_goods(goods_list):
     :param goods_list:
     :return:
     """
+    redis_cache.delete_goods_cache(goods_list)
     return mongo_manager.remove_many(goods_collection,
                                      {"_id": {"$in": [ObjectId(_id) for _id in goods_list]}}).acknowledged
 
@@ -106,7 +111,9 @@ def get_good_by_id(good_id):
     :param good_id: 商品id
     :return:
     """
-    good = get_object(goods_collection, good_id)
+    good = redis_cache.get_redis_info("goods:info:" + str(good_id))
+    if not good:
+        good = get_object(goods_collection, good_id)
     user = User.query_one_by_uid(good["uid"])
     good["user"] = user
     return good
