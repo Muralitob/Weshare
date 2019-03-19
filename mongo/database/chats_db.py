@@ -28,7 +28,8 @@ def add_new_chat(data, uid):
         record.pop("relations")
         return mongo_manager.update_one(chats_collection, {"_id": record.pop("_id")},
                                         {"$set": record}).acknowledged
-    return mongo_manager.save_one(chats_collection, chat).acknowledged
+    else:
+        return mongo_manager.save_one(chats_collection, chat).acknowledged
 
 
 def get_record_by_uid(uid, target):
