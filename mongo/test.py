@@ -12,9 +12,11 @@ if __name__ == '__main__':
     # for item in users:
     #     mongo_manager.update_one('users', {'_id': item['_id']}, {"$set": {'nickname': item['account']}})
     # print User.query_one("cwt")
-    articles = list(mongo_manager.find("goods", {}))
-    for item in articles:
-        r = mongo_manager.update_one("goods", {"_id": item["_id"]},
-                                     {"$unset": {"user": 0}})
-        print r.acknowledged
+    # articles = list(mongo_manager.find("goods", {}))
+    # for item in articles:
+    #     r = mongo_manager.update_one("goods", {"_id": item["_id"]},
+    #                                  {"$unset": {"user": 0}})
+    #     print r.acknowledged
+    print list(mongo_manager.find("chats", {"$and": [{"relations": 101, }, {"relations": 109, }]}))
+
     pass

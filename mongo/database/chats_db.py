@@ -18,7 +18,7 @@ def add_new_chat(data, uid):
     """
     data.update({"from": uid, "time": get_this_time()})
     chat = {
-        "relations": [uid, data["to"]],
+        "relations": [uid, int(data["to"])],
         "content": [data]
     }
     record = mongo_manager.find_one(chats_collection,
@@ -38,9 +38,10 @@ def get_record_by_uid(uid, target):
     :param target:
     :return:
     """
-    query = {"relations": uid}
+    query = {"relations": {"$in": [uid]}}
     if target:
-        query["relations"] = [uid, target]
+        target = int(target)
+        query = {"$and": [{"relations": uid}, {"relations": target}]}
         record = mongo_manager.find_one(chats_collection, query)
         if not record:
             chat = {
