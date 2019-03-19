@@ -52,7 +52,7 @@ class Chat(Resource):
             uid = token['uid']
         else:
             uid = request.cookies.get('uid')
-        result = chats_db.get_record_by_uid(int(uid), int(target))
+        result = chats_db.get_record_by_uid(int(uid), target)
         return make_response(jsonify(convert_to_json(result)))
 
     @requires_auth
