@@ -21,6 +21,13 @@ def add_new_chat(data, uid):
         "relations": [uid, data["to"]],
         "content": [data]
     }
+    record = mongo_manager.find_one(chats_collection,
+                                    {"$and": [{"relations": uid}, {"relations": data["to"]}]})
+    if record:
+        record["content"].append(data)
+        record.pop("relations")
+        return mongo_manager.update_one(chats_collection, {"_id": record.pop("_id")},
+                                        {"$set": record}).acknowledged
     return mongo_manager.save_one(chats_collection, chat).acknowledged
 
 
