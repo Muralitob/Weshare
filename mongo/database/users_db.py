@@ -269,18 +269,19 @@ def search_user(keyword):
     return user_list, total
 
 
-def reset_password_from_admin(token, uid, pwd):
+def reset_password_from_admin(token, uids):
     """
     管理员重置密码 用于用户找回密码
+    重置后的密码 qjxy123456
     :param token:
-    :param uid: 用户id
-    :param pwd: md5格式的数据
+    :param uids: 用户ids
     :return:
     """
     if token:
         token = jwt.decode(token[6:], 'secret', algorithms=['HS256'])
-        if token["level"] == "0001":
-            return mongo_manager.update_one(user_collection, {"uid": uid}, {"$set": {"pwd": pwd}}).acknowledged
+        # if token["level"] == "0001":
+        return mongo_manager.update_many(user_collection, {"uid": {"$in": uids}},
+                                         {"$set": {"pwd": "100e488a477e0b4b6faa72db9ecc8bc276329733"}}).acknowledged
     return False
 
 

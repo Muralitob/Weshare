@@ -2,9 +2,7 @@
 """
 __author__:cjhcw
 """
-import os
 import jwt
-from werkzeug.utils import secure_filename
 from flask import Blueprint, jsonify, request, make_response
 
 from database import users_db
@@ -219,7 +217,7 @@ def save_user_avatar():
     return make_response(jsonify({"message": "保存头像成功", "avatar_base64": bs4}), 200)
 
 
-@users.route('/search_user')
+@users.route('/search_user', methods=["GET"])
 @users_db.requires_auth
 def search_user():
     """
@@ -231,27 +229,30 @@ def search_user():
     return make_response(jsonify({"users": convert_to_json(users_list), "total": total}), 200)
 
 
-@users.route('/reset_password_from_admin')
+@users.route('/reset_password_from_admin', methods=["POST"])
 @users_db.requires_auth
 def reset_password_from_admin():
     """
-    管理员重置密码
+    管理员重置密码,支持批量重置
+    {
+        "uids":[数字类型,...]
+    }
     :return:
     """
     token = request.headers.get('Authorization')
     data = request.get_json()
-    result = users_db.reset_password_from_admin(token, data["uid"], data["pwd"])
+    result = users_db.reset_password_from_admin(token, data["uids"])
     if result:
         return jsonify({"message": "重置密码成功", "code": 217}), 200
     else:
         return jsonify({"message": "重置密码失败", "code": 218}), 404
 
 
-@users.route('/user')
+@users.route('/user', methods=["DELETE", "PUT"])
 @users_db.requires_auth
 def user():
     """
-    对用户的删除、更新操作
+    对用户的删除、更新操作,支持批量删除
     :return:
     """
     if request.method == "DELETE":
