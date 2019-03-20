@@ -71,11 +71,14 @@ export default {
   },
   mounted () {
     api.getMyUserInfo().then(({data})=> {
+
       this.user_info =  {
           nickname: data.nickname,
           sign: data.sign,
           avatar_url: `data:image/png;base64,${data.avatar_base64}`
         };
+        localStorage.setItem('myavatar', `data:image/png;base64,${data.avatar_base64}`)
+        this.$store.commit('USER_INFO', data);
     }).catch(err => {
       console.log(err)
     })
