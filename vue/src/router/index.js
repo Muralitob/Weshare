@@ -17,6 +17,7 @@ import SpaceUsed from "@pages/SpacePage/SpaceUsed";
 import SpaceCollection from "@pages/SpacePage/SpaceCollection";
 import SpaceHistory from "@pages/SpacePage/SpaceHistory";
 import SpaceFan from "@pages/SpacePage/SpaceFan";
+import SpaceTalk from "@pages/SpacePage/other/SpaceTalk";
 import SettingPage from "@pages/Setting";
 import SettingInfo from "@pages/Setting/SettingInfo";
 import SettingAvator from "@pages/Setting/SettingAvator";
@@ -176,6 +177,14 @@ const router = new Router({
       ]
     },
     {
+      path: "/talk/:userId/:nickname",
+      meta: {
+        requiresAuth: true
+      },
+      name: "talk",
+      component: SpaceTalk
+    },
+    {
       path: "/space/:userId",
       name: "Space",
       component: SpacePage,
@@ -253,7 +262,8 @@ const router = new Router({
           },
           name: "used",
           component: SpaceUsed
-        }
+        },
+
       ]
     },
     {
@@ -314,7 +324,7 @@ router.beforeEach((to, from, next) => {
     //说明访问了文章
     // console.log(to.params.com_id);
     api.historyFunction("post", to.params.com_id).then(({ data }) => {
-      console.log(data);
+
     });
   }
   if (to.params.userId) {
@@ -327,7 +337,6 @@ router.beforeEach((to, from, next) => {
       store.commit("CURRENT_COMP", "OtherIndex");
     }
   }
-  console.log("to", to);
   if (to.path === "/") {
     next("/timeline");
   }

@@ -24,6 +24,7 @@
       <Tabs value="article" @on-click="fetch" class="tab" :animated="false">
           <Button @click="cancelfollow(user_info.uid)" icon="ios-close" slot="extra" v-if="user_info.attentioned" >取消关注</Button>
           <Button @click="follow(user_info.uid)" v-else icon="md-add" slot="extra" type="primary">关注他</Button>
+          <Button @click="GOTO(user_info.uid)" style="margin-left: 16px" icon="ios-call" slot="extra" type="primary">立即对话</Button>
           <TabPane name="article" label="文章">
             <Card class="art_item" v-for="(item, idx) in articles" :key="idx">
               <router-link class="title" :to="{name: 'commentArticle', params: {com_id: item._id}}">
@@ -321,6 +322,9 @@ export default {
           });
         });
     },
+    GOTO(id) {
+      this.$router.push({name: 'talk', params: {user_id: id, nickname: this.user_info.nickname}})
+    },
     cancelfollow(uid) {
       api
         .followAttention("delete", uid)
@@ -464,7 +468,6 @@ export default {
     }
     .art_summary {
       font-size: 18px;
-      width: 700px;
       text-align: justify;
     }
   }
