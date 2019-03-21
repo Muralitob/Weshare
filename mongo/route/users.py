@@ -233,15 +233,15 @@ def search_user():
 @users_db.requires_auth
 def reset_password_from_admin():
     """
-    管理员重置密码,支持批量重置
+    管理员重置密码,支持批量重置 重置后密码 qjxy123456
     {
         "uids":[数字类型,...]
     }
     :return:
     """
-    token = request.headers.get('Authorization')
+    # token = request.headers.get('Authorization')
     data = request.get_json()
-    result = users_db.reset_password_from_admin(token, data["uids"])
+    result = users_db.reset_password_from_admin(data["uids"])
     if result:
         return jsonify({"message": "重置密码成功", "code": 217}), 200
     else:
