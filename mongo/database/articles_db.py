@@ -186,6 +186,7 @@ def add_comment(parent_id, uid, content):
     user = User.query_one_by_uid(uid)
     comment = {'parent_id': ObjectId(parent_id),
                'name': user['nickname'],
+               'uid': uid,
                'content': content,
                'comment_time': get_this_time(),
                'is_first_comment': is_first_comment,
@@ -207,6 +208,8 @@ def get_comments(article_id, page, limit, uid):
         mongo_manager.find(comments_collection, {'parent_id': ObjectId(article_id)}).sort([("comment_time", -1)]).skip(
             skip).limit(limit))
     for item in result:
+        user = User.query_one_by_uid(uid)
+        item["name"] = user["nickname"]
         item["comments"] = get_comments_from_front(uid, item["_id"])
     length = mongo_manager.find_count(comments_collection, {'parent_id': ObjectId(article_id)})
     return result, length
@@ -226,6 +229,8 @@ def get_comments_from_front(uid, comment_id):
                 item['is_like'] = Like.query_like_comment_by_uid_and_comment(uid, item["_id"])
             else:
                 item['is_like'] = False
+            user = User.query_one_by_uid(uid)
+            item["name"] = user["nickname"]
             item["comments"] = get_comments_from_front(uid, item["_id"])
         return next_comments
     return []
