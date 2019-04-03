@@ -59,3 +59,16 @@ def get_an_new(_id):
     """
     new = news_db.get_an_new(_id)
     return jsonify({"new": convert_to_json(new)}), 200
+
+
+@news.route('/get_news_by_category', methods=['GET'])
+def get_news_by_category():
+    """
+    获取发布和存入草稿箱的新闻
+    :return:
+    """
+    category = request.args.get("category")
+    page = request.args.get("page")
+    limit = request.args.get("limit")
+    target_news, news_count = news_db.get_news_by_category(category, page, limit)
+    return jsonify({"news": convert_to_json(target_news), "total": news_count}), 200

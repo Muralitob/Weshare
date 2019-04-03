@@ -68,3 +68,18 @@ def get_an_new(_id):
     new = mongo_manager.find_one(news_collection, {"_id": ObjectId(_id)})
     mongo_manager.update_one(news_collection, {"_id": ObjectId(_id)}, {"$set": {"read_num": new["read_num"] + 1}})
     return new
+
+
+def get_news_by_category(category, page, limit):
+    """
+    获取不同发布状态的新闻
+    :param category:
+    :param page:
+    :param limit:
+    :return:
+    """
+    skip, limit = page_limit_skip(limit, page)
+    query = {"category": category}
+    count = mongo_manager.find_count(news_collection, query)
+    news = list(mongo_manager.find(news_collection, query).skip(skip).limit(limit))
+    return news, count
