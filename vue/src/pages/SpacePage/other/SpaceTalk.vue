@@ -70,7 +70,6 @@ export default {
         let dom = document.getElementById('talk_board')
         dom.scrollTop = dom.scrollHeight
       }).catch((err) => {
-
       });
     },
     sendMsg() {
