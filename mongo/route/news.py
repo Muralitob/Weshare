@@ -50,13 +50,13 @@ def news_functions():
             return jsonify({"message": "保存新闻失败", "code": 306}), 404
 
 
-@news.route('/new/<_id>', methods=['GET'])
-def get_an_new(_id):
+@news.route('/get_new_by_id', methods=['GET'])
+def get_an_new():
     """
     获取单条新闻
-    :param _id:
     :return:
     """
+    _id = request.args.get("_id")
     new = news_db.get_an_new(_id)
     return jsonify({"new": convert_to_json(new)}), 200
 
