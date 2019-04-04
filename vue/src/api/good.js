@@ -15,12 +15,13 @@ export default {
         break;
     }
   },
-  async getUsedList(page, limit = 10, uid) {
+  async getUsedList(page, limit = 10, type, degree) {
     return axios.get("/api/goods/get_goods", {
       params: {
-        uid,
         page,
-        limit
+        limit,
+        type,
+        degree
       }
     })
   },
