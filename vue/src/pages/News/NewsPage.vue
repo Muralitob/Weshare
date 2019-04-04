@@ -33,6 +33,7 @@ export default {
     getData() {
       api.getNewsList().then(({data}) => {
         this.news = data.news
+        this.total = data.total
       }).catch((err) => {
 
       });

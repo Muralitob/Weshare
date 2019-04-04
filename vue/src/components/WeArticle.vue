@@ -35,7 +35,7 @@
         <Spin size="large" fix v-if="spinShow"></Spin>
       </div>
     </div>
-    <Card class="ri" dis-hover :bordered="false">
+    <!-- <Card class="ri" dis-hover :bordered="false">
       <p slot="title">本周最热</p>
       <div class="hot-item" v-for="(item, index) in hot" :key="index">
         <router-link :to="{path: `/timeline/${item._id}`}">
@@ -43,7 +43,7 @@
         </router-link>
         <span>{{item.article.nickname}}</span>
       </div>
-    </Card>
+    </Card> -->
   </div>
 </template>
 

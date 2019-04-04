@@ -22,18 +22,21 @@
         <Time type="date" :time="good.release_time"></Time>
       </div>
       <Divider type="vertical" />
-      <span class="report">举报</span>
+      <div class="base_ver">
+        <Button @click="GOTO(good.user.uid)" style="margin-left: 16px" icon="ios-call" slot="extra" type="primary">立即对话</Button>
+      </div>
+      <!-- <span class="report">举报</span> -->
     </div>
     <Card dis-hover class="used_con">
       <section class="used_title">
         <h3>{{good.title}}</h3>
-        <span><Icon color="#F00303" type="md-heart-outline" />收藏</span>
+        <!-- <span><Icon color="#F00303" type="md-heart-outline" />收藏</span> -->
       </section>
       <section class="used_top">
         <img class="used_img" :src="`data:image/png;base64,${good.pic[0].response.good_base64}`" alt="商品图片">
         <div class="used_info">
           <span>
-            类型: 食品
+            类型: {{good.type}}
           </span>
           <span>
             现价: ￥{{good.price}}
@@ -42,8 +45,11 @@
             交易区域: {{good.place || '面议'}}
           </span>
           <span>
-            联系方式: {{good.phone || '110'}}
+            状态: {{good.status || '已售' }}
           </span>
+          <!-- <span>
+            联系方式: {{good.phone || '110'}}
+          </span> -->
           <!-- <Button type="success" long>立即发出订单</Button> -->
         </div>
       </section>
@@ -67,31 +73,59 @@
 
 <script>
 import api from '../../api'
+import  usedTypeMap  from '../../constants/usedType.js'
 export default {
   data() {
     return {
-      imgurl: "../../static/makalong.jpg",
+      // imgurl: "../../static/makalong.jpg",
       good_id: this.$route.params["used_id"],
-      good: {}
+      good: {},
+      avatar: '',
+      user_info: {}
     };
   },
   methods: {
     fetchData(good_id) {
       api.getGoodContent(good_id).then(({data}) => {
-        console.log(data.good)
         this.good = {
           price: data.good.price,
           place: data.good.place || '面议',
           desc: data.good.desc,
           pic: data.good.pic,
           user: data.good.user,
-          release_time: data.good.release_time
+          release_time: data.good.release_time,
+          type: usedTypeMap.usedTypeMap[data.good.type]
         }
+        console.log(this.good);
       })
-    }
+    },
+    GOTO(id) {
+      // this.$router.push({name: 'talk', params: {user_id: id, nickname: this.user_info.nickname}})
+      console.log(id);
+    },
+    getUserInfo() {
+      api
+        .getUserInfo(this.uid)
+        .then(({ data }) => {
+          let result = {
+            nickname: data.nickname,
+            sign: data.sign,
+            uid: data.uid,
+            avatar_url: data.avatar_url || "",
+            branch: data.branch,
+            attentioned: data.attentioned
+          };
+          this.user_info = result;
+          console.log("用户信息", data);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
   },
-  mounted() {
+  created() {
     this.fetchData(this.good_id)
+    this.getUserInfo()
   },
 };
 </script>

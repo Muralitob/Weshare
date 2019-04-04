@@ -34,7 +34,7 @@
       <Page prev-text="上一页" next-text="下一页" @on-change="changepage" :total="total" show-elevator class-name="used-pageBox"></Page>
       </ul>
       <section>
-        最新成交
+        暂无...
       </section>
     </div>
   </div>
