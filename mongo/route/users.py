@@ -79,7 +79,7 @@ def get_me_info():
         uid = token["uid"]
     else:
         uid = request.cookies.get('uid')
-    result = users_db.get_me_info(int(uid))
+    result = users_db.get_me_info(uid)
     return jsonify(convert_to_json(result)), 200
 
 

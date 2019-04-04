@@ -2,7 +2,6 @@
 """
 __author__:cjhcw
 """
-import os
 import jwt
 from functools import wraps
 from flask import request
@@ -96,10 +95,6 @@ def get_user_info(other_id, uid):
     :return:
     """
     one = User.query_one_by_uid(other_id)
-    # if 'avatar_url' in one:
-    #     basepath = os.path.dirname(__file__)  # 当前文件所在路径
-    #     avatar_url = basepath + 'static/uploads_user_photos/' + one['avatar_url']
-    #     one['avatar_url'] = avatar_url
     if uid:
         attention = mongo_manager.find_one(attention_collection,
                                            {'uid': uid, 'attention_uid': other_id})
@@ -116,14 +111,16 @@ def get_me_info(uid):
     :param uid: 用户id
     :return:
     """
-    one = User.query_one_by_uid(uid)
-    attentions = list(mongo_manager.find(attention_collection, {'uid': uid}))
-    if attentions:
-        attention_uids = [att['attention_uid'] for att in attentions]
-    else:
-        attention_uids = []
-    one['attention_uids'] = attention_uids
-    return one
+    if uid:
+        uid = int(uid)
+        one = User.query_one_by_uid(uid)
+        attentions = list(mongo_manager.find(attention_collection, {'uid': uid}))
+        if attentions:
+            attention_uids = [att['attention_uid'] for att in attentions]
+        else:
+            attention_uids = []
+        one['attention_uids'] = attention_uids
+        return one
 
 
 def edit_user_info(uid, data):
