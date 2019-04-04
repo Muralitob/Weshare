@@ -3,14 +3,14 @@
     <!-- <navi-bar ></navi-bar> -->
     <div class="newsp__list">
       <ul class="newsp__list-box">
-        <li class="newsp__list-item" 
-        v-for=" (item, index) in articleList" 
+        <li class="newsp__list-item"
+        v-for=" (item, index) in news"
         :key="index">
           <p>
-            <router-link :to="{path: `/news/${item._id}`}">[{{item.type}}]</router-link>
-            <router-link :to="{path: `/news/${item._id}`}">{{item.summary}}</router-link>
+            <router-link :to="{path: `/news/${item._id}`}">[{{item.origin}}]</router-link>
+            <router-link :to="{path: `/news/${item._id}`}">{{item.article.summary}}</router-link>
           </p>
-          <span>{{item.created_at}}</span>
+          <Time :time="item.update_time" />
         </li>
       </ul>
       <Page prev-text="上一页" next-text="下一页" :current="parseInt(currentPage)" @on-change="changepage" :total="total" show-elevator class-name="newsp-pageBox"></Page>
@@ -19,16 +19,30 @@
 </template>
 
 <script>
+import api from '../../api'
 export default {
-  components: {  },
   data () {
     return {
-      articleList: [
-        { type: '公告', summary: '微分享重磅登场......', created_at: '2018-04-12', _id: '123113213' },
+      news: [
       ],
       total: 100,
       currentPage: 1
     }
+  },
+  methods: {
+    getData() {
+      api.getNewsList().then(({data}) => {
+        this.news = data.news
+      }).catch((err) => {
+
+      });
+    },
+    changepage() {
+
+    }
+  },
+  created() {
+    this.getData()
   }
 }
 </script>

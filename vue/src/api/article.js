@@ -101,5 +101,15 @@ export default {
   },
   async getHotArticles() {
     return axios.get('/api/article/get_hot_articles')
+  },
+  async getNewsList() {
+    return axios.get('/api/news/news')
+  },
+  async getNewsById(data) {
+    return axios.get('/api/news/get_new_by_id', {
+      params: {
+        _id: data
+      }
+    })
   }
 };

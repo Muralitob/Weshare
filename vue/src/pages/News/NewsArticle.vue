@@ -14,35 +14,45 @@
       <section class="news__main" v-html="item.content"></section>
     </div>
     <div class="art">
-      <art-com></art-com>
+      <!-- <art-com></art-com> -->
     </div>
-  </div>  
+  </div>
 </template>
 
 <script>
 import ArtCom from '../../components/ArtCom';
+import api from '../../api'
 export default {
   components: { ArtCom },
   data(){
     return {
       news_content: [
-        {
-        id: '01',
-        title: '微分享重磅登场......',
-        author: 'weshare运营团队',
-        created_at: '2018-04-12 10:10:19',
-        content: `终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了`
-        },
+        // {
+        // id: '01',
+        // title: '微分享重磅登场......',
+        // author: 'weshare运营团队',
+        // created_at: '2018-04-12 10:10:19',
+        // content: `终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了终于OK了`
+        // },
       ]
     }
   },
   methods: {
     returnLast() {
       this.$router.go(-1)
-    }
+    },
+    getData(_id) {
+      api.getNewsById(_id).then(({data}) => {
+        this.news_content = data.new.article
+        console.log(data)
+      }).catch((err) => {
+
+      });
+    },
   },
-  mounted () {
-    console.log(this.$route)
+  mounted() {
+    console.log(this.$route.params)
+    this.getData(this.$route.params.com_id)
   }
 }
 </script>

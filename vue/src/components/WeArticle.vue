@@ -1,54 +1,50 @@
 <template>
   <div class="article">
-    <Affix class="left_bar" :offset-top="100">
-      <ButtonGroup vertical>
-        <Button @click="colArticle(1)" v-if="!article_data.is_collection" icon="md-star"></Button> 
-        <Button @click="colArticle(-1)" v-else icon="md-star" class="col_btn_active"></Button>
-        <Button @click="likeArticle(1)" v-if="!article_data.is_like" icon="md-thumbs-up"></Button>
-        <Button @click="likeArticle(-1)" v-else icon="md-thumbs-up" class="like_btn_active"></Button>
-        <Button icon="logo-facebook"></Button>
-        <Button icon="logo-twitter"></Button>
-        <Button icon="logo-googleplus"></Button>
-        <Button icon="logo-tumblr"></Button>
-      </ButtonGroup>
-    </Affix>
     <div>
-      <div class="article__content" >
-        <div class="wrap">
-          <div class="article__title">{{article_content.title}}</div>
-          <div class="reback" @click="returnLast">
-            <Icon type="arrow-return-left" size=35 color="#01d277"></Icon>
+      <Affix v-if="!ifnews" class="left_bar" :offset-top="100">
+        <ButtonGroup vertical>
+          <Button @click="colArticle(1)" v-if="!article_data.is_collection" icon="md-star"></Button>
+          <Button @click="colArticle(-1)" v-else icon="md-star" class="col_btn_active"></Button>
+          <Button @click="likeArticle(1)" v-if="!article_data.is_like" icon="md-thumbs-up"></Button>
+          <Button @click="likeArticle(-1)" v-else icon="md-thumbs-up" class="like_btn_active"></Button>
+          <Button icon="logo-facebook"></Button>
+          <Button icon="logo-twitter"></Button>
+          <Button icon="logo-googleplus"></Button>
+          <Button icon="logo-tumblr"></Button>
+        </ButtonGroup>
+      </Affix>
+      <div>
+        <div class="article__content" >
+          <div class="wrap">
+            <div class="article__title">{{article_content.title}}</div>
+            <div class="reback" @click="returnLast">
+              <Icon type="arrow-return-left" size=35 color="#01d277"></Icon>
+            </div>
           </div>
+          <p class="article__artinfo borline">
+            <router-link :to="{name:'Space', params: {userId: article_content.uid}}">
+              <span class="article__author">{{article_content.nickname}}</span>
+            </router-link>
+            {{article_data.update_time}}
+          </p>
+          <section class="article__main" v-html="article_content.content"></section>
         </div>
-        <p class="article__artinfo borline">
-          <router-link :to="{name:'Space', params: {userId: article_content.uid}}">
-            <span class="article__author">{{article_content.nickname}}</span>
-          </router-link>
-          {{article_data.update_time}}
-        </p>
-        <section class="article__main" v-html="article_content.content"></section>
-        <!-- <Card style="width:80px">
-          <div style="text-align:center">
-              <span>喜欢</span>
-          </div>
-        </Card> -->
+        <div class="art">
+          <art-com :a_id="article_data._id" :list="article_data.reply || []"></art-com>
+        </div>
+        <Spin size="large" fix v-if="spinShow"></Spin>
       </div>
-      <div class="art">
-        <art-com :a_id="article_data._id" :list="article_data.reply || []"></art-com>
-      </div>
-      <Spin size="large" fix v-if="spinShow"></Spin>
     </div>
-    <Card dis-hover :bordered="false">
+    <Card class="ri" dis-hover :bordered="false">
       <p slot="title">本周最热</p>
       <div class="hot-item" v-for="(item, index) in hot" :key="index">
         <router-link :to="{path: `/timeline/${item._id}`}">
           <span>{{item.article.title}}11</span>
         </router-link>
-        <!-- <Time :time="item.create_time" type="date" /> -->
         <span>{{item.article.nickname}}</span>
       </div>
     </Card>
-  </div>  
+  </div>
 </template>
 
 <script>
@@ -63,7 +59,8 @@ export default {
       com_id: this.$route.params["com_id"],
       spinShow: false,
       time2: new Date().getTime() - 86400 * 3 * 1000,
-      hot: []
+      hot: [],
+      ifnews: false
     };
   },
   methods: {
@@ -73,17 +70,23 @@ export default {
     async fetchData() {
       this.spinShow = true;
       try {
-        let { data } = await api.getArticleById(this.com_id);
-        this.article_content = data.articles.article;
-        console.log("当前文章信息", data.articles);
-        this.article_data = data.articles;
-        this.spinShow = false;
+        if(this.$route.name == 'NewsArticle') {
+          console.log('新闻')
+          let { data } = await api.getNewsById(this.com_id);
+          console.log(data);
+          this.article_content = data.new.article;
+          this.article_data = data.new;
+          this.spinShow = false;
+        }else {
+          console.log('文章')
+          let { data } = await api.getArticleById(this.com_id);
+          this.article_content = data.articles.article;
+          this.article_data = data.articles;
+          this.spinShow = false;
+        }
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
-    },
-    async readArticle() {
-      let { data } = await api.countArticle(this.com_id);
     },
     async colArticle(add) {
       if (add === 1) {
@@ -108,16 +111,15 @@ export default {
       try {
         let {data} = await api.getHotArticles()
         this.hot = data.articles
-        console.log(this.hot);
       } catch (error) {
-        
+
       }
     }
   },
   mounted() {
     this.fetchData();
-    this.readArticle();
     this.getHot()
+    this.$route.name == 'NewsArticle'? this.ifnews = true: this.ifnews = false
   }
 };
 </script>
@@ -125,7 +127,10 @@ export default {
 <style lang="scss">
 .article {
   border-radius: 3px;
+  width: 100%;
   position: relative;
+  display: flex;
+  justify-content: space-between;
   .left_bar {
     position: absolute;
     left: -3.5rem;
@@ -198,12 +203,6 @@ export default {
   section {
     min-height: 380px;
   }
-  .ivu-card {
-    width: 280px;
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
   .hot-item {
     display: flex;
     justify-content: space-between;
@@ -223,6 +222,13 @@ export default {
       }
     }
   }
+}
+.ivu-card {
+  // float: right;
+  // margin-left: 120px;
+  // position: absolute;
+  // right: 0;
+  max-height: 45rem;
 }
 .art {
   width: 56.25rem;
