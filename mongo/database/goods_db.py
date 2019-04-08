@@ -72,8 +72,7 @@ def get_goods(keyword, good_type, degree, page, limit):
         query["type"] = good_type
     if degree:
         query["degree"] = int(degree)
-    goods = list(mongo_manager.find_select(goods_collection, query,
-                                           {"pic": 0}).skip(skip).limit(limit))
+    goods = list(mongo_manager.find(goods_collection, query).skip(skip).limit(limit))
     length = mongo_manager.find_count(goods_collection, query)
     return goods, length
 
@@ -99,8 +98,7 @@ def get_goods_by_uid(uid, keyword, good_type, degree, page, limit):
         query["type"] = good_type
     if degree:
         query["degree"] = int(degree)
-    goods = list(mongo_manager.find_select(goods_collection, query,
-                                           {"pic": 0}).skip(skip).limit(limit))
+    goods = list(mongo_manager.find(goods_collection, query).skip(skip).limit(limit))
     length = mongo_manager.find_count(goods_collection, query)
     return goods, length
 
