@@ -18,16 +18,18 @@ if __name__ == '__main__':
     #                                  {"$unset": {"user": 0}})
     #     print r.acknowledged
     # print list(mongo_manager.find("chats", {"$and": [{"relations": 101, }, {"relations": 109, }]}))
-    pwd = "cjhcw19960920"
-    import hashlib
-
-    import md5
-
-    m1 = md5.new()
-    m1.update(pwd)
-    print m1.hexdigest()
-    m2 = hashlib.md5()
-    m2.update(pwd)
-    print m2.hexdigest()
+    # pwd = "cjhcw19960920"
+    # import hashlib
+    #
+    # import md5
+    #
+    # m1 = md5.new()
+    # m1.update(pwd)
+    # print m1.hexdigest()
+    # m2 = hashlib.md5()
+    # m2.update(pwd)
+    # print m2.hexdigest()
     # aa77aa4d02340cb0ac757e1ed84d68d73667f16d
+    r = mongo_manager.update_many("goods", {}, {"$set": {"status": 0}})
+    print r.acknowledged
     pass

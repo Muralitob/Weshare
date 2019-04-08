@@ -115,3 +115,13 @@ def get_good_by_id(good_id):
     user = User.query_one_by_uid(good["uid"])
     good["user"] = user
     return good
+
+
+def change_good_status(_id):
+    """
+    商品已售出
+    :param _id:
+    :return:
+    """
+    return mongo_manager.update_one(goods_collection, {"_id": ObjectId(_id)},
+                                    {"$set": {"status": 1}}).acknowledged

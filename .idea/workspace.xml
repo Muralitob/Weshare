@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5e9a0fd0-261a-4c9f-84b5-3ffa10777b6c" name="Default" comment="get_new_by_id">
+    <list default="true" id="5e9a0fd0-261a-4c9f-84b5-3ffa10777b6c" name="Default" comment="good增加图片字段的返回">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mongo/database/goods_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/mongo/database/goods_db.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mongo/route/goods.py" beforeDir="false" afterPath="$PROJECT_DIR$/mongo/route/goods.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mongo/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/mongo/test.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -12,7 +14,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/Weshare$test.coverage" NAME="test Coverage Results" MODIFIED="1553048085799" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo" />
+    <SUITE FILE_PATH="coverage/Weshare$test.coverage" NAME="test Coverage Results" MODIFIED="1554715063003" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo" />
     <SUITE FILE_PATH="coverage/Weshare$tcpserver.coverage" NAME="tcpserver Coverage Results" MODIFIED="1551186734529" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo" />
     <SUITE FILE_PATH="coverage/Weshare$redis_cache.coverage" NAME="redis_cache Coverage Results" MODIFIED="1552449039527" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo/models" />
     <SUITE FILE_PATH="coverage/Weshare$Collection.coverage" NAME="Collection Coverage Results" MODIFIED="1551276807474" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo/models" />
@@ -21,7 +23,7 @@
     <SUITE FILE_PATH="coverage/Weshare$config.coverage" NAME="config Coverage Results" MODIFIED="1536639551076" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo/core_manager/mongo_manager" />
     <SUITE FILE_PATH="coverage/Weshare$goods_db.coverage" NAME="goods_db Coverage Results" MODIFIED="1543144519675" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo/database" />
     <SUITE FILE_PATH="coverage/Weshare$utility.coverage" NAME="utility Coverage Results" MODIFIED="1551269726523" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo" />
-    <SUITE FILE_PATH="coverage/Weshare$run.coverage" NAME="run Coverage Results" MODIFIED="1554708383366" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo" />
+    <SUITE FILE_PATH="coverage/Weshare$run.coverage" NAME="run Coverage Results" MODIFIED="1554715122980" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo" />
     <SUITE FILE_PATH="coverage/Weshare$test1.coverage" NAME="test1 Coverage Results" MODIFIED="1552230713882" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo" />
     <SUITE FILE_PATH="coverage/Weshare$Unnamed.coverage" NAME="Unnamed Coverage Results" MODIFIED="1537187267460" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo" />
     <SUITE FILE_PATH="coverage/Weshare$articles_db.coverage" NAME="articles_db Coverage Results" MODIFIED="1541342838051" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo/database" />
@@ -30,18 +32,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mongo/database/articles_db.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="42" column="37" selection-start-line="42" selection-start-column="29" selection-end-line="42" selection-end-column="37" />
-              <folding>
-                <element signature="e#43#68#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mongo/route/chats.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -99,11 +89,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mongo/database/goods_db.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="336">
-              <caret line="74" column="35" selection-start-line="74" selection-start-column="35" selection-end-line="74" selection-end-column="35" />
+            <state relative-caret-position="324">
+              <caret line="124" column="7" lean-forward="true" selection-start-line="124" selection-start-column="7" selection-end-line="124" selection-end-column="7" />
               <folding>
                 <element signature="e#43#52#0" expanded="true" />
               </folding>
@@ -112,10 +102,32 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mongo/test1.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1095">
+              <caret line="73" selection-start-line="73" selection-end-line="73" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mongo/test.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="309">
+              <caret line="31" column="46" lean-forward="true" selection-start-line="31" selection-start-column="46" selection-end-line="31" selection-end-column="46" />
+              <folding>
+                <element signature="e#44#96#0" expanded="true" />
+                <marker date="1554715061000" expanded="true" signature="753:961" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mongo/route/goods.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="111">
-              <caret line="79" column="10" lean-forward="true" selection-start-line="79" selection-start-column="10" selection-end-line="79" selection-end-column="10" />
+            <state relative-caret-position="315">
+              <caret line="160" column="17" selection-start-line="160" selection-start-column="17" selection-end-line="160" selection-end-column="17" />
               <folding>
                 <element signature="e#43#57#0" expanded="true" />
               </folding>
@@ -237,7 +249,6 @@
         <option value="$PROJECT_DIR$/mongo/models/Article.py" />
         <option value="$PROJECT_DIR$/mongo/route/articles.py" />
         <option value="$PROJECT_DIR$/mongo/run.py" />
-        <option value="$PROJECT_DIR$/mongo/test1.py" />
         <option value="$PROJECT_DIR$/mongo/index.html" />
         <option value="$PROJECT_DIR$/mongo/socket_run.py" />
         <option value="$PROJECT_DIR$/vue/src/pages/Used/UsedRelease.vue" />
@@ -246,15 +257,16 @@
         <option value="$PROJECT_DIR$/mongo/models/redis_cache.py" />
         <option value="$PROJECT_DIR$/mongo/route/chats.py" />
         <option value="$PROJECT_DIR$/mongo/database/chats_db.py" />
-        <option value="$PROJECT_DIR$/mongo/test.py" />
         <option value="$PROJECT_DIR$/mongo/database/articles_db.py" />
         <option value="$PROJECT_DIR$/mongo/models/User.py" />
         <option value="$PROJECT_DIR$/mongo/database/news_db.py" />
         <option value="$PROJECT_DIR$/mongo/route/users.py" />
         <option value="$PROJECT_DIR$/mongo/database/users_db.py" />
         <option value="$PROJECT_DIR$/mongo/route/news.py" />
-        <option value="$PROJECT_DIR$/mongo/route/goods.py" />
+        <option value="$PROJECT_DIR$/mongo/test1.py" />
         <option value="$PROJECT_DIR$/mongo/database/goods_db.py" />
+        <option value="$PROJECT_DIR$/mongo/test.py" />
+        <option value="$PROJECT_DIR$/mongo/route/goods.py" />
       </list>
     </option>
   </component>
@@ -372,7 +384,32 @@
               <item name="Weshare" type="b2602c69:ProjectViewProjectNode" />
               <item name="Weshare" type="462c0819:PsiDirectoryNode" />
               <item name="mongo" type="462c0819:PsiDirectoryNode" />
+              <item name="core_manager" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Weshare" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Weshare" type="462c0819:PsiDirectoryNode" />
+              <item name="mongo" type="462c0819:PsiDirectoryNode" />
+              <item name="core_manager" type="462c0819:PsiDirectoryNode" />
+              <item name="mongo_manager" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Weshare" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Weshare" type="462c0819:PsiDirectoryNode" />
+              <item name="mongo" type="462c0819:PsiDirectoryNode" />
               <item name="database" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Weshare" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Weshare" type="462c0819:PsiDirectoryNode" />
+              <item name="mongo" type="462c0819:PsiDirectoryNode" />
+              <item name="models" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Weshare" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Weshare" type="462c0819:PsiDirectoryNode" />
+              <item name="mongo" type="462c0819:PsiDirectoryNode" />
+              <item name="route" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -610,14 +647,7 @@
       <workItem from="1553307090652" duration="2065000" />
       <workItem from="1554256065523" duration="271000" />
       <workItem from="1554256770999" duration="3370000" />
-      <workItem from="1554708300537" duration="232000" />
-    </task>
-    <task id="LOCAL-00071" summary="单个tag查询">
-      <created>1542605290275</created>
-      <option name="number" value="00071" />
-      <option name="presentableId" value="LOCAL-00071" />
-      <option name="project" value="LOCAL" />
-      <updated>1542605290276</updated>
+      <workItem from="1554708300537" duration="1914000" />
     </task>
     <task id="LOCAL-00072" summary="get_user_info加一层头像的判断">
       <created>1542605900150</created>
@@ -955,11 +985,18 @@
       <option name="project" value="LOCAL" />
       <updated>1554344559369</updated>
     </task>
-    <option name="localTasksCounter" value="120" />
+    <task id="LOCAL-00120" summary="good增加图片字段的返回">
+      <created>1554708785060</created>
+      <option name="number" value="00120" />
+      <option name="presentableId" value="LOCAL-00120" />
+      <option name="project" value="LOCAL" />
+      <updated>1554708785060</updated>
+    </task>
+    <option name="localTasksCounter" value="121" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="91524000" />
+    <option name="totallyTimeSpent" value="93206000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -974,12 +1011,12 @@
     <frame x="0" y="0" width="1440" height="900" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21244635" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21244635" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.48354793" visible="true" weight="0.39036146" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.48354793" visible="true" weight="0.39036146" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49928468" weight="0.22409639" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -1094,7 +1131,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="optimization func" />
     <MESSAGE value="创建Article类，实现以下类的方法，优化代码" />
     <MESSAGE value="初步完成聊天功能， 用restful形式编写接口" />
     <MESSAGE value="^_^" />
@@ -1119,7 +1155,8 @@
     <MESSAGE value="新闻公告增加草稿箱功能" />
     <MESSAGE value="get_me_info和删除一些无用的注释" />
     <MESSAGE value="get_new_by_id" />
-    <option name="LAST_COMMIT_MESSAGE" value="get_new_by_id" />
+    <MESSAGE value="good增加图片字段的返回" />
+    <option name="LAST_COMMIT_MESSAGE" value="good增加图片字段的返回" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1133,11 +1170,6 @@
           <url>file://$PROJECT_DIR$/mongo/database/news_db.py</url>
           <line>37</line>
           <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/mongo/database/goods_db.py</url>
-          <line>74</line>
-          <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/vue/src/pages/Used/UsedRelease.vue</url>
@@ -1324,13 +1356,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mongo/test1.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1095">
-          <caret line="73" column="4" selection-start-line="73" selection-start-column="4" selection-end-line="73" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mongo/templates/index.html" />
     <entry file="file://$PROJECT_DIR$/mongo/socket_run.py" />
     <entry file="file://$PROJECT_DIR$/vue/src/pages/SpacePage/MyIndex.vue">
@@ -1411,16 +1436,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mongo/.gitignore">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mongo/test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="25" column="14" lean-forward="true" selection-start-line="25" selection-start-column="14" selection-end-line="25" selection-end-column="14" />
-          <folding>
-            <element signature="e#44#96#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mongo/models/User.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -1523,22 +1538,40 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mongo/route/goods.py">
+    <entry file="file://$PROJECT_DIR$/mongo/test1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="111">
-          <caret line="79" column="10" lean-forward="true" selection-start-line="79" selection-start-column="10" selection-end-line="79" selection-end-column="10" />
+        <state relative-caret-position="1095">
+          <caret line="73" selection-start-line="73" selection-end-line="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mongo/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="309">
+          <caret line="31" column="46" lean-forward="true" selection-start-line="31" selection-start-column="46" selection-end-line="31" selection-end-column="46" />
           <folding>
-            <element signature="e#43#57#0" expanded="true" />
+            <element signature="e#44#96#0" expanded="true" />
+            <marker date="1554715061000" expanded="true" signature="753:961" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mongo/database/goods_db.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="74" column="35" selection-start-line="74" selection-start-column="35" selection-end-line="74" selection-end-column="35" />
+        <state relative-caret-position="324">
+          <caret line="124" column="7" lean-forward="true" selection-start-line="124" selection-start-column="7" selection-end-line="124" selection-end-column="7" />
           <folding>
             <element signature="e#43#52#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mongo/route/goods.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="160" column="17" selection-start-line="160" selection-start-column="17" selection-end-line="160" selection-end-column="17" />
+          <folding>
+            <element signature="e#43#57#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -153,3 +153,13 @@ def serve_file_base64(sha1):
         return make_response(jsonify({'response': f["content"]}), 200)
     except bson.errors.InvalidId:
         abort(404)
+
+
+@goods.route('/change_good_status', methods=['PUT'])
+def change_good_status():
+    data = request.get_json()
+    _id = data["_id"]
+    result = goods_db.change_good_status(_id)
+    if result:
+        return jsonify({"message": "已成交", "code": 409}), 200
+    return jsonify({"message": "成交失败", "code": 410}), 404
