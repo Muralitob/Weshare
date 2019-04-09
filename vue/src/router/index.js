@@ -181,7 +181,7 @@ const router = new Router({
       meta: {
         requiresAuth: true
       },
-      name: "talk",
+      name: "talkpage",
       component: SpaceTalk
     },
     {

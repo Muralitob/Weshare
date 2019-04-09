@@ -23,7 +23,7 @@
       </div>
       <Divider type="vertical" />
       <div class="base_ver">
-        <Button @click="GOTO(good.user.uid)" style="margin-left: 16px" icon="ios-call" slot="extra" type="primary">立即对话</Button>
+        <Button v-if="!myuid" @click="GOTO(uid)" style="margin-left: 16px" icon="ios-call" slot="extra" type="primary">立即对话</Button>
       </div>
       <!-- <span class="report">举报</span> -->
     </div>
@@ -45,7 +45,7 @@
             交易区域: {{good.place || '面议'}}
           </span>
           <span>
-            状态: {{good.status || '已售' }}
+            状态: {{good.status == 0?'在售': '已售出'}}
           </span>
           <!-- <span>
             联系方式: {{good.phone || '110'}}
@@ -81,7 +81,10 @@ export default {
       good_id: this.$route.params["used_id"],
       good: {},
       avatar: '',
-      user_info: {}
+      user_info: {},
+      uid: 0,
+      nickname: '',
+      myuid:  this.$store.state.UserSetting.UserId
     };
   },
   methods: {
@@ -96,12 +99,16 @@ export default {
           release_time: data.good.release_time,
           type: usedTypeMap.usedTypeMap[data.good.type]
         }
-        console.log(this.good);
+        this.uid = data.good.user.uid
+        this.nickname = data.good.user.nickname
+        this.getUserInfo()
       })
     },
     GOTO(id) {
-      // this.$router.push({name: 'talk', params: {user_id: id, nickname: this.user_info.nickname}})
-      console.log(id);
+      // console.log('this.user_info.nickname', this.user_info.nickname)
+      this.$router.push(`/talk/${id}/${this.nickname}`)
+      // this.$router.push({name: 'talkpage', params: {userId: id, nickname: this.user_info.nickname}})
+      // console.log(id);
     },
     getUserInfo() {
       api
@@ -116,7 +123,7 @@ export default {
             attentioned: data.attentioned
           };
           this.user_info = result;
-          console.log("用户信息", data);
+          console.log("用户信息", result);
         })
         .catch(err => {
           console.log(err);
@@ -125,7 +132,7 @@ export default {
   },
   created() {
     this.fetchData(this.good_id)
-    this.getUserInfo()
+    // console.log(this.$store.state.UserSetting.UserId)
   },
 };
 </script>

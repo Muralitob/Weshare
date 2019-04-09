@@ -11,6 +11,7 @@ export default{
     },
     [types.USER_LOGOUT](state){
         VueCookie.delete("uid");
+        VueCookie.delete("jwt");
         localStorage.removeItem('jwt');
         state.token = null;
     },
