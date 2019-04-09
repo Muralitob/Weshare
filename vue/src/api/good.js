@@ -31,5 +31,8 @@ export default {
         good_id
       }
     })
+  },
+  async changeGoodStatus(data) {
+    return axios.put('/api/goods/change_good_status', data)
   }
 };
