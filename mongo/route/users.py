@@ -177,7 +177,8 @@ def attention():
             uid = request.cookies.get('uid')
         page = request.args.get("page")
         limit = request.args.get("limit")
-        result, length = users_db.get_attentions(int(uid), page, limit)
+        user_type = request.args.get("type")
+        result, length = users_db.get_attentions(int(uid), page, limit, user_type)
         return jsonify({"attentions": convert_to_json(result), "total": length}), 200
 
 

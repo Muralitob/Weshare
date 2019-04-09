@@ -120,6 +120,8 @@ def get_me_info(uid):
         else:
             attention_uids = []
         one['attention_uids'] = attention_uids
+        one['attention_count'] = mongo_manager.find_count(attention_collection, {'uid': uid})
+        one['attentioned_count'] = mongo_manager.find_count(attention_collection, {'attention_uid': uid})
         return one
 
 
@@ -132,7 +134,7 @@ def edit_user_info(uid, data):
     """
     if '_id' in data:
         data.pop('_id')
-    return User.update_one(uid, data)
+    return User.update_one_by_uid(uid, data)
 
 
 def get_collections_by_uid(uid, page, limit):
@@ -228,23 +230,30 @@ def delete_attention(uid, attention_uid):
                                         {'uid': uid, 'attention_uid': attention_uid}).acknowledged
 
 
-def get_attentions(uid, page, limit):
+def get_attentions(uid, page, limit, user_type=None):
     """
     获取uid的关注
     :param uid: 用户id
     :param page: 页码
     :param limit: 每页数量
+    :param user_type:
     :return:
     """
+    if user_type:
+        user_type = "attention_uid"
+        find_type = "uid"
+    else:
+        user_type = "uid"
+        find_type = "attention_uid"
     skip, limit = page_limit_skip(limit, page)
     attentions = list(mongo_manager.find(attention_collection,
-                                         {'uid': uid}).skip(skip).limit(limit))
+                                         {user_type: uid}).skip(skip).limit(limit))
     users = []
     for attention in attentions:
-        user = User.query_one(attention['attention_uid'])
+        user = User.query_one_by_uid(attention[find_type])
         if user:
             users.append(user)
-    count = mongo_manager.find_count(attention_collection, {'uid': uid})
+    count = mongo_manager.find_count(attention_collection, {user_type: uid})
     return users, count
 
 

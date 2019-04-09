@@ -56,6 +56,18 @@ class User:
                                         {"$set": data}).acknowledged
 
     @classmethod
+    def update_one_by_uid(cls, uid, data):
+        """
+        查询账号并对此账号做修改
+        :param uid: 用户id
+        :param data: 修改内容
+        :return:
+        """
+        return mongo_manager.update_one(cls.collection,
+                                        {"account": uid},
+                                        {"$set": data}).acknowledged
+
+    @classmethod
     def save_one(cls, data):
         """
         保存用户
