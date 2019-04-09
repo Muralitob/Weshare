@@ -102,6 +102,8 @@ def get_user_info(other_id, uid):
             one['attentioned'] = True
         else:
             one['attentioned'] = False
+        one['attention_count'] = mongo_manager.find_count(attention_collection, {'uid': uid})
+        one['fans_count'] = mongo_manager.find_count(attention_collection, {'attention_uid': uid})
     return one
 
 
@@ -121,7 +123,7 @@ def get_me_info(uid):
             attention_uids = []
         one['attention_uids'] = attention_uids
         one['attention_count'] = mongo_manager.find_count(attention_collection, {'uid': uid})
-        one['attentioned_count'] = mongo_manager.find_count(attention_collection, {'attention_uid': uid})
+        one['fans_count'] = mongo_manager.find_count(attention_collection, {'attention_uid': uid})
         return one
 
 
