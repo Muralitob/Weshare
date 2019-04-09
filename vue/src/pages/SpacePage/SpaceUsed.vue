@@ -18,7 +18,7 @@
             </span>
           </div>
         </section>
-        <Dropdown trigger="click" class="goods-dropdown">
+        <Dropdown @on-click="function(name){action(name,item._id)}" trigger="click" class="goods-dropdown">
           <Button type="primary">
             操作
             <Icon type="ios-arrow-down"></Icon>
@@ -74,8 +74,29 @@ export default {
           }
         })
         .catch(err => {
-          console.log(err);
         });
+    },
+    action(name, _id) {
+      if(name == 'saleout') {
+        api.changeGoodStatus({_id}).then(({data}) => {
+          if(data.code == 409) {
+            this.$Message.sucess('操作成功')
+          }
+        }).catch((err) => {
+          this.$Message.error('操作失败')
+        });
+      }else {
+        let arr = []
+        arr.push(_id)
+        api.realeaseUsed('delete', {goods_list: arr}).then(({data}) => {
+          if(data.code == 403) {
+            this.$Message.sucess('删除成功')
+          }
+        }).catch((err) => {
+          this.$Message.error('操作失败')
+        });
+      }
+      this.handleReachBottom()
     }
   },
   mounted() {
