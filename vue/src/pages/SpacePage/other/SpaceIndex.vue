@@ -323,7 +323,7 @@ export default {
         });
     },
     GOTO(id) {
-      this.$router.push({name: 'talk', params: {user_id: id, nickname: this.user_info.nickname}})
+      this.$router.push({name: 'talkpage', params: {user_id: id, nickname: this.user_info.nickname}})
     },
     cancelfollow(uid) {
       api
