@@ -63,7 +63,7 @@
             <Button type="primary" @click="handleSubmit('usedGoods')">发布</Button>
             <Button @click="handleReset('usedGoods')" style="margin-left: 8px">重置</Button>
         </FormItem>
-        
+
     </Form>
   </div>
 </template>
@@ -191,11 +191,11 @@ export default {
     handleSubmit(name) {
       this.$refs[name].validate(valid => {
         if (valid) {
-          this.$Message.success("发布成功!");
           api
             .realeaseUsed("post", this.usedGoods)
             .then(({ data }) => {
-              console.log(data);
+              this.$Message.success("发布成功!");
+              this.$router.push({name: 'UsedHome'})
             })
             .catch(err => {
               console.log("err", err);

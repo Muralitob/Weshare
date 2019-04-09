@@ -4,13 +4,13 @@
       <section>
         <div>
           <span>类别:</span>
-          <Select clearable  v-model="type" style="width:150px">
+          <Select @on-change="changeType" clearable  v-model="type" style="width:150px">
             <Option v-for="item in usedType" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
         </div>
         <div>
           <span>新旧程度:</span>
-          <Select clearable  v-model="oldandnew" style="width:120px">
+          <Select clearable @on-change="changeDegree"  v-model="oldandnew" style="width:120px">
             <Option v-for="item in degree" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
         </div>
@@ -34,7 +34,7 @@
       <Page prev-text="上一页" next-text="下一页" @on-change="changepage" :total="total" show-elevator class-name="used-pageBox"></Page>
       </ul>
       <section>
-        最新成交
+        暂无...
       </section>
     </div>
   </div>
@@ -82,7 +82,7 @@ export default {
   methods: {
     changepage() {},
     fetchResult(page) {
-      api.getUsedList(page, 10).then(({ data }) => {
+      api.getUsedList(page, 10, this.type, this.degree).then(({ data }) => {
         console.log(data);
         let result = Object.values(data.goods).map(item => ({
           release_time: item.release_time,
@@ -94,6 +94,14 @@ export default {
         this.used_info = result;
         this.total = data.total;
       });
+    },
+    changeType(data) {
+      this.type = data
+      this.fetchResult(1)
+    },
+    changeDegree(data) {
+      this.degree = data
+      this.fetchResult(1)
     }
   },
   mounted() {

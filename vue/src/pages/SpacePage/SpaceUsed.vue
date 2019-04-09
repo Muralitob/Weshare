@@ -1,11 +1,11 @@
 <template>
-  <shadow-card class="card" title="我的记录">
+  <shadow-card class="card" title="我的闲置">
     <div class="used_list">
       <Card dis-hover style="width: 46%;" v-for="(item,idx) in goodsList" :key="idx">
         <h2>{{item.title}}</h2>
         <span>20个人查看了该闲置</span>
         <section>
-          <img src="../../assets/makalong.jpg" alt="">
+          <img :src="item.pic" alt="">
           <div class="used_info">
             <span>
               类型: {{item.type}}
@@ -18,6 +18,16 @@
             </span>
           </div>
         </section>
+        <Dropdown trigger="click" class="goods-dropdown">
+          <Button type="primary">
+            操作
+            <Icon type="ios-arrow-down"></Icon>
+          </Button>
+          <DropdownMenu slot="list" >
+            <DropdownItem name="saleout" >售出</DropdownItem>
+            <DropdownItem name="cancel" >取消</DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
       </Card>
     </div>
     <InfiniteLoading direction="bottom" @infinite="handleReachBottom"  spinner="waveDots" >
@@ -31,6 +41,7 @@
 <script>
 import ShadowCard from "../../components/ShadowCard";
 import InfiniteLoading from "vue-infinite-loading";
+import  usedTypeMap  from '../../constants/usedType.js'
 import api from "../../api";
 import general from "../../general/js";
 export default {
@@ -46,14 +57,15 @@ export default {
       api
         .getUsedList(this.page, 5)
         .then(({ data }) => {
-          console.log(data);
           if (data.goods.length) {
             let result = Object.values(data.goods).map(ele => ({
               title: ele.title,
-              type: general.translate(ele.type),
+              type: usedTypeMap.usedTypeMap[ele.type],
               price: ele.price,
+              pic: `data:image/png;base64,${ele.pic[0].response.good_base64}`,
               _id: ele._id
             }));
+            console.log(result)
             this.goodsList = this.goodsList.concat(result);
             this.page += 1;
             $state.loaded();
@@ -79,6 +91,9 @@ export default {
   flex-wrap: wrap;
   .ivu-card-body {
     flex: 1;
+  }
+  .goods-dropdown {
+    margin-top: 1rem;
   }
   img {
     width: 200px;

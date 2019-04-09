@@ -147,8 +147,7 @@ export default {
       this.activeTab = "edit";
       try {
         let { data } = await api.getArticleById(id);
-        this.article = data.articles.article
-        this.tagLists = data.articles.tagLists
+        this.article = data.new.article
         console.log(data);
       } catch (error) {
         console.log(error);
@@ -156,6 +155,7 @@ export default {
     }
   },
   mounted () {
+
   }
 };
 </script>
