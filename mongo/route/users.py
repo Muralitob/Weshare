@@ -219,7 +219,6 @@ def save_user_avatar():
 
 
 @users.route('/search_user', methods=["GET"])
-@users_db.requires_auth
 def search_user():
     """
     搜索用户
