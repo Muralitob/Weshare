@@ -30,6 +30,9 @@ if __name__ == '__main__':
     # m2.update(pwd)
     # print m2.hexdigest()
     # aa77aa4d02340cb0ac757e1ed84d68d73667f16d
-    r = mongo_manager.update_many("goods", {}, {"$set": {"status": 0}})
-    print r.acknowledged
+    # r = mongo_manager.update_many("goods", {}, {"$set": {"status": 0}})
+    # print r.acknowledged
+    ss = [100, 101]
+    uid = [100]
+    print list(set(ss).difference(set(uid)))
     pass

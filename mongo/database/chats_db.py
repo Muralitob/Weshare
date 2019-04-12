@@ -5,6 +5,7 @@ __author__:cjhcw
 from core_manager.mongo_manager import mongo_manager
 
 from utility import get_this_time
+from models.User import User
 
 chats_collection = "chats"
 
@@ -54,6 +55,10 @@ def get_record_by_uid(uid, target):
         else:
             return record
     records = list(mongo_manager.find(chats_collection, query))
+    for record in records:
+        chater_uid = list(set(record["relations"]).difference(set([uid])))[0]
+        record["chater"] = User.query_one_by_uid(chater_uid)["nickname"]
+        record["chater_uid"] = chater_uid
     return records
 
 

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5e9a0fd0-261a-4c9f-84b5-3ffa10777b6c" name="Default" comment="get_user_info增加关注数和粉丝数">
+    <list default="true" id="5e9a0fd0-261a-4c9f-84b5-3ffa10777b6c" name="Default" comment="搜索用户去掉验证">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mongo/route/users.py" beforeDir="false" afterPath="$PROJECT_DIR$/mongo/route/users.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mongo/database/chats_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/mongo/database/chats_db.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mongo/route/chats.py" beforeDir="false" afterPath="$PROJECT_DIR$/mongo/route/chats.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mongo/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/mongo/test.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -12,7 +14,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/Weshare$test.coverage" NAME="test Coverage Results" MODIFIED="1554715063003" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo" />
+    <SUITE FILE_PATH="coverage/Weshare$test.coverage" NAME="test Coverage Results" MODIFIED="1555045837996" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo" />
     <SUITE FILE_PATH="coverage/Weshare$tcpserver.coverage" NAME="tcpserver Coverage Results" MODIFIED="1551186734529" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo" />
     <SUITE FILE_PATH="coverage/Weshare$redis_cache.coverage" NAME="redis_cache Coverage Results" MODIFIED="1552449039527" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo/models" />
     <SUITE FILE_PATH="coverage/Weshare$Collection.coverage" NAME="Collection Coverage Results" MODIFIED="1551276807474" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo/models" />
@@ -21,7 +23,7 @@
     <SUITE FILE_PATH="coverage/Weshare$config.coverage" NAME="config Coverage Results" MODIFIED="1536639551076" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo/core_manager/mongo_manager" />
     <SUITE FILE_PATH="coverage/Weshare$goods_db.coverage" NAME="goods_db Coverage Results" MODIFIED="1543144519675" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo/database" />
     <SUITE FILE_PATH="coverage/Weshare$utility.coverage" NAME="utility Coverage Results" MODIFIED="1551269726523" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo" />
-    <SUITE FILE_PATH="coverage/Weshare$run.coverage" NAME="run Coverage Results" MODIFIED="1554884994928" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo" />
+    <SUITE FILE_PATH="coverage/Weshare$run.coverage" NAME="run Coverage Results" MODIFIED="1555045966252" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo" />
     <SUITE FILE_PATH="coverage/Weshare$test1.coverage" NAME="test1 Coverage Results" MODIFIED="1552230713882" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo" />
     <SUITE FILE_PATH="coverage/Weshare$Unnamed.coverage" NAME="Unnamed Coverage Results" MODIFIED="1537187267460" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo" />
     <SUITE FILE_PATH="coverage/Weshare$articles_db.coverage" NAME="articles_db Coverage Results" MODIFIED="1541342838051" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongo/database" />
@@ -34,8 +36,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mongo/route/chats.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="35" column="31" selection-start-line="35" selection-start-column="31" selection-end-line="35" selection-end-column="31" />
+            <state relative-caret-position="344">
+              <caret line="56" column="34" selection-start-line="56" selection-start-column="34" selection-end-line="56" selection-end-column="34" />
               <folding>
                 <element signature="e#43#78#0" expanded="true" />
               </folding>
@@ -43,13 +45,26 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mongo/database/chats_db.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="11" column="28" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="28" />
+            <state relative-caret-position="310">
+              <caret line="60" column="41" lean-forward="true" selection-start-line="60" selection-start-column="41" selection-end-line="60" selection-end-column="41" />
               <folding>
                 <element signature="e#43#95#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mongo/test.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="404">
+              <caret line="36" column="10" selection-start-line="36" selection-start-column="10" selection-end-line="36" selection-end-column="44" />
+              <folding>
+                <element signature="e#44#96#0" expanded="true" />
+                <marker date="1555045837000" expanded="true" signature="753:961" ph="..." />
               </folding>
             </state>
           </provider>
@@ -64,11 +79,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mongo/route/users.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="237" column="25" lean-forward="true" selection-start-line="237" selection-start-column="25" selection-end-line="237" selection-end-column="25" />
+            <state relative-caret-position="682">
+              <caret line="249" lean-forward="true" selection-start-line="249" selection-end-line="249" />
               <folding>
                 <element signature="e#43#53#0" expanded="true" />
               </folding>
@@ -133,9 +148,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>sort</find>
-      <find>map</find>
-      <find>func</find>
       <find>users</find>
       <find>md</find>
       <find>edit_user_info</find>
@@ -163,6 +175,9 @@
       <find>uid</find>
       <find>get_me</find>
       <find>search</find>
+      <find>is_firs</find>
+      <find>/chat</find>
+      <find>api/chat</find>
     </findStrings>
     <replaceStrings>
       <replace>200</replace>
@@ -229,18 +244,18 @@
         <option value="$PROJECT_DIR$/mongo/core_manager/mongo_manager/config.ini" />
         <option value="$PROJECT_DIR$/mongo/core_manager/mongo_manager/config.py" />
         <option value="$PROJECT_DIR$/mongo/models/redis_cache.py" />
-        <option value="$PROJECT_DIR$/mongo/route/chats.py" />
-        <option value="$PROJECT_DIR$/mongo/database/chats_db.py" />
         <option value="$PROJECT_DIR$/mongo/database/articles_db.py" />
         <option value="$PROJECT_DIR$/mongo/database/news_db.py" />
         <option value="$PROJECT_DIR$/mongo/route/news.py" />
         <option value="$PROJECT_DIR$/mongo/test1.py" />
         <option value="$PROJECT_DIR$/mongo/database/goods_db.py" />
-        <option value="$PROJECT_DIR$/mongo/test.py" />
         <option value="$PROJECT_DIR$/mongo/route/goods.py" />
         <option value="$PROJECT_DIR$/mongo/models/User.py" />
         <option value="$PROJECT_DIR$/mongo/database/users_db.py" />
         <option value="$PROJECT_DIR$/mongo/route/users.py" />
+        <option value="$PROJECT_DIR$/mongo/route/chats.py" />
+        <option value="$PROJECT_DIR$/mongo/test.py" />
+        <option value="$PROJECT_DIR$/mongo/database/chats_db.py" />
       </list>
     </option>
   </component>
@@ -340,7 +355,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -353,10 +367,17 @@
               <item name="Weshare" type="462c0819:PsiDirectoryNode" />
               <item name="mongo" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="Weshare" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Weshare" type="462c0819:PsiDirectoryNode" />
+              <item name="mongo" type="462c0819:PsiDirectoryNode" />
+              <item name="route" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -539,8 +560,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.users_db" />
         <item itemvalue="Python.test" />
+        <item itemvalue="Python.users_db" />
         <item itemvalue="Python.redis_cache" />
         <item itemvalue="Python.socket_run" />
         <item itemvalue="Python.test1" />
@@ -591,13 +612,7 @@
       <workItem from="1554708300537" duration="2119000" />
       <workItem from="1554773075723" duration="2922000" />
       <workItem from="1554795087877" duration="2588000" />
-    </task>
-    <task id="LOCAL-00075" summary="用户头像问题">
-      <created>1542691668439</created>
-      <option name="number" value="00075" />
-      <option name="presentableId" value="LOCAL-00075" />
-      <option name="project" value="LOCAL" />
-      <updated>1542691668439</updated>
+      <workItem from="1554988939785" duration="3199000" />
     </task>
     <task id="LOCAL-00076" summary="用户头像问题解决了">
       <created>1542692708536</created>
@@ -935,11 +950,18 @@
       <option name="project" value="LOCAL" />
       <updated>1554796064590</updated>
     </task>
-    <option name="localTasksCounter" value="124" />
+    <task id="LOCAL-00124" summary="搜索用户去掉验证">
+      <created>1554989010646</created>
+      <option name="number" value="00124" />
+      <option name="presentableId" value="LOCAL-00124" />
+      <option name="project" value="LOCAL" />
+      <updated>1554989010647</updated>
+    </task>
+    <option name="localTasksCounter" value="125" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="98921000" />
+    <option name="totallyTimeSpent" value="102120000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -954,12 +976,12 @@
     <frame x="0" y="0" width="1440" height="900" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21816881" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22103004" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.48354793" weight="0.39036146" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.48354793" visible="true" weight="0.39036146" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49928468" weight="0.31445783" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -1063,7 +1085,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="评论递归，简化代码" />
     <MESSAGE value="python 依赖" />
     <MESSAGE value="浏览记录重写" />
     <MESSAGE value="收藏数根据具体的文章信息填写" />
@@ -1088,7 +1109,8 @@
     <MESSAGE value="增加交易完成状态的更新接口" />
     <MESSAGE value="get_me_info增加关注数和粉丝数，获取粉丝和关注的人，bug fix" />
     <MESSAGE value="get_user_info增加关注数和粉丝数" />
-    <option name="LAST_COMMIT_MESSAGE" value="get_user_info增加关注数和粉丝数" />
+    <MESSAGE value="搜索用户去掉验证" />
+    <option name="LAST_COMMIT_MESSAGE" value="搜索用户去掉验证" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1406,34 +1428,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mongo/test.py">
+    <entry file="file://$PROJECT_DIR$/vue/src/api/user.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="309">
-          <caret line="31" column="46" lean-forward="true" selection-start-line="31" selection-start-column="46" selection-end-line="31" selection-end-column="46" />
-          <folding>
-            <element signature="e#44#96#0" expanded="true" />
-            <marker date="1554715061000" expanded="true" signature="753:961" ph="..." />
-          </folding>
+        <state relative-caret-position="-462">
+          <caret line="14" column="7" lean-forward="true" selection-start-line="14" selection-start-column="7" selection-end-line="14" selection-end-column="7" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mongo/route/chats.py">
+    <entry file="file://$PROJECT_DIR$/mongo/models/User.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="35" column="31" selection-start-line="35" selection-start-column="31" selection-end-line="35" selection-end-column="31" />
-          <folding>
-            <element signature="e#43#78#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mongo/database/chats_db.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="11" column="28" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="28" />
-          <folding>
-            <element signature="e#43#95#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="58">
+          <caret line="41" column="11" selection-start-line="41" selection-start-column="11" selection-end-line="41" selection-end-column="11" />
         </state>
       </provider>
     </entry>
@@ -1441,6 +1446,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="7" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mongo/database/users_db.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="17" selection-start-line="13" selection-start-column="17" selection-end-line="13" selection-end-column="17" />
         </state>
       </provider>
     </entry>
@@ -1474,33 +1486,43 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vue/src/api/user.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-462">
-          <caret line="14" column="7" lean-forward="true" selection-start-line="14" selection-start-column="7" selection-end-line="14" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mongo/models/User.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="58">
-          <caret line="41" column="11" selection-start-line="41" selection-start-column="11" selection-end-line="41" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mongo/database/users_db.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="17" selection-start-line="13" selection-start-column="17" selection-end-line="13" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mongo/route/users.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="237" column="25" lean-forward="true" selection-start-line="237" selection-start-column="25" selection-end-line="237" selection-end-column="25" />
+        <state relative-caret-position="682">
+          <caret line="249" lean-forward="true" selection-start-line="249" selection-end-line="249" />
           <folding>
             <element signature="e#43#53#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mongo/route/chats.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="344">
+          <caret line="56" column="34" selection-start-line="56" selection-start-column="34" selection-end-line="56" selection-end-column="34" />
+          <folding>
+            <element signature="e#43#78#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mongo/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="404">
+          <caret line="36" column="10" selection-start-line="36" selection-start-column="10" selection-end-line="36" selection-end-column="44" />
+          <folding>
+            <element signature="e#44#96#0" expanded="true" />
+            <marker date="1555045837000" expanded="true" signature="753:961" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mongo/database/chats_db.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="310">
+          <caret line="60" column="41" lean-forward="true" selection-start-line="60" selection-start-column="41" selection-end-line="60" selection-end-column="41" />
+          <folding>
+            <element signature="e#43#95#0" expanded="true" />
           </folding>
         </state>
       </provider>
