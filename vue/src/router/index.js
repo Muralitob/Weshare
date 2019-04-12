@@ -10,6 +10,7 @@ import UsedHome from "@pages/Used/UsedHome";
 import UsedDetail from "@pages/Used/UsedDetail";
 import UsedRelease from "@pages/Used/UsedRelease.vue";
 import CommentPage from "@pages/Comment/CommentPage";
+import MicroPage from "@pages/Micro/Micro";
 import SpacePage from "@pages/SpacePage";
 import SpaceIndex from "@pages/SpacePage/SpaceIndex";
 import SpaceArticle from "@pages/SpacePage/SpaceArticle";
@@ -300,6 +301,15 @@ const router = new Router({
           component: UsedDetail
         }
       ]
+    },
+    {
+      path: '/micro',
+      name: 'weshijie',
+      component: MicroPage,
+      meta: {
+        ifShow: true,
+        requiresAuth: false
+      }
     },
     // {
     //   path: "/shop",

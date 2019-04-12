@@ -8,5 +8,6 @@ const routeMap = {
   Market: '跳蚤市场',
   Commit: '交流平台',
   Shop: '创业平台',
+  weshijie: '微世界'
 }
 export default routeMap
