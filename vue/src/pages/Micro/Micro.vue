@@ -16,7 +16,7 @@
       <div class="talk_board">
         <div class="line">
           <div class="bubble" v-for="(item, index) in line" :key="index">
-            <div class=" left" v-if="item.from == uid">
+            <div class=" left" v-if="item.from == current_id">
               <Avatar :src='user_info.avatar_url' class="avatar" />
               <span class="bubble_msg">{{item.msg}}</span>
             </div>
@@ -46,7 +46,6 @@ export default {
       current_id: '',
       user_list: [],
       nickname: this.$route.params.nickname,
-      uid: this.$route.params.userId,
       user_info: {},
       myavatar: localStorage.getItem('myavatar'),
       first: false,
@@ -56,7 +55,7 @@ export default {
   methods: {
     getUserInfo() {
       api
-        .getUserInfo(this.uid)
+        .getUserInfo(this.current_id)
         .then(({ data }) => {
             this.user_info =  {
             nickname: data.nickname,
@@ -87,6 +86,7 @@ export default {
       this.current_id = _id
       this.nickname = nickname
       this.getChatLogs(_id)
+      this.getUserInfo()
     },
     sendMsg() {
       let str = ''

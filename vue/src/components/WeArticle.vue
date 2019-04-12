@@ -28,6 +28,10 @@
             {{article_data.update_time}}
           </p>
           <section class="article__main" v-html="article_content.content"></section>
+          <div v-if="article_content.baiduyun_url">
+            <Button :target="article_content.baiduyun_url" :size="buttonSize" icon="ios-download-outline" type="primary">Download</Button>
+            <span>提取码:{{article_content.baiduyun_pwd}}</span>
+          </div>
         </div>
         <div class="art">
           <art-com :a_id="article_data._id" :list="article_data.reply || []"></art-com>

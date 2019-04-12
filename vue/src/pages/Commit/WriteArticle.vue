@@ -15,6 +15,13 @@
               <span>按回车键添加</span>
             </div>
           </div>
+          <section class="baidu_yun">
+            <h3 class="block-title">
+              <p>百度云盘链接</p>
+            </h3>
+            <Input v-model="article.baiduyun_url" prefix="ios-link" placeholder="百度云盘链接" style="width: 400px" />
+            <Input v-model="article.baiduyun_pwd" prefix="ios-finger-print" placeholder="提取密码" style="width: auto" />
+          </section>
           <div class="btn-bar">
             <Button class="handleArticle" type="success" @click="handleArticle('real')">提交文章</Button>
             <Button class="handleArticle" type="warning" @click="handleArticle('fake')">存入草稿</Button>
@@ -53,7 +60,9 @@ export default {
       article: {
         content: "",
         summary: "",
-        title: ""
+        title: "",
+        baiduyun_url: '',
+        baiduyun_pwd: '',
       }, //文章
       draftsList: [],
       activeTab: "",
@@ -91,6 +100,8 @@ export default {
         })
         .then(({ data }) => {
           this.$Message.success(general.translate(data.code));
+          this.article = {}
+          this.$router.push({path: '/'})
         })
         .catch(err => {
           this.$Message.error(general.translate(err.code));
